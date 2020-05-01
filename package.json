@@ -1,0 +1,27 @@
+{
+  "name": "discord-bot",
+  "version": "3.0.0",
+  "description": "The CodeSupport Discord bot",
+  "main": "./build/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesupport/discord-bot.git"
+  },
+  "keywords": [
+    "codesupport",
+    "discord",
+    "bot"
+  ],
+  "author": "The CodeSupport Community",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codesupport/discord-bot/issues"
+  },
+  "homepage": "https://github.com/codesupport/discord-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  }
+}
