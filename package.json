@@ -4,6 +4,8 @@
   "description": "The CodeSupport Discord bot",
   "main": "./build/app.js",
   "scripts": {
+    "start": "node ./build/app.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +25,9 @@
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "dependencies": {
     "discord.js": "^12.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.13.4",
+    "@types/ws": "^7.2.4"
   }
 }
