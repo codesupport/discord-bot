@@ -7,11 +7,11 @@ abstract class Command {
 		this.description = description;
 	}
 
-	getName() {
+	getName(): string {
 		return this.name;
 	}
 
-	getDescription() {
+	getDescription(): string {
 		return this.description;
 	}
 }

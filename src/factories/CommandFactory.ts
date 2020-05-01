@@ -5,7 +5,7 @@ import RunnableCommand from "../interfaces/RunnableCommand";
 class CommandFactory {
 	private commands: any = {};
 
-	async loadCommands() {
+	async loadCommands(): Promise<void> {
 		const commandsDirectory = await readDirectory(`${__dirname}/../${commands_directory}`);
 		const commandFiles = commandsDirectory
 			.filter(file => file.endsWith("Command.js"))
@@ -19,7 +19,7 @@ class CommandFactory {
 		});
 	}
 
-	commandExists(command: string) {
+	commandExists(command: string): boolean {
 		return this.commands[command] !== "undefined";
 	}
 
