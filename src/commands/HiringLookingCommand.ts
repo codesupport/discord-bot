@@ -39,4 +39,4 @@ Requirements:
 	}
 }
 
-export const C = HiringLookingCommand;
+export default HiringLookingCommand;
