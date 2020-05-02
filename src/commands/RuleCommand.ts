@@ -14,7 +14,7 @@ class RuleCommand extends Command implements RunnableCommand {
 	async run(message: Message, args: string[]): Promise<void> {
 		const embed = new MessageEmbed();
 
-		if (typeof args[0] === "undefined") {
+		if (!args || typeof args[0] === "undefined") {
 			embed.setTitle("Error");
 			embed.setDescription("You must define a rule number.");
 			embed.addField("Correct Usage", "?rule <rule number/trigger>");
@@ -27,7 +27,7 @@ class RuleCommand extends Command implements RunnableCommand {
 			} else {
 				embed.setTitle("Error");
 				embed.setDescription("Unknown rule number/trigger.");
-				embed.addField("Correct Usage", "?rule <rule number/trigger");
+				embed.addField("Correct Usage", "?rule <rule number/trigger>");
 			}
 		}
 

@@ -20,7 +20,7 @@ class CommandFactory {
 	}
 
 	commandExists(command: string): boolean {
-		return this.commands[command] !== "undefined";
+		return typeof this.commands[command] !== "undefined";
 	}
 
 	getCommand(command: string): RunnableCommand {
