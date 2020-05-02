@@ -20,7 +20,7 @@ const client = new Client();
 					const trigger = args.shift() || args[0];
 
 					if (commandFactory.commandExists(trigger)) {
-						commandFactory.getCommand(trigger).run(message);
+						commandFactory.getCommand(trigger).run(message, args);
 					}
 				}
 			});
