@@ -12,10 +12,10 @@ class CommandFactory {
 			.map(file => require(`${__dirname}/../${commands_directory}/${file}`));
 
 		commandFiles.forEach((command) => {
-			const { C } = command;
-			const name = new C().getName();
+			const { default: Command } = command;
+			const name = new Command().getName();
 
-			this.commands[name] = () => new C();
+			this.commands[name] = () => new Command();
 		});
 	}
 
