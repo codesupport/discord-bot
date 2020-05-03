@@ -1,6 +1,5 @@
 import { expect } from "chai";
 
-// @ts-ignore - TS does not like MockDiscord not living in src/
 import CommandFactory from "../../src/factories/CommandFactory";
 // @ts-ignore - TS does not like MockCommand not living in src/
 import MockCommand from "../MockCommand";
