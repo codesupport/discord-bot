@@ -13,18 +13,18 @@ class CommandFactory {
 
 		commandFiles.forEach((command) => {
 			const { default: Command } = command;
-			const name = new Command().getName();
+			const name = new Command().getName().toLowerCase();
 
 			this.commands[name] = () => new Command();
 		});
 	}
 
 	commandExists(command: string): boolean {
-		return typeof this.commands[command] !== "undefined";
+		return typeof this.commands[command.toLowerCase()] !== "undefined";
 	}
 
 	getCommand(command: string): RunnableCommand {
-		return this.commands[command]();
+		return this.commands[command.toLowerCase()]();
 	}
 }
 
