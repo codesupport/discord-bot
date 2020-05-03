@@ -1,6 +1,6 @@
 import { commands_directory } from "../config.json";
 import { readDirectory } from "../utils/readDirectory";
-import RunnableCommand from "../interfaces/RunnableCommand";
+import Command from "../abstracts/Command";
 
 class CommandFactory {
 	private commands: any = {};
