@@ -5,7 +5,7 @@ import { Message } from "discord.js";
 // @ts-ignore - TS does not like MockDiscord not living in src/
 import MockDiscord from "../MockDiscord";
 import RuleCommand from "../../src/commands/RuleCommand";
-import RunnableCommand from "../../src/interfaces/RunnableCommand";
+import Command from "../../src/abstracts/Command";
 
 describe("RuleCommand", () => {
 	describe("constructor()", () => {
@@ -25,7 +25,7 @@ describe("RuleCommand", () => {
 	describe("run()", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
-		let command: RunnableCommand;
+		let command: Command;
 		let discordMock: MockDiscord;
 
 		beforeEach(() => {
