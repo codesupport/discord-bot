@@ -1,5 +1,7 @@
 {
+    "COMMAND_PREFIX": "?",
     "commands_directory": "commands",
+    "handlers_directory": "event/handlers",
     "rules": [
         {
             "name": "Asking For Help",
