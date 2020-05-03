@@ -23,7 +23,7 @@ class CommandFactory {
 		return typeof this.commands[command.toLowerCase()] !== "undefined";
 	}
 
-	getCommand(command: string): RunnableCommand {
+	getCommand(command: string): Command {
 		return this.commands[command.toLowerCase()]();
 	}
 }
