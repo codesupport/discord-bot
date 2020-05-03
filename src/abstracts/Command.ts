@@ -1,3 +1,5 @@
+import { Message } from "discord.js";
+
 abstract class Command {
 	private readonly name: string;
 	private readonly description: string;
@@ -6,6 +8,8 @@ abstract class Command {
 		this.name = name;
 		this.description = description;
 	}
+
+	abstract async run(message: Message, args?: string[]): Promise<void>;
 
 	getName(): string {
 		return this.name;

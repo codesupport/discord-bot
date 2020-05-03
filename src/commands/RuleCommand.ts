@@ -1,9 +1,8 @@
 import { Message, MessageEmbed } from "discord.js";
 import { rules } from "../config.json";
 import Command from "../abstracts/Command";
-import RunnableCommand from "../interfaces/RunnableCommand";
 
-class RuleCommand extends Command implements RunnableCommand {
+class RuleCommand extends Command {
 	constructor() {
 		super(
 			"rule",

@@ -1,8 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
-import RunnableCommand from "../interfaces/RunnableCommand";
 
-class HiringLookingCommand extends Command implements RunnableCommand {
+class HiringLookingCommand extends Command {
 	constructor() {
 		super(
 			"hl",
