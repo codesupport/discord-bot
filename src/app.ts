@@ -1,5 +1,6 @@
 import { Client } from "discord.js";
-import CommandFactory from "./factories/CommandFactory";
+import getFilesInDirectory from "./utils/getFilesInDirectory";
+import { handlers_directory } from "./config.json";
 
 const client = new Client();
 
@@ -10,21 +11,17 @@ const client = new Client();
 
 			console.log(`Successfully logged in as ${client.user?.username}`);
 
-			const commandFactory = new CommandFactory();
+			const handlerFiles = await getFilesInDirectory(
+				`${__dirname}/${handlers_directory}`,
+				"Handler.js"
+			);
 
-			await commandFactory.loadCommands();
+			handlerFiles.forEach((handler) => {
+				const { default: Handler } = handler;
+				const handlerInstance = new Handler();
 
-			client.on("message", (message) => {
-				if (message.content.startsWith("?")) {
-					const args = message.content.replace("?", "").split(" ");
-					const trigger = args.shift() || args[0];
-
-					if (commandFactory.commandExists(trigger)) {
-						commandFactory.getCommand(trigger).run(message, args);
-					}
-				}
+				client.on(handlerInstance.getEvent(), handlerInstance.handle);
 			});
-
 		} catch (error) {
 			console.error(error);
 		}
