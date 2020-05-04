@@ -7,7 +7,7 @@ import MockDiscord from "../MockDiscord";
 import HiringLookingCommand from "../../src/commands/HiringLookingCommand";
 import Command from "../../src/abstracts/Command";
 
-describe("RuleCommand", () => {
+describe("HiringLookingCommand", () => {
 	describe("constructor()", () => {
 		it("creates a command called hl", () => {
 			const command = new HiringLookingCommand();
