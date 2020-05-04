@@ -1,4 +1,4 @@
-import Discord from "discord.js";
+import Discord, {Client, GuildEmoji, Message, ReactionEmoji, ReactionUserManager} from "discord.js";
 
 // Shoutout to TotomInc on GitHub for making this, you're a life saver. <3
 // It has been slightly modified to work with the latest version of Discord.js.
@@ -13,6 +13,7 @@ export default class MockDiscord {
 	private user!: Discord.User;
 	private guildMember!: Discord.GuildMember;
 	private message!: Discord.Message;
+	private messageReaction!: Discord.MessageReaction;
 
 	constructor() {
 		this.mockClient();
@@ -30,6 +31,8 @@ export default class MockDiscord {
 		this.mockGuildMember();
 
 		this.mockMessage();
+
+		this.mockMessageReaction();
 	}
 
 	public getClient(): Discord.Client {
@@ -62,6 +65,10 @@ export default class MockDiscord {
 
 	public getMessage(): Discord.Message {
 		return this.message;
+	}
+
+	public getMessageReaction(): Discord.MessageReaction {
+		return this.messageReaction;
 	}
 
 	private mockClient(): void {
@@ -174,6 +181,19 @@ export default class MockDiscord {
 				hit: false,
 			},
 			this.textChannel,
+		);
+	}
+
+	private mockMessageReaction(): void {
+		this.messageReaction = new Discord.MessageReaction(
+			this.client,
+			{
+				message: this.message,
+				emoji: {
+					name: 'emoji-name'
+				}
+			},
+			this.message
 		);
 	}
 }
