@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./build/app.js",
     "build": "tsc",
-    "test": "ts-mocha test/**/*Test.ts --exit"
+    "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit"
   },
   "repository": {
     "type": "git",

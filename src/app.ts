@@ -1,6 +1,6 @@
-import { Client } from "discord.js";
+import {Client, TextChannel} from "discord.js";
 import getFilesInDirectory from "./utils/getFilesInDirectory";
-import { handlers_directory } from "./config.json";
+import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID } from "./config.json";
 
 const client = new Client();
 
@@ -8,7 +8,6 @@ const client = new Client();
 	if (process.env.DISCORD_TOKEN) {
 		try {
 			await client.login(process.env.DISCORD_TOKEN);
-
 			console.log(`Successfully logged in as ${client.user?.username}`);
 
 			const handlerFiles = await getFilesInDirectory(
@@ -22,6 +21,10 @@ const client = new Client();
 
 				client.on(handlerInstance.getEvent(), handlerInstance.handle);
 			});
+
+			const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
+
+			await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
 		} catch (error) {
 			console.error(error);
 		}
