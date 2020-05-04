@@ -1,4 +1,4 @@
-import {Constants, MessageReaction, User} from "discord.js";
+import { Constants, MessageReaction, User } from "discord.js";
 import { AUTHENTICATION_MESSAGE_ID, MEMBER_ROLE } from "../../config.json";
 import EventHandler from "../../abstracts/EventHandler";
 
@@ -11,7 +11,6 @@ class NewUserAuthenticationHandler extends EventHandler {
 		const { message, emoji } = reaction;
 		const isAuthMessage = message.id === AUTHENTICATION_MESSAGE_ID;
 		const isAuthEmoji = emoji.name === "🤖";
-
 
 		if (isAuthMessage && isAuthEmoji) {
 			const guildMember = await reaction.message.guild?.members.fetch(member);
