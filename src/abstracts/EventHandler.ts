@@ -10,7 +10,6 @@ abstract class EventHandler {
 	getEvent(): any {
 		return this.event;
 	}
-
 }
 
 export default EventHandler;

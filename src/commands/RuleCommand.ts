@@ -31,7 +31,7 @@ class RuleCommand extends Command {
 		}
 
 		await message.channel.send({ embed });
- 	}
+	}
 }
 
 export default RuleCommand;

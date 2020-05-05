@@ -4,7 +4,7 @@ import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESS
 
 const client = new Client();
 
-(async () => {
+(async() => {
 	if (process.env.DISCORD_TOKEN) {
 		try {
 			await client.login(process.env.DISCORD_TOKEN);

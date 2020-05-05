@@ -13,7 +13,7 @@ class CommandParserHandler extends EventHandler {
 		this.commandFactory.loadCommands();
 	}
 
-	handle = async (message: Message): Promise<void> => {
+	handle = async(message: Message): Promise<void> => {
 		if (message.content.startsWith(COMMAND_PREFIX)) {
 			const args = message.content.replace("?", "").split(" ");
 			const trigger = args.shift() || args[0];
