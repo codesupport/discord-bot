@@ -15,7 +15,7 @@ const client = new Client();
 				"Handler.js"
 			);
 
-			handlerFiles.forEach((handler) => {
+			handlerFiles.forEach(handler => {
 				const { default: Handler } = handler;
 				const handlerInstance = new Handler();
 
