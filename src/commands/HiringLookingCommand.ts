@@ -19,7 +19,7 @@ class HiringLookingCommand extends Command {
 			as long as it fits in with the rules. If you get scammed in hiring or looking there is
 			nothing we can do, however, we do ask that you let a moderator know.
 		`);
-		embed.addField("Example Post",`
+		embed.addField("Example Post", `
 			We recommend basing your post on the example below to reduce your risks of it getting removed.\n
 			\`\`\`
 [HIRING]
