@@ -1,0 +1,47 @@
+{
+  "name": "discord-bot",
+  "version": "3.0.0",
+  "description": "The CodeSupport Discord bot",
+  "main": "./build/app.js",
+  "scripts": {
+    "start": "node ./build/app.js",
+    "build": "tsc",
+    "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit",
+    "lint": "eslint src --ext .js,.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesupport/discord-bot.git"
+  },
+  "keywords": [
+    "codesupport",
+    "discord",
+    "bot"
+  ],
+  "author": "The CodeSupport Community",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codesupport/discord-bot/issues"
+  },
+  "homepage": "https://github.com/codesupport/discord-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  },
+  "devDependencies": {
+    "@types/assert": "^1.4.6",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.13.4",
+    "@types/sinon": "^9.0.0",
+    "@types/ws": "^7.2.4",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-codesupport": "^1.0.2",
+    "mocha": "^7.1.2",
+    "sinon": "^9.0.2",
+    "ts-mocha": "^7.0.0",
+    "typescript": "^3.8.3"
+  }
+}
