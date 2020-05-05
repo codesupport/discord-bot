@@ -13,7 +13,12 @@ module.exports = {
     },
     rules: {
         "no-unused-vars": "off",
-        "lines-between-class-members": "off"
+        "lines-between-class-members": "off",
+        "space-before-function-paren": ["error", {
+            "anonymous": "never",
+            "named": "never",
+            "asyncArrow": "always"
+        }],
     },
     extends: [
         "eslint-config-codesupport"
