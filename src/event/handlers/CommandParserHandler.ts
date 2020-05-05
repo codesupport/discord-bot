@@ -18,9 +18,11 @@ class CommandParserHandler extends EventHandler {
 			const args = message.content.replace("?", "").split(" ");
 			const trigger = args.shift() || args[0];
 
+			/* eslint-disable */
 			if (this.commandFactory.commandExists(trigger)) {
 				await this.commandFactory.getCommand(trigger).run(message, args);
 			}
+			/* eslint-enable */
 		}
 	}
 }

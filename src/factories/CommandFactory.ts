@@ -11,7 +11,7 @@ class CommandFactory {
 			"Command.js"
 		);
 
-		commandFiles.forEach((command) => {
+		commandFiles.forEach(command => {
 			const { default: Command } = command;
 			const name = new Command().getName().toLowerCase();
 
