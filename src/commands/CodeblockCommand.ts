@@ -20,7 +20,7 @@ class CodeblockCommand extends Command {
 		embed.setImage("attachment://codeblock-tutorial.png");
 
 		await message.channel.send({ embed });
- 	}
+	}
 }
 
 export default CodeblockCommand;
