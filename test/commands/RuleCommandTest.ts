@@ -80,7 +80,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Asking For Help");
+			expect(embed.title).to.equal("Rule: Asking For Help");
 			expect(embed.description).to.equal("Actually ask your question, don't just ask for \"help\".");
 		});
 
@@ -93,7 +93,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Explain What's Wrong");
+			expect(embed.title).to.equal("Rule: Explain What's Wrong");
 			expect(embed.description).to.equal("Don't ask why your code doesn't \"work\".");
 		});
 
@@ -106,7 +106,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Be Patient");
+			expect(embed.title).to.equal("Rule: Be Patient");
 			expect(embed.description).to.equal("Responses to your questions are not guaranteed. The people here offer their expertise on their own time and for free.");
 		});
 
@@ -119,7 +119,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("@Mentioning People");
+			expect(embed.title).to.equal("Rule: @Mentioning People");
 			expect(embed.description).to.equal("Do not ping a user or group regarding coding help unless you are responding to them in an existing conversation.");
 		});
 
@@ -132,7 +132,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Keep it clean.");
+			expect(embed.title).to.equal("Rule: Keep it clean.");
 			expect(embed.description).to.equal("Keep it clean; some people use this at work/school.");
 		});
 
@@ -145,7 +145,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Privacy");
+			expect(embed.title).to.equal("Rule: Privacy");
 			expect(embed.description).to.equal("Don't share private information with anyone! (you’re just asking to be hacked)");
 		});
 
@@ -158,7 +158,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("No Advertising");
+			expect(embed.title).to.equal("Rule: No Advertising");
 			expect(embed.description).to.equal("Don't advertise, it's as simple as that.");
 		});
 
@@ -171,7 +171,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Use The Right Channel");
+			expect(embed.title).to.equal("Rule: Use The Right Channel");
 			expect(embed.description).to.equal("Stick to the appropriate channels. Feel free to ask in [#general](https://discord.gg/qZfADKn) if you're not sure where to ask something.");
 		});
 
@@ -184,7 +184,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Use Codeblocks");
+			expect(embed.title).to.equal("Rule: Use Codeblocks");
 			expect(embed.description).to.equal("When posting code, please use code blocks (see `?codeblock` for help).");
 		});
 
@@ -197,7 +197,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Bot Additions");
+			expect(embed.title).to.equal("Rule: Bot Additions");
 			expect(embed.description).to.equal("Don't ask for your bot to be added. It won’t be.");
 		});
 
@@ -210,7 +210,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Verified Role");
+			expect(embed.title).to.equal("Rule: Verified Role");
 			expect(embed.description).to.equal("Don't ask to become Verified: doing so will make it less likely.");
 		});
 
@@ -223,7 +223,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Don't Ask Someone To Help In DMs");
+			expect(embed.title).to.equal("Rule: Don't Ask Someone To Help In DMs");
 			expect(embed.description).to.equal("Don't DM people (unless it's for #hiring-or-looking), the knowledge shared here is for the benefit of everyone.");
 		});
 
@@ -236,7 +236,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Illegal/Immoral Tasks");
+			expect(embed.title).to.equal("Rule: Illegal/Immoral Tasks");
 			expect(embed.description).to.equal("Don't ask for help with illegal or immoral tasks. Doing so not only risks your continued participation in this community but is in violation of Discord's TOS and can get your account banned.");
 		});
 
@@ -249,7 +249,7 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("No Spoon-feeding");
+			expect(embed.title).to.equal("Rule: No Spoon-feeding");
 			expect(embed.description).to.equal("No spoon-feeding, it's not useful and won't help anyone learn.");
 		});
 
