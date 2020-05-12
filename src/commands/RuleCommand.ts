@@ -21,8 +21,9 @@ class RuleCommand extends Command {
 			const rule = rules.find(rule => rule.triggers.includes(args[0]));
 
 			if (rule !== undefined) {
-				embed.setTitle(rule.name);
+				embed.setTitle(`Rule: ${rule.name}`);
 				embed.setDescription(rule.description);
+				embed.setFooter("To familiarise yourself with all of the server's rules please see #rules-and-info.");
 			} else {
 				embed.setTitle("Error");
 				embed.setDescription("Unknown rule number/trigger.");
