@@ -26,7 +26,7 @@ class RuleCommand extends Command {
 			if (rule !== undefined) {
 				embed.setTitle(`Rule: ${rule.name}`);
 				embed.setDescription(rule.description);
-				embed.setFooter("To familiarise yourself with all of the server's rules please see #rules-and-info.");
+				embed.addField("To familiarise yourself with all of the server's rules please see", "<#709810433871053052>");
 			} else {
 				embed.setTitle("Error");
 				embed.setDescription("Unknown rule number/trigger.");

@@ -6,6 +6,7 @@ import { Message } from "discord.js";
 import MockDiscord from "../MockDiscord";
 import RuleCommand from "../../src/commands/RuleCommand";
 import Command from "../../src/abstracts/Command";
+import exp = require("constants");
 
 describe("RuleCommand", () => {
 	describe("constructor()", () => {
@@ -82,6 +83,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Asking For Help");
 			expect(embed.description).to.equal("Actually ask your question, don't just ask for \"help\".");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 2 if you ask for rule 2", async () => {
@@ -95,6 +98,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Explain What's Wrong");
 			expect(embed.description).to.equal("Don't ask why your code doesn't \"work\".");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 3 if you ask for rule 3", async () => {
@@ -108,6 +113,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Be Patient");
 			expect(embed.description).to.equal("Responses to your questions are not guaranteed. The people here offer their expertise on their own time and for free.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 4 if you ask for rule 4", async () => {
@@ -121,6 +128,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: @Mentioning People");
 			expect(embed.description).to.equal("Do not ping a user or group regarding coding help unless you are responding to them in an existing conversation.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 5 if you ask for rule 5", async () => {
@@ -134,6 +143,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Keep it clean.");
 			expect(embed.description).to.equal("Keep it clean; some people use this at work/school.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 6 if you ask for rule 6", async () => {
@@ -147,6 +158,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Privacy");
 			expect(embed.description).to.equal("Don't share private information with anyone! (you’re just asking to be hacked)");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 7 if you ask for rule 7", async () => {
@@ -160,6 +173,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: No Advertising");
 			expect(embed.description).to.equal("Don't advertise, it's as simple as that.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 8 if you ask for rule 8", async () => {
@@ -173,6 +188,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Use The Right Channel");
 			expect(embed.description).to.equal("Stick to the appropriate channels. Feel free to ask in [#general](https://discord.gg/qZfADKn) if you're not sure where to ask something.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 9 if you ask for rule 9", async () => {
@@ -186,6 +203,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Use Codeblocks");
 			expect(embed.description).to.equal("When posting code, please use code blocks (see `?codeblock` for help).");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 10 if you ask for rule 10", async () => {
@@ -199,6 +218,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Bot Additions");
 			expect(embed.description).to.equal("Don't ask for your bot to be added. It won’t be.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 11 if you ask for rule 11", async () => {
@@ -212,6 +233,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Verified Role");
 			expect(embed.description).to.equal("Don't ask to become Verified: doing so will make it less likely.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 12 if you ask for rule 12", async () => {
@@ -225,6 +248,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Don't Ask Someone To Help In DMs");
 			expect(embed.description).to.equal("Don't DM people (unless it's for #hiring-or-looking), the knowledge shared here is for the benefit of everyone.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 13 if you ask for rule 13", async () => {
@@ -238,6 +263,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Illegal/Immoral Tasks");
 			expect(embed.description).to.equal("Don't ask for help with illegal or immoral tasks. Doing so not only risks your continued participation in this community but is in violation of Discord's TOS and can get your account banned.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		it("states rule 14 if you ask for rule 14", async () => {
@@ -251,6 +278,8 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: No Spoon-feeding");
 			expect(embed.description).to.equal("No spoon-feeding, it's not useful and won't help anyone learn.");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#709810433871053052>");
 		});
 
 		afterEach(() => {
