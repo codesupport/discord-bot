@@ -6,7 +6,6 @@ import { Message } from "discord.js";
 import MockDiscord from "../MockDiscord";
 import RuleCommand from "../../src/commands/RuleCommand";
 import Command from "../../src/abstracts/Command";
-import exp = require("constants");
 
 describe("RuleCommand", () => {
 	describe("constructor()", () => {
