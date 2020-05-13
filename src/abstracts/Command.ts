@@ -1,12 +1,15 @@
 import { Message } from "discord.js";
+import CommandOptions from "../interfaces/CommandOptions";
 
 abstract class Command {
 	private readonly name: string;
 	private readonly description: string;
+	private readonly options: CommandOptions | undefined;
 
-	protected constructor(name: string, description: string) {
+	protected constructor(name: string, description: string, options?: CommandOptions) {
 		this.name = name;
 		this.description = description;
+		this.options = options;
 	}
 
 	abstract async run(message: Message, args?: string[]): Promise<void>;
@@ -17,6 +20,10 @@ abstract class Command {
 
 	getDescription(): string {
 		return this.description;
+	}
+
+	isSelfDestructing(): boolean {
+		return this.options?.selfDestructing || false;
 	}
 }
 

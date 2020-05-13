@@ -6,7 +6,10 @@ class RuleCommand extends Command {
 	constructor() {
 		super(
 			"rule",
-			"Get a specific rule."
+			"Get a specific rule.",
+			{
+				selfDestructing: true
+			}
 		);
 	}
 
@@ -21,8 +24,9 @@ class RuleCommand extends Command {
 			const rule = rules.find(rule => rule.triggers.includes(args[0]));
 
 			if (rule !== undefined) {
-				embed.setTitle(rule.name);
+				embed.setTitle(`Rule: ${rule.name}`);
 				embed.setDescription(rule.description);
+				embed.addField("To familiarise yourself with all of the server's rules please see", "<#709810433871053052>");
 			} else {
 				embed.setTitle("Error");
 				embed.setDescription("Unknown rule number/trigger.");
