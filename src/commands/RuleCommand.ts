@@ -6,7 +6,10 @@ class RuleCommand extends Command {
 	constructor() {
 		super(
 			"rule",
-			"Get a specific rule."
+			"Get a specific rule.",
+			{
+				selfDestructing: true
+			}
 		);
 	}
 
