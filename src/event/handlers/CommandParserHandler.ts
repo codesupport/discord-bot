@@ -20,7 +20,13 @@ class CommandParserHandler extends EventHandler {
 
 			/* eslint-disable */
 			if (this.commandFactory.commandExists(trigger)) {
-				await this.commandFactory.getCommand(trigger).run(message, args);
+				const command = this.commandFactory.getCommand(trigger);
+
+				await command.run(message, args);
+
+				if (command.isSelfDestructing()) {
+					await message.delete();
+				}
 			}
 			/* eslint-enable */
 		}
