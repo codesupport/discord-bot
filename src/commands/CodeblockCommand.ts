@@ -5,7 +5,10 @@ class CodeblockCommand extends Command {
 	constructor() {
 		super(
 			"codeblock",
-			"Shows a tutorial on how to use Discord's codeblocks."
+			"Shows a tutorial on how to use Discord's codeblocks.",
+			{
+				selfDestructing: true
+			}
 		);
 	}
 
