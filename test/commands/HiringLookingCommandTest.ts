@@ -52,7 +52,7 @@ describe("HiringLookingCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Hiring or Looking Post Formatting");
+			expect(embed.title).to.equal("Hiring or Looking Posts");
 
 			// The indentation on these is a mess due to the test comparing white space.
 			expect(embed.description).to.equal(`
@@ -61,9 +61,11 @@ describe("HiringLookingCommand", () => {
 			as long as it fits in with the rules. If you get scammed in hiring or looking there is
 			nothing we can do, however, we do ask that you let a moderator know.
 		`);
-			expect(embed.fields[0].name).to.equal("Example Post");
-			expect(embed.fields[0].value).to.equal(`
-			We recommend basing your post on the example below to reduce your risks of it getting removed.\n
+			expect(embed.fields[0].name).to.equal("Payment");
+			expect(embed.fields[0].value).to.equal("If you are trying to hire people for a project, and that project is not open source, your post must state how much you will pay them (or a percentage of profits they will receive).");
+			expect(embed.fields[1].name).to.equal("Example Post");
+			expect(embed.fields[1].value).to.equal(`
+			Please use the example below as a template to base your post on.\n
 			\`\`\`
 [HIRING]
 Full Stack Website Developer
