@@ -21,7 +21,9 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 - [TypeScript ESLint Parser](https://www.npmjs.com/package/@typescript-eslint/parser)
 - [CodeSupport's ESLint Config](https://www.npmjs.com/package/eslint-config-codesupport)
 
-**Note:** We have excluded [@types](http://definitelytyped.org) packages from this list.
+**Notes:** 
+- We have excluded [@types](http://definitelytyped.org) packages from this list.
+- Although TypeScript is listed as a development dependency, it is needed to build the source code.
 
 ## Setup
 1. Navigate into the repository on your computer and run `npm i`
@@ -81,7 +83,7 @@ We are using [Mocha](https://mochajs.org) with [Sinon](https://sinonjs.org) and 
 ## Scripts
 - To start the Discord bot use `npm start`
 - To build the source code use `npm run build`
-- To test the code use `npm test
+- To test the code use `npm test`
 - To lint the code use `npm run lint`
 
 **Any Questions?** Feel free to mention @LamboCreeper#6510 in the [CodeSupport Discord](https://discord.gg/Hn9SETt).
