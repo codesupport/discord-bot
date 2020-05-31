@@ -16,6 +16,12 @@ class CommandFactory {
 			const name = new Command().getName().toLowerCase();
 
 			this.commands[name] = () => new Command();
+
+			const aliases = new Command().getAliases();
+
+			aliases.forEach((alias: string) => {
+				this.commands[alias] = () => new Command();
+			});
 		});
 	}
 
