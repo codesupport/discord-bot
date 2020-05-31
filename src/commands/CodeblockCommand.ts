@@ -8,7 +8,8 @@ class CodeblockCommand extends Command {
 			"Shows a tutorial on how to use Discord's codeblocks.",
 			{
 				selfDestructing: true
-			}
+			},
+			["codeblocks", "cb"]
 		);
 	}
 
