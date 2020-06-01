@@ -5,10 +5,11 @@ export default class MockCommandWithAlias extends Command {
 	constructor() {
 		super(
 			"mock-alias",
-			"Mock Command With Alias",
+			"Mock Command with Aliases",
 			{
-				aliases: ["mocky", "mockster"]
-			});
+				aliases: ["mocky", "mocko"]
+			}
+		);
 	}
 
 	async run(message: Message, args: string[]): Promise<void> {
