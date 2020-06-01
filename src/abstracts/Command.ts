@@ -5,13 +5,11 @@ abstract class Command {
 	private readonly name: string;
 	private readonly description: string;
 	private readonly options: CommandOptions | undefined;
-	private readonly aliases: Array<string>;
 
-	protected constructor(name: string, description: string, options?: CommandOptions, aliases: Array<string> = []) {
+	protected constructor(name: string, description: string, options?: CommandOptions) {
 		this.name = name;
 		this.description = description;
 		this.options = options;
-		this.aliases = aliases;
 	}
 
 	abstract async run(message: Message, args?: string[]): Promise<void>;
@@ -24,8 +22,8 @@ abstract class Command {
 		return this.description;
 	}
 
-	getAliases(): Array<string> {
-		return this.aliases;
+	getAliases(): string[] {
+		return this.options?.aliases || [];
 	}
 
 	isSelfDestructing(): boolean {
