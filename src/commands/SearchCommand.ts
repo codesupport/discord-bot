@@ -2,13 +2,13 @@ import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import InstantAnswerService from "../services/InstantAnswerService";
 
-class MDNCommand extends Command {
+class SearchCommand extends Command {
 	private instantAnswer: InstantAnswerService;
 
 	constructor() {
 		super(
-			"mdn",
-			"Get a link to a specific MDN page."
+			"search",
+			"Query DuckDuckGo for an instant answer."
 		);
 
 		this.instantAnswer = InstantAnswerService.getInstance();
@@ -20,25 +20,25 @@ class MDNCommand extends Command {
 		if (!args || typeof args[0] === "undefined") {
 			embed.setTitle("Error");
 			embed.setDescription("You must define a search query.");
-			embed.addField("Correct Usage", "?mdn <query>");
+			embed.addField("Correct Usage", "?search <query>");
 		} else {
 			try {
 				const res = await this.instantAnswer.query(args.join("+"));
 
 				if (res) {
-					embed.setTitle(`MDN: ${res.heading}`);
-					embed.setDescription(`${res.description}\n\n[View on MDN](${res.url})`);
+					const [baseURL] = res.url.match(/[a-z]*\.[a-z]*/) || [];
+
+					embed.setTitle(res.heading);
+					embed.setDescription(`${res.description}\n\n[View on ${baseURL}](${res.url})`);
 					embed.setFooter("Result powered by the DuckDuckGo API.");
 				} else {
 					embed.setTitle("Error");
 					embed.setDescription("No results found.");
 				}
-			} catch ({ message }) {
-				console.log(message);
-
+			} catch (error) {
 				embed.setTitle("Error");
-				embed.setDescription("There was a problem querying MDN.");
-				embed.addField("Correct Usage", "?mdn <query>");
+				embed.setDescription("There was a problem querying DuckDuckGo.");
+				embed.addField("Correct Usage", "?search <query>");
 			}
 		}
 
@@ -46,4 +46,4 @@ class MDNCommand extends Command {
 	}
 }
 
-export default MDNCommand;
+export default SearchCommand;
