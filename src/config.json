@@ -8,7 +8,7 @@
     "rules": [
         {
             "name": "Asking For Help",
-            "triggers": ["1", "ask"],
+            "triggers": ["1", "ask", "help"],
             "description": "Actually ask your question, don't just ask for \"help\"."
         },
         {
