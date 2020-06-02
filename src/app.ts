@@ -22,9 +22,11 @@ const client = new Client();
 				client.on(handlerInstance.getEvent(), handlerInstance.handle);
 			});
 
-			const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
+			if (process.env.NODE_ENV === "production") {
+				const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
 
-			await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
+				await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
+			}
 		} catch (error) {
 			console.error(error);
 		}
