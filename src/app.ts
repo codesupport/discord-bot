@@ -1,6 +1,6 @@
 import {Client, TextChannel} from "discord.js";
 import getFilesInDirectory from "./utils/getFilesInDirectory";
-import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID } from "./config.json";
+import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
 
 const client = new Client();
 
@@ -22,9 +22,11 @@ const client = new Client();
 				client.on(handlerInstance.getEvent(), handlerInstance.handle);
 			});
 
-			const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
+			if (process.env.NODE_ENV === PRODUCTION_ENV) {
+				const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
 
-			await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
+				await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
+			}
 		} catch (error) {
 			console.error(error);
 		}

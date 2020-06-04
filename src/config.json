@@ -3,12 +3,18 @@
     "MEMBER_ROLE": "592088198746996768",
     "AUTHENTICATION_MESSAGE_ID": "592316062796873738",
     "AUTHENTICATION_MESSAGE_CHANNEL": "592087564295471105",
+    "INSTANT_ANSWER_HIGHLIGHTS": [
+        "javascript",
+        "html",
+        "css"
+    ],
+    "PRODUCTION_ENV": "production",
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",
     "rules": [
         {
             "name": "Asking For Help",
-            "triggers": ["1", "ask"],
+            "triggers": ["1", "ask", "help"],
             "description": "Actually ask your question, don't just ask for \"help\"."
         },
         {

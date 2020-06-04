@@ -22,6 +22,10 @@ abstract class Command {
 		return this.description;
 	}
 
+	getAliases(): string[] {
+		return this.options?.aliases || [];
+	}
+
 	isSelfDestructing(): boolean {
 		return this.options?.selfDestructing || false;
 	}
