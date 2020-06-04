@@ -3,15 +3,11 @@ import Command from "../abstracts/Command";
 import InstantAnswerService from "../services/InstantAnswerService";
 
 class SearchCommand extends Command {
-	private instantAnswer: InstantAnswerService;
-
 	constructor() {
 		super(
 			"search",
 			"Query DuckDuckGo for an instant answer."
 		);
-
-		this.instantAnswer = InstantAnswerService.getInstance();
 	}
 
 	async run(message: Message, args?: string[]): Promise<void> {
@@ -23,7 +19,8 @@ class SearchCommand extends Command {
 			embed.addField("Correct Usage", "?search <query>");
 		} else {
 			try {
-				const res = await this.instantAnswer.query(args.join("+"));
+				const InstantAnswer = InstantAnswerService.getInstance();
+				const res = await InstantAnswer.query(args.join("+"));
 
 				if (res) {
 					const [baseURL] = res.url.match(/[a-z]*\.[a-z]*/) || [];
