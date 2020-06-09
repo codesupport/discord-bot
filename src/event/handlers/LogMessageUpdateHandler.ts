@@ -11,18 +11,20 @@ class LogMessageUpdateHandler extends EventHandler {
         if (oldMessage.content === newMessage.content) {
             return;
         }
+
         if (newMessage.content === "") {
             return;
         }
+
         const embed = new MessageEmbed();
+
         embed.setTitle("Message Updated");
         embed.setDescription(`Author: <@${oldMessage.author}>\nChannel: <#${oldMessage.channel}>`);
         embed.addField("Old Message", oldMessage.content);
         embed.addField("New Message", newMessage.content);
 
-        const logsChannel = oldMessage.guild?.channels.cache.find((channel) => {
-            return channel.id === LOG_CHANNEL_ID;
-        }) as TextChannel;
+        const logsChannel = oldMessage.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
+
         await logsChannel?.send({ embed });
     }
 }
