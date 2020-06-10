@@ -9,10 +9,16 @@
         "css"
     ],
     "PRODUCTION_ENV": "production",
+    "allowed_file_extensions": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "mp4"
+    ],
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",
-    "rules": [
-        {
+    "rules": [{
             "name": "Asking For Help",
             "triggers": ["1", "ask", "help"],
             "description": "Actually ask your question, don't just ask for \"help\"."
