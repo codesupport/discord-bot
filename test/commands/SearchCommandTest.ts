@@ -7,6 +7,7 @@ import MockDiscord from "../MockDiscord";
 import SearchCommand from "../../src/commands/SearchCommand";
 import Command from "../../src/abstracts/Command";
 import InstantAnswerService from "../../src/services/InstantAnswerService";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("SearchCommand", () => {
 	describe("constructor()", () => {
@@ -59,6 +60,7 @@ describe("SearchCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("You must define a search query.");
+			expect(embed.color).to.equal(EMBED_COLOURS.ERROR);
 		});
 
 		it("states it can not query duckduckgo if the result isn't found", async () => {
@@ -74,6 +76,7 @@ describe("SearchCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("No results found.");
+			expect(embed.color).to.equal(EMBED_COLOURS.ERROR);
 		});
 
 		it("states the result from the instant answer service", async () => {
@@ -94,6 +97,7 @@ describe("SearchCommand", () => {
 			expect(embed.title).to.equal("Example Heading");
 			expect(embed.description).to.equal("Example Description\n\n[View on example.com](https://example.com)");
 			expect(embed.footer.text).to.equal("Result powered by the DuckDuckGo API.");
+			expect(embed.color).to.equal(EMBED_COLOURS.DEFAULT);
 		});
 
 		it("correctly renders URLs from websites with subdomains", async () => {
