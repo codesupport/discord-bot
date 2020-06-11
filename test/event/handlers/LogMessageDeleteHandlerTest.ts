@@ -26,7 +26,6 @@ describe("LogMessageDeleteHandler", () => {
             discordMock = new MockDiscord();
         });
 
-
         it("sends a message in logs channel when a message is deleted", async () => {
             const message = discordMock.getMessage();
             const messageMock = sandbox.stub(message.guild.channels.cache, "find");
