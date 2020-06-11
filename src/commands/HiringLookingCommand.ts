@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
+import { EMBED_COLOURS } from "../config.json";
 
 class HiringLookingCommand extends Command {
 	constructor() {
@@ -34,6 +35,7 @@ Requirements:
 - Able to stick to deadlines and work as a team.
 			\`\`\`
 		`);
+		embed.setColor(EMBED_COLOURS.DEFAULT);
 
 		await message.channel.send({ embed });
 	}
