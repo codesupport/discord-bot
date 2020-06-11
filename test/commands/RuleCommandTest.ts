@@ -293,7 +293,7 @@ describe("RuleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: No Spoon-feeding");
 			expect(embed.description).to.equal("No spoon-feeding, it's not useful and won't help anyone learn.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase().toLowerCase());
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
 		});
