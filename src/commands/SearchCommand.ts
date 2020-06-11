@@ -22,7 +22,7 @@ class SearchCommand extends Command {
 				const InstantAnswer = InstantAnswerService.getInstance();
 				const res = await InstantAnswer.query(args.join("+"));
 
-				if (res) {
+				if (res !== null) {
 					const [baseURL] = res.url.match(/[a-z]*\.[a-z]*(\.[a-z]*)*/) || [];
 
 					embed.setTitle(res.heading);
