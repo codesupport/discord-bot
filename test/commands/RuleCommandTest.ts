@@ -87,7 +87,7 @@ describe("RuleCommand", () => {
 			expect(embed.description).to.equal("Actually ask your question, don't just ask for \"help\".");
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase().toLowerCase());
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
 		it("states rule 2 if you ask for rule 2", async () => {
