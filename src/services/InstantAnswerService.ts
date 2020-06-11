@@ -17,7 +17,7 @@ class InstantAnswerService {
 		return this.instance;
 	}
 
-	async query(query: string): Promise<InstantAnswer|null> {
+	async query(query: string): Promise<InstantAnswer | null> {
 		const url = `https://api.duckduckgo.com/?q=${query}&format=json&t=codesupport-discord-bot`;
 		const { status, data } = await axios.get(url);
 
