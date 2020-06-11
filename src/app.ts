@@ -1,6 +1,7 @@
-import {Client, TextChannel} from "discord.js";
+import { Client, TextChannel } from "discord.js";
 import getFilesInDirectory from "./utils/getFilesInDirectory";
 import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
+import TwitterService from "./services/TwitterService";
 
 const client = new Client();
 
@@ -27,6 +28,8 @@ const client = new Client();
 
 				await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
 			}
+
+			await TwitterService.getInstance().streamToDiscord(client);
 		} catch (error) {
 			console.error(error);
 		}
