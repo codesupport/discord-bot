@@ -12,6 +12,8 @@
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",
     "LOG_CHANNEL_ID": "405068878151024640",
+    "GENERAL_CHANNEL_ID": "518817917438001152",
+    "TWITTER_ID": "736875612523106304",
     "rules": [
         {
             "name": "Asking For Help",
