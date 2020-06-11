@@ -54,7 +54,7 @@ describe("HiringLookingCommand", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Hiring or Looking Posts");
-			expect(embed.color).to.equal(EMBED_COLOURS.DEFAULT);
+			expect(embed.hexColor.toUpperCase()).to.equal(EMBED_COLOURS.DEFAULT);
 
 			// The indentation on these is a mess due to the test comparing white space.
 			expect(embed.description).to.equal(`

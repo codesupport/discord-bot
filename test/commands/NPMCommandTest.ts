@@ -58,7 +58,7 @@ describe("NPMCommand", () => {
 			expect(embed.description).to.equal("You must provide a NPM package.");
 			expect(embed.fields[0].name).to.equal("Correct Usage");
 			expect(embed.fields[0].value).to.equal("?npm <package>");
-			expect(embed.color).to.equal(EMBED_COLOURS.ERROR);
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
 		it("states the package name is not valid if it doesn't find a package", async () => {
@@ -73,7 +73,7 @@ describe("NPMCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("That is not a valid NPM package.");
-			expect(embed.color).to.equal(EMBED_COLOURS.ERROR);
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
 		it("sends a message with the package URL if you provide a valid package", async () => {
