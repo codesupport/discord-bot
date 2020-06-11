@@ -11,124 +11,76 @@
     "PRODUCTION_ENV": "production",
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",
-    "LOG_CHANNEL_ID": "405068878151024640",
+    "LOG_CHANNEL_ID:"405068878151024640",
     "rules": [
         {
             "name": "Asking For Help",
-            "triggers": [
-                "1",
-                "ask",
-                "help"
-            ],
+            "triggers": ["1", "ask", "help"],
             "description": "Actually ask your question, don't just ask for \"help\"."
         },
         {
             "name": "Explain What's Wrong",
-            "triggers": [
-                "2",
-                "work",
-                "explain"
-            ],
+            "triggers": ["2", "work", "explain"],
             "description": "Don't ask why your code doesn't \"work\"."
         },
         {
             "name": "Be Patient",
-            "triggers": [
-                "3",
-                "responses",
-                "patience"
-            ],
+            "triggers": ["3", "responses", "patience"],
             "description": "Responses to your questions are not guaranteed. The people here offer their expertise on their own time and for free."
         },
         {
             "name": "@Mentioning People",
-            "triggers": [
-                "4",
-                "pinging",
-                "mentioning"
-            ],
+            "triggers": ["4", "pinging", "mentioning"],
             "description": "Do not ping a user or group regarding coding help unless you are responding to them in an existing conversation."
         },
         {
             "name": "Keep it clean.",
-            "triggers": [
-                "5",
-                "clean",
-                "sfw"
-            ],
+            "triggers": ["5", "clean", "sfw"],
             "description": "Keep it clean; some people use this at work/school."
         },
         {
             "name": "Privacy",
-            "triggers": [
-                "6",
-                "privacy"
-            ],
+            "triggers": ["6", "privacy"],
             "description": "Don't share private information with anyone! (you’re just asking to be hacked)"
         },
         {
             "name": "No Advertising",
-            "triggers": [
-                "7",
-                "advertising"
-            ],
+            "triggers": ["7", "advertising"],
             "description": "Don't advertise, it's as simple as that."
         },
         {
             "name": "Use The Right Channel",
-            "triggers": [
-                "8",
-                "channel"
-            ],
+            "triggers": ["8", "channel"],
             "description": "Stick to the appropriate channels. Feel free to ask in [#general](https://discord.gg/qZfADKn) if you're not sure where to ask something."
         },
         {
             "name": "Use Codeblocks",
-            "triggers": [
-                "9",
-                "codeblocks"
-            ],
+            "triggers": ["9", "codeblocks"],
             "description": "When posting code, please use code blocks (see `?codeblock` for help)."
         },
         {
             "name": "Bot Additions",
-            "triggers": [
-                "10",
-                "bot"
-            ],
+            "triggers": ["10", "bot"],
             "description": "Don't ask for your bot to be added. It won’t be."
         },
         {
             "name": "Verified Role",
-            "triggers": [
-                "11",
-                "verified"
-            ],
+            "triggers": ["11", "verified"],
             "description": "Don't ask to become Verified: doing so will make it less likely."
         },
         {
             "name": "Don't Ask Someone To Help In DMs",
-            "triggers": [
-                "12",
-                "dms"
-            ],
+            "triggers": ["12", "dms"],
             "description": "Don't DM people (unless it's for #hiring-or-looking), the knowledge shared here is for the benefit of everyone."
         },
         {
             "name": "Illegal/Immoral Tasks",
-            "triggers": [
-                "13",
-                "illegal",
-                "immoral"
-            ],
+            "triggers": ["13", "illegal", "immoral"],
             "description": "Don't ask for help with illegal or immoral tasks. Doing so not only risks your continued participation in this community but is in violation of Discord's TOS and can get your account banned."
         },
         {
             "name": "No Spoon-feeding",
-            "triggers": [
-                "14",
-                "spoon"
-            ],
+            "triggers": ["14", "spoon"],
             "description": "No spoon-feeding, it's not useful and won't help anyone learn."
         }
     ]
