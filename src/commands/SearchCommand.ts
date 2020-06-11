@@ -22,8 +22,8 @@ class SearchCommand extends Command {
 				const InstantAnswer = InstantAnswerService.getInstance();
 				const res = await InstantAnswer.query(args.join("+"));
 
-				if (res) {
-					const [baseURL] = res.url.match(/[a-z]*\.[a-z]*/) || [];
+				if (res !== null) {
+					const [baseURL] = res.url.match(/[a-z]*\.[a-z]*(\.[a-z]*)*/) || [];
 
 					embed.setTitle(res.heading);
 					embed.setDescription(`${res.description}\n\n[View on ${baseURL}](${res.url})`);

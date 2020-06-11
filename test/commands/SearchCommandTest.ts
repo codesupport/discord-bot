@@ -61,10 +61,10 @@ describe("SearchCommand", () => {
 			expect(embed.description).to.equal("You must define a search query.");
 		});
 
-		it("states it can not query duckduckgo if the result isnt found", async () => {
+		it("states it can not query duckduckgo if the result isn't found", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(instantAnswer, "query");
+			sandbox.stub(instantAnswer, "query").resolves(null);
 
 			await command.run(message, ["thisruledoesnotexist"]);
 
@@ -94,6 +94,23 @@ describe("SearchCommand", () => {
 			expect(embed.title).to.equal("Example Heading");
 			expect(embed.description).to.equal("Example Description\n\n[View on example.com](https://example.com)");
 			expect(embed.footer.text).to.equal("Result powered by the DuckDuckGo API.");
+		});
+
+		it("correctly renders URLs from websites with subdomains", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(instantAnswer, "query").resolves({
+				heading: "Capybara",
+				description: "The capybara is an adorable rodent.",
+				url: "https://en.wikipedia.org/wiki/Capybara"
+			});
+
+			await command.run(message, ["thisruledoesnotexist"]);
+
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(embed.description).to.equal("The capybara is an adorable rodent.\n\n[View on en.wikipedia.org](https://en.wikipedia.org/wiki/Capybara)");
 		});
 
 		afterEach(() => {
