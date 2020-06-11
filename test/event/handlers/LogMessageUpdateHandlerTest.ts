@@ -5,6 +5,7 @@ import { SinonSandbox, createSandbox } from "sinon";
 import EventHandler from "../../../src/abstracts/EventHandler";
 import MockDiscord from "../../MockDiscord";
 
+
 describe("LogMessageUpdateHandler", () => {
     describe("constructor()", () => {
         it("creates a handler for MESSAGE_UPDATE", () => {
@@ -62,8 +63,6 @@ describe("LogMessageUpdateHandler", () => {
             newMessage.content = "newMessage content";
 
             await handler.handle(oldMessage, newMessage);
-
-            const messageChannel = await messageMock;
 
             expect(messageMock.calledOnce).to.be.true;
         });

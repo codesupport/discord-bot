@@ -35,8 +35,6 @@ describe("LogMessageDeleteHandler", () => {
 
             await handler.handle(message);
 
-            const messageChannel = await messageMock;
-
             expect(messageMock.calledOnce).to.be.true;
         });
 
