@@ -2,7 +2,7 @@ import { Constants, MessageEmbed, Message, TextChannel } from "discord.js";
 import { LOG_CHANNEL_ID } from "../../config.json";
 import EventHandler from "../../abstracts/EventHandler";
 
-class LogMessageUpdateHandler extends EventHandler {
+class LogMessageDeleteHandler extends EventHandler {
 	constructor() {
 		super(Constants.Events.MESSAGE_DELETE);
 	}
@@ -20,4 +20,4 @@ class LogMessageUpdateHandler extends EventHandler {
 	}
 }
 
-export default LogMessageUpdateHandler;
+export default LogMessageDeleteHandler;
