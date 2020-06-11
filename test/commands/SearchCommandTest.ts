@@ -61,10 +61,10 @@ describe("SearchCommand", () => {
 			expect(embed.description).to.equal("You must define a search query.");
 		});
 
-		it("states it can not query duckduckgo if the result isnt found", async () => {
+		it("states it can not query duckduckgo if the result isn't found", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(instantAnswer, "query");
+			sandbox.stub(instantAnswer, "query").resolves(null);
 
 			await command.run(message, ["thisruledoesnotexist"]);
 
