@@ -3,12 +3,11 @@ import { Constants } from "discord.js";
 import { Message } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 
-import { COMMAND_PREFIX, BOTLESS_CHANNELS } from "../../../src/config.json";
 import MockCommand from "../../MockCommand";
 import MockDiscord from "../../MockDiscord";
-import Command from "../../../src/abstracts/Command";
 import CommandFactory from "../../../src/factories/CommandFactory";
 import CommandParserHandler from "../../../src/event/handlers/CommandParserHandler";
+import { COMMAND_PREFIX, BOTLESS_CHANNELS } from "../../../src/config.json";
 
 describe("CommandParserHandler", () => {
 	describe("constructor()", () => {
@@ -51,8 +50,9 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should not run command if it doesn't start with command prefix", async () => {
-			const runCommandMock = sandbox.stub(command, "run");
+			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
 
+			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
 
 			message.content = command.getName();
@@ -63,13 +63,13 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should not run command if message was sent on a botless channel", async () => {
-			const runCommandMock = sandbox.stub(command, "run");
+			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
 
+			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
-			const botlessChannelId : string = Object.values(BOTLESS_CHANNELS)[0] as string;
 
 			message.content = COMMAND_PREFIX + command.getName();
-			message.channel.id = botlessChannelId;
+			message.channel.id = BOTLESS_CHANNELS.MOCK_CHANNEL;
 
 			await handler.handle(message);
 
@@ -77,9 +77,9 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should not run a nonexistent command", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").callsFake(() => false);
-			const runCommandMock = sandbox.stub(command, "run");
+			sandbox.stub(CommandFactory.prototype, "commandExists").returns(false);
 
+			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
 
 			message.content = COMMAND_PREFIX + command.getName();
@@ -91,10 +91,10 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should run command", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").callsFake(() => true);
-			sandbox.stub(CommandFactory.prototype, "getCommand").callsFake(() => command);
-			const runCommandMock = sandbox.stub(command, "run");
+			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
+			sandbox.stub(CommandFactory.prototype, "getCommand").returns(command);
 
+			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
 
 			message.content = COMMAND_PREFIX + command.getName();
@@ -104,12 +104,13 @@ describe("CommandParserHandler", () => {
 
 			expect(runCommandMock.called).to.be.true;
 		});
-		it("should delete messages that trigger a self destructing command", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").callsFake(() => true);
-			sandbox.stub(CommandFactory.prototype, "getCommand").callsFake(() => command);
-			sandbox.stub(MockCommand.prototype, "isSelfDestructing").callsFake(() => true);
-			const deleteMessageMock = sandbox.stub(Message.prototype, "delete");
 
+		it("should delete messages that trigger a self destructing command", async () => {
+			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
+			sandbox.stub(CommandFactory.prototype, "getCommand").returns(command);
+			sandbox.stub(MockCommand.prototype, "isSelfDestructing").returns(true);
+
+			const deleteMessageMock = sandbox.stub(Message.prototype, "delete");
 			const message = discordMock.getMessage();
 
 			message.content = COMMAND_PREFIX + command.getName();
