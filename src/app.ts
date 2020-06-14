@@ -1,8 +1,15 @@
-import {Client, TextChannel} from "discord.js";
+import { Client, TextChannel } from "discord.js";
+import { config as env } from "dotenv";
 import getFilesInDirectory from "./utils/getFilesInDirectory";
 import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
 
 const client = new Client();
+
+if (process.env.NODE_ENV !== PRODUCTION_ENV) {
+	env({
+		path: "../.env"
+	});
+}
 
 (async () => {
 	if (process.env.DISCORD_TOKEN) {
