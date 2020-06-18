@@ -7,7 +7,8 @@ import MockCommand from "../../MockCommand";
 import MockDiscord from "../../MockDiscord";
 import CommandFactory from "../../../src/factories/CommandFactory";
 import CommandParserHandler from "../../../src/event/handlers/CommandParserHandler";
-import { COMMAND_PREFIX, BOTLESS_CHANNELS } from "../../../src/config.json";
+import * as getConfigValue from "../../../src/utils/getConfigValue";
+import { COMMAND_PREFIX } from "../../../src/config.json";
 
 describe("CommandParserHandler", () => {
 	describe("constructor()", () => {
@@ -64,12 +65,13 @@ describe("CommandParserHandler", () => {
 
 		it("should not run command if message was sent on a botless channel", async () => {
 			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
+			sandbox.stub(getConfigValue, "default").returns({ MOCK_CHANNEL: "mock-channel-lol"});
 
 			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
 
 			message.content = COMMAND_PREFIX + command.getName();
-			message.channel.id = BOTLESS_CHANNELS.MOCK_CHANNEL;
+			message.channel.id = "mock-channel-lol";
 
 			await handler.handle(message);
 

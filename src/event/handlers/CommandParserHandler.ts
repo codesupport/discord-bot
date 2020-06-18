@@ -1,7 +1,8 @@
 import { Constants, Message } from "discord.js";
-import { COMMAND_PREFIX, BOTLESS_CHANNELS } from "../../config.json";
 import EventHandler from "../../abstracts/EventHandler";
 import CommandFactory from "../../factories/CommandFactory";
+import getConfigValue from "../../utils/getConfigValue";
+import { COMMAND_PREFIX } from "../../config.json";
 
 class CommandParserHandler extends EventHandler {
 	private readonly commandFactory: CommandFactory;
@@ -15,6 +16,8 @@ class CommandParserHandler extends EventHandler {
 
 	handle = async (message: Message): Promise<void> => {
 		if (message.content.startsWith(COMMAND_PREFIX)) {
+			const BOTLESS_CHANNELS = getConfigValue("BOTLESS_CHANNELS");
+
 			if (Object.values(BOTLESS_CHANNELS).includes(message.channel.id)) {
 				return;
 			}
