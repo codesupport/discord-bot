@@ -28,10 +28,10 @@ class TwitterService {
 	streamToDiscord = async (tweetChannel: TextChannel): Promise<void> => {
 		this.twitter.stream("statuses/filter", {
 			follow: TWITTER_ID
-		}).on("data", (listener) => this.handleTwitterStream(listener, tweetChannel));
+		}).on("data", listener => this.handleTwitterStream(listener, tweetChannel));
 	}
 
-	handleTwitterStream = async ({ id_str: id, text }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> =>  {
+	handleTwitterStream = async ({ id_str: id, text }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> => {
 		if (!text.startsWith("@")) {
 			const url = `https://twitter.com/codesupportdev/status/${id}`;
 
