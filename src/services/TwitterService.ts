@@ -34,7 +34,7 @@ class TwitterService {
 		}).on("data", this.handleTwitterStream);
 	}
 
-	private handleTwitterStream = async ({ id_str: id, text }: TwitterStreamListener): Promise<void> =>  {
+	handleTwitterStream = async ({ id_str: id, text }: TwitterStreamListener): Promise<void> =>  {
 		if (!text.startsWith("@")) {
 			const url = `https://twitter.com/codesupportdev/status/${id}`;
 
