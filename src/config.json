@@ -14,6 +14,14 @@
     "LOG_CHANNEL_ID": "405068878151024640",
     "GENERAL_CHANNEL_ID": "518817917438001152",
     "TWITTER_ID": "736875612523106304",
+    "BOTLESS_CHANNELS": {
+        "HIRING_OR_LOOKING": "328146607486795777"
+    },
+    "EMBED_COLOURS": {
+        "SUCCESS": "#35BC31",
+        "ERROR": "#BC3131",
+        "DEFAULT": "#1555B7"
+    },
     "rules": [
         {
             "name": "Asking For Help",
