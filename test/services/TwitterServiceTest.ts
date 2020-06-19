@@ -1,10 +1,12 @@
-import { createSandbox, SinonSandbox, SinonStubbedInstance } from "sinon";
+import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import Twitter from "twitter";
-import { Client as DiscordClient } from "discord.js";
+import { TextChannel } from "discord.js";
 import TwitterService from "../../src/services/TwitterService";
-import MockDiscord from "../MockDiscord";
 import * as getEnvironmentVariable from "../../src/utils/getEnvironmentVariable";
+
+// @ts-ignore - TS does not like MockDiscord not living in src/
+import MockDiscord from "../MockDiscord";
 
 describe("TwitterService", () => {
 	describe("::getInstance()", () => {
@@ -23,32 +25,68 @@ describe("TwitterService", () => {
 
 	describe("streamToDiscord()", () => {
 		let sandbox: SinonSandbox;
-		let twitter: SinonStubbedInstance<Twitter>;
 		let twitterService: TwitterService;
-		let discordClient: DiscordClient;
+		let channel: TextChannel;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			sandbox.stub(getEnvironmentVariable, "default");
-			twitter = sandbox.createStubInstance(Twitter);
 			twitterService = TwitterService.getInstance();
-			discordClient = new MockDiscord().getClient();
-		});
-
-		it("fetches the discord channel to send the message in", async () => {
-			const fetch = sandbox.stub(discordClient.channels, "fetch");
-			sandbox.stub(TwitterService.prototype, "handleTwitterStream")
-
-			await twitterService.streamToDiscord(discordClient);
-
-			expect(fetch.calledOnce).to.be.true;
+			channel = new MockDiscord().getTextChannel();
 		});
 
 		it("streams twitter for statuses/filter on the codesupportdev account", async () => {
-			sandbox.stub(TwitterService.prototype, "handleTwitterStream")
-			await twitterService.streamToDiscord(discordClient);
+			sandbox.stub(twitterService, "handleTwitterStream");
 
-			expect(twitter.stream.calledOnce).to.be.true;
+			const streamSpy = sandbox.spy(Twitter.prototype,"stream");
+
+			await twitterService.streamToDiscord(channel);
+
+			expect(streamSpy.calledOnce).to.be.true;
+		});
+
+		afterEach(() => {
+			sandbox.restore();
+		});
+	});
+
+	describe("handleTwitterStream()", () => {
+		let sandbox: SinonSandbox;
+		let twitterService: TwitterService;
+		let channel: TextChannel;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			sandbox.stub(getEnvironmentVariable, "default");
+			twitterService = TwitterService.getInstance();
+			channel = new MockDiscord().getTextChannel();
+		});
+
+		it("does not send a message if the tweet does not start with an @", async () => {
+			const send = sandbox.stub(channel, "send");
+
+			await twitterService.handleTwitterStream({
+				id_str: "",
+				text: "@This does not start with an @"
+			}, channel);
+
+			expect(send.calledOnce).to.be.false;
+		});
+
+		it("sends an embed with the tweet contents and url", async () => {
+			const send = sandbox.stub(channel, "send");
+
+			await twitterService.handleTwitterStream({
+				id_str: "tweet-id",
+				text: "This is my tweet"
+			}, channel);
+
+			expect(send.calledOnce).to.be.true;
+
+			const { embed } = send.getCall(0).args[0];
+
+			expect(embed.title).to.equal("CodeSupport Twitter");
+			expect(embed.description).to.equal("This is my tweet\n\nhttps://twitter.com/codesupportdev/status/tweet-id");
 		});
 
 		afterEach(() => {
