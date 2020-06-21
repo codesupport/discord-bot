@@ -25,13 +25,13 @@
   },
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "dependencies": {
-    "@types/twitter": "^1.7.0",
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
     "twitter": "^1.7.1",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
+    "@types/twitter": "^1.7.0",
     "@types/assert": "^1.4.6",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
