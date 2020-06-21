@@ -87,6 +87,7 @@ describe("TwitterService", () => {
 
 			expect(embed.title).to.equal("CodeSupport Twitter");
 			expect(embed.description).to.equal("This is my tweet\n\nhttps://twitter.com/codesupportdev/status/tweet-id");
+			expect(embed.hexColor).to.equal("#1555b7");
 		});
 
 		afterEach(() => {
