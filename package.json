@@ -4,7 +4,7 @@
   "description": "The CodeSupport Discord bot",
   "main": "./build/app.js",
   "scripts": {
-    "start": "node ./build/app.js",
+    "start": "node -r dotenv/config ./build/app.js",
     "build": "tsc",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit",
     "lint": "eslint src --ext .js,.ts"
