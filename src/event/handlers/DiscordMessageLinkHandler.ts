@@ -7,7 +7,7 @@ class DiscordMessageLinkHandler extends EventHandler {
 		super(Constants.Events.MESSAGE_CREATE);
 	}
 	
-	handle = async (message: Message): Promise<void> {
+	async handle(message: Message): Promise<void> {
 		const messagePreviewService = MessagePreviewService.getInstance();
 		const messageRegex = /https:\/\/(ptb\.)?discord(app)?\.com\/channels\//gm;
 
