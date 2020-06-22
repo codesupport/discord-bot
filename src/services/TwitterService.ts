@@ -1,6 +1,6 @@
 import { MessageEmbed, TextChannel } from "discord.js";
 import Twitter from "twitter";
-import { TWITTER_ID } from "../config.json";
+import { TWITTER_ID, EMBED_COLOURS } from "../config.json";
 import TwitterStreamListener from "../interfaces/TwitterStreamListener";
 import getEnvironmentVariable from "../utils/getEnvironmentVariable";
 
@@ -38,9 +38,10 @@ class TwitterService {
 			const embed = new MessageEmbed();
 
 			embed.setTitle("CodeSupport Twitter");
-			embed.setDescription(`${text}\n\n${url}`);
+			embed.setDescription(`${text.toString()}\n\n${url}`);
+			embed.setColor(EMBED_COLOURS.DEFAULT);
 
-			await tweetChannel.send({embed});
+			await tweetChannel.send({ embed });
 		}
 	}
 }
