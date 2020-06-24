@@ -63,13 +63,13 @@ describe("TwitterService", () => {
 			channel = new MockDiscord().getTextChannel();
 		});
 
-		it("does not send a message if the tweet does not start with an @", async () => {
+		it("does not send a message if the tweet starts with an @", async () => {
 			const send = sandbox.stub(channel, "send");
 
 			await twitterService.handleTwitterStream({
 				id_str: "",
 				extended_tweet: {
-					full_text: "@This does not start with an @"
+					full_text: "@This starts with an @"
 				}
 			}, channel);
 
