@@ -7,6 +7,7 @@ import * as getEnvironmentVariable from "../../src/utils/getEnvironmentVariable"
 
 // @ts-ignore - TS does not like MockDiscord not living in src/
 import MockDiscord from "../MockDiscord";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("TwitterService", () => {
 	describe("::getInstance()", () => {
@@ -38,7 +39,7 @@ describe("TwitterService", () => {
 		it("streams twitter for statuses/filter on the codesupportdev account", async () => {
 			sandbox.stub(twitterService, "handleTwitterStream");
 
-			const streamSpy = sandbox.spy(Twitter.prototype,"stream");
+			const streamSpy = sandbox.spy(Twitter.prototype, "stream");
 
 			await twitterService.streamToDiscord(channel);
 
@@ -62,12 +63,14 @@ describe("TwitterService", () => {
 			channel = new MockDiscord().getTextChannel();
 		});
 
-		it("does not send a message if the tweet does not start with an @", async () => {
+		it("does not send a message if the tweet starts with an @", async () => {
 			const send = sandbox.stub(channel, "send");
 
 			await twitterService.handleTwitterStream({
 				id_str: "",
-				text: "@This does not start with an @"
+				extended_tweet: {
+					full_text: "@This starts with an @"
+				}
 			}, channel);
 
 			expect(send.calledOnce).to.be.false;
@@ -78,7 +81,9 @@ describe("TwitterService", () => {
 
 			await twitterService.handleTwitterStream({
 				id_str: "tweet-id",
-				text: "This is my tweet"
+				extended_tweet: {
+					full_text: "This is my tweet"
+				}
 			}, channel);
 
 			expect(send.calledOnce).to.be.true;

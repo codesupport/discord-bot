@@ -31,17 +31,19 @@ class TwitterService {
 		}).on("data", listener => this.handleTwitterStream(listener, tweetChannel));
 	}
 
-	handleTwitterStream = async ({ id_str: id, text }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> => {
+	handleTwitterStream = async ({ id_str: id, extended_tweet }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> => {
+		const text = extended_tweet.full_text;
+
 		if (!text.startsWith("@")) {
 			const url = `https://twitter.com/codesupportdev/status/${id}`;
 
 			const embed = new MessageEmbed();
 
 			embed.setTitle("CodeSupport Twitter");
-			embed.setDescription(`${text}\n\n${url}`);
+			embed.setDescription(`${text.toString()}\n\n${url}`);
 			embed.setColor(EMBED_COLOURS.DEFAULT);
 
-			await tweetChannel.send({embed});
+			await tweetChannel.send({ embed });
 		}
 	}
 }
