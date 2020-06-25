@@ -10,6 +10,7 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 ### Production
 - [Discord.js](https://www.npmjs.com/package/discord.js)
 - [Axios](https://www.npmjs.com/package/axios)
+- [Twitter](https://www.npmjs.com/package/twitter)
 - [dotenv](https://www.npmjs.com/package/dotenv)
 
 ### Development
