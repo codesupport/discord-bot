@@ -27,11 +27,14 @@ class GitHubCommand extends Command {
 			try {
 				const GitHubRepo = GitHubService.getInstance();
 				const res = await GitHubRepo.getRepository(user, repoName);
+				const resPR = await GitHubRepo.getPullRequest(user, repoName);
 
-				embed.setTitle(`${res.repo} by ${res.user}`);
-				embed.setDescription(`${res.description}`);
-				embed.addField("Language", `${res.language}`);
-				embed.addField("Open issues", `${res.issues_count}`);
+				embed.setTitle(`GitHub Repository: ${res.user}/${res.repo}`);
+				embed.setDescription(`${res.description}\n\n[View on GitHub](${res.url})`);
+				embed.addField("Language", `${res.language}`, true);
+				embed.addField("Open issues", `${res.issues_and_pullrequests_count - resPR.length}`, true);
+				embed.addField("Open Pull Requests", `${resPR.length}`, true);
+				embed.setColor(EMBED_COLOURS.SUCCESS);
 
 				await message.channel.send({ embed });
 			} catch (error) {
