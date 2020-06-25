@@ -4,7 +4,7 @@ interface GitHubRepository {
 	description: string;
 	language: string;
 	url: string;
-	issues_count: number;
+	issues_and_pullrequests_count: number;
 }
 
 export default GitHubRepository;
