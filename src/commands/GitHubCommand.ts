@@ -17,7 +17,7 @@ class GitHubCommand extends Command {
 		if (!args[0] || typeof args[0] === "undefined") {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a username and repo from GitHub.");
-			embed.addField("Correct Usage", "?github <user>/<repository>");
+			embed.addField("Correct Usage", "?github <username>/<repository>");
 			embed.setColor(EMBED_COLOURS.ERROR);
 
 			await message.channel.send({ embed });
@@ -40,7 +40,7 @@ class GitHubCommand extends Command {
 			} catch (error) {
 				embed.setTitle("Error");
 				embed.setDescription("There was a problem with the request to GitHub.");
-				embed.addField("Correct Usage", "?github <user>/<repository>");
+				embed.addField("Correct Usage", "?github <username>/<repository>");
 				embed.setColor(EMBED_COLOURS.ERROR);
 
 				await message.channel.send({ embed });
