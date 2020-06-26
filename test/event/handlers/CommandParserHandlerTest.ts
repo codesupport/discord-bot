@@ -9,6 +9,7 @@ import CommandFactory from "../../../src/factories/CommandFactory";
 import CommandParserHandler from "../../../src/event/handlers/CommandParserHandler";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
 import { COMMAND_PREFIX } from "../../../src/config.json";
+import Command from "../../../src/abstracts/Command";
 
 describe("CommandParserHandler", () => {
 	describe("constructor()", () => {
@@ -90,6 +91,23 @@ describe("CommandParserHandler", () => {
 			await handler.handle(message);
 
 			expect(runCommandMock.called).to.be.false;
+		});
+
+		it("should not throw error if message consists in command prefix", async () => {
+			const message = discordMock.getMessage();
+
+			message.content = COMMAND_PREFIX;
+			message.channel.id = "fake-bot-enabled-channel-id";
+
+			let errorWasThrown = false;
+
+			try {
+				await handler.handle(message);
+			} catch (error) {
+				errorWasThrown = true;
+			}
+
+			expect(errorWasThrown).to.be.false;
 		});
 
 		it("should run command", async () => {
