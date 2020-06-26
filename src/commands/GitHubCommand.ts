@@ -14,7 +14,7 @@ class GitHubCommand extends Command {
 	async run(message: Message, args: string[]) {
 		const embed = new MessageEmbed();
 
-		if (!args[0] || typeof args[0] === "undefined") {
+		if (!args || typeof args[0] === "undefined") {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a username and repo from GitHub.");
 			embed.addField("Correct Usage", "?github <username>/<repository>");
