@@ -78,6 +78,8 @@ describe("GitHubCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("There was a problem with the request to GitHub.");
+			expect(embed.fields[0].name).to.equal("Correct Usage");
+			expect(embed.fields[0].value).to.equal("?github <username>/<repository>");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
