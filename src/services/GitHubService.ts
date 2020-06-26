@@ -40,7 +40,11 @@ class GitHubService {
 		const { data } = await axios.get(url);
 
 		if (data.length !== 0) {
-			const pullRequests = data.map((pull: any) => ({ title: pull.title, description: pull.body, author: pull.user.login }));
+			const pullRequests = data.map((pull: any) => ({
+				title: pull.title,
+				description: pull.body,
+				author: pull.user.login
+			}));
 
 			return pullRequests;
 		}
