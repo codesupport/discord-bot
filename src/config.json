@@ -35,12 +35,12 @@
         },
         {
             "name": "Be Patient",
-            "triggers": ["3", "responses", "patience"],
+            "triggers": ["3", "responses", "patience", "patient"],
             "description": "Responses to your questions are not guaranteed. The people here offer their expertise on their own time and for free."
         },
         {
             "name": "@Mentioning People",
-            "triggers": ["4", "pinging", "mentioning"],
+            "triggers": ["4", "pinging", "mentioning", "ping"],
             "description": "Do not ping a user or group regarding coding help unless you are responding to them in an existing conversation."
         },
         {
