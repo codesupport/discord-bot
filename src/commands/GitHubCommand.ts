@@ -19,8 +19,6 @@ class GitHubCommand extends Command {
 			embed.setDescription("You must provide a username and repo from GitHub.");
 			embed.addField("Correct Usage", "?github <username>/<repository>");
 			embed.setColor(EMBED_COLOURS.ERROR);
-
-			await message.channel.send({ embed });
 		} else {
 			const [user, repoName] = args[0].split("/");
 
@@ -35,17 +33,15 @@ class GitHubCommand extends Command {
 				embed.addField("Open issues", `${res.issues_and_pullrequests_count - resPR.length}`, true);
 				embed.addField("Open Pull Requests", `${resPR.length}`, true);
 				embed.setColor(EMBED_COLOURS.SUCCESS);
-
-				await message.channel.send({ embed });
 			} catch (error) {
 				embed.setTitle("Error");
 				embed.setDescription("There was a problem with the request to GitHub.");
 				embed.addField("Correct Usage", "?github <username>/<repository>");
 				embed.setColor(EMBED_COLOURS.ERROR);
-
-				await message.channel.send({ embed });
 			}
 		}
+
+		await message.channel.send({ embed });
 	}
 }
 
