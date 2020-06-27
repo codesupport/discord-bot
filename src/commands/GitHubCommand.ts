@@ -23,9 +23,9 @@ class GitHubCommand extends Command {
 			const [user, repoName] = args[0].split("/");
 
 			try {
-				const GitHubRepo = GitHubService.getInstance();
-				const res = await GitHubRepo.getRepository(user, repoName);
-				const resPR = await GitHubRepo.getPullRequest(user, repoName);
+				const GitHub = GitHubService.getInstance();
+				const res = await GitHub.getRepository(user, repoName);
+				const resPR = await GitHub.getPullRequest(user, repoName);
 
 				embed.setTitle(`GitHub Repository: ${res.user}/${res.repo}`);
 				embed.setDescription(`${res.description}\n\n[View on GitHub](${res.url})`);
