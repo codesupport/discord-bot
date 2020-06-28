@@ -64,6 +64,20 @@ describe("GitHubCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
+		it("states you must define a username and repository if the formatting is not correct", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			await command.run(message, ["wrongformat"]);
+
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("You must provide a username and repo from GitHub.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+		});
+
 		it("states it had a problem with the request to GitHub", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
