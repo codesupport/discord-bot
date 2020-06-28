@@ -36,6 +36,17 @@ describe("LogMessageDeleteHandler", () => {
 			expect(messageMock.calledOnce).to.be.true;
 		});
 
+		it("does not send a message in logs channel when message is deleted but content is empty - only image", async () => {
+			const message = discordMock.getMessage();
+			const messageMock = sandbox.stub(message.guild.channels.cache, "find");
+
+			message.content = "";
+
+			await handler.handle(message);
+
+			expect(messageMock.calledOnce).to.be.false;
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
