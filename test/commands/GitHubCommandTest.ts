@@ -53,7 +53,21 @@ describe("GitHubCommand", () => {
 		it("states you must define a username and repository if none is given", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			await command.run(message);
+			await command.run(message, []);
+
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("You must provide a username and repo from GitHub.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+		});
+
+		it("states you must define a username and repository if the formatting is not correct", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			await command.run(message, ["wrongformat"]);
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = messageMock.getCall(0).firstArg.embed;
@@ -70,7 +84,7 @@ describe("GitHubCommand", () => {
 			sandbox.stub(gitHub, "getRepository").resolves(null);
 			sandbox.stub(gitHub, "getPullRequest").resolves(null);
 
-			await command.run(message, ["thisuserdoesnotexist", "thisrepodoesnotexist"]);
+			await command.run(message, ["thisuserdoesnotexist/thisrepodoesnotexist"]);
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = messageMock.getCall(0).firstArg.embed;
@@ -103,7 +117,7 @@ describe("GitHubCommand", () => {
 				}]
 			);
 
-			await command.run(message, ["user", "repo"]);
+			await command.run(message, ["user/repo"]);
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = messageMock.getCall(0).firstArg.embed;
