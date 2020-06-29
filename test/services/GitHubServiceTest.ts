@@ -33,7 +33,10 @@ describe("GitHubService", () => {
 					description: "The repo description",
 					language: "TypeScript",
 					html_url: "https://github.com/codesupport/discord-bot",
-					open_issues_count: 1
+					open_issues_count: 1,
+					forks: 5,
+					subscribers_count: 3,
+					watchers: 10
 				}
 			});
 
