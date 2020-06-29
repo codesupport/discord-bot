@@ -21,6 +21,7 @@ class GitHubService {
 		const url = `https://api.github.com/repos/${user}/${repo}`;
 		const { status, data } = await axios.get(url);
 
+		// GitHub API has the key subscribers_count as stars and the key stars as watchers
 		if (status === 200) {
 			return {
 				user: data.owner.login,
@@ -28,7 +29,10 @@ class GitHubService {
 				description: data.description,
 				language: data.language,
 				url: data.html_url,
-				issues_and_pullrequests_count: data.open_issues_count
+				issues_and_pullrequests_count: data.open_issues_count,
+				forks: data.forks,
+				watchers: data.subscribers_count,
+				stars: data.watchers
 			};
 		} else {
 			throw new Error("There was a problem with the request to GitHub.");
