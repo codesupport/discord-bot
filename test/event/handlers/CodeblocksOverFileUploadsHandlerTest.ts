@@ -25,30 +25,54 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			sandbox = createSandbox();
 			handler = new CodeblocksOverFileUploadsHandler();
 			discordMock = new MockDiscord();
-            message = discordMock.getMessage();
+			message = discordMock.getMessage();
+			message.id = "1234";
+			message.attachments = new Collection<string, MessageAttachment>();
+			message.author = discordMock.getUser();
+			message.client.user = discordMock.getUser();
+
 		});
 
 		it("does nothing when there are no attachments.", async () => {
-            message.id = "1234";
-            message.attachments = new Collection();
-
+			message.id = "1234";
+			
             const addMock = sandbox.stub(message.channel, "send");
 
 			await handler.handle(message);
 
 			expect(addMock.calledOnce).to.be.false;
-        });
-        
-        it("sends a message and deletes the user's upload when there is an invalid attachment.", async () => {
-            message.id = "1234";
-            message.attachments = new Collection();
-            message.attachments[0] = new MessageAttachment("Wah.txt", "test.txt");
-
-            const addMock = sandbox.stub(message, "delete");
+		});
+		
+		it("does nothing when there is a valid attachment.", async () => {
+			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
+            const addMockSend = sandbox.stub(message.channel, "send");
 
 			await handler.handle(message);
 
-			expect(addMock.calledOnce).to.be.true;
+			expect(addMockSend.notCalled).to.be.true;
+		});
+        
+        it("sends a message and deletes the user's upload when there is an invalid attachment.", async () => {
+			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.cpp"));
+            const addMockSend = sandbox.stub(message.channel, "send");
+            const addMockDelete = sandbox.stub(message, "delete");
+
+			await handler.handle(message);
+
+			expect(addMockSend.calledOnce).to.be.true;
+			expect(addMockDelete.calledOnce).to.be.true;
+		});
+
+		it("deletes the message when any attachment on the message is invalid.", async () => {
+			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
+			message.attachments.set("72039095884736104", new MessageAttachment("72039095884736105", "test.cpp"));
+            const addMockSend = sandbox.stub(message.channel, "send");
+            const addMockDelete = sandbox.stub(message, "delete");
+
+			await handler.handle(message);
+
+			expect(addMockSend.calledOnce).to.be.true;
+			expect(addMockDelete.calledOnce).to.be.true;
 		});
 
 		afterEach(() => {

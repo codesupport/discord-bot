@@ -15,7 +15,6 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
                 
                 if(!allowed_file_extensions.includes(attachment.name?.split(".").pop()!))
                 {
-                    console.log(attachment.name);
                     invalidFileFlag = true;
                 }
             });
