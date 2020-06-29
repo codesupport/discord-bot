@@ -106,7 +106,10 @@ describe("GitHubCommand", () => {
 				description: "This is the description",
 				language: "TypeScript",
 				url: "https://github.com/codesupport/discord-bot",
-				issues_and_pullrequests_count: 3
+				issues_and_pullrequests_count: 3,
+				forks: 5,
+				stars: 10,
+				watchers: 3
 			});
 
 			sandbox.stub(gitHub, "getPullRequest").resolves(
@@ -131,6 +134,12 @@ describe("GitHubCommand", () => {
 			expect(embed.fields[1].value).to.equal("2");
 			expect(embed.fields[2].name).to.equal("Open Pull Requests");
 			expect(embed.fields[2].value).to.equal("1");
+			expect(embed.fields[3].name).to.equal("Forks");
+			expect(embed.fields[3].value).to.equal("5");
+			expect(embed.fields[4].name).to.equal("Stars");
+			expect(embed.fields[4].value).to.equal("10");
+			expect(embed.fields[5].name).to.equal("Watchers");
+			expect(embed.fields[5].value).to.equal("3");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
