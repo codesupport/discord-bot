@@ -8,28 +8,27 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 	}
 
 	async handle(message: Message): Promise<void> {
-        let invalidFileFlag = false;
-        if(message.attachments.size > 0)
-        {
-            message.attachments.forEach(function(attachment) {
-                
-                if(!allowed_file_extensions.includes(attachment.name?.split(".").pop()!))
-                {
-                    invalidFileFlag = true;
-                }
-            });
-            if(invalidFileFlag)
-            {
-                const embed = new MessageEmbed();
+		let invalidFileFlag = false;
 
-                embed.setTitle("Uploading Files");
-                embed.setDescription("<@" + message.author.id + "> Please use codeblocks over attachments when sending code.");
-                embed.setFooter("Type ?codeblock for more information.");
+		if (message.attachments.size > 0)		{
+			message.attachments.forEach(attachment => {
+				if (!allowed_file_extensions.includes(attachment.name?.split(".").pop()!)) {
+					invalidFileFlag = true;
+				}
+			});
+			if (invalidFileFlag)			{
+				const embed = new MessageEmbed();
 
-                await message.channel.send({ embed });
-                if(message.deletable) message.delete();
-            }
-        }
+				embed.setTitle("Uploading Files");
+				embed.setDescription(`<@${message.author.id}> Please use codeblocks over attachments when sending code.`);
+				embed.setFooter("Type ?codeblock for more information.");
+
+				await message.channel.send({ embed });
+				if (message.deletable) {
+					message.delete();
+				}
+			}
+		}
 	}
 }
 
