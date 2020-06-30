@@ -34,7 +34,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 		});
 
 		it("does nothing when there are no attachments.", async () => {
-            const addMock = sandbox.stub(message.channel, "send");
+			const addMock = sandbox.stub(message.channel, "send");
 
 			await handler.handle(message);
 
@@ -43,17 +43,17 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 		
 		it("does nothing when there is a valid attachment.", async () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
-            const addMockSend = sandbox.stub(message.channel, "send");
+			const addMockSend = sandbox.stub(message.channel, "send");
 
 			await handler.handle(message);
 
 			expect(addMockSend.notCalled).to.be.true;
 		});
-        
-        it("sends a message and deletes the user's upload when there is an invalid attachment.", async () => {
+		
+		it("sends a message and deletes the user's upload when there is an invalid attachment.", async () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.cpp"));
-            const addMockSend = sandbox.stub(message.channel, "send");
-            const addMockDelete = sandbox.stub(message, "delete");
+			const addMockSend = sandbox.stub(message.channel, "send");
+			const addMockDelete = sandbox.stub(message, "delete");
 
 			await handler.handle(message);
 
@@ -64,8 +64,8 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 		it("deletes the message when any attachment on the message is invalid.", async () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
 			message.attachments.set("72039095884736104", new MessageAttachment("72039095884736105", "test.cpp"));
-            const addMockSend = sandbox.stub(message.channel, "send");
-            const addMockDelete = sandbox.stub(message, "delete");
+			const addMockSend = sandbox.stub(message.channel, "send");
+			const addMockDelete = sandbox.stub(message, "delete");
 
 			await handler.handle(message);
 
