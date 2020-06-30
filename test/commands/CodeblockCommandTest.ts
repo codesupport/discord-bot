@@ -6,6 +6,7 @@ import { Message } from "discord.js";
 import MockDiscord from "../MockDiscord";
 import Command from "../../src/abstracts/Command";
 import CodeblockCommand from "../../src/commands/CodeblockCommand";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("CodeblockCommand", () => {
 	describe("constructor()", () => {
@@ -54,6 +55,7 @@ describe("CodeblockCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Codeblock Tutorial");
 			expect(embed.description).to.equal("Please use codeblocks when sending code.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 
 			expect(embed.fields[0].name).to.equal("Sending lots of code?");
 			expect(embed.fields[0].value).to.equal("Consider using a [GitHub Gist](http://gist.github.com).");

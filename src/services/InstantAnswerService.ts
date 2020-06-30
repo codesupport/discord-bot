@@ -17,28 +17,32 @@ class InstantAnswerService {
 		return this.instance;
 	}
 
-	async query(query: string): Promise<InstantAnswer> {
+	async query(query: string): Promise<InstantAnswer | null> {
 		const url = `https://api.duckduckgo.com/?q=${query}&format=json&t=codesupport-discord-bot`;
 		const { status, data } = await axios.get(url);
 
-		if (status === 200 && data.Heading !== "") {
-			const [language] = INSTANT_ANSWER_HIGHLIGHTS.map(highlight =>
-				data.Heading.toLowerCase().includes(highlight) && highlight
-			);
+		if (status === 200) {
+			if (data.Heading !== "") {
+				const [language] = INSTANT_ANSWER_HIGHLIGHTS.map(highlight =>
+					data.Heading.toLowerCase().includes(highlight) && highlight
+				);
 
-			const description = data.AbstractText
-				.replace(/<code>/g, `\`\`\`${language}\n`)
-				.replace(/<\/code>/g, "```")
-				.replace(/<\/?[^>]+(>|$)/g, "")
-				.replace(/&#x27;/g, "\"")
-				.replace(/&lt;/g, "<")
-				.replace(/&gt;/g, ">");
+				const description = data.AbstractText
+					.replace(/<code>/g, `\`\`\`${language}\n`)
+					.replace(/<\/code>/g, "```")
+					.replace(/<\/?[^>]+(>|$)/g, "")
+					.replace(/&#x27;/g, "\"")
+					.replace(/&lt;/g, "<")
+					.replace(/&gt;/g, ">");
 
-			return {
-				heading: data.Heading,
-				description,
-				url: data.AbstractURL
-			};
+				return {
+					heading: data.Heading,
+					description,
+					url: data.AbstractURL
+				};
+			}
+
+			return null;
 		} else {
 			throw new Error("There was a problem with the DuckDuckGo API.");
 		}
