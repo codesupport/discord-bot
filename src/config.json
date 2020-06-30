@@ -9,13 +9,6 @@
         "css"
     ],
     "PRODUCTION_ENV": "production",
-    "ALLOWED_FILE_EXTENSIONS": [
-        "jpg",
-        "jpeg",
-        "png",
-        "gif",
-        "mp4"
-    ],
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",
     "LOG_CHANNEL_ID": "405068878151024640",
@@ -29,6 +22,13 @@
         "ERROR": "#BC3131",
         "DEFAULT": "#1555B7"
     },
+    "ALLOWED_FILE_EXTENSIONS": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "mp4"
+    ],
     "rules": [
         {
             "name": "Asking For Help",
@@ -42,12 +42,12 @@
         },
         {
             "name": "Be Patient",
-            "triggers": ["3", "responses", "patience"],
+            "triggers": ["3", "responses", "patience", "patient"],
             "description": "Responses to your questions are not guaranteed. The people here offer their expertise on their own time and for free."
         },
         {
             "name": "@Mentioning People",
-            "triggers": ["4", "pinging", "mentioning"],
+            "triggers": ["4", "pinging", "mentioning", "ping"],
             "description": "Do not ping a user or group regarding coding help unless you are responding to them in an existing conversation."
         },
         {
