@@ -34,8 +34,6 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 		});
 
 		it("does nothing when there are no attachments.", async () => {
-			message.id = "1234";
-			
             const addMock = sandbox.stub(message.channel, "send");
 
 			await handler.handle(message);

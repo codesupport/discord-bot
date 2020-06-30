@@ -1,6 +1,6 @@
 import { Constants, MessageEmbed, Message } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
-import { allowed_file_extensions } from "../../config.json";
+import { ALLOWED_FILE_EXTENSIONS } from "../../config.json";
 
 class CodeblocksOverFileUploadsHandler extends EventHandler {
 	constructor() {
@@ -10,13 +10,14 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 	async handle(message: Message): Promise<void> {
 		let invalidFileFlag = false;
 
-		if (message.attachments.size > 0)		{
+		if (message.attachments.size > 0) {
 			message.attachments.forEach(attachment => {
-				if (!allowed_file_extensions.includes(attachment.name?.split(".").pop()!)) {
+				if (!ALLOWED_FILE_EXTENSIONS.includes(attachment.name?.split(".").pop()!)) {
 					invalidFileFlag = true;
 				}
 			});
-			if (invalidFileFlag)			{
+
+			if (invalidFileFlag) {
 				const embed = new MessageEmbed();
 
 				embed.setTitle("Uploading Files");

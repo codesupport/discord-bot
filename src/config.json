@@ -9,7 +9,7 @@
         "css"
     ],
     "PRODUCTION_ENV": "production",
-    "allowed_file_extensions": [
+    "ALLOWED_FILE_EXTENSIONS": [
         "jpg",
         "jpeg",
         "png",
