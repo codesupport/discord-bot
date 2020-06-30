@@ -4,7 +4,7 @@
   "description": "The CodeSupport Discord bot",
   "main": "./build/app.js",
   "scripts": {
-    "start": "node ./build/app.js",
+    "start": "node -r dotenv/config ./build/app.js",
     "build": "tsc",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit",
     "lint": "eslint src --ext .js,.ts"
@@ -26,9 +26,12 @@
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "discord.js": "^12.2.0"
+    "discord.js": "^12.2.0",
+    "twitter": "^1.7.1",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
+    "@types/twitter": "^1.7.0",
     "@types/assert": "^1.4.6",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",

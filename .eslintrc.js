@@ -13,6 +13,8 @@ module.exports = {
     },
     rules: {
         "no-unused-vars": "off",
+        "no-invalid-this": "off",
+        "curly": ["error", "multi-line"],
         "lines-between-class-members": "off",
         "space-before-function-paren": ["error", {
             "anonymous": "never",
