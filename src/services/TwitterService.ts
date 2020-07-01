@@ -28,20 +28,35 @@ class TwitterService {
 	streamToDiscord = async (tweetChannel: TextChannel): Promise<void> => {
 		this.twitter.stream("statuses/filter", {
 			follow: TWITTER_ID
-		}).on("data", listener => this.handleTwitterStream(listener, tweetChannel));
+		}).on("data", listener => {
+			console.log(listener);
+			return this.handleTwitterStream(listener, tweetChannel);
+		});
 	}
 
-	handleTwitterStream = async ({ id_str: id, extended_tweet }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> => {
-		const text = extended_tweet.full_text;
+	handleTwitterStream = async ({ id_str: id, text, extended_tweet }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> => {
+		const embed = new MessageEmbed();
 
-		if (!text.startsWith("@")) {
-			const url = `https://twitter.com/codesupportdev/status/${id}`;
+		try {
+			let tweet = text;
 
-			const embed = new MessageEmbed();
+			if (extended_tweet) {
+				tweet = extended_tweet.full_text;
+			}
 
-			embed.setTitle("CodeSupport Twitter");
-			embed.setDescription(`${text.toString()}\n\n${url}`);
-			embed.setColor(EMBED_COLOURS.DEFAULT);
+			if (!tweet.startsWith("@")) {
+				const url = `https://twitter.com/codesupportdev/status/${id}`;
+
+				embed.setTitle("CodeSupport Twitter");
+				embed.setDescription(`${tweet.toString()}\n\n${url}`);
+				embed.setColor(EMBED_COLOURS.DEFAULT);
+
+				await tweetChannel.send({ embed });
+			}
+		} catch (error) {
+			embed.setTitle("Error");
+			embed.setDescription(error);
+			embed.setColor(EMBED_COLOURS.ERROR);
 
 			await tweetChannel.send({ embed });
 		}

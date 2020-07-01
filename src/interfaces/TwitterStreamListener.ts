@@ -1,6 +1,7 @@
 interface TwitterStreamListener {
 	id_str: string;
-	extended_tweet: {
+	text: string;
+	extended_tweet?: {
 		full_text: string;
 	};
 }
