@@ -1,6 +1,6 @@
 import { MessageEmbed, TextChannel } from "discord.js";
 import Twitter from "twitter";
-import { TWITTER_ID, EMBED_COLOURS, LOG_CHANNEL_ID } from "../config.json";
+import { TWITTER_ID, EMBED_COLOURS } from "../config.json";
 import TwitterStreamListener from "../interfaces/TwitterStreamListener";
 import getEnvironmentVariable from "../utils/getEnvironmentVariable";
 
