@@ -1,6 +1,6 @@
 import { MessageEmbed, TextChannel } from "discord.js";
 import Twitter from "twitter";
-import { TWITTER_ID, EMBED_COLOURS } from "../config.json";
+import { TWITTER_ID, EMBED_COLOURS, LOG_CHANNEL_ID } from "../config.json";
 import TwitterStreamListener from "../interfaces/TwitterStreamListener";
 import getEnvironmentVariable from "../utils/getEnvironmentVariable";
 
@@ -36,27 +36,18 @@ class TwitterService {
 
 	handleTwitterStream = async ({ id_str: id, text, extended_tweet }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> => {
 		const embed = new MessageEmbed();
+		let tweet = text;
 
-		try {
-			let tweet = text;
+		if (extended_tweet) {
+			tweet = extended_tweet.full_text;
+		}
 
-			if (extended_tweet) {
-				tweet = extended_tweet.full_text;
-			}
+		if (!tweet.startsWith("@")) {
+			const url = `https://twitter.com/codesupportdev/status/${id}`;
 
-			if (!tweet.startsWith("@")) {
-				const url = `https://twitter.com/codesupportdev/status/${id}`;
-
-				embed.setTitle("CodeSupport Twitter");
-				embed.setDescription(`${tweet.toString()}\n\n${url}`);
-				embed.setColor(EMBED_COLOURS.DEFAULT);
-
-				await tweetChannel.send({ embed });
-			}
-		} catch (error) {
-			embed.setTitle("Error");
-			embed.setDescription(error);
-			embed.setColor(EMBED_COLOURS.ERROR);
+			embed.setTitle("CodeSupport Twitter");
+			embed.setDescription(`${tweet.toString()}\n\n${url}`);
+			embed.setColor(EMBED_COLOURS.DEFAULT);
 
 			await tweetChannel.send({ embed });
 		}

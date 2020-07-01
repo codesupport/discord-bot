@@ -111,22 +111,6 @@ describe("TwitterService", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLocaleLowerCase());
 		});
 
-		it("sends an embed with the error", async () => {
-			const send = sandbox.stub(channel, "send");
-
-			await twitterService.handleTwitterStream({
-				id_str: undefined,
-				text: undefined
-			}, channel);
-
-			expect(send.calledOnce).to.be.true;
-
-			const { embed } = send.getCall(0).args[0];
-
-			expect(embed.title).to.equal("Error");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLocaleLowerCase());
-		});
-
 		afterEach(() => {
 			sandbox.restore();
 		});
