@@ -88,7 +88,7 @@ describe("TwitterService", () => {
 
 			expect(embed.title).to.equal("CodeSupport Twitter");
 			expect(embed.description).to.equal("This is my tweet\n\nhttps://twitter.com/codesupportdev/status/tweet-id");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLocaleLowerCase());
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		it("sends an embed with the tweet contents and url using the extended_tweet property", async () => {
@@ -108,7 +108,7 @@ describe("TwitterService", () => {
 
 			expect(embed.title).to.equal("CodeSupport Twitter");
 			expect(embed.description).to.equal("The fundamentals of programming give you a solid foundation for building more complex applications. Without having a good understanding of them, you'll likely lose motivation and get discouraged.\n\nhttps://twitter.com/codesupportdev/status/tweet-id");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLocaleLowerCase());
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		afterEach(() => {
