@@ -14,7 +14,10 @@ class GitHubCommand extends Command {
 	async run(message: Message, args: string[]) {
 		const embed = new MessageEmbed();
 
-		if (!args || typeof args[0] === "undefined") {
+		const hasNoArgs = !args || typeof args[0] === "undefined";
+		const notCorrectFormat = !args[0]?.includes("/");
+
+		if (hasNoArgs || notCorrectFormat) {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a username and repo from GitHub.");
 			embed.addField("Correct Usage", "?github <username>/<repository>");
@@ -29,9 +32,12 @@ class GitHubCommand extends Command {
 
 				embed.setTitle(`GitHub Repository: ${res.user}/${res.repo}`);
 				embed.setDescription(`${res.description}\n\n[View on GitHub](${res.url})`);
-				embed.addField("Language", `${res.language}`, true);
-				embed.addField("Open issues", `${res.issues_and_pullrequests_count - resPR.length}`, true);
-				embed.addField("Open Pull Requests", `${resPR.length}`, true);
+				embed.addField("Language", res.language, true);
+				embed.addField("Open issues", res.issues_and_pullrequests_count - resPR.length, true);
+				embed.addField("Open Pull Requests", resPR.length, true);
+				embed.addField("Forks", res.forks, true);
+				embed.addField("Stars", res.stars, true);
+				embed.addField("Watchers", res.watchers, true);
 				embed.setColor(EMBED_COLOURS.SUCCESS);
 			} catch (error) {
 				embed.setTitle("Error");

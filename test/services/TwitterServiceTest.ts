@@ -68,9 +68,7 @@ describe("TwitterService", () => {
 
 			await twitterService.handleTwitterStream({
 				id_str: "",
-				extended_tweet: {
-					full_text: "@This starts with an @"
-				}
+				text: "@This starts with an @"
 			}, channel);
 
 			expect(send.calledOnce).to.be.false;
@@ -81,9 +79,7 @@ describe("TwitterService", () => {
 
 			await twitterService.handleTwitterStream({
 				id_str: "tweet-id",
-				extended_tweet: {
-					full_text: "This is my tweet"
-				}
+				text: "This is my tweet"
 			}, channel);
 
 			expect(send.calledOnce).to.be.true;
@@ -92,7 +88,27 @@ describe("TwitterService", () => {
 
 			expect(embed.title).to.equal("CodeSupport Twitter");
 			expect(embed.description).to.equal("This is my tweet\n\nhttps://twitter.com/codesupportdev/status/tweet-id");
-			expect(embed.hexColor).to.equal("#1555b7");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+		});
+
+		it("sends an embed with the tweet contents and url using the extended_tweet property", async () => {
+			const send = sandbox.stub(channel, "send");
+
+			await twitterService.handleTwitterStream({
+				id_str: "tweet-id",
+				text: "This is a test tweet that I stole from codesupport's twitter.",
+				extended_tweet: {
+					full_text: "The fundamentals of programming give you a solid foundation for building more complex applications. Without having a good understanding of them, you'll likely lose motivation and get discouraged."
+				}
+			}, channel);
+
+			expect(send.calledOnce).to.be.true;
+
+			const { embed } = send.getCall(0).args[0];
+
+			expect(embed.title).to.equal("CodeSupport Twitter");
+			expect(embed.description).to.equal("The fundamentals of programming give you a solid foundation for building more complex applications. Without having a good understanding of them, you'll likely lose motivation and get discouraged.\n\nhttps://twitter.com/codesupportdev/status/tweet-id");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		afterEach(() => {

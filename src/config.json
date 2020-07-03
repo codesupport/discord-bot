@@ -22,6 +22,13 @@
         "ERROR": "#BC3131",
         "DEFAULT": "#1555B7"
     },
+    "ALLOWED_FILE_EXTENSIONS": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "mp4"
+    ],
     "rules": [
         {
             "name": "Asking For Help",
