@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import {Constants, Message, Collection, MessageAttachment} from "discord.js";
+import { Constants, Message, Collection, MessageAttachment } from "discord.js";
 import CodeblocksOverFileUploadsHandler from "../../../src/event/handlers/CodeblocksOverFileUploadsHandler";
 import { SinonSandbox, createSandbox } from "sinon";
-import {EMBED_COLOURS } from "../../../src/config.json";
+import { EMBED_COLOURS } from "../../../src/config.json";
 import EventHandler from "../../../src/abstracts/EventHandler";
 // @ts-ignore - TS does not like MockDiscord not living in src/
 import MockDiscord from "../../MockDiscord";
