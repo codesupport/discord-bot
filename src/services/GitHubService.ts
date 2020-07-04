@@ -1,6 +1,7 @@
 import axios from "axios";
 import GitHubRepository from "../interfaces/GitHubRepository";
 import GitHubPullRequest from "../interfaces/GitHubPullRequest";
+import GitHubIssue from "../interfaces/GitHubIssue";
 
 class GitHubService {
 	private static instance: GitHubService;
@@ -51,6 +52,28 @@ class GitHubService {
 			}));
 
 			return pullRequests;
+		}
+
+		return [];
+	}
+
+	async getIssues(user: string, repo: string): Promise<GitHubIssue[]> {
+		const url = `https://api.github.com/repos/${user}/${repo}/issues`;
+
+		const { data } = await axios.get(url);
+
+		if (data.length !== 0) {
+			const issues = data.filter((issueAndPr: any) => !issueAndPr.pull_request)
+				.slice(0, 3)
+				.map((issue: any) => ({
+					title: issue.title,
+					author: issue.user.login,
+					author_url: issue.user.html_url,
+					issue_url: issue.html_url,
+					created_at: new Date(issue.created_at)
+				}));
+
+			return issues;
 		}
 
 		return [];
