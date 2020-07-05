@@ -64,7 +64,6 @@ class GitHubService {
 
 		if (data.length !== 0) {
 			const issues = data.filter((issueAndPr: any) => !issueAndPr.pull_request)
-				.slice(0, 3)
 				.map((issue: any) => ({
 					title: issue.title,
 					author: issue.user.login,
