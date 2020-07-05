@@ -13,7 +13,7 @@ describe("GitHubService", () => {
 		});
 	});
 
-	describe("getRepository", () => {
+	describe("getRepository()", () => {
 		let sandbox: SinonSandbox;
 		let gitHub: GitHubService;
 
@@ -66,7 +66,7 @@ describe("GitHubService", () => {
 		});
 	});
 
-	describe("getPullRequest", () => {
+	describe("getPullRequest()", () => {
 		let sandbox: SinonSandbox;
 		let gitHub: GitHubService;
 
@@ -110,7 +110,7 @@ describe("GitHubService", () => {
 		});
 	});
 
-	describe("getIssues", () => {
+	describe("getIssues()", () => {
 		let sandbox: SinonSandbox;
 		let gitHub: GitHubService;
 

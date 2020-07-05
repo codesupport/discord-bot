@@ -136,7 +136,7 @@ describe("IssuesCommand", () => {
 					author: "user",
 					author_url: "https://github.com/user",
 					issue_url: "https://github.com/codesupport/discord-bot/issues/69",
-					created_at: new Date(Date.now() + 1000)
+					created_at: new Date(Date.now() - 1000)
 				}]
 			);
 
