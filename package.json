@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config ./build/app.js",
     "build": "tsc",
+    "coverge": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit",
     "lint": "eslint src --ext .js,.ts"
   },
@@ -31,12 +32,13 @@
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "@types/twitter": "^1.7.0",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/assert": "^1.4.6",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.4",
     "@types/sinon": "^9.0.0",
+    "@types/twitter": "^1.7.0",
     "@types/ws": "^7.2.4",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
@@ -44,6 +46,7 @@
     "eslint": "^6.8.0",
     "eslint-config-codesupport": "^1.0.2",
     "mocha": "^7.1.2",
+    "nyc": "^15.1.0",
     "sinon": "^9.0.2",
     "ts-mocha": "^7.0.0",
     "typescript": "^3.8.3"
