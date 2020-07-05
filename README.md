@@ -1,6 +1,7 @@
 # CodeSupport Discord Bot
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c4b521b72b784a1ca31b0ed058271656)](https://app.codacy.com/gh/codesupport/discord-bot?utm_source=github.com&utm_medium=referral&utm_content=codesupport/discord-bot&utm_campaign=Badge_Grade_Settings)
+[![Codacy Code Quality Badge](https://api.codacy.com/project/badge/Grade/c4b521b72b784a1ca31b0ed058271656)](https://app.codacy.com/gh/codesupport/discord-bot?utm_source=github.com&utm_medium=referral&utm_content=codesupport/discord-bot&utm_campaign=Badge_Grade_Settings)
+[![Codacy Code Coverage Badge](https://app.codacy.com/project/badge/Coverage/e1a3878449c04c4ca227ecbb0377be04)](https://www.codacy.com/gh/codesupport/discord-bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codesupport/discord-bot&amp;utm_campaign=Badge_Coverage)
 
 ## About
 This repository contains the code for the CodeSupport Discord Bot. The project is written in TypeScript using the Discord.js module for interaction with the Discord API.
