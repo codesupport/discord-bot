@@ -2,3 +2,6 @@
 build/
 node_modules/
 .env
+.nyc_output/
+coverage/
+.codacy-coverage/

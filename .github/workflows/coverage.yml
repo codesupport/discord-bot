@@ -1,0 +1,15 @@
+name: coverage
+on:
+  push:
+    branches:
+      - master
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Send Coverage Report To Codacy
+        run: |
+          npm i
+          npm run coverage
+          CODACY_PROJECT_TOKEN=${{ secrets.CODACY_SECRET }} bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/lcov.info
