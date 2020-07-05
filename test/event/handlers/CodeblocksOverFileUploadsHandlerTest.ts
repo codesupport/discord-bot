@@ -1,7 +1,8 @@
 import { expect } from "chai";
-import {Constants, Message, Collection, MessageAttachment} from "discord.js";
+import { Constants, Message, Collection, MessageAttachment } from "discord.js";
 import CodeblocksOverFileUploadsHandler from "../../../src/event/handlers/CodeblocksOverFileUploadsHandler";
 import { SinonSandbox, createSandbox } from "sinon";
+import { EMBED_COLOURS } from "../../../src/config.json";
 import EventHandler from "../../../src/abstracts/EventHandler";
 // @ts-ignore - TS does not like MockDiscord not living in src/
 import MockDiscord from "../../MockDiscord";
@@ -45,8 +46,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
 			const addMockSend = sandbox.stub(message.channel, "send");
 
-			await handler.handle(message);
-
+			await handler.handle(message);			
 			expect(addMockSend.notCalled).to.be.true;
 		});
 		
@@ -56,9 +56,14 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			const addMockDelete = sandbox.stub(message, "delete");
 
 			await handler.handle(message);
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = addMockSend.getCall(0).firstArg.embed;
 
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Uploading Files");
+			expect(embed.description).to.equal("<@user-id> Please use codeblocks over attachments when sending code.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		it("deletes the message when any attachment on the message is invalid.", async () => {
@@ -69,8 +74,14 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 
 			await handler.handle(message);
 
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = addMockSend.getCall(0).firstArg.embed;
+
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Uploading Files");
+			expect(embed.description).to.equal("<@user-id> Please use codeblocks over attachments when sending code.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		afterEach(() => {

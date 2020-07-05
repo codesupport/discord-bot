@@ -13,7 +13,7 @@ describe("GitHubService", () => {
 		});
 	});
 
-	describe("getRepository", () => {
+	describe("getRepository()", () => {
 		let sandbox: SinonSandbox;
 		let gitHub: GitHubService;
 
@@ -66,7 +66,7 @@ describe("GitHubService", () => {
 		});
 	});
 
-	describe("getPullRequest", () => {
+	describe("getPullRequest()", () => {
 		let sandbox: SinonSandbox;
 		let gitHub: GitHubService;
 
@@ -100,6 +100,52 @@ describe("GitHubService", () => {
 			});
 
 			const result = await gitHub.getPullRequest("user", "repo");
+
+			expect(axiosGet.called).to.be.true;
+			expect(result).to.have.length(0);
+		});
+
+		afterEach(() => {
+			sandbox.restore();
+		});
+	});
+
+	describe("getIssues()", () => {
+		let sandbox: SinonSandbox;
+		let gitHub: GitHubService;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			gitHub = GitHubService.getInstance();
+		});
+
+		it("performs a GET request to the GitHub issues API", async () => {
+			const axiosGet = sandbox.stub(axios, "get").resolves({
+				status: 200,
+				data: [{
+					title: "This is a title",
+					user: {
+						login: "user",
+						html_url: "https://github.com/user/"
+					},
+					html_url: "https://github.com/codesupport/discord-bot",
+					created_at: "2020-01-01T12:00:00Z"
+				}]
+			});
+
+			const result = await gitHub.getIssues("user", "repo");
+
+			expect(axiosGet.called).to.be.true;
+			expect(result).to.have.length(1);
+		});
+
+		it("returns an empty array if there are no issues", async () => {
+			const axiosGet = sandbox.stub(axios, "get").resolves({
+				status: 200,
+				data: []
+			});
+
+			const result = await gitHub.getIssues("user", "repo");
 
 			expect(axiosGet.called).to.be.true;
 			expect(result).to.have.length(0);

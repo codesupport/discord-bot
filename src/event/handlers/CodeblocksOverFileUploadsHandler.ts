@@ -1,6 +1,6 @@
 import { Constants, MessageEmbed, Message } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
-import { ALLOWED_FILE_EXTENSIONS } from "../../config.json";
+import { ALLOWED_FILE_EXTENSIONS, EMBED_COLOURS } from "../../config.json";
 
 class CodeblocksOverFileUploadsHandler extends EventHandler {
 	constructor() {
@@ -23,6 +23,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				embed.setTitle("Uploading Files");
 				embed.setDescription(`<@${message.author.id}> Please use codeblocks over attachments when sending code.`);
 				embed.setFooter("Type ?codeblock for more information.");
+				embed.setColor(EMBED_COLOURS.DEFAULT);
 
 				await message.channel.send({ embed });
 				if (message.deletable) {
