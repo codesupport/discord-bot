@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config ./build/app.js",
     "build": "tsc",
-    "coverge": "nyc --reporter=lcov --reporter=text-summary npm test",
+    "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit",
     "lint": "eslint src --ext .js,.ts"
   },
