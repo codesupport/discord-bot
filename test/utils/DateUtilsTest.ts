@@ -3,7 +3,7 @@ import { expect } from "chai";
 import DateUtils from "../../src/utils/DateUtils";
 
 describe("DateUtils", () => {
-	describe("getDaysBetweenDates()", () => {
+	describe("::getDaysBetweenDates()", () => {
 		it("returns 0 if it's on the same date", () => {
 			const days = DateUtils.getDaysBetweenDates(new Date("2020-01-01"), new Date("2020-01-01"));
 
@@ -17,7 +17,7 @@ describe("DateUtils", () => {
 		});
 	});
 
-	describe("getDaysBetweenDates()", () => {
+	describe("::formatDaysAgo()", () => {
 		it("throws an error on a negative number", () => {
 			try {
 				DateUtils.formatDaysAgo(-1);
@@ -29,19 +29,19 @@ describe("DateUtils", () => {
 		it("returns Today if parameter is 0", () => {
 			const text = DateUtils.formatDaysAgo(0);
 
-			expect(text).to.be.equal("Today");
+			expect(text).to.be.equal("today");
 		});
 
 		it("returns Yesterday if parameter is 1", () => {
 			const text = DateUtils.formatDaysAgo(1);
 
-			expect(text).to.be.equal("Yesterday");
+			expect(text).to.be.equal("yesterday");
 		});
 
-		it("returns 3 day(s) ago if paramater is 3", () => {
+		it("returns 3 days ago if paramater is 3", () => {
 			const text = DateUtils.formatDaysAgo(3);
 
-			expect(text).to.be.equal("3 day(s) ago");
+			expect(text).to.be.equal("3 days ago");
 		});
 	});
 });
