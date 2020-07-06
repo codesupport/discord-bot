@@ -4,6 +4,7 @@ import GitHubService from "../services/GitHubService";
 import { EMBED_COLOURS } from "../config.json";
 import GitHubIssue from "../interfaces/GitHubIssue";
 import DateUtils from "../utils/DateUtils";
+import StringUtils from "../utils/StringUtils";
 
 class IssuesCommand extends Command {
 	constructor() {
@@ -40,7 +41,7 @@ class IssuesCommand extends Command {
 
 					issues.forEach((issue: GitHubIssue) => {
 						const days = DateUtils.getDaysBetweenDates(new Date(Date.now()), issue.created_at);
-						const daysText = DateUtils.formatDaysAgo(days);
+						const daysText = StringUtils.capitalise(DateUtils.formatDaysAgo(days));
 
 						embed.addField(`#${issue.number} - ${issue.title}`, `View on [GitHub](${issue.issue_url}) - ${daysText} by [${issue.author}](${issue.author_url})`);
 					});
