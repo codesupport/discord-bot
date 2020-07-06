@@ -3,7 +3,7 @@ import Command from "../abstracts/Command";
 import GitHubService from "../services/GitHubService";
 import { EMBED_COLOURS } from "../config.json";
 import GitHubIssue from "../interfaces/GitHubIssue";
-import getDaysBetweenDates from "../utils/getDaysBetweenDates";
+import DateUtils from "../utils/DateUtils";
 
 class IssuesCommand extends Command {
 	constructor() {
@@ -36,12 +36,13 @@ class IssuesCommand extends Command {
 					const issues = resIssues.slice(0, 3);
 
 					embed.setTitle(`GitHub Issues: ${user}/${repoName}`);
-					embed.setDescription(`${resRep.description}\n\n[View Issues on GitHub](${resRep.url}/issues) - [Create one](${resRep.url}/issues/new)`);
+					embed.setDescription(`${resRep.description}\n\n[View Issues on GitHub](${resRep.url}/issues) - [Create An Issue](${resRep.url}/issues/new)`);
 
 					issues.forEach((issue: GitHubIssue) => {
-						const days = getDaysBetweenDates(new Date(Date.now()), issue.created_at);
+						const days = DateUtils.getDaysBetweenDates(new Date(Date.now()), issue.created_at);
+						const daysText = DateUtils.formatDaysAgo(days);
 
-						embed.addField(issue.title, `View on [GitHub](${issue.issue_url}) - ${days} day(s) ago by [${issue.author}](${issue.author_url})`);
+						embed.addField(`#${issue.number} - ${issue.title}`, `View on [GitHub](${issue.issue_url}) - ${daysText} by [${issue.author}](${issue.author_url})`);
 					});
 
 					embed.setColor(EMBED_COLOURS.SUCCESS);
