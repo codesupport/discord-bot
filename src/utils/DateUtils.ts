@@ -6,6 +6,7 @@ class DateUtils {
 	}
 
 	static formatDaysAgo(days: number): string {
+		if (days < 0) throw new Error("Number has to be positive");
 		if (days === 0) return "Today";
 		if (days === 1) return "Yesterday";
 		return `${days} day(s) ago`;
