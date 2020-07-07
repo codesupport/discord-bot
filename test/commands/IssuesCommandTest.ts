@@ -133,6 +133,7 @@ describe("IssuesCommand", () => {
 			sandbox.stub(gitHub, "getIssues").resolves(
 				[{
 					title: "This is the title",
+					number: 69,
 					author: "user",
 					author_url: "https://github.com/user",
 					issue_url: "https://github.com/codesupport/discord-bot/issues/69",
@@ -159,9 +160,9 @@ describe("IssuesCommand", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("GitHub Issues: user/repo");
-			expect(embed.description).to.equal("This is the description\n\n[View Issues on GitHub](https://github.com/codesupport/discord-bot/issues) - [Create one](https://github.com/codesupport/discord-bot/issues/new)");
-			expect(embed.fields[0].name).to.equal("This is the title");
-			expect(embed.fields[0].value).to.equal("View on [GitHub](https://github.com/codesupport/discord-bot/issues/69) - 1 day(s) ago by [user](https://github.com/user)");
+			expect(embed.description).to.equal("This is the description\n\n[View Issues on GitHub](https://github.com/codesupport/discord-bot/issues) - [Create An Issue](https://github.com/codesupport/discord-bot/issues/new)");
+			expect(embed.fields[0].name).to.equal("#69 - This is the title");
+			expect(embed.fields[0].value).to.equal("View on [GitHub](https://github.com/codesupport/discord-bot/issues/69) - Today by [user](https://github.com/user)");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
