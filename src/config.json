@@ -27,6 +27,7 @@
         "jpeg",
         "png",
         "gif",
+        "mp3",
         "mp4"
     ],
     "rules": [
