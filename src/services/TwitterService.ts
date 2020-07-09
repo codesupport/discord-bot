@@ -34,10 +34,11 @@ class TwitterService {
 	handleTwitterStream = async ({ id_str: id, text, user, retweeted_status, extended_tweet }: TwitterStreamListener, tweetChannel: TextChannel): Promise<void> => {
 		const embed = new MessageEmbed();
 		const tweet = extended_tweet?.full_text || text;
+		const tweetId = retweeted_status?.id_str || id;
 		const retweetFromCodeSupport = retweeted_status && user?.id_str === TWITTER_ID ? true : false;
 
-		if (!tweet.startsWith("@") || retweetFromCodeSupport) {
-			const url = `https://twitter.com/codesupportdev/status/${id}`;
+		if (!tweet.startsWith("@") && !tweet.startsWith("RT") || retweetFromCodeSupport) {
+			const url = `https://twitter.com/codesupportdev/status/${tweetId}`;
 
 			embed.setTitle("CodeSupport Twitter");
 			embed.setDescription(`${tweet.toString()}\n\n${url}`);
