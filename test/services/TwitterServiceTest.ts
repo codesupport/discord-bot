@@ -7,7 +7,7 @@ import * as getEnvironmentVariable from "../../src/utils/getEnvironmentVariable"
 
 // @ts-ignore - TS does not like MockDiscord not living in src/
 import MockDiscord from "../MockDiscord";
-import { EMBED_COLOURS } from "../../src/config.json";
+import { EMBED_COLOURS, TWITTER_ID } from "../../src/config.json";
 
 describe("TwitterService", () => {
 	describe("::getInstance()", () => {
@@ -68,7 +68,27 @@ describe("TwitterService", () => {
 
 			await twitterService.handleTwitterStream({
 				id_str: "",
-				text: "@This starts with an @"
+				text: "@This starts with an @",
+				user: {
+					id_str: ""
+				}
+			}, channel);
+
+			expect(send.calledOnce).to.be.false;
+		});
+
+		it("does not send a message if the retweet is not from the CodeSupport account", async () => {
+			const send = sandbox.stub(channel, "send");
+
+			await twitterService.handleTwitterStream({
+				id_str: "",
+				text: "RT @user",
+				user: {
+					id_str: "1"
+				},
+				retweeted_status: {
+					id_str: ""
+				}
 			}, channel);
 
 			expect(send.calledOnce).to.be.false;
@@ -79,7 +99,10 @@ describe("TwitterService", () => {
 
 			await twitterService.handleTwitterStream({
 				id_str: "tweet-id",
-				text: "This is my tweet"
+				text: "This is my tweet",
+				user: {
+					id_str: ""
+				}
 			}, channel);
 
 			expect(send.calledOnce).to.be.true;
@@ -97,6 +120,9 @@ describe("TwitterService", () => {
 			await twitterService.handleTwitterStream({
 				id_str: "tweet-id",
 				text: "This is a test tweet that I stole from codesupport's twitter.",
+				user: {
+					id_str: ""
+				},
 				extended_tweet: {
 					full_text: "The fundamentals of programming give you a solid foundation for building more complex applications. Without having a good understanding of them, you'll likely lose motivation and get discouraged."
 				}
@@ -108,6 +134,29 @@ describe("TwitterService", () => {
 
 			expect(embed.title).to.equal("CodeSupport Twitter");
 			expect(embed.description).to.equal("The fundamentals of programming give you a solid foundation for building more complex applications. Without having a good understanding of them, you'll likely lose motivation and get discouraged.\n\nhttps://twitter.com/codesupportdev/status/tweet-id");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+		});
+
+		it("sends an embed with the retweeted contents and url", async () => {
+			const send = sandbox.stub(channel, "send");
+
+			await twitterService.handleTwitterStream({
+				id_str: "tweet-id",
+				text: "RT @user: This is my tweet",
+				user: {
+					id_str: TWITTER_ID
+				},
+				retweeted_status: {
+					id_str: "retweeted-id"
+				}
+			}, channel);
+
+			expect(send.calledOnce).to.be.true;
+
+			const { embed } = send.getCall(0).args[0];
+
+			expect(embed.title).to.equal("CodeSupport Twitter");
+			expect(embed.description).to.equal("RT @user: This is my tweet\n\nhttps://twitter.com/codesupportdev/status/retweeted-id");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
