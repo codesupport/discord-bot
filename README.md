@@ -91,5 +91,6 @@ We are using [Mocha](https://mochajs.org) with [Sinon](https://sinonjs.org) and 
 - To build the source code use `npm run build`
 - To test the code use `npm test`
 - To lint the code use `npm run lint`
+- To get coverage stats use `npm run coverage`
 
 **Any Questions?** Feel free to mention @LamboCreeper#6510 in the [CodeSupport Discord](https://discord.gg/Hn9SETt).
