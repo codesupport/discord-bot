@@ -12,7 +12,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 
 		if (message.attachments.size > 0) {
 			message.attachments.forEach(attachment => {
-				if (!ALLOWED_FILE_EXTENSIONS.includes(attachment.name?.split(".").pop()!)) {
+				if (!ALLOWED_FILE_EXTENSIONS.includes(attachment.name?.split(".").pop()!.toLowerCase())) {
 					invalidFileFlag = true;
 				}
 			});
