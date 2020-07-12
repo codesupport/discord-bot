@@ -69,7 +69,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@user-id>, you tried to upload a **.cpp** file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@user-id>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
@@ -87,7 +87,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@user-id>, you tried to upload a **.cpp** file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@user-id>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
