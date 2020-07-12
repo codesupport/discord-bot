@@ -24,6 +24,7 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 - [TypeScript ESLint Plugin](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin)
 - [TypeScript ESLint Parser](https://www.npmjs.com/package/@typescript-eslint/parser)
 - [CodeSupport's ESLint Config](https://www.npmjs.com/package/eslint-config-codesupport)
+- [NYC](https://www.npmjs.com/package/nyc)
 
 **Notes:** 
 - We have excluded [@types](http://definitelytyped.org) packages from this list.
