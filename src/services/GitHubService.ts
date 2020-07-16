@@ -66,6 +66,7 @@ class GitHubService {
 			const issues = data.filter((issueAndPr: any) => !issueAndPr.pull_request)
 				.map((issue: any) => ({
 					title: issue.title,
+					number: issue.number,
 					author: issue.user.login,
 					author_url: issue.user.html_url,
 					issue_url: issue.html_url,

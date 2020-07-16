@@ -124,6 +124,7 @@ describe("GitHubService", () => {
 				status: 200,
 				data: [{
 					title: "This is a title",
+					number: 69,
 					user: {
 						login: "user",
 						html_url: "https://github.com/user/"
