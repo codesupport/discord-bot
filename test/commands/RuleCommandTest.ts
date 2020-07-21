@@ -14,6 +14,7 @@ describe("RuleCommand", () => {
 			const command = new RuleCommand();
 
 			expect(command.getName()).to.equal("rule");
+			expect(command.getAliases().includes("rl")).to.be.true;
 		});
 
 		it("creates a command with correct description", () => {
