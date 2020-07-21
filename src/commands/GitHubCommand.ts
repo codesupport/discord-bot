@@ -7,7 +7,10 @@ class GitHubCommand extends Command {
 	constructor() {
 		super(
 			"github",
-			"Shows the repo of the given user."
+			"Shows the repo of the given user.",
+			{
+				aliases: ["gh"]
+			}
 		);
 	}
 
