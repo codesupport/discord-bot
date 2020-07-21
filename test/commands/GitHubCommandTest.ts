@@ -15,6 +15,7 @@ describe("GitHubCommand", () => {
 			const command = new GitHubCommand();
 
 			expect(command.getName()).to.equal("github");
+			expect(command.getAliases().includes("gh")).to.be.true;
 		});
 
 		it("creates a command with correct description", () => {
