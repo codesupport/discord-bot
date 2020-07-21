@@ -1,4 +1,4 @@
-import Discord, {Client, GuildEmoji, Message, ReactionEmoji, ReactionUserManager} from "discord.js";
+import Discord from "discord.js";
 
 // Shoutout to TotomInc on GitHub for making this, you're a life saver. <3
 // It has been slightly modified to work with the latest version of Discord.js.
