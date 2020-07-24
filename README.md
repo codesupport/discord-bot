@@ -1,6 +1,7 @@
 # CodeSupport Discord Bot
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c4b521b72b784a1ca31b0ed058271656)](https://app.codacy.com/gh/codesupport/discord-bot?utm_source=github.com&utm_medium=referral&utm_content=codesupport/discord-bot&utm_campaign=Badge_Grade_Settings)
+[![Codacy Code Quality Badge](https://api.codacy.com/project/badge/Grade/c4b521b72b784a1ca31b0ed058271656)](https://app.codacy.com/gh/codesupport/discord-bot?utm_source=github.com&utm_medium=referral&utm_content=codesupport/discord-bot&utm_campaign=Badge_Grade_Settings)
+[![Codacy Code Coverage Badge](https://app.codacy.com/project/badge/Coverage/e1a3878449c04c4ca227ecbb0377be04)](https://www.codacy.com/gh/codesupport/discord-bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codesupport/discord-bot&amp;utm_campaign=Badge_Coverage)
 
 ## About
 This repository contains the code for the CodeSupport Discord Bot. The project is written in TypeScript using the Discord.js module for interaction with the Discord API.
@@ -10,6 +11,8 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 ### Production
 - [Discord.js](https://www.npmjs.com/package/discord.js)
 - [Axios](https://www.npmjs.com/package/axios)
+- [Twitter](https://www.npmjs.com/package/twitter)
+- [dotenv](https://www.npmjs.com/package/dotenv)
 
 ### Development
 - [TypeScript](https://www.npmjs.com/package/typescript)
@@ -31,6 +34,8 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 2. Build the source code with `npm run build`
 3. Start the Discord bot with `npm start`
    - You will need to supply the `DISCORD_TOKEN` environment variable
+ 
+If you would like to use a `.env` file for storing your environment variables please create it in the root of the project.
 
 ## Structure
 - All source code lives inside `src/`
