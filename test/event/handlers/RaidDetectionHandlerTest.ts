@@ -1,10 +1,9 @@
 import { expect } from "chai";
-import { Constants, GuildMember, TextChannel } from "discord.js";
-import RaidDetectionHandler from "../../src/event/handlers/RaidDetectionHandler";
+import { Constants } from "discord.js";
+import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
 import { SinonSandbox, createSandbox } from "sinon";
-import EventHandler from "../../src/abstracts/EventHandler";
-import MockDiscord from "../MockDiscord";
-import { RAID_SETTINGS } from "../../src/config.json";
+import MockDiscord from "../../MockDiscord";
+import { RAID_SETTINGS, MODS_CHANNEL_ID } from "../../../src/config.json";
 
 describe("RaidDetectionHandler", () => {
 	describe("constructor()", () => {
@@ -47,17 +46,17 @@ describe("RaidDetectionHandler", () => {
 		}).timeout(1000 * RAID_SETTINGS.TIME_TILL_REMOVAL + 5000);
 
 		it("sends message to mods channel when raid is detected", async () => {
-			const mockGuildMembers = [];
 			const mockMember = discordMock.getGuildMember();
+			const mockModChannel = discordMock.getTextChannel();
+			const messageMock = sandbox.stub(mockModChannel, "send");
+
+			mockModChannel.id = MODS_CHANNEL_ID;
+			sandbox.stub(mockMember.guild.channels.cache, "find").returns(mockModChannel);
 
 			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE + 5; i++) {
-				mockGuildMembers[i] = discordMock.getGuildMember(true);
+				await handler.handle(discordMock.getGuildMember(true));
 			}
-			const messageMock = sandbox.stub(mockMember.guild.channels.cache, "find");
 
-			for (const member of mockGuildMembers) {
-				await handler.handle(member);
-			}
 			await handler.handle(mockMember);
 			expect(messageMock.calledOnce).to.be.true;
 		});
