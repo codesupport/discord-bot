@@ -13,4 +13,15 @@ describe("DiscordMessageLinkHandler", () => {
 			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_CREATE);
 		});
 	});
-})
+
+	describe("handle()", () => {
+		let sandbox: SinonSandbox;
+		let handler: EventHandler;
+		let discordMock: MockDiscord;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			handler = new DiscordMessageLinkHandler();
+		});
+	});
+});
