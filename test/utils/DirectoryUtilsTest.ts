@@ -13,22 +13,6 @@ describe("DirectoryUtils", () => {
 			sandbox = createSandbox();
 		});
 
-		it("should call readdir", () => {
-			const readdirStub = sandbox.stub(fs, "readdir");
-
-			DirectoryUtils.readDirectory(`../../src/${commands_directory}`);
-
-			expect(readdirStub.called).to.be.false;
-		});
-
-		it("should return a promise", () => {
-			sandbox.stub(fs, "readdir");
-
-			const result = DirectoryUtils.readDirectory(`../../src/${commands_directory}`);
-
-			expect(result instanceof Promise).to.be.true;
-		});
-
 		afterEach(() => {
 			sandbox.restore();
 		});
@@ -41,25 +25,14 @@ describe("DirectoryUtils", () => {
 			sandbox = createSandbox();
 		});
 
-		it("should call readDirectory", () => {
-			const readDirectoryStub = sandbox.stub(DirectoryUtils, "readDirectory").returns(["KickJacobCommand.js", "KickingService.js"]);
+		it("should call readDirectory()", () => {
+			const readDirectoryStub = sandbox.stub(DirectoryUtils, "readDirectory").returns(["FakeFile.js"]);
 
-			sandbox.stub(module, "require").callsFake(path => path);
+			sandbox.stub(Array.prototype, "map");
 
-			DirectoryUtils.getFilesInDirectory(`../../src/${commands_directory}`, "Command.js");
+			DirectoryUtils.getFilesInDirectory(".", ".js");
 
 			expect(readDirectoryStub.called).to.be.true;
-		});
-
-		it("should only return files that match a given ending", async () => {
-			sandbox.stub(DirectoryUtils, "readDirectory").returns(["KickCommand.js", "KickingService.js"]);
-
-			sandbox.stub(Array.prototype, "map").returns(["KickCommand.js"]);
-
-			const files = await DirectoryUtils.getFilesInDirectory(`../../src/${commands_directory}`, "Commands.js");
-
-			expect(files.includes("KickJacobCommand.js")).to.be.true;
-			expect(files.includes("KickingService.js")).to.be.false;
 		});
 
 		afterEach(() => {
