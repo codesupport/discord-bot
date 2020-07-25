@@ -59,7 +59,7 @@ export default class MockDiscord {
 		return this.user;
 	}
 
-	public getGuildMember(unique?:boolean): Discord.GuildMember {
+	public getGuildMember(unique?: boolean): Discord.GuildMember {
 		return unique ? this.mockUniqueGuildMember() : this.guildMember;
 	}
 
