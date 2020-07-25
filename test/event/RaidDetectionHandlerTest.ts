@@ -34,14 +34,25 @@ describe("RaidDetectionHandler", () => {
 			expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
 		});
 
-		it ("removes member from joinQueue", async() => {
+		it("removes member from joinQueue", async done => {
 			const mockGuildMember = discordMock.getGuildMember();
 
 			await handler.handle(mockGuildMember);
 
+			expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
 			setTimeout(() => {
 				expect(handler.joinQueue.includes(mockGuildMember)).to.be.false;
-			}, 1000 + (RAID_SETTINGS.TIME_TILL_REMOVAL * 1000));
-		});
+				done();
+			}, 1000 + RAID_SETTINGS.TIME_TILL_REMOVAL * 1000);
+			// Adding an additional second just as a fail-safe.
+		}).timeout(1000 * RAID_SETTINGS.TIME_TILL_REMOVAL + 5000);
+
+		/* A it("sends message to mods channel when raid is detected", async () => {
+			const mockGuildMembers = [];
+
+			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE + 5; i++) {
+				mockGuildMembers[i] = discordMock.getGuildMember();
+			}
+		}); */
 	});
 });
