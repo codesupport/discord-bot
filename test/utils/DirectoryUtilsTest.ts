@@ -41,10 +41,18 @@ describe("DirectoryUtils", () => {
 
 			const files = await DirectoryUtils.getFilesInDirectory(".", "Command.js");
 
-			console.log("Files: " + files);
-
 			expect(files.includes("./FakeFile.js")).to.be.false;
 			expect(files.includes("./FakeCommand.js")).to.be.true;
+		});
+
+		it("should require the files", async () => {
+			const requireStub = sandbox.stub(DirectoryUtils, "require");
+
+			sandbox.stub(DirectoryUtils, "readDirectory").returns(["FakeFile.js", "FakeCommand.js"]);
+
+			await DirectoryUtils.getFilesInDirectory(".", "Command.js");
+
+			expect(requireStub.calledWith("./FakeCommand.js")).to.be.true;
 		});
 
 		afterEach(() => {
