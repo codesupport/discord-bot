@@ -16,7 +16,7 @@ class RaidDetectionHandler extends EventHandler {
 		this.joinQueue.push(member);
 
 		if (this.joinQueue.length > RAID_SETTINGS.MAX_QUEUE_SIZE) {
-			modChannel.send(`<@&${MOD_ROLE}>`);
+			modChannel.send(`<@&${MOD_ROLE}>, a raid has been detected!`);
 		}
 		setTimeout(() => {
 			const index = this.joinQueue.indexOf(member);
