@@ -9,7 +9,8 @@ class RuleCommand extends Command {
 			"rule",
 			"Get a specific rule.",
 			{
-				selfDestructing: true
+				selfDestructing: true,
+				aliases: ["rl"]
 			}
 		);
 	}
