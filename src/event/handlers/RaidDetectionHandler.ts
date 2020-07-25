@@ -16,7 +16,7 @@ class RaidDetectionHandler extends EventHandler {
 		this.joinQueue.push(member);
 
 		if (this.joinQueue.length > RAID_SETTINGS.MAX_QUEUE_SIZE) {
-			modChannel.send(`<@&${MOD_ROLE}>, a raid has been detected!`);
+			await modChannel?.send(`<@&${MOD_ROLE}>, a raid has been detected!`);
 		}
 		setTimeout(() => {
 			const index = this.joinQueue.indexOf(member);
@@ -24,7 +24,7 @@ class RaidDetectionHandler extends EventHandler {
 			if (index > -1) {
 				this.joinQueue.splice(index, 1);
 			} else {
-				modChannel.send("Had trouble removing user from join queue");
+				modChannel?.send("Had trouble removing user from join queue");
 			}
 		}, timeToWait);
 	}

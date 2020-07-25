@@ -48,12 +48,12 @@ describe("RaidDetectionHandler", () => {
 		it("sends message to mods channel when raid is detected", async () => {
 			const mockMember = discordMock.getGuildMember();
 			const mockModChannel = discordMock.getTextChannel();
-			const messageMock = sandbox.stub(mockModChannel, "send");
 
 			mockModChannel.id = MODS_CHANNEL_ID;
 			sandbox.stub(mockMember.guild.channels.cache, "find").returns(mockModChannel);
+			const messageMock = sandbox.stub(mockModChannel, "send");
 
-			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE + 5; i++) {
+			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE; i++) {
 				await handler.handle(discordMock.getGuildMember(true));
 			}
 
