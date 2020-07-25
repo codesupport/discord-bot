@@ -100,13 +100,13 @@ export default class MockDiscord {
 			roles: [],
 			presences: [],
 			voice_states: [],
-			emojis: [],
+			emojis: []
 		});
 	}
 
 	private mockChannel(): void {
 		this.channel = new Discord.Channel(this.client, {
-			id: "channel-id",
+			id: "channel-id"
 		});
 	}
 
@@ -117,7 +117,7 @@ export default class MockDiscord {
 			name: "guild-channel",
 			position: 1,
 			parent_id: "123456789",
-			permission_overwrites: [],
+			permission_overwrites: []
 		});
 	}
 
@@ -129,7 +129,7 @@ export default class MockDiscord {
 			nsfw: false,
 			last_message_id: "123456789",
 			lastPinTimestamp: new Date("2019-01-01").getTime(),
-			rate_limit_per_user: 0,
+			rate_limit_per_user: 0
 		});
 	}
 
@@ -139,7 +139,7 @@ export default class MockDiscord {
 			username: "user username",
 			discriminator: "user#0000",
 			avatar: "user avatar url",
-			bot: false,
+			bot: false
 		});
 	}
 
@@ -154,7 +154,7 @@ export default class MockDiscord {
 			nick: "nick",
 			joined_at: new Date("2020-01-01").getTime(),
 			user: this.user,
-			roles: [],
+			roles: []
 		}, this.guild);
 	}
 
@@ -178,7 +178,7 @@ export default class MockDiscord {
 				mentions: [],
 				mention_roles: [],
 				mention_everyone: [],
-				hit: false,
+				hit: false
 			},
 			this.textChannel,
 		);
