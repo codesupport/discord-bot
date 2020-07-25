@@ -34,25 +34,32 @@ describe("RaidDetectionHandler", () => {
 			expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
 		});
 
-		it("removes member from joinQueue", async done => {
+		it("removes member from joinQueue", done => {
 			const mockGuildMember = discordMock.getGuildMember();
 
-			await handler.handle(mockGuildMember);
-
-			expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
-			setTimeout(() => {
-				expect(handler.joinQueue.includes(mockGuildMember)).to.be.false;
-				done();
-			}, 1000 + RAID_SETTINGS.TIME_TILL_REMOVAL * 1000);
-			// Adding an additional second just as a fail-safe.
+			handler.handle(mockGuildMember).then(() => {
+				expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
+				setTimeout(() => {
+					expect(handler.joinQueue.includes(mockGuildMember)).to.be.false;
+					done();
+				}, 1000 + RAID_SETTINGS.TIME_TILL_REMOVAL * 1000);
+			});
 		}).timeout(1000 * RAID_SETTINGS.TIME_TILL_REMOVAL + 5000);
 
-		/* A it("sends message to mods channel when raid is detected", async () => {
+		it("sends message to mods channel when raid is detected", async () => {
 			const mockGuildMembers = [];
+			const mockMember = discordMock.getGuildMember();
 
 			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE + 5; i++) {
-				mockGuildMembers[i] = discordMock.getGuildMember();
+				mockGuildMembers[i] = discordMock.getGuildMember(true);
 			}
-		}); */
+			const messageMock = sandbox.stub(mockMember.guild.channels.cache, "find");
+
+			for (const member of mockGuildMembers) {
+				await handler.handle(member);
+			}
+			await handler.handle(mockMember);
+			expect(messageMock.calledOnce).to.be.true;
+		});
 	});
 });
