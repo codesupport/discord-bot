@@ -38,5 +38,9 @@ describe("DiscordMessageLinkHandler", () => {
 
 			expect(generatePreviewMock.called).to.be.true;
 		});
+
+		afterEach(() => {
+			sandbox.restore();
+		});
 	});
 });
