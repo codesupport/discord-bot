@@ -24,7 +24,7 @@ class MessagePreviewService {
 				const messageToPreview = await channel.messages.fetch(msgArray[2]);
 				const embed = new MessageEmbed();
 
-				embed.setAuthor(messageToPreview.member?.nickname || messageToPreview.author.username, messageToPreview.author.avatarURL() || undefined, link)
+				embed.setAuthor(messageToPreview.member?.nickname || messageToPreview.author.username, messageToPreview.author.avatarURL() || undefined, link);
 				embed.addField(`Called by ${callingMessage.member?.nickname || callingMessage.author.username}`, `[Click for context](${link})`);
 				embed.setDescription(`${messageToPreview.content}\n`);
 				embed.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
