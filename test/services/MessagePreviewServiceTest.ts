@@ -6,7 +6,7 @@ import MockDiscord from "../MockDiscord";
 
 describe("MessagePreviewService", () => {
 	describe("::getInstance()", () => {
-		it("returns an instance of GitHubService", () => {
+		it("returns an instance of MessagePreviewService", () => {
 			const service = MessagePreviewService.getInstance();
 
 			expect(service).to.be.instanceOf(MessagePreviewService);
@@ -33,19 +33,24 @@ describe("MessagePreviewService", () => {
 			channel.id = "518817917438001152";
 		});
 
-		// TODO these have some issues with discord.js
-		it.skip("gets the channel from the link", async () => {
+		it("gets the channel from the link", async () => {
 			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 
 			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			sandbox.stub(callingMessage.member, "displayColor").get(() => '#FFFFFF');
+			sandbox.stub(callingMessage.channel, "send");
 
 			await messagePreview.generatePreview(link, callingMessage);
 
 			expect(getsChannelMock.calledOnce).to.be.true;
 		});
 
-		it.skip("sends preview message", async () => {
+		it("sends preview message", async () => {
+			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
+
+			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			sandbox.stub(callingMessage.member, "displayColor").get(() => '#FFFFFF');
 
 			await messagePreview.generatePreview(link, callingMessage);
 

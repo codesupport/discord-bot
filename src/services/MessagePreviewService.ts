@@ -22,12 +22,12 @@ class MessagePreviewService {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;
 				const messageToPreview = await channel.messages.fetch(msgArray[2]);
+				const embed = new MessageEmbed();
 
-				const embed = new MessageEmbed()
-					.setAuthor(messageToPreview.member?.nickname || messageToPreview.author.username, messageToPreview.author.avatarURL() || undefined, link)
-					.addField(`Called by ${callingMessage.member?.nickname || callingMessage.author.username}`, `[Click for context](${link})`)
-					.setDescription(`${messageToPreview.content}\n`)
-					.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
+				embed.setAuthor(messageToPreview.member?.nickname || messageToPreview.author.username, messageToPreview.author.avatarURL() || undefined, link)
+				embed.addField(`Called by ${callingMessage.member?.nickname || callingMessage.author.username}`, `[Click for context](${link})`);
+				embed.setDescription(`${messageToPreview.content}\n`);
+				embed.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
 
 				callingMessage.channel.send(embed);
 			}

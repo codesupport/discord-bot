@@ -8,7 +8,7 @@ import MessagePreviewService from "../../../src/services/MessagePreviewService";
 
 describe("DiscordMessageLinkHandler", () => {
 	describe("Constructor()", () => {
-		it("creates a handler for MESSAGE_Create", () => {
+		it("creates a handler for MESSAGE_CREATE", () => {
 			const handler = new DiscordMessageLinkHandler();
 
 			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_CREATE);
