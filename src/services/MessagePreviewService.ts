@@ -20,7 +20,6 @@ class MessagePreviewService {
 
 		if (this.verifyGuild(callingMessage, msgArray[0])) {
 			if (callingMessage.guild?.available) {
-				console.log("test");
 				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;
 				const messageToPreview = await channel.messages.fetch(msgArray[2]);
 
@@ -40,7 +39,7 @@ class MessagePreviewService {
 	}
 
 	stripLink(link: string): string[] {
-		return link.slice().substring(29).split("/");
+		return link.substring(29).split("/");
 	}
 }
 
