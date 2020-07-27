@@ -9,10 +9,14 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 
 	async handle(message: Message): Promise<void> {
 		let invalidFileFlag = false;
+		let invalidFileExtension: string = "";
 
 		if (message.attachments.size > 0) {
 			message.attachments.forEach(attachment => {
-				if (!ALLOWED_FILE_EXTENSIONS.includes(attachment.name?.split(".").pop()!)) {
+				const fileExtension = attachment.name?.split(".").pop()!.toLowerCase();
+
+				if (!ALLOWED_FILE_EXTENSIONS.includes(fileExtension)) {
+					invalidFileExtension = fileExtension;
 					invalidFileFlag = true;
 				}
 			});
@@ -21,7 +25,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				const embed = new MessageEmbed();
 
 				embed.setTitle("Uploading Files");
-				embed.setDescription(`<@${message.author.id}> Please use codeblocks over attachments when sending code.`);
+				embed.setDescription(`<@${message.author.id}>, you tried to upload a \`.${invalidFileExtension}\` file, which is not allowed. Please use codeblocks over attachments when sending code.`);
 				embed.setFooter("Type ?codeblock for more information.");
 				embed.setColor(EMBED_COLOURS.DEFAULT);
 
