@@ -1,6 +1,7 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import Twitter from "twitter";
+import { EventEmitter } from "events";
 import { TextChannel } from "discord.js";
 import TwitterService from "../../src/services/TwitterService";
 import * as getEnvironmentVariable from "../../src/utils/getEnvironmentVariable";
@@ -9,8 +10,7 @@ import * as getEnvironmentVariable from "../../src/utils/getEnvironmentVariable"
 import MockDiscord from "../MockDiscord";
 import { EMBED_COLOURS, TWITTER_ID } from "../../src/config.json";
 
-// TODO twitter api is down, tests fail as a result
-describe.skip("TwitterService", () => {
+describe("TwitterService", () => {
 	describe("::getInstance()", () => {
 		it("creates an instance of TwitterService", () => {
 			const sandbox = createSandbox();
@@ -37,15 +37,36 @@ describe.skip("TwitterService", () => {
 			channel = new MockDiscord().getTextChannel();
 		});
 
-		it("streams twitter for statuses/filter on the codesupportdev account", async () => {
-			sandbox.stub(twitterService, "handleTwitterStream");
+		it("streams twitter for statuses/filter on the codesupportdev account", (done) => {
+			let eventEmitter = new EventEmitter();
 
-			const streamSpy = sandbox.stub(Twitter.prototype, "stream");
+			const streamSpy = sandbox.stub(Twitter.prototype, "stream").returns(eventEmitter);
+			const send = sandbox.stub(channel, "send");
 
-			await twitterService.streamToDiscord(channel);
+			twitterService.streamToDiscord(channel).then(() => {
+				const tweet = {
+					id_str: "1234",
+					text: "1234",
+					user: {
+						id_str: "1234"
+					},
+					extended_tweet: {
+						full_text: "1234"
+					},
+					retweeted_status: {
+						id_str: "1244"
+					}
+				}
 
-			expect(streamSpy.calledOnce).to.be.true;
-		});
+				eventEmitter.on("data", () => {
+					done();
+				})
+
+				eventEmitter.emit("data", tweet);
+				expect(streamSpy.calledOnce).to.be.true;
+				expect(send.calledOnce).to.be.true;
+			});
+		}).timeout(1000);
 
 		afterEach(() => {
 			sandbox.restore();
