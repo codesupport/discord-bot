@@ -41,7 +41,7 @@ describe("TwitterService", () => {
 			let eventEmitter = new EventEmitter();
 
 			const streamSpy = sandbox.stub(Twitter.prototype, "stream").returns(eventEmitter);
-			sandbox.stub(channel, "send");
+			const send = sandbox.stub(channel, "send");
 
 			twitterService.streamToDiscord(channel).then(() => {
 				const tweet = {
@@ -64,6 +64,7 @@ describe("TwitterService", () => {
 
 				eventEmitter.emit("data", tweet);
 				expect(streamSpy.calledOnce).to.be.true;
+				expect(send.calledOnce).to.be.true;
 			});
 		}).timeout(1000);
 
