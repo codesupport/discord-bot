@@ -62,5 +62,9 @@ describe("RaidDetectionHandler", () => {
 			await handler.handle(mockMember);
 			expect(messageMock.calledOnce).to.be.true;
 		});
+
+		afterEach(() => {
+			sandbox.restore();
+		});
 	});
 });
