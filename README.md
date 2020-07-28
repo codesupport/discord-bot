@@ -24,6 +24,7 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 - [TypeScript ESLint Plugin](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin)
 - [TypeScript ESLint Parser](https://www.npmjs.com/package/@typescript-eslint/parser)
 - [CodeSupport's ESLint Config](https://www.npmjs.com/package/eslint-config-codesupport)
+- [NYC](https://www.npmjs.com/package/nyc)
 
 **Notes:** 
 - We have excluded [@types](http://definitelytyped.org) packages from this list.
@@ -91,5 +92,6 @@ We are using [Mocha](https://mochajs.org) with [Sinon](https://sinonjs.org) and 
 - To build the source code use `npm run build`
 - To test the code use `npm test`
 - To lint the code use `npm run lint`
+- To get coverage stats use `npm run coverage`
 
 **Any Questions?** Feel free to mention @LamboCreeper#6510 in the [CodeSupport Discord](https://discord.gg/Hn9SETt).

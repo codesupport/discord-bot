@@ -31,7 +31,6 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			message.attachments = new Collection<string, MessageAttachment>();
 			message.author = discordMock.getUser();
 			message.client.user = discordMock.getUser();
-
 		});
 
 		it("does nothing when there are no attachments.", async () => {
@@ -41,15 +40,23 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 
 			expect(addMock.calledOnce).to.be.false;
 		});
-		
+
 		it("does nothing when there is a valid attachment.", async () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
 			const addMockSend = sandbox.stub(message.channel, "send");
 
-			await handler.handle(message);			
+			await handler.handle(message);
 			expect(addMockSend.notCalled).to.be.true;
 		});
-		
+
+		it("isn't case sensitive", async () => {
+			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.PNG"));
+			const addMockSend = sandbox.stub(message.channel, "send");
+
+			await handler.handle(message);
+			expect(addMockSend.notCalled).to.be.true;
+		});
+
 		it("sends a message and deletes the user's upload when there is an invalid attachment.", async () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.cpp"));
 			const addMockSend = sandbox.stub(message.channel, "send");
@@ -62,7 +69,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@user-id> Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@user-id>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
@@ -80,7 +87,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@user-id> Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@user-id>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 

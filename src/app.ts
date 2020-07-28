@@ -1,6 +1,6 @@
 import { Client, TextChannel } from "discord.js";
 import { config as env } from "dotenv";
-import getFilesInDirectory from "./utils/getFilesInDirectory";
+import DirectoryUtils from "./utils/DirectoryUtils";
 import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
 
 const client = new Client();
@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 			await client.login(process.env.DISCORD_TOKEN);
 			console.log(`Successfully logged in as ${client.user?.username}`);
 
-			const handlerFiles = await getFilesInDirectory(
+			const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 				`${__dirname}/${handlers_directory}`,
 				"Handler.js"
 			);

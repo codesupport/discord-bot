@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Constants, Message } from "discord.js";
+import { Constants } from "discord.js";
 import LogMessageUpdateHandler from "../../../src/event/handlers/LogMessageDeleteHandler";
 import { SinonSandbox, createSandbox } from "sinon";
 import EventHandler from "../../../src/abstracts/EventHandler";

@@ -1,12 +1,12 @@
 import { commands_directory } from "../config.json";
 import Command from "../abstracts/Command";
-import getFilesInDirectory from "../utils/getFilesInDirectory";
+import DirectoryUtils from "../utils/DirectoryUtils";
 
 class CommandFactory {
 	private commands: any = {};
 
 	async loadCommands(): Promise<void> {
-		const commandFiles = await getFilesInDirectory(
+		const commandFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/../${commands_directory}`,
 			"Command.js"
 		);

@@ -59,8 +59,8 @@ export default class MockDiscord {
 		return this.user;
 	}
 
-	public getGuildMember(): Discord.GuildMember {
-		return this.guildMember;
+	public getGuildMember(unique?: boolean): Discord.GuildMember {
+		return unique ? this.mockUniqueGuildMember() : this.guildMember;
 	}
 
 	public getMessage(): Discord.Message {
@@ -78,35 +78,35 @@ export default class MockDiscord {
 	private mockGuild(): void {
 		this.guild = new Discord.Guild(this.client, {
 			unavailable: false,
-			id: 'guild-id',
-			name: 'mocked discord.js guild',
-			icon: 'mocked guild icon url',
-			splash: 'mocked guild splash url',
-			region: 'eu-west',
+			id: "guild-id",
+			name: "mocked discord.js guild",
+			icon: "mocked guild icon url",
+			splash: "mocked guild splash url",
+			region: "eu-west",
 			member_count: 42,
 			large: false,
 			features: [],
-			application_id: 'application-id',
+			application_id: "application-id",
 			afkTimeout: 1000,
-			afk_channel_id: 'afk-channel-id',
-			system_channel_id: 'system-channel-id',
+			afk_channel_id: "afk-channel-id",
+			system_channel_id: "system-channel-id",
 			embed_enabled: true,
 			verification_level: 2,
 			explicit_content_filter: 3,
 			mfa_level: 8,
-			joined_at: new Date('2018-01-01').getTime(),
-			owner_id: 'owner-id',
+			joined_at: new Date("2018-01-01").getTime(),
+			owner_id: "owner-id",
 			channels: [],
 			roles: [],
 			presences: [],
 			voice_states: [],
-			emojis: [],
+			emojis: []
 		});
 	}
 
 	private mockChannel(): void {
 		this.channel = new Discord.Channel(this.client, {
-			id: 'channel-id',
+			id: "channel-id"
 		});
 	}
 
@@ -114,10 +114,10 @@ export default class MockDiscord {
 		this.guildChannel = new Discord.GuildChannel(this.guild, {
 			...this.channel,
 
-			name: 'guild-channel',
+			name: "guild-channel",
 			position: 1,
-			parent_id: '123456789',
-			permission_overwrites: [],
+			parent_id: "123456789",
+			permission_overwrites: []
 		});
 	}
 
@@ -125,21 +125,21 @@ export default class MockDiscord {
 		this.textChannel = new Discord.TextChannel(this.guild, {
 			...this.guildChannel,
 
-			topic: 'topic',
+			topic: "topic",
 			nsfw: false,
-			last_message_id: '123456789',
-			lastPinTimestamp: new Date('2019-01-01').getTime(),
-			rate_limit_per_user: 0,
+			last_message_id: "123456789",
+			lastPinTimestamp: new Date("2019-01-01").getTime(),
+			rate_limit_per_user: 0
 		});
 	}
 
 	private mockUser(): void {
 		this.user = new Discord.User(this.client, {
-			id: 'user-id',
-			username: 'user username',
-			discriminator: 'user#0000',
-			avatar: 'user avatar url',
-			bot: false,
+			id: "user-id",
+			username: "user username",
+			discriminator: "user#0000",
+			avatar: "user avatar url",
+			bot: false
 		});
 	}
 
@@ -149,12 +149,12 @@ export default class MockDiscord {
 			mute: false,
 			self_mute: false,
 			self_deaf: false,
-			session_id: 'session-id',
-			channel_id: 'channel-id',
-			nick: 'nick',
-			joined_at: new Date('2020-01-01').getTime(),
+			session_id: "session-id",
+			channel_id: "channel-id",
+			nick: "nick",
+			joined_at: new Date("2020-01-01").getTime(),
 			user: this.user,
-			roles: [],
+			roles: []
 		}, this.guild);
 	}
 
@@ -162,15 +162,15 @@ export default class MockDiscord {
 		this.message = new Discord.Message(
 			this.client,
 			{
-				id: 'message-id',
-				type: 'DEFAULT',
-				content: 'this is the message content',
+				id: "message-id",
+				type: "DEFAULT",
+				content: "this is the message content",
 				author: this.user,
 				webhook_id: null,
 				member: this.guildMember,
 				pinned: false,
 				tts: false,
-				nonce: 'nonce',
+				nonce: "nonce",
 				embeds: [],
 				attachments: [],
 				edited_timestamp: null,
@@ -178,7 +178,7 @@ export default class MockDiscord {
 				mentions: [],
 				mention_roles: [],
 				mention_everyone: [],
-				hit: false,
+				hit: false
 			},
 			this.textChannel,
 		);
@@ -190,10 +190,25 @@ export default class MockDiscord {
 			{
 				message: this.message,
 				emoji: {
-					name: 'emoji-name'
+					name: "emoji-name"
 				}
 			},
 			this.message
 		);
+	}
+
+	private mockUniqueGuildMember(): Discord.GuildMember {
+		return new Discord.GuildMember(this.client, {
+			deaf: false,
+			mute: false,
+			self_mute: false,
+			self_deaf: false,
+			session_id: "session-id",
+			channel_id: "channel-id",
+			nick: "nick",
+			joined_at: new Date("2020-01-01").getTime(),
+			user: this.user,
+			roles: []
+		}, this.guild);
 	}
 }
