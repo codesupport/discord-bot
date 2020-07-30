@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 	});
 }
 
-(async () => {
+async function main() {
 	if (process.env.DISCORD_TOKEN) {
 		try {
 			await client.login(process.env.DISCORD_TOKEN);
@@ -40,4 +40,8 @@ if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 	} else {
 		throw new Error("You must supply the DISCORD_TOKEN environment variable.");
 	}
-})();
+}
+
+main();
+
+export default main;
