@@ -56,6 +56,14 @@ describe("CommandFactory", () => {
 			expect(emptyFactory.commandExists(new MockCommand().getName())).to.be.true;
 		});
 
+		it("should load aliases", async () => {
+			expect(emptyFactory.commandExists(new MockCommandWithAlias().getName())).to.be.false;
+
+			await emptyFactory.loadCommands();
+
+			expect(emptyFactory.commandExists(new MockCommandWithAlias().getName())).to.be.true;
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
