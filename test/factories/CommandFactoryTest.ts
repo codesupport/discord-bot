@@ -1,6 +1,8 @@
 import { expect } from "chai";
+import Sinon, { SinonSandbox, createSandbox, SinonStub } from "sinon";
 
 import CommandFactory from "../../src/factories/CommandFactory";
+import DirectoryUtils from "../../src/utils/DirectoryUtils";
 // @ts-ignore - TS does not like MockCommand not living in src/
 import MockCommand from "../MockCommand";
 import MockCommandWithAlias from "../MockCommandWithAlias";
@@ -17,12 +19,37 @@ describe("CommandFactory", () => {
 		aliases = new MockCommandWithAlias().getAliases();
 
 		factory = new CommandFactory();
-		factory["commands"] = {};
-		factory["commands"][commandName] = () => new MockCommand();
-		factory["commands"][commandWithAliasesName] = () => new MockCommandWithAlias();
+		factory.commands = {};
+		factory.commands[commandName] = () => new MockCommand();
+		factory.commands[commandWithAliasesName] = () => new MockCommandWithAlias();
 
 		aliases.forEach(alias => {
-			factory["commands"][alias] = () => new MockCommandWithAlias();
+			factory.commands[alias] = () => new MockCommandWithAlias();
+		});
+	});
+
+	describe("loadCommands()", () => {
+		let sandbox: SinonSandbox;
+		let emptyFactory: CommandFactory;
+		let getFilesStub: SinonStub;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			emptyFactory = new CommandFactory();
+
+			getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [
+				require("../MockCommand"), require("../MockCommandWithAlias")
+			]);
+		});
+
+		it("should call DirectoryUtils::getFilesInDirectory()", async () => {
+			await emptyFactory.loadCommands();
+
+			expect(getFilesStub.called).to.be.true;
+		});
+
+		afterEach(() => {
+			sandbox.restore();
 		});
 	});
 
