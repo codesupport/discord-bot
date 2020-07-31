@@ -4,6 +4,7 @@ import { Client } from "discord.js";
 
 import app from "../../src/app";
 import DirectoryUtils from "../../src/utils/DirectoryUtils";
+import MockHandler from "../MockHandler";
 
 describe("app", () => {
 	let sandbox: SinonSandbox;
@@ -11,7 +12,6 @@ describe("app", () => {
 
 	beforeEach(() => {
 		sandbox = createSandbox();
-		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
 
 		loginStub = sandbox.stub(Client.prototype, "login");
 
@@ -29,9 +29,24 @@ describe("app", () => {
 	});
 
 	it("should login with the provided DISCORD_TOKEN", async () => {
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+
 		await app();
 
 		expect(loginStub.calledWith("FAKE_TOKEN")).to.be.true;
+	});
+
+	// Fix me
+	it("should bind handlers to events", async () => {
+		const onStub = sandbox.stub(Client.prototype, "on");
+
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+
+		const handler = new MockHandler();
+
+		await app();
+
+		expect(onStub.calledWith(handler.getEvent(), handler.handle));
 	});
 
 	afterEach(() => {
