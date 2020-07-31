@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 	});
 }
 
-async function main() {
+async function app() {
 	if (process.env.DISCORD_TOKEN) {
 		try {
 			await client.login(process.env.DISCORD_TOKEN);
@@ -42,6 +42,4 @@ async function main() {
 	}
 }
 
-main();
-
-export default main;
+export default app;

@@ -4,7 +4,7 @@
   "description": "The CodeSupport Discord bot",
   "main": "./build/app.js",
   "scripts": {
-    "start": "node -r dotenv/config ./build/app.js",
+    "start": "node -r dotenv/config ./build/index.js",
     "build": "tsc",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit",
