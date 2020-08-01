@@ -66,13 +66,13 @@
             "name": "Use The Right Channel",
             "triggers": ["5", "channel"],
             "description": "Stick to the correct channels. If you're unsure which channel to put your question in, you can ask in [#general](https://codesupport.dev/discord) which channel is best for your question."
-		},
-		{
+        },
+        {
             "name": "Illegal/Immoral Tasks",
             "triggers": ["6", "illegal", "immoral"],
             "description": "Don't ask for help with illegal or immoral tasks. Doing so not only risks your continued participation in this community but is in violation of Discord's TOS and can get your account banned."
-		},
-		{
+        },
+        {
             "name": "No Spoon-feeding",
             "triggers": ["7", "spoon", "spoonfeeding"],
             "description": "No spoon-feeding, it's not useful and won't help anyone learn."
