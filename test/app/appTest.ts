@@ -46,17 +46,16 @@ describe("app", () => {
 		expect(getFilesStub.args[0][1]).to.equal("Handler.js");
 	});
 
-	// Fix me
 	it("should bind handlers to events", async () => {
+		const mockHandler = new MockHandler();
+
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("../MockHandler")]);
+
 		const onStub = sandbox.stub(Client.prototype, "on");
-
-		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
-
-		const handler = new MockHandler();
 
 		await app();
 
-		expect(onStub.calledWith(handler.getEvent(), handler.handle));
+		expect(onStub.calledWith(mockHandler.getEvent())).to.be.true;
 	});
 
 	it("should fetch auth channel and messages in production environment", async () => {
