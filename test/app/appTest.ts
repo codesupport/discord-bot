@@ -47,13 +47,13 @@ describe("app", () => {
 	});
 
 	it("should bind handlers to events", async () => {
-		const mockHandler = new MockHandler();
-
 		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("../MockHandler")]);
 
 		const onStub = sandbox.stub(Client.prototype, "on");
 
 		await app();
+
+		const mockHandler = new MockHandler();
 
 		expect(onStub.calledWith(mockHandler.getEvent())).to.be.true;
 	});
