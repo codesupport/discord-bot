@@ -40,7 +40,7 @@ describe("RuleCommand", () => {
 		it("sends a message to the channel", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			await command.run(message, ["1"]);
+			await command.run(message, ["0"]);
 
 			expect(messageMock.calledOnce).to.be.true;
 		});
@@ -75,6 +75,22 @@ describe("RuleCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
+		it("states rule 0 if you ask for rule 0", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			await command.run(message, ["0"]);
+
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Rule: Asking For Help");
+			expect(embed.description).to.equal("Help us to help you, instead of just saying \"my code doesn't work\" or \"can someone help me.\"");
+			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
+			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+		});
+
 		it("states rule 1 if you ask for rule 1", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
@@ -84,11 +100,11 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Asking For Help");
-			expect(embed.description).to.equal("Actually ask your question, don't just ask for \"help\".");
+			expect(embed.title).to.equal("Rule: Be Patient");
+			expect(embed.description).to.equal("Responses to your questions are not guaranteed. The people here offer their expertise on their own time and for free.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
 		it("states rule 2 if you ask for rule 2", async () => {
@@ -100,9 +116,9 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Explain What's Wrong");
-			expect(embed.description).to.equal("Don't ask why your code doesn't \"work\".");
+			expect(embed.title).to.equal("Rule: Unsolicited Contact/Bumps");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(embed.description).to.equal("Do not send unsolicited DMs, bump questions, or ping for questions outside of an established conversation.");
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
 		});
@@ -116,9 +132,9 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Be Patient");
+			expect(embed.title).to.equal("Rule: Be Nice");
+			expect(embed.description).to.equal("Be respectful; no personal attacks, sexism, homophobia, transphobia, racism, hate speech or other disruptive behaviour.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
-			expect(embed.description).to.equal("Responses to your questions are not guaranteed. The people here offer their expertise on their own time and for free.");
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
 		});
@@ -132,8 +148,8 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: @Mentioning People");
-			expect(embed.description).to.equal("Do not ping a user or group regarding coding help unless you are responding to them in an existing conversation.");
+			expect(embed.title).to.equal("Rule: No Advertising");
+			expect(embed.description).to.equal("Don't advertise. If you're not sure whether it would be considered advertising or not, ask a moderator.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
@@ -148,8 +164,8 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Keep it clean.");
-			expect(embed.description).to.equal("Keep it clean; some people use this at work/school.");
+			expect(embed.title).to.equal("Rule: Use The Right Channel");
+			expect(embed.description).to.equal("Stick to the correct channels. If you're unsure which channel to put your question in, you can ask in [#general](https://codesupport.dev/discord) which channel is best for your question.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
@@ -164,8 +180,8 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Privacy");
-			expect(embed.description).to.equal("Don't share private information with anyone! (you’re just asking to be hacked)");
+			expect(embed.title).to.equal("Rule: Illegal/Immoral Tasks");
+			expect(embed.description).to.equal("Don't ask for help with illegal or immoral tasks. Doing so not only risks your continued participation in this community but is in violation of Discord's TOS and can get your account banned.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
@@ -180,8 +196,8 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: No Advertising");
-			expect(embed.description).to.equal("Don't advertise, it's as simple as that.");
+			expect(embed.title).to.equal("Rule: No Spoon-feeding");
+			expect(embed.description).to.equal("No spoon-feeding, it's not useful and won't help anyone learn.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
@@ -196,8 +212,8 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Use The Right Channel");
-			expect(embed.description).to.equal("Stick to the appropriate channels. Feel free to ask in [#general](https://discord.gg/qZfADKn) if you're not sure where to ask something.");
+			expect(embed.title).to.equal("Rule: Use Codeblocks");
+			expect(embed.description).to.equal("When posting code, please use code blocks (see `?codeblock` for help).");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
@@ -212,88 +228,8 @@ describe("RuleCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Use Codeblocks");
-			expect(embed.description).to.equal("When posting code, please use code blocks (see `?codeblock` for help).");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
-			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
-			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
-		});
-
-		it("states rule 10 if you ask for rule 10", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, ["10"]);
-
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Bot Additions");
-			expect(embed.description).to.equal("Don't ask for your bot to be added. It won’t be.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
-			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
-			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
-		});
-
-		it("states rule 11 if you ask for rule 11", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, ["11"]);
-
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Verified Role");
-			expect(embed.description).to.equal("Don't ask to become Verified: doing so will make it less likely.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
-			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
-			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
-		});
-
-		it("states rule 12 if you ask for rule 12", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, ["12"]);
-
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Don't Ask Someone To Help In DMs");
-			expect(embed.description).to.equal("Don't DM people (unless it's for #hiring-or-looking), the knowledge shared here is for the benefit of everyone.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
-			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
-			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
-		});
-
-		it("states rule 13 if you ask for rule 13", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, ["13"]);
-
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: Illegal/Immoral Tasks");
-			expect(embed.description).to.equal("Don't ask for help with illegal or immoral tasks. Doing so not only risks your continued participation in this community but is in violation of Discord's TOS and can get your account banned.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
-			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
-			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
-		});
-
-		it("states rule 14 if you ask for rule 14", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, ["14"]);
-
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Rule: No Spoon-feeding");
-			expect(embed.description).to.equal("No spoon-feeding, it's not useful and won't help anyone learn.");
+			expect(embed.title).to.equal("Rule: Keep it Clean");
+			expect(embed.description).to.equal("Keep it appropriate, some people use this at school or at work.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
