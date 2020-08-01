@@ -1,4 +1,3 @@
-import fs, { Dirent } from "fs";
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
 import DirectoryUtils from "../../src/utils/DirectoryUtils";
