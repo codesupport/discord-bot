@@ -144,6 +144,38 @@ describe("GitHubCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
+		it("states the result from the github service with an empty repo description", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(gitHub, "getRepository").resolves({
+				user: "user",
+				repo: "repo",
+				description: null,
+				language: "TypeScript",
+				url: "https://github.com/codesupport/discord-bot",
+				issues_and_pullrequests_count: 3,
+				forks: 5,
+				stars: 10,
+				watchers: 3
+			});
+
+			sandbox.stub(gitHub, "getPullRequest").resolves(
+				[{
+					title: "This is the title",
+					description: "This is the description",
+					author: "user"
+				}]
+			);
+
+			await command.run(message, ["user/repo"]);
+
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.description).to.equal("[View on GitHub](https://github.com/codesupport/discord-bot)");
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
