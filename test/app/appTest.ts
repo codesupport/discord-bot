@@ -56,6 +56,8 @@ describe("app", () => {
 
 		process.env.NODE_ENV = PRODUCTION_ENV;
 
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+
 		const mockDiscord = new MockDiscord();
 		const textChannel = mockDiscord.getTextChannel();
 
@@ -68,6 +70,18 @@ describe("app", () => {
 		expect(fetchMessagesStub.calledWith(AUTHENTICATION_MESSAGE_ID)).to.be.true;
 
 		process.env.NODE_ENV = testEnv;
+	});
+
+	it("should log thrown errors", async () => {
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => {
+			throw new Error("I had one job");
+		});
+
+		const consoleErrorStub = sandbox.stub(global.console, "error");
+
+		await app();
+
+		expect(consoleErrorStub.calledOnce).to.be.true;
 	});
 
 	afterEach(() => {
