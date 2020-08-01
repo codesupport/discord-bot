@@ -2,11 +2,11 @@ import { expect } from "chai";
 import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 import { Client, TextChannel, ChannelManager } from "discord.js";
 
-import app from "../../src/app";
-import DirectoryUtils from "../../src/utils/DirectoryUtils";
-import MockHandler from "../MockHandler";
-import MockDiscord from "../MockDiscord";
-import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../../src/config.json";
+import app from "../src/app";
+import DirectoryUtils from "../src/utils/DirectoryUtils";
+import MockHandler from "./MockHandler";
+import MockDiscord from "./MockDiscord";
+import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../src/config.json";
 
 describe("app", () => {
 	let sandbox: SinonSandbox;
@@ -47,7 +47,7 @@ describe("app", () => {
 	});
 
 	it("should bind handlers to events", async () => {
-		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("../MockHandler")]);
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("./MockHandler")]);
 
 		const onStub = sandbox.stub(Client.prototype, "on");
 
