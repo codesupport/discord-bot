@@ -38,6 +38,14 @@ describe("app", () => {
 		expect(loginStub.calledWith("FAKE_TOKEN")).to.be.true;
 	});
 
+	it("should look for handler files", async () => {
+		const getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+
+		await app();
+
+		expect(getFilesStub.args[0][1]).to.equal("Handler.js");
+	});
+
 	// Fix me
 	it("should bind handlers to events", async () => {
 		const onStub = sandbox.stub(Client.prototype, "on");
