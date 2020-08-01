@@ -34,6 +34,7 @@ class GitHubCommand extends Command {
 				const resPR = await GitHub.getPullRequest(user, repoName);
 
 				let desc = `[View on GitHub](${res.url})`;
+
 				if (res.description) desc = `${res.description}\n\n${desc}`;
 
 				embed.setTitle(`GitHub Repository: ${res.user}/${res.repo}`);
