@@ -37,7 +37,7 @@ describe("MessagePreviewService", () => {
 			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 
 			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => '#FFFFFF');
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 			sandbox.stub(callingMessage.channel, "send");
 
 			await messagePreview.generatePreview(link, callingMessage);
@@ -50,7 +50,7 @@ describe("MessagePreviewService", () => {
 			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
 
 			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => '#FFFFFF');
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 
 			await messagePreview.generatePreview(link, callingMessage);
 
@@ -59,6 +59,24 @@ describe("MessagePreviewService", () => {
 
 		afterEach(() => {
 			sandbox.restore();
+		});
+	});
+
+	describe("verifyGuild()", () => {
+		const messagePreview = MessagePreviewService.getInstance();
+		const discordMock = new MockDiscord();
+		const message = discordMock.getMessage();
+
+		it("should return true if message's guild and provided guild id match", () => {
+			message.guild.id = "RANDOM_GUILD_ID";
+
+			expect(messagePreview.verifyGuild(message, "RANDOM_GUILD_ID")).to.be.true;
+		});
+
+		it("should return false if message's guild and provided guild id don't match", () => {
+			message.guild.id = "RANDOM_GUILD_ID";
+
+			expect(messagePreview.verifyGuild(message, "OTHER_GUILD_ID")).to.be.false;
 		});
 	});
 
