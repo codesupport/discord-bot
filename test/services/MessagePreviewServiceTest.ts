@@ -57,6 +57,18 @@ describe("MessagePreviewService", () => {
 			expect(sendsMessageMock.calledOnce).to.be.true;
 		});
 
+		it("doesn't send preview message if it is a bot message", async () => {
+			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
+			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
+
+			callingMessage.author.bot = true;
+
+			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
+
+			expect(sendsMessageMock.called).to.be.false;
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
@@ -101,6 +113,30 @@ describe("MessagePreviewService", () => {
 
 		afterEach(() => {
 			sandbox.restore();
+		});
+	});
+
+	describe("wasSentByABot()", () => {
+		let message: Message;
+		let discordMock: MockDiscord;
+		let messagePreview: MessagePreviewService;
+
+		beforeEach(() => {
+			discordMock = new MockDiscord();
+			message = discordMock.getMessage();
+			messagePreview = MessagePreviewService.getInstance();
+		});
+
+		it("should return true if message's author is a bot", () => {
+			message.author.bot = true;
+
+			expect(messagePreview.wasSentByABot(message)).to.be.true;
+		});
+
+		it("should return false if message's authro isn't a bot", () => {
+			message.author.bot = false;
+
+			expect(messagePreview.wasSentByABot(message)).to.be.false;
 		});
 	});
 });
