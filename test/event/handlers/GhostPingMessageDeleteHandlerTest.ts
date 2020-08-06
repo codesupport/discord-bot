@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Constants, Channel } from "discord.js";
+import { Constants, Channel, Message, MessageMentions, Collection, User } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import EventHandler from "../../../src/abstracts/EventHandler";
 import MockDiscord from "../../MockDiscord";
@@ -26,11 +26,13 @@ describe("GhostPingMessageDeleteHandler", () => {
 		});
 
 		it("sends a message when a message is deleted that pinged a user", async () => {
-			const message = discordMock.getMessage();
-			const messageMock = sandbox.stub(message.channel, "send");
+            const message = discordMock.getMessage();
+            const messageMock = sandbox.stub(message.channel, "send");
 
-			message.content = "Hey <@328194044587147278>!";
-
+            message.mentions = new MessageMentions(message, [discordMock.getUser()], [], false)
+			
+            message.content = "Hey <@328194044587147278>!";
+            
 			await handler.handle(message);
 
 			expect(messageMock.calledOnce).to.be.true;
@@ -38,7 +40,9 @@ describe("GhostPingMessageDeleteHandler", () => {
 
 		it("does not send a message when a message is deleted that didn't ping a user", async () => {
 			const message = discordMock.getMessage();
-			const messageMock = sandbox.stub(message.channel, "send");
+            const messageMock = sandbox.stub(message.channel, "send");
+            
+            message.mentions = new MessageMentions(message, [], [], false)
 
 			message.content = "Hey everybody!";
 
