@@ -133,7 +133,7 @@ describe("MessagePreviewService", () => {
 			expect(messagePreview.wasSentByABot(message)).to.be.true;
 		});
 
-		it("should return false if message's authro isn't a bot", () => {
+		it("should return false if message's author isn't a bot", () => {
 			message.author.bot = false;
 
 			expect(messagePreview.wasSentByABot(message)).to.be.false;
