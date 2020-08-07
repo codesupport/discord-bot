@@ -3,12 +3,12 @@ import { Constants, Channel, Message, MessageMentions, Collection, User } from "
 import { SinonSandbox, createSandbox } from "sinon";
 import EventHandler from "../../../src/abstracts/EventHandler";
 import MockDiscord from "../../MockDiscord";
-import GhostPingMessageDeleteHandler from "../../../src/event/handlers/GhostPingMessageDeleteHandler";
+import GhostPingHandler from "../../../src/event/handlers/GhostPingHandler";
 
-describe("GhostPingMessageDeleteHandler", () => {
+describe("GhostPingHandler", () => {
 	describe("constructor()", () => {
 		it("creates a handler for MESSAGE_DELETE", () => {
-			const handler = new GhostPingMessageDeleteHandler();
+			const handler = new GhostPingHandler();
 
 			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_DELETE);
 		});
@@ -21,7 +21,7 @@ describe("GhostPingMessageDeleteHandler", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			handler = new GhostPingMessageDeleteHandler();
+			handler = new GhostPingHandler();
 			discordMock = new MockDiscord();
 		});
 
