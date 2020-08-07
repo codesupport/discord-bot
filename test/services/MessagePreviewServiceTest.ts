@@ -37,7 +37,7 @@ describe("MessagePreviewService", () => {
 			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 
 			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => '#FFFFFF');
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 			sandbox.stub(callingMessage.channel, "send");
 
 			await messagePreview.generatePreview(link, callingMessage);
@@ -50,15 +50,45 @@ describe("MessagePreviewService", () => {
 			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
 
 			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => '#FFFFFF');
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 
 			await messagePreview.generatePreview(link, callingMessage);
 
 			expect(sendsMessageMock.calledOnce).to.be.true;
 		});
 
+		it("doesn't send preview message if it is a bot message", async () => {
+			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
+			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
+
+			callingMessage.author.bot = true;
+
+			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
+
+			expect(sendsMessageMock.called).to.be.false;
+		});
+
 		afterEach(() => {
 			sandbox.restore();
+		});
+	});
+
+	describe("verifyGuild()", () => {
+		const messagePreview = MessagePreviewService.getInstance();
+		const discordMock = new MockDiscord();
+		const message = discordMock.getMessage();
+
+		it("should return true if message's guild and provided guild id match", () => {
+			message.guild.id = "RANDOM_GUILD_ID";
+
+			expect(messagePreview.verifyGuild(message, "RANDOM_GUILD_ID")).to.be.true;
+		});
+
+		it("should return false if message's guild and provided guild id don't match", () => {
+			message.guild.id = "RANDOM_GUILD_ID";
+
+			expect(messagePreview.verifyGuild(message, "OTHER_GUILD_ID")).to.be.false;
 		});
 	});
 
@@ -83,6 +113,30 @@ describe("MessagePreviewService", () => {
 
 		afterEach(() => {
 			sandbox.restore();
+		});
+	});
+
+	describe("wasSentByABot()", () => {
+		let message: Message;
+		let discordMock: MockDiscord;
+		let messagePreview: MessagePreviewService;
+
+		beforeEach(() => {
+			discordMock = new MockDiscord();
+			message = discordMock.getMessage();
+			messagePreview = MessagePreviewService.getInstance();
+		});
+
+		it("should return true if message's author is a bot", () => {
+			message.author.bot = true;
+
+			expect(messagePreview.wasSentByABot(message)).to.be.true;
+		});
+
+		it("should return false if message's author isn't a bot", () => {
+			message.author.bot = false;
+
+			expect(messagePreview.wasSentByABot(message)).to.be.false;
 		});
 	});
 });
