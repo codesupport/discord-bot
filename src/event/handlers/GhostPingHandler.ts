@@ -12,7 +12,7 @@ class GhostPingHandler extends EventHandler {
 			const embed = new MessageEmbed();
 
 			embed.setTitle("Ghost Ping Detected!");
-			embed.setDescription(`Author: <@${message.author}>`);
+			embed.addField("Author", message.author)
 			embed.addField("Message", message.content);
 			embed.setColor(EMBED_COLOURS.DEFAULT);
 
