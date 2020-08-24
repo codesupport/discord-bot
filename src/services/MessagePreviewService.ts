@@ -22,14 +22,17 @@ class MessagePreviewService {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;
 				const messageToPreview = await channel.messages.fetch(msgArray[2]);
-				const embed = new MessageEmbed();
 
-				embed.setAuthor(messageToPreview.member?.nickname || messageToPreview.author.username, messageToPreview.author.avatarURL() || undefined, link);
-				embed.addField(`Called by ${callingMessage.member?.nickname || callingMessage.author.username}`, `[Click for context](${link})`);
-				embed.setDescription(`${messageToPreview.content}\n`);
-				embed.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
+				if (!this.wasSentByABot(messageToPreview)) {
+					const embed = new MessageEmbed();
 
-				callingMessage.channel.send(embed);
+					embed.setAuthor(messageToPreview.member?.nickname || messageToPreview.author.username, messageToPreview.author.avatarURL() || undefined, link);
+					embed.addField(`Called by ${callingMessage.member?.nickname || callingMessage.author.username}`, `[Click for context](${link})`);
+					embed.setDescription(`${messageToPreview.content}\n`);
+					embed.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
+
+					callingMessage.channel.send(embed);
+				}
 			}
 		}
 	}
@@ -40,6 +43,10 @@ class MessagePreviewService {
 
 	stripLink(link: string): string[] {
 		return link.substring(29).split("/");
+	}
+
+	wasSentByABot(message: Message): boolean {
+		return message.author?.bot;
 	}
 }
 

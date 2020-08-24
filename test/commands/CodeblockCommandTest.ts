@@ -21,6 +21,13 @@ describe("CodeblockCommand", () => {
 
 			expect(command.getDescription()).to.equal("Shows a tutorial on how to use Discord's codeblocks.");
 		});
+
+		it("creates a command with correct aliases", () => {
+			const command = new CodeblockCommand();
+
+			expect(command.getAliases().includes("cb")).to.be.true;
+			expect(command.getAliases().includes("codeblocks")).to.be.true;
+		});
 	});
 
 	describe("run()", () => {
