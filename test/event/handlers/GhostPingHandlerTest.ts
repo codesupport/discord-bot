@@ -51,6 +51,22 @@ describe("GhostPingHandler", () => {
 			expect(messageMock.calledOnce).to.be.false;
 		});
 
+		it("does not send a message when it's author is a bot", async () => {
+			const message = discordMock.getMessage();
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			const author = discordMock.getUser();
+			author.bot = true;
+
+			message.author = author;
+			message.mentions = new MessageMentions(message, [discordMock.getUser()], [], false);
+			message.content = "Hey <@328194044587147278>, stop spamming or we'll arrest you!";
+
+			await handler.handle(message);
+
+			expect(messageMock.called).to.be.false;
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
