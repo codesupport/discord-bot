@@ -9,14 +9,16 @@ class GhostPingHandler extends EventHandler {
 
 	async handle(message: Message): Promise<void> {
 		if (message.mentions.users.first() || message.mentions.roles.first()) {
-			const embed = new MessageEmbed();
+			if (!message.author.bot) {
+				const embed = new MessageEmbed();
 
-			embed.setTitle("Ghost Ping Detected!");
-			embed.addField("Author", message.author);
-			embed.addField("Message", message.content);
-			embed.setColor(EMBED_COLOURS.DEFAULT);
+				embed.setTitle("Ghost Ping Detected!");
+				embed.addField("Author", message.author);
+				embed.addField("Message", message.content);
+				embed.setColor(EMBED_COLOURS.DEFAULT);
 
-			await message.channel.send(embed);
+				await message.channel.send(embed);
+			}
 		}
 	}
 }
