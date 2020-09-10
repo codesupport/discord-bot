@@ -1,4 +1,5 @@
 import { Message, TextChannel, MessageEmbed } from "discord.js";
+import DiscordUtils from "../utils/DiscordUtils";
 
 class MessagePreviewService {
 	private static instance: MessagePreviewService;
@@ -23,11 +24,11 @@ class MessagePreviewService {
 				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;
 				const messageToPreview = await channel.messages.fetch(msgArray[2]);
 
-				if (!this.wasSentByABot(messageToPreview)) {
+				if (!DiscordUtils.wasSentByABot(messageToPreview)) {
 					const embed = new MessageEmbed();
 
-					embed.setAuthor(messageToPreview.member?.nickname || messageToPreview.author.username, messageToPreview.author.avatarURL() || undefined, link);
-					embed.addField(`Called by ${callingMessage.member?.nickname || callingMessage.author.username}`, `[Click for context](${link})`);
+					embed.setAuthor(this.getAuthorName(messageToPreview), messageToPreview.author.avatarURL() || undefined, link);
+					embed.addField(`Called by ${this.getAuthorName(callingMessage)}`, `[Click for context](${link})`);
 					embed.setDescription(`${messageToPreview.content}\n`);
 					embed.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
 
@@ -37,16 +38,16 @@ class MessagePreviewService {
 		}
 	}
 
+	getAuthorName(message: Message) {
+		return message.member?.nickname || message.author.username;
+	}
+
 	verifyGuild(message: Message, guildId: string): boolean {
 		return guildId === message.guild?.id;
 	}
 
 	stripLink(link: string): string[] {
 		return link.substring(29).split("/");
-	}
-
-	wasSentByABot(message: Message): boolean {
-		return message.author?.bot;
 	}
 }
 

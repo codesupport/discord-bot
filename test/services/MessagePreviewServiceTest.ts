@@ -115,28 +115,4 @@ describe("MessagePreviewService", () => {
 			sandbox.restore();
 		});
 	});
-
-	describe("wasSentByABot()", () => {
-		let message: Message;
-		let discordMock: MockDiscord;
-		let messagePreview: MessagePreviewService;
-
-		beforeEach(() => {
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
-			messagePreview = MessagePreviewService.getInstance();
-		});
-
-		it("should return true if message's author is a bot", () => {
-			message.author.bot = true;
-
-			expect(messagePreview.wasSentByABot(message)).to.be.true;
-		});
-
-		it("should return false if message's author isn't a bot", () => {
-			message.author.bot = false;
-
-			expect(messagePreview.wasSentByABot(message)).to.be.false;
-		});
-	});
 });
