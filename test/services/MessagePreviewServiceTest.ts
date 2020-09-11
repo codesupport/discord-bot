@@ -3,6 +3,7 @@ import { SinonSandbox, createSandbox } from "sinon";
 import MessagePreviewService from "../../src/services/MessagePreviewService";
 import { Message, TextChannel, GuildMember } from "discord.js";
 import MockDiscord from "../MockDiscord";
+import { isSymbol } from "util";
 
 describe("MessagePreviewService", () => {
 	describe("::getInstance()", () => {
@@ -113,6 +114,43 @@ describe("MessagePreviewService", () => {
 
 		afterEach(() => {
 			sandbox.restore();
+		});
+	});
+
+	describe("serializeHyperlinks()", () => {
+		let sandbox: SinonSandbox;
+		let messagePreview: MessagePreviewService;
+		let content: String;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			messagePreview = MessagePreviewService.getInstance();
+		});
+
+		it("should return the string as it is if there are no hyperlinks", () => {
+			expect(messagePreview.serializeHyperlinks("I am the night")).to.equal("I am the night");
+		});
+
+		it("should return the string as it is even if it is falsy", () => {
+			expect(messagePreview.serializeHyperlinks(null)).to.be.null;
+			expect(messagePreview.serializeHyperlinks(undefined)).to.be.undefined;
+			expect(messagePreview.serializeHyperlinks("")).to.equal("");
+		});
+
+		it("should escape hyperlinks", () => {
+			expect(messagePreview.serializeHyperlinks("Do you feel lucky, [punk](punkrock.com)?"))
+				.to.equal("Do you feel lucky, \\[punk\\]\\(punkrock.com\\)?");
+		});
+
+		it("should scape all hyperlinks if there is more than one", () => {
+			expect(messagePreview.serializeHyperlinks("[Link1](l1.com) and [Link2](l2.com)"))
+				.to.equal("\\[Link1\\]\\(l1.com\\) and \\[Link2\\]\\(l2.com\\)");
+		});
+
+		it("should escape hyperlinks even if they are empty", () => {
+			expect(messagePreview.serializeHyperlinks("[]()")).to.equal("\\[\\]\\(\\)");
+			expect(messagePreview.serializeHyperlinks("[half]()")).to.equal("\\[half\\]\\(\\)");
+			expect(messagePreview.serializeHyperlinks("[](half)")).to.equal("\\[\\]\\(half\\)");
 		});
 	});
 });

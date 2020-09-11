@@ -42,6 +42,10 @@ class MessagePreviewService {
 	}
 
 	serializeHyperlinks(content: String): String {
+		if (!content) {
+			return content;
+		}
+
 		return content.replace(/\[[^\[]*\]\([^)]*\)/g, match => {
 			const chars = ["[", "]", "(", ")"];
 			let output = match;
