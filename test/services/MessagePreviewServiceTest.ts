@@ -1,9 +1,8 @@
 import { expect } from "chai";
-import { SinonSandbox, createSandbox } from "sinon";
+import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 import MessagePreviewService from "../../src/services/MessagePreviewService";
 import { Message, TextChannel, GuildMember } from "discord.js";
 import MockDiscord from "../MockDiscord";
-import { isSymbol } from "util";
 
 describe("MessagePreviewService", () => {
 	describe("::getInstance()", () => {
@@ -22,49 +21,43 @@ describe("MessagePreviewService", () => {
 		let member: GuildMember;
 		let channel: TextChannel;
 		let discordMock: MockDiscord;
+		let getChannelMock: SinonStub;
+		let sendMessageMock: SinonStub;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
+
 			messagePreview = MessagePreviewService.getInstance();
+
 			discordMock = new MockDiscord();
-			link = "https://discord.com/channels/guild-id/518817917438001152/732711501345062982";
 			callingMessage = discordMock.getMessage();
 			member = discordMock.getGuildMember();
 			channel = discordMock.getTextChannel();
+
+			link = "https://discord.com/channels/guild-id/518817917438001152/732711501345062982";
 			channel.id = "518817917438001152";
+
+			getChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
+			sendMessageMock = sandbox.stub(callingMessage.channel, "send");
+
+			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 		});
 
 		it("gets the channel from the link", async () => {
-			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
-
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
-			sandbox.stub(callingMessage.channel, "send");
-
 			await messagePreview.generatePreview(link, callingMessage);
 
-			expect(getsChannelMock.calledOnce).to.be.true;
+			expect(getChannelMock.calledOnce).to.be.true;
 		});
 
 		it("sends preview message", async () => {
-			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
-			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
-
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
-
 			await messagePreview.generatePreview(link, callingMessage);
 
-			expect(sendsMessageMock.calledOnce).to.be.true;
+			expect(sendMessageMock.calledOnce).to.be.true;
 		});
 
 		it("escapes hyperlinks", async () => {
-			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
-			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
 			const escapeHyperlinksMock = sandbox.stub(messagePreview, "escapeHyperlinks").returns("Parsed message");
-
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 
 			await messagePreview.generatePreview(link, callingMessage);
 
@@ -72,15 +65,9 @@ describe("MessagePreviewService", () => {
 		});
 
 		it("doesn't send preview message if it is a bot message", async () => {
-			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
-			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
-
 			callingMessage.author.bot = true;
 
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
-
-			expect(sendsMessageMock.called).to.be.false;
+			expect(sendMessageMock.called).to.be.false;
 		});
 
 		afterEach(() => {
