@@ -11,6 +11,15 @@ class DateUtils {
 		if (days === 1) return "yesterday";
 		return `${days} days ago`;
 	}
+
+	static format(date: Date) {
+		const time = `${date.getHours()}:${date.getMinutes()}`;
+
+		const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		const month = months[date.getMonth()];
+
+		return `${time} on ${date.getDate()} ${month} ${date.getFullYear()}`;
+	}
 }
 
 export default DateUtils;

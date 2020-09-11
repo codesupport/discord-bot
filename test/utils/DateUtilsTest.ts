@@ -43,4 +43,18 @@ describe("DateUtils", () => {
 			expect(text).to.be.equal("3 days ago");
 		});
 	});
+
+	describe("::format()", () => {
+		it("returns a formatted date", () => {
+			const date = new Date();
+
+			date.setHours(12);
+			date.setMinutes(30);
+			date.setDate(26);
+			date.setMonth(0);
+			date.setFullYear(2007);
+
+			expect(DateUtils.format(date)).to.equal("12:30 on 26 January 2007");
+		});
+	});
 });

@@ -39,6 +39,10 @@ class MessagePreviewService {
 		}
 	}
 
+	parse(content: String): String {
+
+	}
+
 	getAuthorName(message: Message) {
 		return message.member?.nickname || message.author.username;
 	}
