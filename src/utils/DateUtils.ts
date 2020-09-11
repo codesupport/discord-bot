@@ -13,7 +13,7 @@ class DateUtils {
 	}
 
 	static format(date: Date) {
-		const time = `${date.getHours()}:${date.getMinutes()}`;
+		const time = `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
 
 		const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 		const month = months[date.getMonth()];
