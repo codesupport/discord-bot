@@ -1,5 +1,5 @@
 import { Message, TextChannel, MessageEmbed } from "discord.js";
-import DiscordUtils from "../utils/DiscordUtils";
+import DateUtils from "../utils/DateUtils";
 
 class MessagePreviewService {
 	private static instance: MessagePreviewService;
@@ -24,12 +24,13 @@ class MessagePreviewService {
 				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;
 				const messageToPreview = await channel.messages.fetch(msgArray[2]);
 
-				if (!DiscordUtils.wasSentByABot(messageToPreview)) {
+				if (!messageToPreview.author?.bot) {
 					const embed = new MessageEmbed();
 
 					embed.setAuthor(this.getAuthorName(messageToPreview), messageToPreview.author.avatarURL() || undefined, link);
-					embed.addField(`Called by ${this.getAuthorName(callingMessage)}`, `[Click for context](${link})`);
 					embed.setDescription(`${messageToPreview.content}\n`);
+					embed.addField("\u200B", `[View Original Message](${link})`);
+					embed.setFooter(`Message Sent at ${DateUtils.format(messageToPreview.createdAt)}`);
 					embed.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
 
 					callingMessage.channel.send(embed);

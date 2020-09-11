@@ -1,7 +1,6 @@
 import { Constants, MessageEmbed, Message } from "discord.js";
 import { EMBED_COLOURS } from "../../config.json";
 import EventHandler from "../../abstracts/EventHandler";
-import DiscordUtils from "../../utils/DiscordUtils";
 
 class GhostPingHandler extends EventHandler {
 	constructor() {
@@ -10,7 +9,7 @@ class GhostPingHandler extends EventHandler {
 
 	async handle(message: Message): Promise<void> {
 		if (message.mentions.users.first() || message.mentions.roles.first()) {
-			if (!DiscordUtils.wasSentByABot(message)) {
+			if (!message.author?.bot) {
 				const embed = new MessageEmbed();
 
 				embed.setTitle("Ghost Ping Detected!");
