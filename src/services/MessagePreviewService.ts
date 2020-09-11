@@ -30,7 +30,7 @@ class MessagePreviewService {
 					const parsedContent = this.escapeHyperlinks(messageToPreview.content);
 
 					embed.setAuthor(this.getAuthorName(messageToPreview), messageToPreview.author.avatarURL() || undefined, link);
-					embed.setDescription(`**#${this.getChannelName(messageToPreview)}**\n${parsedContent}\n`);
+					embed.setDescription(`**#${this.getChannelName(messageToPreview)}**\n\n${parsedContent}\n`);
 					embed.addField(FIELD_SPACER_CHAR, `[View Original Message](${link})`);
 					embed.setFooter(`Message sent at ${DateUtils.format(messageToPreview.createdAt)}`);
 					embed.setColor(messageToPreview.member?.displayColor || MEMBER_ROLE_COLOR);
