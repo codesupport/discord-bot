@@ -117,10 +117,9 @@ describe("MessagePreviewService", () => {
 		});
 	});
 
-	describe("serializeHyperlinks()", () => {
+	describe("escapeHyperlinks()", () => {
 		let sandbox: SinonSandbox;
 		let messagePreview: MessagePreviewService;
-		let content: String;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
@@ -129,12 +128,6 @@ describe("MessagePreviewService", () => {
 
 		it("should return the string as it is if there are no hyperlinks", () => {
 			expect(messagePreview.escapeHyperlinks("I am the night")).to.equal("I am the night");
-		});
-
-		it("should return the string as it is even if it is falsy", () => {
-			expect(messagePreview.escapeHyperlinks(null)).to.be.null;
-			expect(messagePreview.escapeHyperlinks(undefined)).to.be.undefined;
-			expect(messagePreview.escapeHyperlinks("")).to.equal("");
 		});
 
 		it("should escape hyperlinks", () => {
