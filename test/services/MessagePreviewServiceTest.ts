@@ -58,6 +58,19 @@ describe("MessagePreviewService", () => {
 			expect(sendsMessageMock.calledOnce).to.be.true;
 		});
 
+		it("escapes hyperlinks", async () => {
+			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
+			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
+			const escapeHyperlinksMock = sandbox.stub(messagePreview, "escapeHyperlinks").returns("Parsed message");
+
+			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
+
+			await messagePreview.generatePreview(link, callingMessage);
+
+			expect(escapeHyperlinksMock.calledOnce);
+		});
+
 		it("doesn't send preview message if it is a bot message", async () => {
 			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
@@ -128,29 +141,29 @@ describe("MessagePreviewService", () => {
 		});
 
 		it("should return the string as it is if there are no hyperlinks", () => {
-			expect(messagePreview.serializeHyperlinks("I am the night")).to.equal("I am the night");
+			expect(messagePreview.escapeHyperlinks("I am the night")).to.equal("I am the night");
 		});
 
 		it("should return the string as it is even if it is falsy", () => {
-			expect(messagePreview.serializeHyperlinks(null)).to.be.null;
-			expect(messagePreview.serializeHyperlinks(undefined)).to.be.undefined;
-			expect(messagePreview.serializeHyperlinks("")).to.equal("");
+			expect(messagePreview.escapeHyperlinks(null)).to.be.null;
+			expect(messagePreview.escapeHyperlinks(undefined)).to.be.undefined;
+			expect(messagePreview.escapeHyperlinks("")).to.equal("");
 		});
 
 		it("should escape hyperlinks", () => {
-			expect(messagePreview.serializeHyperlinks("Do you feel lucky, [punk](punkrock.com)?"))
+			expect(messagePreview.escapeHyperlinks("Do you feel lucky, [punk](punkrock.com)?"))
 				.to.equal("Do you feel lucky, \\[punk\\]\\(punkrock.com\\)?");
 		});
 
 		it("should scape all hyperlinks if there is more than one", () => {
-			expect(messagePreview.serializeHyperlinks("[Link1](l1.com) and [Link2](l2.com)"))
+			expect(messagePreview.escapeHyperlinks("[Link1](l1.com) and [Link2](l2.com)"))
 				.to.equal("\\[Link1\\]\\(l1.com\\) and \\[Link2\\]\\(l2.com\\)");
 		});
 
 		it("should escape hyperlinks even if they are empty", () => {
-			expect(messagePreview.serializeHyperlinks("[]()")).to.equal("\\[\\]\\(\\)");
-			expect(messagePreview.serializeHyperlinks("[half]()")).to.equal("\\[half\\]\\(\\)");
-			expect(messagePreview.serializeHyperlinks("[](half)")).to.equal("\\[\\]\\(half\\)");
+			expect(messagePreview.escapeHyperlinks("[]()")).to.equal("\\[\\]\\(\\)");
+			expect(messagePreview.escapeHyperlinks("[half]()")).to.equal("\\[half\\]\\(\\)");
+			expect(messagePreview.escapeHyperlinks("[](half)")).to.equal("\\[\\]\\(half\\)");
 		});
 	});
 });

@@ -27,7 +27,7 @@ class MessagePreviewService {
 
 				if (!messageToPreview.author?.bot) {
 					const embed = new MessageEmbed();
-					const parsedContent = this.serializeHyperlinks(messageToPreview.content);
+					const parsedContent = this.escapeHyperlinks(messageToPreview.content);
 
 					embed.setAuthor(this.getAuthorName(messageToPreview), messageToPreview.author.avatarURL() || undefined, link);
 					embed.setDescription(`${parsedContent}\n`);
@@ -41,7 +41,7 @@ class MessagePreviewService {
 		}
 	}
 
-	serializeHyperlinks(content: String): String {
+	escapeHyperlinks(content: String): String {
 		if (!content) {
 			return content;
 		}
