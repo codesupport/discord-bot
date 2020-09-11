@@ -26,9 +26,10 @@ class MessagePreviewService {
 
 				if (!messageToPreview.author?.bot) {
 					const embed = new MessageEmbed();
+					const parsedContent = this.serializeHyperlinks(messageToPreview.content);
 
 					embed.setAuthor(this.getAuthorName(messageToPreview), messageToPreview.author.avatarURL() || undefined, link);
-					embed.setDescription(`${messageToPreview.content}\n`);
+					embed.setDescription(`${parsedContent}\n`);
 					embed.addField("\u200B", `[View Original Message](${link})`);
 					embed.setFooter(`Message Sent at ${DateUtils.format(messageToPreview.createdAt)}`);
 					embed.setColor(messageToPreview.member?.displayColor || "#FFFFFE");
@@ -39,8 +40,20 @@ class MessagePreviewService {
 		}
 	}
 
-	parse(content: String): String {
+	serializeHyperlinks(content: String): String {
+		return content.replace(/\[[^\[]*\]\([^)]*\)/g, match => {
+			const chars = ["[", "]", "(", ")"];
+			let output = match;
 
+			for (let i = 0; i < output.length; i++) {
+				if (chars.includes(output[i])) {
+					output = `${output.slice(0, i)}\\${output.slice(i)}`;
+					i++;
+				}
+			}
+
+			return output;
+		});
 	}
 
 	getAuthorName(message: Message) {
