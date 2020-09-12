@@ -9,7 +9,7 @@ class GhostPingHandler extends EventHandler {
 
 	async handle(message: Message): Promise<void> {
 		if (message.mentions.users.first() || message.mentions.roles.first()) {
-			if (!message.author.bot) {
+			if (!message.author?.bot) {
 				const embed = new MessageEmbed();
 
 				embed.setTitle("Ghost Ping Detected!");

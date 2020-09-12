@@ -9,6 +9,8 @@
         "html",
         "css"
     ],
+    "FIELD_SPACER_CHAR": "\u200B",
+    "MEMBER_ROLE_COLOR": "#FFFFFE",
     "PRODUCTION_ENV": "production",
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",

@@ -43,4 +43,30 @@ describe("DateUtils", () => {
 			expect(text).to.be.equal("3 days ago");
 		});
 	});
+
+	describe("::formatAsText()", () => {
+		it("returns a formatted date", () => {
+			const date = new Date();
+
+			date.setHours(12);
+			date.setMinutes(30);
+			date.setDate(26);
+			date.setMonth(0);
+			date.setFullYear(2007);
+
+			expect(DateUtils.formatAsText(date)).to.equal("12:30 on 26 Jan 2007");
+		});
+
+		it("formats numbers smaller than 10 correctly", () => {
+			const date = new Date();
+
+			date.setHours(9);
+			date.setMinutes(5);
+			date.setDate(7);
+			date.setMonth(1);
+			date.setFullYear(2010);
+
+			expect(DateUtils.formatAsText(date)).to.equal("09:05 on 7 Feb 2010");
+		});
+	});
 });
