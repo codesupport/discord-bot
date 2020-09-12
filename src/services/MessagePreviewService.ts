@@ -63,7 +63,7 @@ class MessagePreviewService {
 		});
 	}
 
-	getAuthorName(message: Message) {
+	getAuthorName(message: Message): string {
 		return message.member?.nickname || message.author.username;
 	}
 

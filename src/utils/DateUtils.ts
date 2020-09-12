@@ -12,7 +12,7 @@ class DateUtils {
 		return `${days} days ago`;
 	}
 
-	static formatAsText(date: Date) {
+	static formatAsText(date: Date): string {
 		const time = `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
 
 		const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
