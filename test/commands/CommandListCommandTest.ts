@@ -96,6 +96,26 @@ describe("CommandListCommand", () => {
 			expect(embed.fields[0].value).to.equal("`?help`, `?command`");
 		});
 
+		it("sends an embed with specific command information if supplied for an alias", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			command.setCommands([
+				new CommandListCommand()
+			]);
+
+			await command.run(message, ["help"]);
+
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Commands • ?commands");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(embed.description).to.equal("Lists all the bot commands.");
+			expect(embed.fields[0].name).to.equal("Aliases");
+			expect(embed.fields[0].value).to.equal("`?help`, `?command`");
+		});
+
 		it("sends an embed with an error if the supplied command does not exist", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 

@@ -23,7 +23,10 @@ class CommandListCommand extends Command {
 		const embed = new MessageEmbed();
 
 		if (args.length) {
-			const command = this.commands.find(command => command.getName() === args[0]);
+			const command = this.commands.find(
+				command => command.getName() === args[0]
+				|| command.getAliases().includes(args[0])
+			);
 
 			if (!command) {
 				embed.setTitle("Error");
