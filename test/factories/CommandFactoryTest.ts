@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import Sinon, { SinonSandbox, createSandbox, SinonStub } from "sinon";
+import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 
 import CommandFactory from "../../src/factories/CommandFactory";
 import DirectoryUtils from "../../src/utils/DirectoryUtils";
@@ -110,6 +110,15 @@ describe("CommandFactory", () => {
 			aliases.forEach(alias => {
 				expect(factory.getCommand(alias)).to.be.a("object");
 			});
+		});
+	});
+
+	describe("getCommandsWithoutAliases()", () => {
+		it("gets a list of the commands but not the aliases", () => {
+			expect(factory.getCommandsWithoutAliases()).to.deep.equal([
+				new MockCommand(),
+				new MockCommandWithAlias()
+			]);
 		});
 	});
 });

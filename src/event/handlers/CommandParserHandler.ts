@@ -3,6 +3,7 @@ import EventHandler from "../../abstracts/EventHandler";
 import CommandFactory from "../../factories/CommandFactory";
 import getConfigValue from "../../utils/getConfigValue";
 import { COMMAND_PREFIX } from "../../config.json";
+import CommandListCommand from "../../commands/CommandListCommand";
 
 class CommandParserHandler extends EventHandler {
 	private readonly commandFactory: CommandFactory;
@@ -30,6 +31,10 @@ class CommandParserHandler extends EventHandler {
 			/* eslint-disable */
 			if (this.commandFactory.commandExists(trigger)) {
 				const command = this.commandFactory.getCommand(trigger);
+
+				if (command instanceof CommandListCommand) {
+					command.setCommands(this.commandFactory.getCommandsWithoutAliases());
+				}
 
 				await command.run(message, args);
 

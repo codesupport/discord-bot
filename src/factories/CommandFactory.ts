@@ -1,9 +1,11 @@
 import { commands_directory } from "../config.json";
 import Command from "../abstracts/Command";
 import DirectoryUtils from "../utils/DirectoryUtils";
+import GenericObject from "../interfaces/GenericObject";
 
 class CommandFactory {
-	private commands: any = {};
+	private commands: GenericObject<Function> = {};
+	private commandAliases: GenericObject<Function> = {};
 
 	async loadCommands(): Promise<void> {
 		const commandFiles = await DirectoryUtils.getFilesInDirectory(
@@ -20,7 +22,7 @@ class CommandFactory {
 			const aliases = new Command().getAliases();
 
 			aliases.forEach((alias: string) => {
-				this.commands[alias] = () => new Command();
+				this.commandAliases[alias] = () => new Command();
 			});
 		});
 	}
@@ -31,6 +33,12 @@ class CommandFactory {
 
 	getCommand(command: string): Command {
 		return this.commands[command.toLowerCase()]();
+	}
+
+	getCommandsWithoutAliases(): Command[] {
+		return Object.keys(this.commands)
+			.filter(command => !this.commands[command]().getAliases().includes(command))
+			.map(command => this.commands[command]());
 	}
 }
 
