@@ -27,12 +27,16 @@ class CommandFactory {
 		});
 	}
 
-	commandExists(command: string): boolean {
-		return typeof this.commands[command.toLowerCase()] !== "undefined";
+	commandOrAliasExists(command: string): boolean {
+		const commandsAndAliases = {...this.commandAliases, ...this.commands};
+
+		return typeof commandsAndAliases[command.toLowerCase()] !== "undefined";
 	}
 
-	getCommand(command: string): Command {
-		return this.commands[command.toLowerCase()]();
+	getCommandsAndAliases(command: string): Command {
+		const commandsAndAliases = {...this.commandAliases, ...this.commands};
+
+		return commandsAndAliases[command.toLowerCase()]();
 	}
 
 	getCommandsWithoutAliases(): Command[] {

@@ -29,8 +29,8 @@ class CommandParserHandler extends EventHandler {
 			if (!trigger) return;
 
 			/* eslint-disable */
-			if (this.commandFactory.commandExists(trigger)) {
-				const command = this.commandFactory.getCommand(trigger);
+			if (this.commandFactory.commandOrAliasExists(trigger)) {
+				const command = this.commandFactory.getCommandsAndAliases(trigger);
 
 				if (command instanceof CommandListCommand) {
 					command.setCommands(this.commandFactory.getCommandsWithoutAliases());

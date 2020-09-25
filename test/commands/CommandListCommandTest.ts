@@ -3,7 +3,6 @@ import { expect } from "chai";
 import { Message } from "discord.js";
 
 import CommandListCommand from "../../src/commands/CommandListCommand";
-import Command from "../../src/abstracts/Command";
 // @ts-ignore - TS does not like MockDiscord not living in src/
 import MockDiscord from "../MockDiscord";
 import {EMBED_COLOURS} from "../../src/config.json";

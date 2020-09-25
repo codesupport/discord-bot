@@ -52,7 +52,7 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should not run command if it doesn't start with command prefix", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
+			sandbox.stub(CommandFactory.prototype, "commandOrAliasExists").returns(true);
 
 			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
@@ -65,7 +65,7 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should not run command if message was sent on a botless channel", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
+			sandbox.stub(CommandFactory.prototype, "commandOrAliasExists").returns(true);
 			sandbox.stub(getConfigValue, "default").returns({ MOCK_CHANNEL: "mock-channel-lol"});
 
 			const runCommandMock = sandbox.stub(command, "run");
@@ -80,7 +80,7 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should not run a nonexistent command", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").returns(false);
+			sandbox.stub(CommandFactory.prototype, "commandOrAliasExists").returns(false);
 
 			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
@@ -111,8 +111,8 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should run command", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
-			sandbox.stub(CommandFactory.prototype, "getCommand").returns(command);
+			sandbox.stub(CommandFactory.prototype, "commandOrAliasExists").returns(true);
+			sandbox.stub(CommandFactory.prototype, "getCommandsAndAliases").returns(command);
 
 			const runCommandMock = sandbox.stub(command, "run");
 			const message = discordMock.getMessage();
@@ -126,8 +126,8 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should delete messages that trigger a self destructing command", async () => {
-			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
-			sandbox.stub(CommandFactory.prototype, "getCommand").returns(command);
+			sandbox.stub(CommandFactory.prototype, "commandOrAliasExists").returns(true);
+			sandbox.stub(CommandFactory.prototype, "getCommandsAndAliases").returns(command);
 			sandbox.stub(MockCommand.prototype, "isSelfDestructing").returns(true);
 
 			const deleteMessageMock = sandbox.stub(Message.prototype, "delete");

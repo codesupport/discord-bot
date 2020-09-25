@@ -49,19 +49,19 @@ describe("CommandFactory", () => {
 		});
 
 		it("should load commands", async () => {
-			expect(emptyFactory.commandExists(new MockCommand().getName())).to.be.false;
+			expect(emptyFactory.commandOrAliasExists(new MockCommand().getName())).to.be.false;
 
 			await emptyFactory.loadCommands();
 
-			expect(emptyFactory.commandExists(new MockCommand().getName())).to.be.true;
+			expect(emptyFactory.commandOrAliasExists(new MockCommand().getName())).to.be.true;
 		});
 
 		it("should load aliases", async () => {
-			expect(emptyFactory.commandExists(new MockCommandWithAlias().getName())).to.be.false;
+			expect(emptyFactory.commandOrAliasExists(new MockCommandWithAlias().getName())).to.be.false;
 
 			await emptyFactory.loadCommands();
 
-			expect(emptyFactory.commandExists(new MockCommandWithAlias().getName())).to.be.true;
+			expect(emptyFactory.commandOrAliasExists(new MockCommandWithAlias().getName())).to.be.true;
 		});
 
 		afterEach(() => {
@@ -71,44 +71,44 @@ describe("CommandFactory", () => {
 
 	describe("commandExists()", () => {
 		it("checks to see a command exists", () => {
-			expect(factory.commandExists(commandName)).to.be.true;
+			expect(factory.commandOrAliasExists(commandName)).to.be.true;
 		});
 
 		it("checks to see a command exists - lowercase", () => {
-			expect(factory.commandExists(commandName.toLowerCase())).to.be.true;
+			expect(factory.commandOrAliasExists(commandName.toLowerCase())).to.be.true;
 		});
 
 		it("checks to see a command exists - uppercase", () => {
-			expect(factory.commandExists(commandName.toUpperCase())).to.be.true;
+			expect(factory.commandOrAliasExists(commandName.toUpperCase())).to.be.true;
 		});
 
 		it("checks to see a command doesn't exist", () => {
-			expect(factory.commandExists("bad command")).to.be.false;
+			expect(factory.commandOrAliasExists("bad command")).to.be.false;
 		});
 
 		it("checks to see a command exists by it's aliases", () => {
 			aliases.forEach(alias => {
-				expect(factory.commandExists(alias)).to.be.true;
+				expect(factory.commandOrAliasExists(alias)).to.be.true;
 			});
 		});
 	});
 
 	describe("getCommand()", () => {
 		it("gets a mocked command", () => {
-			expect(factory.getCommand(commandName)).to.be.a("object");
+			expect(factory.getCommandsAndAliases(commandName)).to.be.a("object");
 		});
 
 		it("gets a mocked command - lowercase", () => {
-			expect(factory.getCommand(commandName.toLowerCase())).to.be.a("object");
+			expect(factory.getCommandsAndAliases(commandName.toLowerCase())).to.be.a("object");
 		});
 
 		it("gets a mocked command - uppercase", () => {
-			expect(factory.getCommand(commandName.toUpperCase())).to.be.a("object");
+			expect(factory.getCommandsAndAliases(commandName.toUpperCase())).to.be.a("object");
 		});
 
 		it("gets a mocked command by it's aliases", () => {
 			aliases.forEach(alias => {
-				expect(factory.getCommand(alias)).to.be.a("object");
+				expect(factory.getCommandsAndAliases(alias)).to.be.a("object");
 			});
 		});
 	});
