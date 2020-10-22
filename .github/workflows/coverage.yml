@@ -10,6 +10,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: Send Coverage Report To Codacy
         run: |
-          npm i
+          npm ci
           npm run coverage
           CODACY_PROJECT_TOKEN=${{ secrets.CODACY_SECRET }} bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/lcov.info
