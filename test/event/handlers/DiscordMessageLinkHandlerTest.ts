@@ -39,6 +39,18 @@ describe("DiscordMessageLinkHandler", () => {
 			expect(generatePreviewMock.called).to.be.true;
 		});
 
+		it("does not send a message if the message starts with a !", async () => {
+			const message = discordMock.getMessage();
+			const channel = discordMock.getTextChannel();
+			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
+
+			message.content = "!https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982";
+			message.channel = channel;
+
+			await handler.handle(message);
+
+			expect(generatePreviewMock.called).to.be.false;
+		});
 		afterEach(() => {
 			sandbox.restore();
 		});

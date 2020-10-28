@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { SinonSandbox, createSandbox } from "sinon";
+import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 import MessagePreviewService from "../../src/services/MessagePreviewService";
 import { Message, TextChannel, GuildMember } from "discord.js";
 import MockDiscord from "../MockDiscord";
@@ -21,52 +21,53 @@ describe("MessagePreviewService", () => {
 		let member: GuildMember;
 		let channel: TextChannel;
 		let discordMock: MockDiscord;
+		let getChannelMock: SinonStub;
+		let sendMessageMock: SinonStub;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
+
 			messagePreview = MessagePreviewService.getInstance();
+
 			discordMock = new MockDiscord();
-			link = "https://discord.com/channels/guild-id/518817917438001152/732711501345062982";
 			callingMessage = discordMock.getMessage();
 			member = discordMock.getGuildMember();
 			channel = discordMock.getTextChannel();
+
+			link = "https://discord.com/channels/guild-id/518817917438001152/732711501345062982";
 			channel.id = "518817917438001152";
+
+			getChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
+			sendMessageMock = sandbox.stub(callingMessage.channel, "send");
+
+			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 		});
 
 		it("gets the channel from the link", async () => {
-			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
-
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
-			sandbox.stub(callingMessage.channel, "send");
-
 			await messagePreview.generatePreview(link, callingMessage);
 
-			expect(getsChannelMock.calledOnce).to.be.true;
+			expect(getChannelMock.calledOnce).to.be.true;
 		});
 
 		it("sends preview message", async () => {
-			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
-			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
+			await messagePreview.generatePreview(link, callingMessage);
 
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
+			expect(sendMessageMock.calledOnce).to.be.true;
+		});
+
+		it("escapes hyperlinks", async () => {
+			const escapeHyperlinksMock = sandbox.stub(messagePreview, "escapeHyperlinks").returns("Parsed message");
 
 			await messagePreview.generatePreview(link, callingMessage);
 
-			expect(sendsMessageMock.calledOnce).to.be.true;
+			expect(escapeHyperlinksMock.calledOnce);
 		});
 
 		it("doesn't send preview message if it is a bot message", async () => {
-			const getsChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
-			const sendsMessageMock = sandbox.stub(callingMessage.channel, "send");
-
 			callingMessage.author.bot = true;
 
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
-			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
-
-			expect(sendsMessageMock.called).to.be.false;
+			expect(sendMessageMock.called).to.be.false;
 		});
 
 		afterEach(() => {
@@ -116,27 +117,33 @@ describe("MessagePreviewService", () => {
 		});
 	});
 
-	describe("wasSentByABot()", () => {
-		let message: Message;
-		let discordMock: MockDiscord;
+	describe("escapeHyperlinks()", () => {
+		let sandbox: SinonSandbox;
 		let messagePreview: MessagePreviewService;
 
 		beforeEach(() => {
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			sandbox = createSandbox();
 			messagePreview = MessagePreviewService.getInstance();
 		});
 
-		it("should return true if message's author is a bot", () => {
-			message.author.bot = true;
-
-			expect(messagePreview.wasSentByABot(message)).to.be.true;
+		it("should return the string as it is if there are no hyperlinks", () => {
+			expect(messagePreview.escapeHyperlinks("I am the night")).to.equal("I am the night");
 		});
 
-		it("should return false if message's author isn't a bot", () => {
-			message.author.bot = false;
+		it("should escape hyperlinks", () => {
+			expect(messagePreview.escapeHyperlinks("Do you feel lucky, [punk](punkrock.com)?"))
+				.to.equal("Do you feel lucky, \\[punk\\]\\(punkrock.com\\)?");
+		});
 
-			expect(messagePreview.wasSentByABot(message)).to.be.false;
+		it("should scape all hyperlinks if there is more than one", () => {
+			expect(messagePreview.escapeHyperlinks("[Link1](l1.com) and [Link2](l2.com)"))
+				.to.equal("\\[Link1\\]\\(l1.com\\) and \\[Link2\\]\\(l2.com\\)");
+		});
+
+		it("should escape hyperlinks even if they are empty", () => {
+			expect(messagePreview.escapeHyperlinks("[]()")).to.equal("\\[\\]\\(\\)");
+			expect(messagePreview.escapeHyperlinks("[half]()")).to.equal("\\[half\\]\\(\\)");
+			expect(messagePreview.escapeHyperlinks("[](half)")).to.equal("\\[\\]\\(half\\)");
 		});
 	});
 });
