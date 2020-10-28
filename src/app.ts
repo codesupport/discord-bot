@@ -5,7 +5,7 @@ import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESS
 
 const client = new Client({
 	ws: {
-		intents: [Intents.FLAGS.GUILD_MEMBERS]
+		intents: [Intents.ALL]
 	}
 });
 
