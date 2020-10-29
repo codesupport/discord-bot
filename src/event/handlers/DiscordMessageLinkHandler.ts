@@ -14,7 +14,6 @@ class DiscordMessageLinkHandler extends EventHandler {
 		if (message.content.match(messageRegex)) {
 			const linkIndex = message.content.search(messageRegex);
 
-			// Gets the position of the url from a string
 			const wordIndex = message.content.slice(0, linkIndex).split(" ").length - 1;
 			const linkContent = message.content.split(" ")[wordIndex];
 
