@@ -11,10 +11,15 @@ class DiscordMessageLinkHandler extends EventHandler {
 		const messagePreviewService = MessagePreviewService.getInstance();
 		const messageRegex = /https:\/\/(ptb\.)?discord(app)?\.com\/channels\//gm;
 
-		if (message.content.startsWith("!")) return;
-
 		if (message.content.match(messageRegex)) {
 			const linkIndex = message.content.search(messageRegex);
+
+			// Gets the position of the url from a string
+			const wordIndex = message.content.slice(0, linkIndex).split(" ").length - 1;
+			const linkContent = message.content.split(" ")[wordIndex];
+
+			if (linkContent.startsWith("<") && linkContent.endsWith(">")) return;
+
 			const link = message.content.replace(/app/, "").replace(/ptb\./, "").substring(linkIndex, linkIndex + 85);
 
 			await messagePreviewService.generatePreview(link, message);
