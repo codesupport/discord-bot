@@ -11,7 +11,7 @@ class DiscordMessageLinkHandler extends EventHandler {
 		const messageRegex = /https:\/\/(ptb\.)?discord(app)?\.com\/channels\//gm;
 		const linkIndex = message.content.search(messageRegex);
 
-		if (linkIndex == -1) return;
+		if (linkIndex === -1) return;
 
 		const wordIndex = message.content.slice(0, linkIndex).split(" ").length - 1;
 		const linkContent = message.content.split(" ")[wordIndex];
