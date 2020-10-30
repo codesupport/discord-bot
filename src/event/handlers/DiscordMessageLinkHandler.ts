@@ -9,7 +9,6 @@ class DiscordMessageLinkHandler extends EventHandler {
 
 	async handle(message: Message): Promise<void> {
 		const messageRegex = /https:\/\/(ptb\.)?discord(app)?\.com\/channels\//gm;
-
 		const linkIndex = message.content.search(messageRegex);
 
 		if (linkIndex === -1) return;
@@ -24,7 +23,6 @@ class DiscordMessageLinkHandler extends EventHandler {
 		const messagePreviewService = MessagePreviewService.getInstance();
 
 		await messagePreviewService.generatePreview(link, message);
-
 	}
 }
 
