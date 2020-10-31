@@ -56,6 +56,7 @@ describe("GhostPingHandler", () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
 			const author = discordMock.getUser();
+
 			author.bot = true;
 
 			message.author = author;
@@ -65,6 +66,43 @@ describe("GhostPingHandler", () => {
 			await handler.handle(message);
 
 			expect(messageMock.called).to.be.false;
+		});
+
+		it.only("does not send a message when author only mentions himself", async () => {
+			const message = discordMock.getMessage();
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			const author = discordMock.getUser();
+
+			message.author = author;
+			message.mentions = new MessageMentions(message, [discordMock.getUser()], [], false);
+			message.content = `<@${message.author.id}>`;
+
+			await handler.handle(message);
+
+			expect(messageMock.called).to.be.false;
+		});
+
+		it.only("sends a message when message author and someone else is being mentioned", async () => {
+			const message = discordMock.getMessage();
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			const author = discordMock.getUser();
+			const mockUser = new User(discordMock.getClient(), {
+				id: "328194044587147278",
+				username: "User",
+				discriminator: "user#0000",
+				avatar: "user avatar url",
+				bot: false
+			});
+
+			message.author = author;
+			message.mentions = new MessageMentions(message, [discordMock.getUser(), mockUser], [], false);
+			message.content = `<@${message.author.id}> <@328194044587147278>`;
+
+			await handler.handle(message);
+
+			expect(messageMock.called).to.be.true;
 		});
 
 		afterEach(() => {
