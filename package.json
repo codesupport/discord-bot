@@ -7,7 +7,7 @@
     "start": "node -r dotenv/config ./build/index.js",
     "build": "tsc",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
-    "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --exit",
+    "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts --exit",
     "lint": "eslint src --ext .js,.ts"
   },
   "repository": {
@@ -26,10 +26,11 @@
   },
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "dependencies": {
+    "@lambocreeper/mock-discord.js": "^1.0.1",
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
-    "twitter": "^1.7.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",

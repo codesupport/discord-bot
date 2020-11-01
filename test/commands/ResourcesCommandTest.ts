@@ -1,9 +1,11 @@
 import { expect } from "chai";
 import { SinonSandbox, createSandbox } from "sinon";
-import ResourcesCommand from "../../src/commands/ResourcesCommand";
 import { Message } from "discord.js";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+
 import Command from "../../src/abstracts/Command";
-import MockDiscord from "../MockDiscord";
+import ResourcesCommand from "../../src/commands/ResourcesCommand";
+
 
 describe("ResourcesCommand", () => {
 	describe("constructor()", () => {
@@ -30,13 +32,11 @@ describe("ResourcesCommand", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
 		let command: Command;
-		let discordMock: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new ResourcesCommand();
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			message = BaseMocks.getMessage();
 		});
 
 		it("sends a message to the channel", async () => {
@@ -67,6 +67,10 @@ describe("ResourcesCommand", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(url).to.equal("https://codesupport.dev/resources?category=javascript");
+		});
+
+		afterEach(() => {
+			sandbox.restore();
 		});
 	});
 });

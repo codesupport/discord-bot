@@ -2,10 +2,10 @@ import { expect } from "chai";
 import { SinonSandbox, createSandbox } from "sinon";
 import { Message } from "discord.js";
 import axios from "axios";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
 
 import NPMCommand from "../../src/commands/NPMCommand";
 import Command from "../../src/abstracts/Command";
-import MockDiscord from "../MockDiscord";
 import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("NPMCommand", () => {
@@ -27,13 +27,11 @@ describe("NPMCommand", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
 		let command: Command;
-		let discordMock: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new NPMCommand();
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			message = BaseMocks.getMessage();
 		});
 
 		it("sends a message to the channel", async () => {

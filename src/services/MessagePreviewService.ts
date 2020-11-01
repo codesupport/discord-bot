@@ -20,6 +20,9 @@ class MessagePreviewService {
 	async generatePreview(link: string, callingMessage: Message): Promise<void> {
 		const msgArray = this.stripLink(link);
 
+		console.log(this.verifyGuild(callingMessage, msgArray[0]));
+		console.log(callingMessage.guild?.available);
+
 		if (this.verifyGuild(callingMessage, msgArray[0])) {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;

@@ -1,9 +1,8 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { Message } from "discord.js";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
 
-// @ts-ignore
-import MockDiscord from "../MockDiscord";
 import IssuesCommand from "../../src/commands/IssuesCommand";
 import Command from "../../src/abstracts/Command";
 import GitHubService from "../../src/services/GitHubService";
@@ -28,14 +27,12 @@ describe("IssuesCommand", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
 		let command: Command;
-		let discordMock: MockDiscord;
 		let gitHub: GitHubService;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new IssuesCommand();
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			message = BaseMocks.getMessage();
 			gitHub = GitHubService.getInstance();
 		});
 

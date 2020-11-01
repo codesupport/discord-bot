@@ -3,12 +3,11 @@ import { expect } from "chai";
 import Twitter from "twitter";
 import { EventEmitter } from "events";
 import { TextChannel } from "discord.js";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+
+import { EMBED_COLOURS, TWITTER_ID } from "../../src/config.json";
 import TwitterService from "../../src/services/TwitterService";
 import * as getEnvironmentVariable from "../../src/utils/getEnvironmentVariable";
-
-// @ts-ignore - TS does not like MockDiscord not living in src/
-import MockDiscord from "../MockDiscord";
-import { EMBED_COLOURS, TWITTER_ID } from "../../src/config.json";
 
 describe("TwitterService", () => {
 	describe("::getInstance()", () => {
@@ -34,7 +33,7 @@ describe("TwitterService", () => {
 			sandbox = createSandbox();
 			sandbox.stub(getEnvironmentVariable, "default");
 			twitterService = TwitterService.getInstance();
-			channel = new MockDiscord().getTextChannel();
+			channel = BaseMocks.getTextChannel();
 		});
 
 		it("streams twitter for statuses/filter on the codesupportdev account", (done) => {
@@ -82,7 +81,7 @@ describe("TwitterService", () => {
 			sandbox = createSandbox();
 			sandbox.stub(getEnvironmentVariable, "default");
 			twitterService = TwitterService.getInstance();
-			channel = new MockDiscord().getTextChannel();
+			channel = BaseMocks.getTextChannel();
 		});
 
 		it("does not send a message if the tweet starts with an @", async () => {

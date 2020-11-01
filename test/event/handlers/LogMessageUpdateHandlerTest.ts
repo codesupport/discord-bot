@@ -1,9 +1,10 @@
 import { expect } from "chai";
 import { Constants, Message } from "discord.js";
-import LogMessageUpdateHandler from "../../../src/event/handlers/LogMessageUpdateHandler";
 import { SinonSandbox, createSandbox } from "sinon";
+import CustomMocks from "@lambocreeper/mock-discord.js/build/CustomMocks";
+
 import EventHandler from "../../../src/abstracts/EventHandler";
-import MockDiscord from "../../MockDiscord";
+import LogMessageUpdateHandler from "../../../src/event/handlers/LogMessageUpdateHandler";
 
 describe("LogMessageUpdateHandler", () => {
 	describe("constructor()", () => {
@@ -17,19 +18,15 @@ describe("LogMessageUpdateHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: EventHandler;
-		let discordMockOld: MockDiscord;
-		let discordMockNew: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new LogMessageUpdateHandler();
-			discordMockOld = new MockDiscord();
-			discordMockNew = new MockDiscord();
 		});
 
 		it("doesn't send a message if the old message content is the same as the new message content", async () => {
-			const oldMessage = discordMockOld.getMessage();
-			const newMessage = discordMockNew.getMessage();
+			const oldMessage = CustomMocks.getMessage();
+			const newMessage = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(oldMessage.guild.channels.cache, "find");
 
 			oldMessage.content = "example message";
@@ -41,8 +38,8 @@ describe("LogMessageUpdateHandler", () => {
 		});
 
 		it("doesn't send a message if the new message content is empty", async () => {
-			const oldMessage = discordMockOld.getMessage();
-			const newMessage = discordMockNew.getMessage();
+			const oldMessage = CustomMocks.getMessage();
+			const newMessage = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(oldMessage.guild.channels.cache, "find");
 
 			oldMessage.content = "asdf";
@@ -54,8 +51,8 @@ describe("LogMessageUpdateHandler", () => {
 		});
 
 		it("sends a message if the message contents are different", async () => {
-			const oldMessage = discordMockOld.getMessage();
-			const newMessage = discordMockNew.getMessage();
+			const oldMessage = CustomMocks.getMessage();
+			const newMessage = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(oldMessage.guild.channels.cache, "find");
 
 			oldMessage.content = "oldMessage content";

@@ -1,9 +1,8 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { Message } from "discord.js";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
 
-// @ts-ignore
-import MockDiscord from "../MockDiscord";
 import SearchCommand from "../../src/commands/SearchCommand";
 import Command from "../../src/abstracts/Command";
 import InstantAnswerService from "../../src/services/InstantAnswerService";
@@ -28,14 +27,12 @@ describe("SearchCommand", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
 		let command: Command;
-		let discordMock: MockDiscord;
 		let instantAnswer: InstantAnswerService;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new SearchCommand();
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			message = BaseMocks.getMessage();
 			instantAnswer = InstantAnswerService.getInstance();
 		});
 

@@ -1,9 +1,8 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { Message } from "discord.js";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
 
-// @ts-ignore - TS does not like MockDiscord not living in src/
-import MockDiscord from "../MockDiscord";
 import RuleCommand from "../../src/commands/RuleCommand";
 import Command from "../../src/abstracts/Command";
 import { EMBED_COLOURS } from "../../src/config.json";
@@ -28,13 +27,11 @@ describe("RuleCommand", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
 		let command: Command;
-		let discordMock: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new RuleCommand();
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			message = BaseMocks.getMessage();
 		});
 
 		it("sends a message to the channel", async () => {
@@ -236,7 +233,7 @@ describe("RuleCommand", () => {
 		});
 
 		afterEach(() => {
-			sandbox.reset();
+			sandbox.restore();
 		});
 	});
 });

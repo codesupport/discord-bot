@@ -1,11 +1,11 @@
 import { expect } from "chai";
 import { Constants, Message, Collection, MessageAttachment } from "discord.js";
-import CodeblocksOverFileUploadsHandler from "../../../src/event/handlers/CodeblocksOverFileUploadsHandler";
 import { SinonSandbox, createSandbox } from "sinon";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+
 import { EMBED_COLOURS } from "../../../src/config.json";
 import EventHandler from "../../../src/abstracts/EventHandler";
-// @ts-ignore - TS does not like MockDiscord not living in src/
-import MockDiscord from "../../MockDiscord";
+import CodeblocksOverFileUploadsHandler from "../../../src/event/handlers/CodeblocksOverFileUploadsHandler";
 
 describe("CodeblocksOverFileUploadsHandler", () => {
 	describe("constructor()", () => {
@@ -19,18 +19,16 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: EventHandler;
-		let discordMock: MockDiscord;
 		let message: Message;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new CodeblocksOverFileUploadsHandler();
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			message = BaseMocks.getMessage();
 			message.id = "1234";
 			message.attachments = new Collection<string, MessageAttachment>();
-			message.author = discordMock.getUser();
-			message.client.user = discordMock.getUser();
+			message.author = BaseMocks.getUser();
+			message.client.user = BaseMocks.getUser();
 		});
 
 		it("does nothing when there are no attachments.", async () => {
@@ -69,7 +67,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@user-id>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
@@ -87,12 +85,12 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@user-id>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		afterEach(() => {
-			sandbox.reset();
+			sandbox.restore();
 		});
 	});
 });

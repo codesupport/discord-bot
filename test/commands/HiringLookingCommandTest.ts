@@ -1,9 +1,8 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { Message } from "discord.js";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
 
-// @ts-ignore - TS does not like MockDiscord not living in src/
-import MockDiscord from "../MockDiscord";
 import HiringLookingCommand from "../../src/commands/HiringLookingCommand";
 import Command from "../../src/abstracts/Command";
 import { EMBED_COLOURS } from "../../src/config.json";
@@ -27,13 +26,11 @@ describe("HiringLookingCommand", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
 		let command: Command;
-		let discordMock: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new HiringLookingCommand();
-			discordMock = new MockDiscord();
-			message = discordMock.getMessage();
+			message = BaseMocks.getMessage();
 		});
 
 		it("sends a message to the channel", async () => {
@@ -83,7 +80,7 @@ Requirements:
 		});
 
 		afterEach(() => {
-			sandbox.reset();
+			sandbox.restore();
 		});
 	});
 });

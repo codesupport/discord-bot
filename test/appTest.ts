@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { SinonSandbox, createSandbox, SinonStub } from "sinon";
-import { Client, TextChannel, ChannelManager } from "discord.js";
+import { Client, ChannelManager } from "discord.js";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
 
 import app from "../src/app";
 import DirectoryUtils from "../src/utils/DirectoryUtils";
 import MockHandler from "./MockHandler";
-import MockDiscord from "./MockDiscord";
-import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../src/config.json";
+import { AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../src/config.json";
 
 describe("app", () => {
 	let sandbox: SinonSandbox;
@@ -65,8 +65,7 @@ describe("app", () => {
 
 		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
 
-		const mockDiscord = new MockDiscord();
-		const textChannel = mockDiscord.getTextChannel();
+		const textChannel = BaseMocks.getTextChannel();
 
 		const fetchChannelsStub = sandbox.stub(ChannelManager.prototype, "fetch").callsFake(async () => textChannel);
 		const fetchMessagesStub = sandbox.stub(textChannel.messages, "fetch");

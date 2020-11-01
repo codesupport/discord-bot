@@ -1,10 +1,13 @@
 import { expect } from "chai";
 import { Constants } from "discord.js";
-import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
 import { SinonSandbox, createSandbox } from "sinon";
-import MockDiscord from "../../MockDiscord";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+import CustomMocks from "@lambocreeper/mock-discord.js/build/CustomMocks";
+
 import { RAID_SETTINGS, MOD_CHANNEL_ID } from "../../../src/config.json";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
+import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
+
 
 describe("RaidDetectionHandler", () => {
 	describe("constructor()", () => {
@@ -18,16 +21,14 @@ describe("RaidDetectionHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: RaidDetectionHandler;
-		let discordMock: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new RaidDetectionHandler();
-			discordMock = new MockDiscord();
 		});
 
 		it("adds a member to the joinQueue", async () => {
-			const mockGuildMember = discordMock.getGuildMember();
+			const mockGuildMember = BaseMocks.getGuildMember();
 
 			await handler.handle(mockGuildMember);
 
@@ -36,7 +37,7 @@ describe("RaidDetectionHandler", () => {
 
 		it("removes member from joinQueue", done => {
 			sandbox.stub(getConfigValue, "default").returns(0.002);
-			const mockGuildMember = discordMock.getGuildMember();
+			const mockGuildMember = BaseMocks.getGuildMember();
 
 			handler.handle(mockGuildMember).then(() => {
 				expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
@@ -48,15 +49,15 @@ describe("RaidDetectionHandler", () => {
 		}).timeout(200);
 
 		it("sends message to mods channel when raid is detected", async () => {
-			const mockMember = discordMock.getGuildMember();
-			const mockModChannel = discordMock.getTextChannel();
+			const mockMember = BaseMocks.getGuildMember();
+			const mockModChannel = BaseMocks.getTextChannel();
 
 			mockModChannel.id = MOD_CHANNEL_ID;
 			sandbox.stub(mockMember.guild.channels.cache, "find").returns(mockModChannel);
 			const messageMock = sandbox.stub(mockModChannel, "send");
 
 			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE; i++) {
-				await handler.handle(discordMock.getGuildMember(true));
+				await handler.handle(CustomMocks.getGuildMember());
 			}
 
 			await handler.handle(mockMember);

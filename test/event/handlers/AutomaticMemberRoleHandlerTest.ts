@@ -1,10 +1,10 @@
 import { expect } from "chai";
-import {Constants, GuildMember} from "discord.js";
-import AutomaticMemberRoleHandler from "../../../src/event/handlers/AutomaticMemberRoleHandler";
+import { Constants, GuildMember } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+
+import AutomaticMemberRoleHandler from "../../../src/event/handlers/AutomaticMemberRoleHandler";
 import EventHandler from "../../../src/abstracts/EventHandler";
-// @ts-ignore - TS does not like MockDiscord not living in src/
-import MockDiscord from "../../MockDiscord";
 
 describe("AutomaticMemberRoleHandler", () => {
 	describe("constructor()", () => {
@@ -18,14 +18,12 @@ describe("AutomaticMemberRoleHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: EventHandler;
-		let discordMock: MockDiscord;
 		let member: GuildMember;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new AutomaticMemberRoleHandler();
-			discordMock = new MockDiscord();
-			member = discordMock.getGuildMember();
+			member = BaseMocks.getGuildMember();
 		});
 
 		it("doesn't give the member the role if they don't have an avatar", async () => {
@@ -39,7 +37,7 @@ describe("AutomaticMemberRoleHandler", () => {
 		});
 
 		afterEach(() => {
-			sandbox.reset();
+			sandbox.restore();
 		});
 	});
 });

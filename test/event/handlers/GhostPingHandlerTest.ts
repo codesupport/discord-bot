@@ -1,8 +1,9 @@
 import { expect } from "chai";
 import { Constants, Channel, Message, MessageMentions, Collection, User } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
+import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+
 import EventHandler from "../../../src/abstracts/EventHandler";
-import MockDiscord from "../../MockDiscord";
 import GhostPingHandler from "../../../src/event/handlers/GhostPingHandler";
 
 describe("GhostPingHandler", () => {
@@ -17,19 +18,17 @@ describe("GhostPingHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: EventHandler;
-		let discordMock: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new GhostPingHandler();
-			discordMock = new MockDiscord();
 		});
 
 		it("sends a message when a message is deleted that pinged a user", async () => {
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			message.mentions = new MessageMentions(message, [discordMock.getUser()], [], false);
+			message.mentions = new MessageMentions(message, [BaseMocks.getUser()], [], false);
 
 			message.content = "Hey <@328194044587147278>!";
 
@@ -39,7 +38,7 @@ describe("GhostPingHandler", () => {
 		});
 
 		it("does not send a message when a message is deleted that didn't ping a user", async () => {
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 			const messageMock = sandbox.stub(message.channel, "send");
 
 			message.mentions = new MessageMentions(message, [], [], false);
@@ -52,14 +51,14 @@ describe("GhostPingHandler", () => {
 		});
 
 		it("does not send a message when it's author is a bot", async () => {
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			const author = discordMock.getUser();
+			const author = BaseMocks.getUser();
 			author.bot = true;
 
 			message.author = author;
-			message.mentions = new MessageMentions(message, [discordMock.getUser()], [], false);
+			message.mentions = new MessageMentions(message, [BaseMocks.getUser()], [], false);
 			message.content = "Hey <@328194044587147278>, stop spamming or we'll arrest you!";
 
 			await handler.handle(message);
