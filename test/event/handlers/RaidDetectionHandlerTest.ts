@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import { Constants } from "discord.js";
-import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
 import { SinonSandbox, createSandbox } from "sinon";
 import MockDiscord from "../../MockDiscord";
-import { RAID_SETTINGS, MOD_CHANNEL_ID } from "../../../src/config.json";
+import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
+import { MOD_CHANNEL_ID, RAID_SETTINGS } from "../../../src/config.json";
 
 describe("RaidDetectionHandler", () => {
 	describe("constructor()", () => {
@@ -35,32 +35,43 @@ describe("RaidDetectionHandler", () => {
 		});
 
 		it("removes member from joinQueue", done => {
-			sandbox.stub(getConfigValue, "default").returns(0.002);
 			const mockGuildMember = discordMock.getGuildMember();
+
+			sandbox.stub(getConfigValue, "default").returns(0.002);
 
 			handler.handle(mockGuildMember).then(() => {
 				expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
+
 				setTimeout(() => {
 					expect(handler.joinQueue.includes(mockGuildMember)).to.be.false;
+
 					done();
 				}, 10);
 			});
 		}).timeout(200);
 
-		it("sends message to mods channel when raid is detected", async () => {
+		it("sends message to mods channel when raid is detected and kicks user", async () => {
 			const mockMember = discordMock.getGuildMember();
 			const mockModChannel = discordMock.getTextChannel();
 
 			mockModChannel.id = MOD_CHANNEL_ID;
 			sandbox.stub(mockMember.guild.channels.cache, "find").returns(mockModChannel);
+
 			const messageMock = sandbox.stub(mockModChannel, "send");
+			const kickMocks = [];
 
 			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE; i++) {
-				await handler.handle(discordMock.getGuildMember(true));
+				const member = discordMock.getGuildMember(true);
+
+				kickMocks.push(sandbox.stub(member, "kick"));
+
+				await handler.handle(member);
 			}
 
 			await handler.handle(mockMember);
-			expect(messageMock.calledOnce).to.be.true;
+
+			expect(kickMocks.map(mock => mock.called)).not.to.contain(false);
+			expect(messageMock.called).to.be.true;
 		});
 
 		afterEach(() => {

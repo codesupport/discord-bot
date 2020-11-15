@@ -8,6 +8,7 @@
     "build": "tsc",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --exit",
+    "test:debug": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --timeout 999999999 --exit",
     "lint": "eslint src --ext .js,.ts"
   },
   "repository": {
