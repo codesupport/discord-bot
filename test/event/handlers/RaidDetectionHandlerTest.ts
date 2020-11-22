@@ -1,10 +1,12 @@
 import { expect } from "chai";
 import { Constants } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import MockDiscord from "../../MockDiscord";
-import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
+
+import { RAID_SETTINGS, MOD_CHANNEL_ID } from "../../../src/config.json";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
-import { MOD_CHANNEL_ID, RAID_SETTINGS } from "../../../src/config.json";
+import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
+
 
 describe("RaidDetectionHandler", () => {
 	describe("constructor()", () => {
@@ -18,16 +20,14 @@ describe("RaidDetectionHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: RaidDetectionHandler;
-		let discordMock: MockDiscord;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new RaidDetectionHandler();
-			discordMock = new MockDiscord();
 		});
 
 		it("adds a member to the joinQueue", async () => {
-			const mockGuildMember = discordMock.getGuildMember();
+			const mockGuildMember = BaseMocks.getGuildMember();
 
 			await handler.handle(mockGuildMember);
 
@@ -35,8 +35,7 @@ describe("RaidDetectionHandler", () => {
 		});
 
 		it("removes member from joinQueue", done => {
-			const mockGuildMember = discordMock.getGuildMember();
-
+			const mockGuildMember = BaseMocks.getGuildMember();
 			sandbox.stub(getConfigValue, "default").returns(0.002);
 
 			handler.handle(mockGuildMember).then(() => {
@@ -51,8 +50,8 @@ describe("RaidDetectionHandler", () => {
 		}).timeout(200);
 
 		it("sends message to mods channel when raid is detected and kicks user", async () => {
-			const mockMember = discordMock.getGuildMember();
-			const mockModChannel = discordMock.getTextChannel();
+			const mockMember = BaseMocks.getGuildMember();
+			const mockModChannel = BaseMocks.getTextChannel();
 
 			mockModChannel.id = MOD_CHANNEL_ID;
 			sandbox.stub(mockMember.guild.channels.cache, "find").returns(mockModChannel);
@@ -61,7 +60,7 @@ describe("RaidDetectionHandler", () => {
 			const kickMocks = [];
 
 			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE; i++) {
-				const member = discordMock.getGuildMember(true);
+				const member = CustomMocks.getGuildMember();
 
 				kickMocks.push(sandbox.stub(member, "kick"));
 
