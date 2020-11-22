@@ -1,7 +1,7 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { Message } from "discord.js";
-import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import Command from "../../src/abstracts/Command";
 import CodeblockCommand from "../../src/commands/CodeblockCommand";

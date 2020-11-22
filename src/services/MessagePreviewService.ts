@@ -20,9 +20,6 @@ class MessagePreviewService {
 	async generatePreview(link: string, callingMessage: Message): Promise<void> {
 		const msgArray = this.stripLink(link);
 
-		console.log(this.verifyGuild(callingMessage, msgArray[0]));
-		console.log(callingMessage.guild?.available);
-
 		if (this.verifyGuild(callingMessage, msgArray[0])) {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;
@@ -38,7 +35,7 @@ class MessagePreviewService {
 					embed.setFooter(`Message sent at ${DateUtils.formatAsText(messageToPreview.createdAt)}`);
 					embed.setColor(messageToPreview.member?.displayColor || MEMBER_ROLE_COLOR);
 
-					callingMessage.channel.send(embed);
+					await callingMessage.channel.send(embed);
 				}
 			}
 		}

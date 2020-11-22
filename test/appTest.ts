@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 import { Client, ChannelManager } from "discord.js";
-import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import app from "../src/app";
 import DirectoryUtils from "../src/utils/DirectoryUtils";

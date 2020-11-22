@@ -3,7 +3,7 @@ import { expect } from "chai";
 import Twitter from "twitter";
 import { EventEmitter } from "events";
 import { TextChannel } from "discord.js";
-import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import { EMBED_COLOURS, TWITTER_ID } from "../../src/config.json";
 import TwitterService from "../../src/services/TwitterService";

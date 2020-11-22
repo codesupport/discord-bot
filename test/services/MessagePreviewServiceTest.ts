@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import { SinonSandbox, createSandbox, SinonStub } from "sinon";
-import { Message, TextChannel, GuildMember } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 
 import MessagePreviewService from "../../src/services/MessagePreviewService";
-import BaseMocks from "@lambocreeper/mock-discord.js/build/BaseMocks";
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
 describe("MessagePreviewService", () => {
 	describe("::getInstance()", () => {
@@ -14,12 +14,11 @@ describe("MessagePreviewService", () => {
 		});
 	});
 
-	describe.skip("generatePreview()", () => {
+	describe("generatePreview()", () => {
 		let sandbox: SinonSandbox;
 		let messagePreview: MessagePreviewService;
 		let link: string;
 		let callingMessage: Message;
-		let member: GuildMember;
 		let channel: TextChannel;
 		let getChannelMock: SinonStub;
 		let sendMessageMock: SinonStub;
@@ -29,12 +28,20 @@ describe("MessagePreviewService", () => {
 
 			messagePreview = MessagePreviewService.getInstance();
 
-			callingMessage = BaseMocks.getMessage();
-			member = BaseMocks.getGuildMember();
-			channel = BaseMocks.getTextChannel();
+			let guild = CustomMocks.getGuild({
+				id: "guild-id",
+				channels: []
+			});
+
+			channel = CustomMocks.getTextChannel({
+				id: '518817917438001152'
+			}, guild);
+
+			callingMessage = CustomMocks.getMessage({}, {
+				channel
+			});
 
 			link = "https://discord.com/channels/guild-id/518817917438001152/732711501345062982";
-			channel.id = "518817917438001152";
 
 			getChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 			sendMessageMock = sandbox.stub(callingMessage.channel, "send");
