@@ -13,9 +13,9 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 
 		if (message.attachments.size > 0) {
 			message.attachments.forEach(attachment => {
-				const fileExtension = attachment.name?.split(".").pop()!.toLowerCase();
+				const fileExtension = attachment.name?.split(".").pop()!.toLowerCase() || "";
 
-				if (!ALLOWED_FILE_EXTENSIONS.includes(fileExtension)) {
+				if (!ALLOWED_FILE_EXTENSIONS.includes(fileExtension) || fileExtension === "") {
 					invalidFileExtension = fileExtension;
 					invalidFileFlag = true;
 				}
@@ -31,7 +31,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 
 				await message.channel.send({ embed });
 				if (message.deletable) {
-					message.delete();
+					await message.delete();
 				}
 			}
 		}
