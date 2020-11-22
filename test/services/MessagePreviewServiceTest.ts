@@ -1,8 +1,9 @@
 import { expect } from "chai";
 import { SinonSandbox, createSandbox, SinonStub } from "sinon";
+import { Message, TextChannel } from "discord.js";
+
 import MessagePreviewService from "../../src/services/MessagePreviewService";
-import { Message, TextChannel, GuildMember } from "discord.js";
-import MockDiscord from "../MockDiscord";
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
 describe("MessagePreviewService", () => {
 	describe("::getInstance()", () => {
@@ -18,9 +19,7 @@ describe("MessagePreviewService", () => {
 		let messagePreview: MessagePreviewService;
 		let link: string;
 		let callingMessage: Message;
-		let member: GuildMember;
 		let channel: TextChannel;
-		let discordMock: MockDiscord;
 		let getChannelMock: SinonStub;
 		let sendMessageMock: SinonStub;
 
@@ -29,13 +28,20 @@ describe("MessagePreviewService", () => {
 
 			messagePreview = MessagePreviewService.getInstance();
 
-			discordMock = new MockDiscord();
-			callingMessage = discordMock.getMessage();
-			member = discordMock.getGuildMember();
-			channel = discordMock.getTextChannel();
+			let guild = CustomMocks.getGuild({
+				id: "guild-id",
+				channels: []
+			});
+
+			channel = CustomMocks.getTextChannel({
+				id: '518817917438001152'
+			}, guild);
+
+			callingMessage = CustomMocks.getMessage({}, {
+				channel
+			});
 
 			link = "https://discord.com/channels/guild-id/518817917438001152/732711501345062982";
-			channel.id = "518817917438001152";
 
 			getChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 			sendMessageMock = sandbox.stub(callingMessage.channel, "send");
@@ -76,9 +82,15 @@ describe("MessagePreviewService", () => {
 	});
 
 	describe("verifyGuild()", () => {
-		const messagePreview = MessagePreviewService.getInstance();
-		const discordMock = new MockDiscord();
-		const message = discordMock.getMessage();
+		let sandbox: SinonSandbox;
+		let messagePreview: MessagePreviewService;
+		let message: Message;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			messagePreview = MessagePreviewService.getInstance();
+			message = BaseMocks.getMessage();
+		});
 
 		it("should return true if message's guild and provided guild id match", () => {
 			message.guild.id = "RANDOM_GUILD_ID";
@@ -90,6 +102,10 @@ describe("MessagePreviewService", () => {
 			message.guild.id = "RANDOM_GUILD_ID";
 
 			expect(messagePreview.verifyGuild(message, "OTHER_GUILD_ID")).to.be.false;
+		});
+
+		afterEach(() => {
+			sandbox.restore();
 		});
 	});
 
@@ -144,6 +160,10 @@ describe("MessagePreviewService", () => {
 			expect(messagePreview.escapeHyperlinks("[]()")).to.equal("\\[\\]\\(\\)");
 			expect(messagePreview.escapeHyperlinks("[half]()")).to.equal("\\[half\\]\\(\\)");
 			expect(messagePreview.escapeHyperlinks("[](half)")).to.equal("\\[\\]\\(half\\)");
+		});
+
+		afterEach(() => {
+			sandbox.restore();
 		});
 	});
 });

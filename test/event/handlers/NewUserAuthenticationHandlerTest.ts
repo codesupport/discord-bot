@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
-import { Constants, MessageReaction, User } from "discord.js";
+import { Constants, User } from "discord.js";
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
+
 import NewUserAuthenticationHandler from "../../../src/event/handlers/NewUserAuthenticationHandler";
 import EventHandler from "../../../src/abstracts/EventHandler";
-// @ts-ignore
-import MockDiscord from "../../MockDiscord";
 
 describe("NewUserAuthenticationHandler", () => {
 	describe("constructor()", () => {
@@ -18,21 +18,24 @@ describe("NewUserAuthenticationHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: EventHandler;
-		let discordMock: MockDiscord;
-		let reaction: MessageReaction;
 		let user: User;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new NewUserAuthenticationHandler();
-			discordMock = new MockDiscord();
-			reaction = discordMock.getMessageReaction();
-			user = discordMock.getUser();
+			user = BaseMocks.getUser();
 		});
 
 		it("gives the user the member role if they meet the requirements", async () => {
-			reaction.message.id = "592316062796873738";
-			reaction.emoji.name = "🤖";
+			const message = CustomMocks.getMessage({
+				id: "592316062796873738"
+			});
+
+			const reaction = CustomMocks.getMessageReaction({
+				emoji: {
+					name: "🤖"
+				}
+			}, { message });
 
 			// @ts-ignore
 			const fetchMock = sandbox.stub(reaction.message.guild?.members, "fetch").resolves({
@@ -47,8 +50,15 @@ describe("NewUserAuthenticationHandler", () => {
 		});
 
 		it("does not give the user the member role if they react with the wrong emoji", async () => {
-			reaction.message.id = "592316062796873738";
-			reaction.emoji.name = "😀";
+			const message = CustomMocks.getMessage({
+				id: "592316062796873738"
+			});
+
+			const reaction = CustomMocks.getMessageReaction({
+				emoji: {
+					name: "😀"
+				}
+			}, { message });
 
 			// @ts-ignore
 			const fetchMock = sandbox.stub(reaction.message.guild?.members, "fetch").resolves({
@@ -63,8 +73,15 @@ describe("NewUserAuthenticationHandler", () => {
 		});
 
 		it("does not give the user the member role if they react to the wrong message", async () => {
-			reaction.message.id = "1234";
-			reaction.emoji.name = "🤖";
+			const message = CustomMocks.getMessage({
+				id: "1234"
+			});
+
+			const reaction = CustomMocks.getMessageReaction({
+				emoji: {
+					name: "🤖"
+				}
+			}, { message });
 
 			// @ts-ignore
 			const fetchMock = sandbox.stub(reaction.message.guild?.members, "fetch").resolves({
@@ -79,8 +96,15 @@ describe("NewUserAuthenticationHandler", () => {
 		});
 
 		it("does not give the user the member role if they react to the wrong message with the wrong emoji", async () => {
-			reaction.message.id = "1234";
-			reaction.emoji.name = "😀";
+			const message = CustomMocks.getMessage({
+				id: "1234"
+			});
+
+			const reaction = CustomMocks.getMessageReaction({
+				emoji: {
+					name: "😀"
+				}
+			}, { message });
 
 			// @ts-ignore
 			const fetchMock = sandbox.stub(reaction.message.guild?.members, "fetch").resolves({
@@ -95,7 +119,7 @@ describe("NewUserAuthenticationHandler", () => {
 		});
 
 		afterEach(() => {
-			sandbox.reset();
+			sandbox.restore();
 		});
 	});
 });

@@ -3,6 +3,7 @@ import EventHandler from "../../abstracts/EventHandler";
 import CommandFactory from "../../factories/CommandFactory";
 import getConfigValue from "../../utils/getConfigValue";
 import { COMMAND_PREFIX } from "../../config.json";
+import GenericObject from "../../interfaces/GenericObject";
 
 class CommandParserHandler extends EventHandler {
 	private readonly commandFactory: CommandFactory;
@@ -16,7 +17,7 @@ class CommandParserHandler extends EventHandler {
 
 	handle = async (message: Message): Promise<void> => {
 		if (message.content.startsWith(COMMAND_PREFIX)) {
-			const BOTLESS_CHANNELS = getConfigValue("BOTLESS_CHANNELS");
+			const BOTLESS_CHANNELS = getConfigValue<GenericObject<string>>("BOTLESS_CHANNELS");
 
 			if (Object.values(BOTLESS_CHANNELS).includes(message.channel.id)) {
 				return;

@@ -8,6 +8,7 @@
     "build": "tsc",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --exit",
+    "test:debug": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --timeout 999999999 --exit",
     "lint": "eslint src --ext .js,.ts"
   },
   "repository": {
@@ -27,28 +28,29 @@
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "discord.js": "^12.2.0",
-    "twitter": "^1.7.1",
-    "dotenv": "^8.2.0"
+    "discord.js": "^12.5.0",
+    "dotenv": "^8.2.0",
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
+    "@lambocreeper/mock-discord.js": "^1.0.9",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@types/assert": "^1.4.6",
-    "@types/chai": "^4.2.11",
+    "@types/assert": "^1.5.2",
+    "@types/chai": "^4.2.14",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.13.4",
-    "@types/sinon": "^9.0.0",
+    "@types/node": "^13.13.32",
+    "@types/sinon": "^9.0.8",
     "@types/twitter": "^1.7.0",
-    "@types/ws": "^7.2.4",
-    "@typescript-eslint/eslint-plugin": "^2.31.0",
-    "@typescript-eslint/parser": "^2.31.0",
+    "@types/ws": "^7.4.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-codesupport": "^1.0.2",
-    "mocha": "^7.1.2",
+    "mocha": "^7.2.0",
     "nyc": "^15.1.0",
-    "sinon": "^9.0.2",
+    "sinon": "^9.2.1",
     "ts-mocha": "^7.0.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   }
 }

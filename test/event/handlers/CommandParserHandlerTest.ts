@@ -2,14 +2,13 @@ import { expect } from "chai";
 import { Constants } from "discord.js";
 import { Message } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import MockCommand from "../../MockCommand";
-import MockDiscord from "../../MockDiscord";
 import CommandFactory from "../../../src/factories/CommandFactory";
 import CommandParserHandler from "../../../src/event/handlers/CommandParserHandler";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
 import { COMMAND_PREFIX } from "../../../src/config.json";
-import Command from "../../../src/abstracts/Command";
 
 describe("CommandParserHandler", () => {
 	describe("constructor()", () => {
@@ -41,13 +40,11 @@ describe("CommandParserHandler", () => {
 	describe("handle", () => {
 		let sandbox: SinonSandbox;
 		let handler: CommandParserHandler;
-		let discordMock: MockDiscord;
 		let command: MockCommand;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new CommandParserHandler();
-			discordMock = new MockDiscord();
 			command = new MockCommand();
 		});
 
@@ -55,7 +52,7 @@ describe("CommandParserHandler", () => {
 			sandbox.stub(CommandFactory.prototype, "commandExists").returns(true);
 
 			const runCommandMock = sandbox.stub(command, "run");
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 
 			message.content = command.getName();
 
@@ -69,7 +66,7 @@ describe("CommandParserHandler", () => {
 			sandbox.stub(getConfigValue, "default").returns({ MOCK_CHANNEL: "mock-channel-lol"});
 
 			const runCommandMock = sandbox.stub(command, "run");
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 
 			message.content = COMMAND_PREFIX + command.getName();
 			message.channel.id = "mock-channel-lol";
@@ -83,7 +80,7 @@ describe("CommandParserHandler", () => {
 			sandbox.stub(CommandFactory.prototype, "commandExists").returns(false);
 
 			const runCommandMock = sandbox.stub(command, "run");
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 
 			message.content = COMMAND_PREFIX + command.getName();
 			message.channel.id = "fake-bot-enabled-channel-id-123";
@@ -94,7 +91,7 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("should not throw error if message consists in command prefix", async () => {
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 
 			message.content = COMMAND_PREFIX;
 			message.channel.id = "fake-bot-enabled-channel-id";
@@ -115,7 +112,7 @@ describe("CommandParserHandler", () => {
 			sandbox.stub(CommandFactory.prototype, "getCommand").returns(command);
 
 			const runCommandMock = sandbox.stub(command, "run");
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
 
 			message.content = COMMAND_PREFIX + command.getName();
 			message.channel.id = "fake-bot-enabled-channel-id-123";
@@ -130,8 +127,9 @@ describe("CommandParserHandler", () => {
 			sandbox.stub(CommandFactory.prototype, "getCommand").returns(command);
 			sandbox.stub(MockCommand.prototype, "isSelfDestructing").returns(true);
 
-			const deleteMessageMock = sandbox.stub(Message.prototype, "delete");
-			const message = discordMock.getMessage();
+			const message = BaseMocks.getMessage();
+
+			const deleteMessageMock = sandbox.stub(message, "delete");
 
 			message.content = COMMAND_PREFIX + command.getName();
 			message.channel.id = "fake-bot-enabled-channel-id-123";
@@ -142,7 +140,6 @@ describe("CommandParserHandler", () => {
 		});
 
 		afterEach(() => {
-			sandbox.reset();
 			sandbox.restore();
 		});
 	});
