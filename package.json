@@ -27,13 +27,13 @@
   },
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "dependencies": {
-    "@lambocreeper/mock-discord.js": "^1.0.9",
     "axios": "^0.19.2",
     "discord.js": "^12.5.0",
     "dotenv": "^8.2.0",
     "twitter": "^1.7.1"
   },
   "devDependencies": {
+    "@lambocreeper/mock-discord.js": "^1.0.9",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/assert": "^1.5.2",
     "@types/chai": "^4.2.14",
