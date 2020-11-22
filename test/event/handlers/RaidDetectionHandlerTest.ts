@@ -35,32 +35,42 @@ describe("RaidDetectionHandler", () => {
 		});
 
 		it("removes member from joinQueue", done => {
-			sandbox.stub(getConfigValue, "default").returns(0.002);
 			const mockGuildMember = BaseMocks.getGuildMember();
+			sandbox.stub(getConfigValue, "default").returns(0.002);
 
 			handler.handle(mockGuildMember).then(() => {
 				expect(handler.joinQueue.includes(mockGuildMember)).to.be.true;
+
 				setTimeout(() => {
 					expect(handler.joinQueue.includes(mockGuildMember)).to.be.false;
+
 					done();
 				}, 10);
 			});
 		}).timeout(200);
 
-		it("sends message to mods channel when raid is detected", async () => {
+		it("sends message to mods channel when raid is detected and kicks user", async () => {
 			const mockMember = BaseMocks.getGuildMember();
 			const mockModChannel = BaseMocks.getTextChannel();
 
 			mockModChannel.id = MOD_CHANNEL_ID;
 			sandbox.stub(mockMember.guild.channels.cache, "find").returns(mockModChannel);
+
 			const messageMock = sandbox.stub(mockModChannel, "send");
+			const kickMocks = [];
 
 			for (let i = 0; i < RAID_SETTINGS.MAX_QUEUE_SIZE; i++) {
-				await handler.handle(CustomMocks.getGuildMember());
+				const member = CustomMocks.getGuildMember();
+
+				kickMocks.push(sandbox.stub(member, "kick"));
+
+				await handler.handle(member);
 			}
 
 			await handler.handle(mockMember);
-			expect(messageMock.calledOnce).to.be.true;
+
+			expect(kickMocks.map(mock => mock.called)).not.to.contain(false);
+			expect(messageMock.called).to.be.true;
 		});
 
 		afterEach(() => {
