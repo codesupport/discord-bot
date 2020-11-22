@@ -87,13 +87,19 @@ describe("GhostPingHandler", () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
 			const author = BaseMocks.getUser();
+			const mockUser = new User(BaseMocks.getClient(), {
+				id: "328194044587147278",
+				username: "User",
+				discriminator: "user#0000",
+				avatar: "user avatar url",
+				bot: false
+			});
 
 			message.author = author;
 			message.mentions = new MessageMentions(message, [BaseMocks.getUser(), CustomMocks.getUser({ id: "328194044587147278" })], [], false);
 			message.content = `<@${message.author.id}> <@328194044587147278>`;
 
 			await handler.handle(message);
-
 			expect(messageMock.called).to.be.true;
 		});
 
