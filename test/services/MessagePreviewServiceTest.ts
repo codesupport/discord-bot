@@ -34,7 +34,7 @@ describe("MessagePreviewService", () => {
 			});
 
 			channel = CustomMocks.getTextChannel({
-				id: "518817917438001152"
+				id: '518817917438001152'
 			}, guild);
 
 			callingMessage = CustomMocks.getMessage({}, {
