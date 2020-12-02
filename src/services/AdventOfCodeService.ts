@@ -1,6 +1,6 @@
 import axios from "axios";
 import cache from "axios-cache-adapter";
-import { AOCLeaderBoard } from "../interfaces/AdventOfCode";
+import { AOCLeaderBoard, AOCMember } from "../interfaces/AdventOfCode";
 
 export default class AdventOfCodeService {
 	private static instance: AdventOfCodeService;
@@ -33,5 +33,18 @@ export default class AdventOfCodeService {
 		}
 
 		return response.data;
+	}
+
+	async getSortedPlayerList(leaderBoard: string, year: number): Promise<AOCMember[]> {
+		const data = await this.getLeaderBoard(leaderBoard, year);
+		const members: AOCMember[] = Object.values(data.members);
+
+		members.sort((a, b) => {
+			const stars = b.stars - a.stars;
+
+			return !stars ? b.local_score - a.local_score : stars;
+		});
+
+		return members;
 	}
 }

@@ -6,9 +6,10 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import AdventofcodeCommand from "../../src/commands/AdventofcodeCommand";
 import Command from "../../src/abstracts/Command";
 import AdventOfCodeService from "../../src/services/AdventOfCodeService";
-import { EMBED_COLOURS, ADVENTOFCODE_INVITE, ADVENTOFCODE_LEADERBOARD, ADVENTOFCODE_YEAR } from "../../src/config.json";
+import { EMBED_COLOURS, ADVENT_OF_CODE_INVITE, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_YEAR } from "../../src/config.json";
+import { AOCLeaderBoard } from "../../src/interfaces/AdventOfCode";
 
-const AOCMockData = {
+const AOCMockData: AOCLeaderBoard = {
 	event: "2021",
 	owner_id: "490120",
 	members: {
@@ -16,7 +17,7 @@ const AOCMockData = {
 			completion_day_level: {
 				1: {
 					1: {
-						get_star_ts: 1606816563
+						get_star_ts: "1606816563"
 					}
 				}
 			},
@@ -80,7 +81,7 @@ describe("Adventofcode Command", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Advent Of Code");
-			expect(embed.description).to.equal(`Leaderboard ID: \`${ADVENTOFCODE_INVITE}\`\n\n[View Leaderboard](https://adventofcode.com/${ADVENTOFCODE_YEAR}/leaderboard/private/view/${ADVENTOFCODE_LEADERBOARD})`);
+			expect(embed.description).to.equal(`Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](https://adventofcode.com/${ADVENT_OF_CODE_YEAR}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
 			expect(embed.fields[0].name).to.equal("Top 15");
 			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\nLambo | 3 | 26\n```");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
