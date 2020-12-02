@@ -17,6 +17,7 @@ class AdventofcodeCommand extends Command {
 	async run(message: Message): Promise<void> {
 		const amountInTopList = 15;
 		const link = `https://adventofcode.com/${ADVENTOFCODE_YEAR}/leaderboard/private/view/${ADVENTOFCODE_LEADERBOARD}`;
+		const embed = new MessageEmbed();
 
 		try {
 			const oac = AdventOfCodeService.getInstance();
@@ -46,7 +47,7 @@ class AdventofcodeCommand extends Command {
 				return b;
 			}).stars.toString().length;
 
-			let playerList = "```java\n(Name, Stars, Points) \n";
+			let playerList = "```java\n(Name, Stars, Points)\n";
 
 			for (let i = 0; i < amountInTopList; i++) {
 				const member = members[i];
@@ -63,18 +64,17 @@ class AdventofcodeCommand extends Command {
 			playerList = playerList.concat("```");
 
 			const description = `Leaderboard ID: \`${ADVENTOFCODE_INVITE}\`\n\n[View Leaderboard](${link})`;
-			const embed = new MessageEmbed();
 
 			embed.setTitle("Advent Of Code");
 			embed.setDescription(description);
 			embed.addField("Top 15", playerList);
 			embed.setColor(EMBED_COLOURS.SUCCESS);
-
-			message.channel.send(embed);
-		} catch (e) {
-			message.channel.send("Could not get the current leaderboard");
-			console.error("AOC went wrong", e);
+		} catch {
+			embed.setTitle("Error");
+			embed.setDescription("Could not get the leaderboard for Advent Of Code.");
+			embed.setColor(EMBED_COLOURS.ERROR);
 		}
+		message.channel.send({ embed });
 	}
 }
 

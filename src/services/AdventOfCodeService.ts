@@ -1,9 +1,13 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import cache from "axios-cache-adapter";
 
 export default class AdventOfCodeService {
 	private static instance: AdventOfCodeService;
-	private api: AxiosInstance;
+	private api = axios.create({
+		adapter: cache.setupCache({
+			maxAge: 15 * 60 * 1000
+		}).adapter
+	});
 
 	static getInstance(): AdventOfCodeService {
 		if (!this.instance) {
@@ -11,14 +15,6 @@ export default class AdventOfCodeService {
 		}
 
 		return this.instance;
-	}
-
-	constructor() {
-		this.api = axios.create({
-			adapter: cache.setupCache({
-				maxAge: 15 * 60 * 1000
-			}).adapter
-		});
 	}
 
 	async getLeaderBoard(leaderBoard: string, year: number): Promise<AocLeaderBoard> {
