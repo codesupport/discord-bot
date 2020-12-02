@@ -2,11 +2,12 @@ import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import AdventOfCodeService from "../services/AdventOfCodeService";
 import { EMBED_COLOURS, ADVENTOFCODE_LEADERBOARD, ADVENTOFCODE_YEAR, ADVENTOFCODE_INVITE } from "../config.json";
+import { AOCMember } from "../interfaces/AdventOfCode";
 
-class AdventofcodeCommand extends Command {
+class AdventOfCodeCommand extends Command {
 	constructor() {
 		super(
-			"Adventofcode",
+			"adventofcode",
 			"Shows the current leaderboard for adventofcode.",
 			{
 				aliases: ["aoc"]
@@ -20,11 +21,11 @@ class AdventofcodeCommand extends Command {
 		const embed = new MessageEmbed();
 
 		try {
-			const oac = AdventOfCodeService.getInstance();
-			const response = await oac.getLeaderBoard(ADVENTOFCODE_LEADERBOARD, ADVENTOFCODE_YEAR);
+			const adventOfCodeService = AdventOfCodeService.getInstance();
+			const response = await adventOfCodeService.getLeaderBoard(ADVENTOFCODE_LEADERBOARD, ADVENTOFCODE_YEAR);
 
 			// Set members as a array for sorting
-			const members: AocMember[] = Object.values(response.members);
+			const members: AOCMember[] = Object.values(response.members);
 
 			members.sort((a, b) => {
 				const stars = b.stars - a.stars;
@@ -74,8 +75,9 @@ class AdventofcodeCommand extends Command {
 			embed.setDescription("Could not get the leaderboard for Advent Of Code.");
 			embed.setColor(EMBED_COLOURS.ERROR);
 		}
-		message.channel.send({ embed });
+
+		await message.channel.send({ embed });
 	}
 }
 
-export default AdventofcodeCommand;
+export default AdventOfCodeCommand;

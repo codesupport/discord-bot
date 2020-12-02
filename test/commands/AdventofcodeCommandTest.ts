@@ -7,7 +7,6 @@ import AdventofcodeCommand from "../../src/commands/AdventofcodeCommand";
 import Command from "../../src/abstracts/Command";
 import AdventOfCodeService from "../../src/services/AdventOfCodeService";
 import { EMBED_COLOURS, ADVENTOFCODE_INVITE, ADVENTOFCODE_LEADERBOARD, ADVENTOFCODE_YEAR } from "../../src/config.json";
-import { createNoSubstitutionTemplateLiteral } from "typescript";
 
 const AOCMockData = {
 	event: "2021",
@@ -36,7 +35,7 @@ describe("Adventofcode Command", () => {
 		it("creates a command called adventofcode", () => {
 			const command = new AdventofcodeCommand();
 
-			expect(command.getName()).to.equal("Adventofcode");
+			expect(command.getName()).to.equal("adventofcode");
 			expect(command.getAliases().includes("aoc")).to.be.true;
 		});
 

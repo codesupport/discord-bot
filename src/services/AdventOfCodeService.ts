@@ -1,5 +1,6 @@
 import axios from "axios";
 import cache from "axios-cache-adapter";
+import { AOCLeaderBoard } from "../interfaces/AdventOfCode";
 
 export default class AdventOfCodeService {
 	private static instance: AdventOfCodeService;
@@ -17,11 +18,11 @@ export default class AdventOfCodeService {
 		return this.instance;
 	}
 
-	async getLeaderBoard(leaderBoard: string, year: number): Promise<AocLeaderBoard> {
+	async getLeaderBoard(leaderBoard: string, year: number): Promise<AOCLeaderBoard> {
 		const { ADVENT_OF_CODE_TOKEN } = process.env;
 		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${leaderBoard}.json`;
 
-		const response = await this.api.get<AocLeaderBoard>(link, {
+		const response = await this.api.get<AOCLeaderBoard>(link, {
 			headers: {
 				"Cookie": `session=${ADVENT_OF_CODE_TOKEN};`
 			}
