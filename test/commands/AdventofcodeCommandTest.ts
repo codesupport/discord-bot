@@ -145,7 +145,7 @@ describe("Adventofcode Command", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it("Gives back one user when giving a username argument", async () => {
+		it("gives back one user when giving a username argument", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
 			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
@@ -184,7 +184,7 @@ describe("Adventofcode Command", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it("Requesting a different year then current", async () => {
+		it("requesting a different year then current", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const APIMock = sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
 
@@ -201,6 +201,59 @@ describe("Adventofcode Command", () => {
 			expect(embed.fields[0].name).to.equal(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`);
 			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\n 1) Lambo | 3 | 26\n```");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+		});
+
+		afterEach(() => {
+			sandbox.restore();
+		});
+	});
+
+	describe("getYear()", () => {
+		let sandbox: SinonSandbox;
+		let command: AdventofcodeCommand;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			command = new AdventofcodeCommand();
+		});
+
+		it("should give previous year if date is before November", () => {
+			const date = new Date();
+
+			date.setFullYear(2020);
+			date.setMonth(7);
+			date.setDate(20);
+			sandbox.useFakeTimers(date);
+
+			const year = command.getYear();
+
+			expect(year).to.equal(2019);
+		});
+
+		it("should give current year if month is November (the same month)", () => {
+			const date = new Date();
+
+			date.setFullYear(2021);
+			date.setMonth(10);
+			date.setDate(13);
+			sandbox.useFakeTimers(date);
+
+			const year = command.getYear();
+
+			expect(year).to.equal(2021);
+		});
+
+		it("should give the current year if the month is (greater month)", () => {
+			const date = new Date();
+
+			date.setFullYear(2018);
+			date.setMonth(11);
+			date.setDate(25);
+			sandbox.useFakeTimers(date);
+
+			const year = command.getYear();
+
+			expect(year).to.equal(2018);
 		});
 
 		afterEach(() => {

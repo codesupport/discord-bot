@@ -58,7 +58,7 @@ class AdventOfCodeCommand extends Command {
 	getYear() {
 		const date = new Date();
 
-		if (date.getMonth() > 10) {
+		if (date.getMonth() >= 10) {
 			return date.getFullYear();
 		}
 
@@ -77,7 +77,7 @@ class AdventOfCodeCommand extends Command {
 			embed.setTitle("Error");
 			embed.setDescription(`Year requested not available.\nPlease query a year between 2015 and ${year}`);
 			embed.setColor(EMBED_COLOURS.ERROR);
-			message.channel.send({ embed });
+			await message.channel.send({ embed });
 
 			return;
 		}
@@ -87,7 +87,7 @@ class AdventOfCodeCommand extends Command {
 
 		if (!queriedYear && args[0]) {
 			const name = args.join(" ");
-			const [position, user] = await adventOfCodeService.getSingelPlayer(ADVENT_OF_CODE_LEADERBOARD, year, name);
+			const [position, user] = await adventOfCodeService.getSinglePlayer(ADVENT_OF_CODE_LEADERBOARD, year, name);
 
 			if (!user) {
 				embed.setTitle("Error");
