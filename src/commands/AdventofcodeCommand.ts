@@ -54,10 +54,36 @@ class AdventOfCodeCommand extends Command {
 		return list.concat("```");
 	}
 
-	async run(message: Message): Promise<void> {
-		const year = new Date().getFullYear();
-		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`;
+	getYear() {
+		const date = new Date();
+
+		if (date.getMonth() > 10) {
+			return date.getFullYear();
+		}
+
+		return date.getFullYear() - 1;
+	}
+
+	async run(message: Message, args: string[]): Promise<void> {
+		let year = this.getYear();
+
+		console.log(year);
+
+		const queriedYear = Number(args[0]);
 		const embed = new MessageEmbed();
+
+		if (queriedYear && queriedYear >= 2015 && queriedYear <= year) {
+			year = queriedYear;
+		} else if (queriedYear) {
+			embed.setTitle("Error");
+			embed.setDescription(`Year requested not available.\nPlease query a year between 2015 and ${year}`);
+			embed.setColor(EMBED_COLOURS.ERROR);
+			message.channel.send({ embed });
+
+			return;
+		}
+
+		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`;
 
 		try {
 			const adventOfCodeService = AdventOfCodeService.getInstance();

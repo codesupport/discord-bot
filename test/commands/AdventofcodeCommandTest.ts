@@ -50,7 +50,7 @@ describe("Adventofcode Command", () => {
 	describe("run()", () => {
 		let sandbox: SinonSandbox;
 		let message: Message;
-		let command: Command;
+		let command: AdventofcodeCommand;
 		let AOC: AdventOfCodeService;
 
 		beforeEach(() => {
@@ -65,18 +65,61 @@ describe("Adventofcode Command", () => {
 
 			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
 
-			await command.run(message);
+			await command.run(message, []);
 
 			expect(messageMock.calledOnce).to.be.true;
 		});
 
-		it("Sends a message with the current score", async () => {
+		it("sends an error message when the year is too far into the feature", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(AOC, "getLeaderBoard").throws();
+			sandbox.stub(command, "getYear").returns(2019);
+
+			await command.run(message, ["2021"]);
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("Year requested not available.\nPlease query a year between 2015 and 2019");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+		});
+
+		it("sends an error message when the year is too far in the past", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(AOC, "getLeaderBoard").throws();
+			sandbox.stub(command, "getYear").returns(2018);
+
+			await command.run(message, ["2000"]);
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("Year requested not available.\nPlease query a year between 2015 and 2018");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+		});
+
+		it("should query the year 2018 from the AOC Service", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+			const serviceMock = sandbox.stub(AOC, "getLeaderBoard").resolves({ members: {}, event: "2018", owner_id: "12345" });
+
+			sandbox.stub(command, "getYear").returns(2020);
+
+			await command.run(message, ["2018"]);
+
+			expect(serviceMock.calledOnce).to.be.true;
+			expect(serviceMock.getCall(0).args[1]).to.equal(2018);
+			expect(messageMock.calledOnce).to.be.true;
+		});
+
+		it("sends a message with the current score", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const year = new Date().getFullYear();
 
 			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
 
-			await command.run(message);
+			await command.run(message, []);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
@@ -88,12 +131,12 @@ describe("Adventofcode Command", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
-		it("Gives an error when the wrong acces token/id is provided", async () => {
+		it("gives an error when the wrong acces token/id is provided", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
 			sandbox.stub(AOC, "getLeaderBoard").throws();
 
-			await command.run(message);
+			await command.run(message, []);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
