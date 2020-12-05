@@ -67,11 +67,9 @@ class AdventOfCodeCommand extends Command {
 
 	async run(message: Message, args: string[]): Promise<void> {
 		let year = this.getYear();
-
-		console.log(year);
-
 		const queriedYear = Number(args[0]);
 		const embed = new MessageEmbed();
+		const adventOfCodeService = AdventOfCodeService.getInstance();
 
 		if (queriedYear && queriedYear >= 2015 && queriedYear <= year) {
 			year = queriedYear;
@@ -85,13 +83,37 @@ class AdventOfCodeCommand extends Command {
 		}
 
 		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`;
+		const description = `Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](${link})`;
+
+		if (args[0]) {
+			const name = args.join(" ");
+			const [position, user] = await adventOfCodeService.getSingelPlayer(ADVENT_OF_CODE_LEADERBOARD, year, name);
+
+			if (!user) {
+				embed.setTitle("Error");
+				embed.setDescription("Could not get the user requested\nPlease make sure you typed the name correctly");
+				embed.setColor(EMBED_COLOURS.ERROR);
+
+				await message.channel.send({ embed });
+				return;
+			}
+
+			embed.setTitle("Advent Of Code");
+			embed.setDescription(description);
+			embed.addField(`Scores of ${user.name}`, "\u200B");
+			embed.addField("Position", position, true);
+			embed.addField("Stars", user.stars, true);
+			embed.addField("Points", user.local_score, true);
+			embed.setColor(EMBED_COLOURS.SUCCESS);
+
+			await message.channel.send({ embed });
+			return;
+		}
 
 		try {
-			const adventOfCodeService = AdventOfCodeService.getInstance();
 			const members = await adventOfCodeService.getSortedPlayerList(ADVENT_OF_CODE_LEADERBOARD, year);
 
 			const playerList = this.generatePlayerList(members, ADVENT_OF_CODE_RESULTS_PER_PAGE);
-			const description = `Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](${link})`;
 
 			embed.setTitle("Advent Of Code");
 			embed.setDescription(description);

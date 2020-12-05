@@ -47,4 +47,11 @@ export default class AdventOfCodeService {
 
 		return members;
 	}
+
+	async getSingelPlayer(leaderBoard: string, year: number, name: string): Promise<[number, AOCMember]> {
+		const board = await this.getSortedPlayerList(leaderBoard, year);
+		const memberIndex = board.findIndex(member => member.name?.toLocaleLowerCase() === name.toLocaleLowerCase());
+
+		return [memberIndex + 1, board[memberIndex]];
+	}
 }

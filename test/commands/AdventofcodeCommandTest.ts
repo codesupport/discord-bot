@@ -4,7 +4,6 @@ import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import AdventofcodeCommand from "../../src/commands/AdventofcodeCommand";
-import Command from "../../src/abstracts/Command";
 import AdventOfCodeService from "../../src/services/AdventOfCodeService";
 import { EMBED_COLOURS, ADVENT_OF_CODE_INVITE, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_RESULTS_PER_PAGE } from "../../src/config.json";
 import { AOCLeaderBoard } from "../../src/interfaces/AdventOfCode";
@@ -115,9 +114,9 @@ describe("Adventofcode Command", () => {
 
 		it("sends a message with the current score", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
-			const year = new Date().getFullYear();
 
 			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+			sandbox.stub(command, "getYear").returns(2019);
 
 			await command.run(message, []);
 
@@ -125,7 +124,7 @@ describe("Adventofcode Command", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Advent Of Code");
-			expect(embed.description).to.equal(`Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
+			expect(embed.description).to.equal(`Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](https://adventofcode.com/2019/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
 			expect(embed.fields[0].name).to.equal(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`);
 			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\n 1) Lambo | 3 | 26\n```");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
@@ -143,6 +142,45 @@ describe("Adventofcode Command", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("Could not get the leaderboard for Advent Of Code.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+		});
+
+		it("Gives back one user when giving a username argument", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+			sandbox.stub(command, "getYear").returns(2021);
+
+			await command.run(message, ["Lambo"]);
+
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Advent Of Code");
+			expect(embed.description).to.equal(`Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](https://adventofcode.com/2021/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
+			expect(embed.fields[0].name).to.equal("Scores of Lambo");
+			expect(embed.fields[0].value).to.equal("\u200B");
+			expect(embed.fields[1].name).to.equal("Position");
+			expect(embed.fields[1].value).to.equal("1");
+			expect(embed.fields[2].name).to.equal("Stars");
+			expect(embed.fields[2].value).to.equal("3");
+			expect(embed.fields[3].name).to.equal("Points");
+			expect(embed.fields[3].value).to.equal("26");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+		});
+
+		it("should give an error when the user doesn't exist", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+
+			await command.run(message, ["Bob"]);
+
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("Could not get the user requested\nPlease make sure you typed the name correctly");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
