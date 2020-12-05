@@ -127,7 +127,7 @@ describe("Adventofcode Command", () => {
 			expect(embed.title).to.equal("Advent Of Code");
 			expect(embed.description).to.equal(`Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
 			expect(embed.fields[0].name).to.equal(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`);
-			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\nLambo | 3 | 26\n```");
+			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\n 1) Lambo | 3 | 26\n```");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 

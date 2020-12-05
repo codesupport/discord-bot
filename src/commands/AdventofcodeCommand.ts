@@ -46,8 +46,9 @@ class AdventOfCodeCommand extends Command {
 				const name = !member.name ? member.id : member.name.padEnd(memberNameLength, " ");
 				const score = member.local_score;
 				const stars = member.stars.toString().padEnd(starLength);
+				const position = (i + 1).toString().padStart(2, " ");
 
-				list = list.concat(`${name} | ${stars} | ${score}\n`);
+				list = list.concat(`${position}) ${name} | ${stars} | ${score}\n`);
 			}
 		}
 
