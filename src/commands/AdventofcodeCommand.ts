@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import AdventOfCodeService from "../services/AdventOfCodeService";
-import { EMBED_COLOURS, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_YEAR, ADVENT_OF_CODE_INVITE } from "../config.json";
+import { EMBED_COLOURS, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_RESULTS_PER_PAGE, ADVENT_OF_CODE_INVITE } from "../config.json";
 import { AOCMember } from "../interfaces/AdventOfCode";
 
 class AdventOfCodeCommand extends Command {
@@ -55,20 +55,20 @@ class AdventOfCodeCommand extends Command {
 	}
 
 	async run(message: Message): Promise<void> {
-		const amountInTopList = 15;
-		const link = `https://adventofcode.com/${ADVENT_OF_CODE_YEAR}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`;
+		const year = new Date().getFullYear();
+		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`;
 		const embed = new MessageEmbed();
 
 		try {
 			const adventOfCodeService = AdventOfCodeService.getInstance();
-			const members = await adventOfCodeService.getSortedPlayerList(ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_YEAR);
+			const members = await adventOfCodeService.getSortedPlayerList(ADVENT_OF_CODE_LEADERBOARD, year);
 
-			const playerList = this.generatePlayerList(members, amountInTopList);
+			const playerList = this.generatePlayerList(members, ADVENT_OF_CODE_RESULTS_PER_PAGE);
 			const description = `Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](${link})`;
 
 			embed.setTitle("Advent Of Code");
 			embed.setDescription(description);
-			embed.addField("Top 15", playerList);
+			embed.addField(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`, playerList);
 			embed.setColor(EMBED_COLOURS.SUCCESS);
 		} catch {
 			embed.setTitle("Error");
