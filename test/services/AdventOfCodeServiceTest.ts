@@ -128,7 +128,7 @@ describe("AdventOfCodeService", () => {
 				data: mockAPIData
 			});
 
-			const [position, member] = await aoc.getSingelPlayer("leaderboard", 2021, "JonaVDM");
+			const [position, member] = await aoc.getSinglePlayer("leaderboard", 2021, "JonaVDM");
 
 			expect(position).to.equal(1);
 			expect(member.name).to.equal("JonaVDM");
@@ -140,7 +140,7 @@ describe("AdventOfCodeService", () => {
 				data: mockAPIData
 			});
 
-			const [position, member] = await aoc.getSingelPlayer("leaderboard", 2021, "lAmBo");
+			const [position, member] = await aoc.getSinglePlayer("leaderboard", 2021, "lAmBo");
 
 			expect(position).to.equal(2);
 			expect(member.name).to.equal("Lambo");
@@ -152,7 +152,7 @@ describe("AdventOfCodeService", () => {
 				data: mockAPIData
 			});
 
-			const [position, member] = await aoc.getSingelPlayer("leaderboard", 2021, "Bob Pieter");
+			const [position, member] = await aoc.getSinglePlayer("leaderboard", 2021, "Bob Pieter");
 
 			expect(position).to.equal(3);
 			expect(member.name).to.equal("Bob Pieter");
@@ -164,7 +164,7 @@ describe("AdventOfCodeService", () => {
 				data: mockAPIData
 			});
 
-			const [position, member] = await aoc.getSingelPlayer("leaderboard", 2021, "bob");
+			const [position, member] = await aoc.getSinglePlayer("leaderboard", 2021, "bob");
 
 			expect(position).to.equal(0);
 			expect(member).to.be.undefined;
