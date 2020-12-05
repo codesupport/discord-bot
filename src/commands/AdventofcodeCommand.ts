@@ -85,7 +85,7 @@ class AdventOfCodeCommand extends Command {
 		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`;
 		const description = `Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](${link})`;
 
-		if (args[0]) {
+		if (!queriedYear && args[0]) {
 			const name = args.join(" ");
 			const [position, user] = await adventOfCodeService.getSingelPlayer(ADVENT_OF_CODE_LEADERBOARD, year, name);
 

@@ -184,6 +184,25 @@ describe("Adventofcode Command", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
+		it("Requesting a different year then current", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+			const APIMock = sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+
+			sandbox.stub(command, "getYear").returns(2020);
+
+			await command.run(message, ["2019"]);
+
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(APIMock.getCall(0).args[1]).to.equal(2019);
+			expect(embed.title).to.equal("Advent Of Code");
+			expect(embed.description).to.equal(`Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](https://adventofcode.com/2019/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
+			expect(embed.fields[0].name).to.equal(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`);
+			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\n 1) Lambo | 3 | 26\n```");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
