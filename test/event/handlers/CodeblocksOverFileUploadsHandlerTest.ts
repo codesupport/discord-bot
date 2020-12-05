@@ -26,7 +26,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			handler = new CodeblocksOverFileUploadsHandler();
 			message = CustomMocks.getMessage({
 				id: "1234",
-				author: BaseMocks.getUser(),
+				author: BaseMocks.getUser()
 			});
 			message.client.user = BaseMocks.getUser();
 			message.attachments = new Collection<string, MessageAttachment>();
