@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { Constants, Message, Collection, MessageAttachment } from "discord.js";
+import { Collection, Constants, Message, MessageAttachment } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { BaseMocks } from "@lambocreeper/mock-discord.js";
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
 import { EMBED_COLOURS } from "../../../src/config.json";
 import EventHandler from "../../../src/abstracts/EventHandler";
@@ -24,11 +24,12 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new CodeblocksOverFileUploadsHandler();
-			message = BaseMocks.getMessage();
-			message.id = "1234";
-			message.attachments = new Collection<string, MessageAttachment>();
-			message.author = BaseMocks.getUser();
+			message = CustomMocks.getMessage({
+				id: "1234",
+				author: BaseMocks.getUser(),
+			});
 			message.client.user = BaseMocks.getUser();
+			message.attachments = new Collection<string, MessageAttachment>();
 		});
 
 		it("does nothing when there are no attachments.", async () => {
