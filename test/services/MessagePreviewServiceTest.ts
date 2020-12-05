@@ -89,7 +89,7 @@ describe("MessagePreviewService", () => {
 		beforeEach(() => {
 			sandbox = createSandbox();
 			messagePreview = MessagePreviewService.getInstance();
-			message = BaseMocks.getMessage();
+			message = CustomMocks.getMessage();
 		});
 
 		it("should return true if message's guild and provided guild id match", () => {
