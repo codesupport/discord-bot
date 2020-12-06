@@ -1,6 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Message } from "discord.js";
+import {Collection, GuildMemberManager, Message} from "discord.js";
 import {BaseMocks, CustomMocks} from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
@@ -36,7 +36,7 @@ describe("InspectCommand", () => {
 		it("sends a message to the channel", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			await command.run(message, ["BlackBearFTW#1331"]);
+			await command.run(message, ["User"]);
 
 			expect(messageMock.calledOnce).to.be.true;
 		});
@@ -44,7 +44,7 @@ describe("InspectCommand", () => {
 		it("sends an error message when user is not found", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			await command.run(message, ["0"]);
+			await command.run(message, ["User"]);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
@@ -54,17 +54,21 @@ describe("InspectCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it("self inspects message author when no argument is given", async () => {
+		it("sends a message with information if the argument was a username", async () => {
+			const guild = CustomMocks.getGuild({});
+			const message = CustomMocks.getMessage({guild: guild});
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			await command.run(message, []);
+			// Doesn't work, WIP
+
+			await command.run(message, ["BlackBearFTW#1331"]);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("Unable to inspect user");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(embed.title).to.contains("Inspecting");
+			expect(embed.fields[0].name).to.equal("User ID");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
 		afterEach(() => {
