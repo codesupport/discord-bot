@@ -20,8 +20,10 @@ class InspectCommand extends Command {
 
 			if (args.length > 0) {
 				if ((/^\d+$/g).test(args[0])) {
+					// - args[0] only contains numbers so its a user ID
 					userObj = await message.guild?.members?.fetch(args[0]);
 				} else {
+					// If args[0] does not match username#0000 throw error
 					if (!(/^.*#[0-9]{4}$/).test(args[0])) throw "";
 
 					const userData = args[0].split("#");
