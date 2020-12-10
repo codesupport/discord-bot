@@ -43,8 +43,12 @@ describe("InspectCommand", () => {
 
 		it("sends an error message when user is not found", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
+			const user = CustomMocks.getUser({username: "Test"});
+			const member = CustomMocks.getGuildMember({user: user});
 
-			await command.run(message, ["User"]);
+			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member], ["12345", member]]));
+
+			await command.run(message, ["username#0000"]);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
@@ -54,14 +58,13 @@ describe("InspectCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it("sends a message with information if the argument was a username", async () => {
-			const guild = CustomMocks.getGuild({});
-			const message = CustomMocks.getMessage({guild: guild});
+		it.only("sends a message with information if the argument was a username", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
+			const member = BaseMocks.getGuildMember();
 
-			// Doesn't work, WIP
+			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
 
-			await command.run(message, ["BlackBearFTW#1331"]);
+			await command.run(message, ["Test#1234"]);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
