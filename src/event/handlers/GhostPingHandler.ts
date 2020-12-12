@@ -1,5 +1,6 @@
 import { Constants, MessageEmbed, Message } from "discord.js";
 import { EMBED_COLOURS } from "../../config.json";
+import DateUtils from "../../utils/DateUtils";
 import EventHandler from "../../abstracts/EventHandler";
 
 class GhostPingHandler extends EventHandler {
@@ -19,6 +20,7 @@ class GhostPingHandler extends EventHandler {
 				embed.setTitle("Ghost Ping Detected!");
 				embed.addField("Author", message.author);
 				embed.addField("Message", message.content);
+				embed.setFooter(`Message sent at ${DateUtils.formatAsText(message.createdAt)}`);
 				embed.setColor(EMBED_COLOURS.DEFAULT);
 
 				await message.channel.send(embed);
