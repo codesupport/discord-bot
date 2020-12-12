@@ -36,8 +36,26 @@ describe("WebsiteCommand", () => {
 		it("sends a message to the channel", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			await command.run(message);
+			await command.run(message, []);
 
+			expect(messageMock.calledOnce).to.be.true;
+		});
+
+		it("sends default link to website if no argument is given", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			await command.run(message, []);
+
+			expect(messageMock.firstCall.firstArg).to.equal("https://codesupport.dev/");
+			expect(messageMock.calledOnce).to.be.true;
+		});
+
+		it("sends the link to website + addon if argument is given", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			await command.run(message, ["test"]);
+
+			expect(messageMock.firstCall.firstArg).to.equal("https://codesupport.dev/test");
 			expect(messageMock.calledOnce).to.be.true;
 		});
 
