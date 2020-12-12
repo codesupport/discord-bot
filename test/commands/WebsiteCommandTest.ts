@@ -18,7 +18,7 @@ describe("WebsiteCommand", () => {
 		it("creates a command with correct description", () => {
 			const command = new WebsiteCommand();
 
-			expect(command.getDescription()).to.equal("Displays the website with given parameter");
+			expect(command.getDescription()).to.equal("Displays a link to the CodeSupport's website (or a specific page if specified).");
 		});
 	});
 

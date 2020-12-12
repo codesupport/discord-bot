@@ -5,7 +5,7 @@ class WebsiteCommand extends Command {
 	constructor() {
 		super(
 			"website",
-			"Displays the website with given parameter",
+			"Displays a link to the CodeSupport's website (or a specific page if specified).",
 			{
 				aliases: ["web"]
 			}
@@ -13,8 +13,7 @@ class WebsiteCommand extends Command {
 	}
 
 	async run(message: Message, args: string[]) {
-		if (args[0] === undefined || args[0] === null) args[0] = "";
-		await message.channel.send(`https://codesupport.dev/${args[0]}`);
+		await message.channel.send(`https://codesupport.dev/${args[0] || ""}`);
 	}
 }
 
