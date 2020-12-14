@@ -39,7 +39,8 @@
         "png",
         "gif",
         "mp3",
-        "mp4"
+        "mp4",
+        "mov"
     ],
     "rules": [
         {
