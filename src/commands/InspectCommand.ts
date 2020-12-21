@@ -56,7 +56,7 @@ class InspectCommand extends Command {
 				embed.addField("Username", userObj?.user.tag);
 				embed.addField("Joined At", DateUtils.formatAsText(userObj?.joinedAt));
 				if (userObj?.nickname !== null) embed.addField("Nickname", userObj?.nickname);
-				embed.addField("Roles", `${userObj.roles.cache.filter(role => role.id !== message?.guild!.id).map(role => `${role.toString()}`)}`);
+				embed.addField("Roles", `${userObj.roles.cache.filter(role => role.id !== message?.guild!.id).map(role => ` ${role.toString()}`)}`);
 				embed.setColor(EMBED_COLOURS.SUCCESS);
 			} else {
 				embed.setTitle("Error");
