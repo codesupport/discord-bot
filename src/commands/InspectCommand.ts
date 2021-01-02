@@ -19,7 +19,7 @@ class InspectCommand extends Command {
 			let userList;
 
 			if (args.length > 0) {
-				if ((/^\d+$/g).test(args[0])) {
+				if ((/^[0-9]+$/g).test(args[0])) {
 					// - args[0] only contains numbers so its a user ID
 					userObj = await message.guild?.members?.fetch(args[0]);
 				} else {
@@ -50,7 +50,9 @@ class InspectCommand extends Command {
 				if (message.guild === undefined) return;
 				if (userObj?.joinedAt === null) return;
 
-				embed.setTitle(`Inspecting ${userObj?.user.tag}`);
+				console.log(userObj);
+
+				embed.setTitle(`Inspecting ${userObj?.user.username}#${userObj?.user.discriminator}`);
 				embed.setThumbnail(userObj?.user.displayAvatarURL());
 				embed.addField("User ID", userObj?.user.id);
 				embed.addField("Username", userObj?.user.tag);

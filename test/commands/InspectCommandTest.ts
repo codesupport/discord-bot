@@ -1,7 +1,7 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import {Collection, GuildMemberManager, GuildMemberRoleManager, Message, Role} from "discord.js";
-import {BaseMocks, CustomMocks} from "@lambocreeper/mock-discord.js";
+import {BaseMocks} from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
 import Command from "../../src/abstracts/Command";
@@ -41,13 +41,10 @@ describe("InspectCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 		});
 
-		it.only("sends an error message when user is not found", async () => {
+		it("sends an error message when user is not found", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
-			const member = BaseMocks.getGuildMember();
 
-			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
-
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {"id": "12345", "name": "TestRole"}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {"id": BaseMocks.getGuild().id, "name": "@everyone"}, BaseMocks.getGuild())]]));
+			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([]));
 
 			await command.run(message, ["FakeUser#1234"]);
 
@@ -55,11 +52,11 @@ describe("InspectCommand", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("Unable to inspect user");
+			expect(embed.description).to.equal("No user was found with this username/userID.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it.only("sends a message with information if the argument was a username", async () => {
+		it("sends a message with information if the argument was a username", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
@@ -72,7 +69,7 @@ describe("InspectCommand", () => {
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.contains("Inspecting");
+			expect(embed.title).to.equal(`Inspecting ${member.user.username}#${member.user.discriminator}`);
 			expect(embed.fields[0].name).to.equal("User ID");
 			expect(embed.fields[0].value).to.equal(member.user.id);
 			expect(embed.fields[1].name).to.equal("Username");
@@ -86,7 +83,7 @@ describe("InspectCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
-		it("sends a message with information if the argument was a userID", async () => {
+		it.only("sends a message with information if the argument was a userID", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
