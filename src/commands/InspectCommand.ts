@@ -21,7 +21,7 @@ class InspectCommand extends Command {
 			if (args.length > 0) {
 				if ((/^[0-9]+$/g).test(args[0])) {
 					// - args[0] only contains numbers so its a user ID
-					userObj = await message.guild?.members?.fetch(args[0]);
+					userObj = await message.guild?.members?.fetch(args[0]).then(console.log);
 				} else {
 					// If args[0] does not match username#0000 throw error
 					if (!(/^.*#[0-9]{4}$/).test(args[0])) throw "";
@@ -50,14 +50,13 @@ class InspectCommand extends Command {
 				if (message.guild === undefined) return;
 				if (userObj?.joinedAt === null) return;
 
-				console.log(userObj);
-
 				embed.setTitle(`Inspecting ${userObj?.user.username}#${userObj?.user.discriminator}`);
 				embed.setThumbnail(userObj?.user.displayAvatarURL());
 				embed.addField("User ID", userObj?.user.id);
-				embed.addField("Username", userObj?.user.tag);
-				embed.addField("Joined At", DateUtils.formatAsText(userObj?.joinedAt));
+				embed.addField("Username", userObj?.user.username);
+				embed.addField("Discriminator", userObj?.user.discriminator);
 				if (userObj?.nickname !== null) embed.addField("Nickname", userObj?.nickname);
+				embed.addField("Joined At", DateUtils.formatAsText(userObj?.joinedAt));
 				embed.addField("Roles", `${userObj.roles.cache.filter(role => role.id !== message?.guild!.id).map(role => ` ${role.toString()}`)}`);
 				embed.setColor(EMBED_COLOURS.SUCCESS);
 			} else {
