@@ -48,7 +48,6 @@ class InspectCommand extends Command {
 
 			if (userObj !== undefined) {
 				if (message.guild === undefined) return;
-				if (userObj?.joinedAt === null) return;
 
 				embed.setTitle(`Inspecting ${userObj?.user.username}#${userObj?.user.discriminator}`);
 				embed.setThumbnail(userObj?.user.displayAvatarURL());
@@ -56,7 +55,7 @@ class InspectCommand extends Command {
 				embed.addField("Username", userObj?.user.username);
 				embed.addField("Discriminator", userObj?.user.discriminator);
 				if (userObj?.nickname !== null) embed.addField("Nickname", userObj?.nickname);
-				embed.addField("Joined At", DateUtils.formatAsText(userObj?.joinedAt));
+				if (userObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(userObj?.joinedAt));
 				embed.addField("Roles", `${userObj.roles.cache.filter(role => role.id !== message?.guild!.id).map(role => ` ${role.toString()}`)}`);
 				embed.setColor(EMBED_COLOURS.SUCCESS);
 			} else {

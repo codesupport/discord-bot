@@ -1,6 +1,6 @@
 import {createSandbox, SinonSandbox} from "sinon";
 import {expect} from "chai";
-import {Collection, GuildMember, GuildMemberManager, GuildMemberRoleManager, Message, Role} from "discord.js";
+import {Collection, EmbedField, GuildMemberManager, GuildMemberRoleManager, Message, Role} from "discord.js";
 import {BaseMocks} from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
@@ -128,7 +128,7 @@ describe("InspectCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
-		it.only("sends a message with information if there argument", async () => {
+		it.only("sends a message with information if there no argument", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
@@ -147,18 +147,12 @@ describe("InspectCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 
 			expect(embed.title).to.equal(`Inspecting ${member.user.username}#${member.user.discriminator}`);
-			expect(embed.fields[0].name).to.equal("User ID");
-			expect(embed.fields[0].value).to.equal(member.user.id);
-			expect(embed.fields[1].name).to.equal("Username");
-			expect(embed.fields[1].value).to.equal(member.user.username);
-			expect(embed.fields[2].name).to.equal("Discriminator");
-			expect(embed.fields[2].value).to.equal(member.user.discriminator);
-			expect(embed.fields[3].name).to.equal("Nickname");
-			expect(embed.fields[3].value).to.equal("my name");
-			expect(embed.fields[4].name).to.equal("Joined At");
-			// Expect(embed.fields[4].value).to.equal("02:00 on 17 Oct 2020");
-			expect(embed.fields[5].name).to.equal("Roles");
-			expect(embed.fields[5].value).to.equal(" <@&12345>");
+			expect(embed.fields.find((field: EmbedField) => field.name === "User ID")?.value).to.equal(member.user.id);
+			expect(embed.fields.find((field: EmbedField) => field.name === "Username")?.value).to.equal(member.user.username);
+			expect(embed.fields.find((field: EmbedField) => field.name === "Discriminator")?.value).to.equal(member.user.discriminator);
+			expect(embed.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(message.member?.nickname);
+			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(message.member?.joinedAt);
+			expect(embed.fields.find((field: EmbedField) => field.name === "Roles")?.value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
