@@ -1,11 +1,12 @@
-import { createSandbox, SinonSandbox } from "sinon";
-import { expect } from "chai";
-import {Collection, GuildMemberManager, GuildMemberRoleManager, Message, Role} from "discord.js";
+import {createSandbox, SinonSandbox} from "sinon";
+import {expect} from "chai";
+import {Collection, GuildMember, GuildMemberManager, GuildMemberRoleManager, Message, Role} from "discord.js";
 import {BaseMocks} from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
 import Command from "../../src/abstracts/Command";
-import { EMBED_COLOURS } from "../../src/config.json";
+import {EMBED_COLOURS} from "../../src/config.json";
+import DateUtils from "../../src/utils/DateUtils";
 
 describe("InspectCommand", () => {
 	describe("constructor()", () => {
@@ -56,13 +57,19 @@ describe("InspectCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it.only("sends a message with information if the argument was a username", async () => {
+		it("sends a message with information if the argument was a username", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
 			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
 
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {"id": "12345", "name": "TestRole"}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {"id": BaseMocks.getGuild().id, "name": "@everyone"}, BaseMocks.getGuild())]]));
+			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {
+				"id": "12345",
+				"name": "TestRole"
+			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
+				"id": BaseMocks.getGuild().id,
+				"name": "@everyone"
+			}, BaseMocks.getGuild())]]));
 
 			await command.run(message, ["Test#1234"]);
 
@@ -79,7 +86,7 @@ describe("InspectCommand", () => {
 			expect(embed.fields[3].name).to.equal("Nickname");
 			expect(embed.fields[3].value).to.equal("my name");
 			expect(embed.fields[4].name).to.equal("Joined At");
-			expect(embed.fields[4].value).to.equal("02:00 on 17 Oct 2020");
+			expect(embed.fields[4].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
 			expect(embed.fields[5].name).to.equal("Roles");
 			expect(embed.fields[5].value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
@@ -89,25 +96,69 @@ describe("InspectCommand", () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
+			// @ts-ignore (the types aren't recognising the overloaded fetch function)
 			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(member);
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {"id": "12345", "name": "TestRole"}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {"id": BaseMocks.getGuild().id, "name": "@everyone"}, BaseMocks.getGuild())]]));
+
+			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {
+				"id": "12345",
+				"name": "TestRole"
+			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
+				"id": BaseMocks.getGuild().id,
+				"name": "@everyone"
+			}, BaseMocks.getGuild())]]));
 
 			await command.run(message, ["010101010101010101"]);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.contains("Inspecting");
+			expect(embed.title).to.equal(`Inspecting ${member.user.username}#${member.user.discriminator}`);
 			expect(embed.fields[0].name).to.equal("User ID");
 			expect(embed.fields[0].value).to.equal(member.user.id);
 			expect(embed.fields[1].name).to.equal("Username");
-			expect(embed.fields[1].value).to.equal(member.user.tag);
-			expect(embed.fields[2].name).to.equal("Joined At");
-			expect(embed.fields[2].value).to.equal("02:00 on 17 Oct 2020");
+			expect(embed.fields[1].value).to.equal(member.user.username);
+			expect(embed.fields[2].name).to.equal("Discriminator");
+			expect(embed.fields[2].value).to.equal(member.user.discriminator);
 			expect(embed.fields[3].name).to.equal("Nickname");
 			expect(embed.fields[3].value).to.equal("my name");
-			expect(embed.fields[4].name).to.equal("Roles");
-			expect(embed.fields[4].value).to.equal("<@&12345>");
+			expect(embed.fields[4].name).to.equal("Joined At");
+			expect(embed.fields[4].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[5].name).to.equal("Roles");
+			expect(embed.fields[5].value).to.equal(" <@&12345>");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+		});
+
+		it.only("sends a message with information if there argument", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+			const member = BaseMocks.getGuildMember();
+
+			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {
+				"id": "12345",
+				"name": "TestRole"
+			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
+				"id": BaseMocks.getGuild().id,
+				"name": "@everyone"
+			}, BaseMocks.getGuild())]]));
+
+			await command.run(message, []);
+
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+
+			expect(embed.title).to.equal(`Inspecting ${member.user.username}#${member.user.discriminator}`);
+			expect(embed.fields[0].name).to.equal("User ID");
+			expect(embed.fields[0].value).to.equal(member.user.id);
+			expect(embed.fields[1].name).to.equal("Username");
+			expect(embed.fields[1].value).to.equal(member.user.username);
+			expect(embed.fields[2].name).to.equal("Discriminator");
+			expect(embed.fields[2].value).to.equal(member.user.discriminator);
+			expect(embed.fields[3].name).to.equal("Nickname");
+			expect(embed.fields[3].value).to.equal("my name");
+			expect(embed.fields[4].name).to.equal("Joined At");
+			// Expect(embed.fields[4].value).to.equal("02:00 on 17 Oct 2020");
+			expect(embed.fields[5].name).to.equal("Roles");
+			expect(embed.fields[5].value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
