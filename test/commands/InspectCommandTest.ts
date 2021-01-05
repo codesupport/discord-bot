@@ -8,6 +8,14 @@ import Command from "../../src/abstracts/Command";
 import { EMBED_COLOURS } from "../../src/config.json";
 import DateUtils from "../../src/utils/DateUtils";
 
+const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
+	"id": "12345",
+	"name": "TestRole"
+}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
+	"id": BaseMocks.getGuild().id,
+	"name": "@everyone"
+}, BaseMocks.getGuild())]]);
+
 describe("InspectCommand", () => {
 	describe("constructor()", () => {
 		it("creates a command called inspect", () => {
@@ -82,13 +90,7 @@ describe("InspectCommand", () => {
 
 			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
 
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {
-				"id": "12345",
-				"name": "TestRole"
-			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
-				"id": BaseMocks.getGuild().id,
-				"name": "@everyone"
-			}, BaseMocks.getGuild())]]));
+			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			await command.run(message, ["Test#1234"]);
 
@@ -118,13 +120,7 @@ describe("InspectCommand", () => {
 			// @ts-ignore (the types aren't recognising the overloaded fetch function)
 			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(member);
 
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {
-				"id": "12345",
-				"name": "TestRole"
-			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
-				"id": BaseMocks.getGuild().id,
-				"name": "@everyone"
-			}, BaseMocks.getGuild())]]));
+			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			await command.run(message, ["010101010101010101"]);
 
@@ -151,13 +147,7 @@ describe("InspectCommand", () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([["12345", new Role(BaseMocks.getClient(), {
-				"id": "12345",
-				"name": "TestRole"
-			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
-				"id": BaseMocks.getGuild().id,
-				"name": "@everyone"
-			}, BaseMocks.getGuild())]]));
+			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			await command.run(message, []);
 
