@@ -26,10 +26,7 @@ class InspectCommand extends Command {
 					// If args[0] does not match username#0000 throw error
 					if (!(/^.*#[0-9]{4}$/).test(args[0])) throw "";
 
-					const userData = args[0].split("#");
-
-					const username = userData[0];
-					const discriminator = userData[1];
+					const [username, discriminator] = args[0].split("#");
 
 					userList = await message.guild?.members?.fetch({query: username, limit: 1000});
 
