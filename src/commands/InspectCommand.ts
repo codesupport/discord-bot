@@ -1,4 +1,4 @@
-import { Collection, GuildMember, Message, MessageEmbed } from "discord.js";
+import { GuildMember, Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
 import { EMBED_COLOURS } from "../config.json";
@@ -22,22 +22,13 @@ class InspectCommand extends Command {
 					// - args[0] only contains numbers so its a user ID
 					userObj = await message.guild?.members?.fetch(args[0]);
 				} else {
-					// If args[0] does not match username#0000 throw error
-					if (!(/^.*#[0-9]{4}$/).test(args[0])) throw "Username was not formatted correctly";
+					if (args[0].includes("#")) args[0] = args[0].split("#")[0];
 
-					const [username, discriminator] = args[0].split("#");
+					const username = args[0];
 
-					let userList: Collection<string, GuildMember> | undefined;
+					const userList = await message.guild?.members?.fetch({query: username});
 
-					userList = await message.guild?.members?.fetch({query: username, limit: 1000});
-
-					if (userList === undefined) return;
-
-					if (userList?.size > 1) {
-						userObj = await userList?.find(memberObject => memberObject.user.discriminator === discriminator);
-					} else if (userList.size === 1) {
-						userObj = userList?.first();
-					}
+					userObj = userList?.first();
 				}
 			} else {
 				if (message.member === null) return;
