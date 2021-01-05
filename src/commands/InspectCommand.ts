@@ -57,13 +57,14 @@ class InspectCommand extends Command {
 				embed.setColor(EMBED_COLOURS.SUCCESS);
 			} else {
 				embed.setTitle("Error");
-				embed.setDescription("No user was found with this username/userID.");
+				embed.setDescription("No match found.");
+				embed.addField("Correct Usage", "?inspect [username|userID]");
 				embed.setColor(EMBED_COLOURS.ERROR);
 			}
 		} catch (error) {
 			embed.setTitle("Error");
 			embed.setDescription("Incorrect usage of command");
-			embed.addField("Correct Usage", "?inspect [username + discriminator / userID]");
+			embed.addField("Correct Usage", "?inspect [username|userID]");
 			embed.setColor(EMBED_COLOURS.ERROR);
 		}
 

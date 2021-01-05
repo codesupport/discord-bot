@@ -53,7 +53,9 @@ describe("InspectCommand", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("No user was found with this username/userID.");
+			expect(embed.description).to.equal("No match found.");
+			expect(embed.fields[0].name).to.equal("Correct Usage");
+			expect(embed.fields[0].value).to.equal("?inspect [username|userID]");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
@@ -70,7 +72,7 @@ describe("InspectCommand", () => {
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("Incorrect usage of command");
 			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("?inspect [username + discriminator / userID]");
+			expect(embed.fields[0].value).to.equal("?inspect [username|userID]");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
