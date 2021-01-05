@@ -36,15 +36,15 @@ class InspectCommand extends Command {
 			if (userObj !== undefined) {
 				if (message.guild === undefined) return;
 
-				embed.setTitle(`Inspecting ${userObj?.user.username}#${userObj?.user.discriminator}`);
+				embed.setTitle(`Inspecting ${userObj?.user.tag}`);
 				embed.setThumbnail(userObj?.user.displayAvatarURL());
 				embed.addField("User ID", userObj?.user.id);
-				embed.addField("Username", userObj?.user.username);
-				embed.addField("Discriminator", userObj?.user.discriminator);
+				embed.addField("Username", userObj?.user.tag);
 				if (userObj?.nickname !== null) embed.addField("Nickname", userObj?.nickname);
 				if (userObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(userObj?.joinedAt));
 				embed.addField("Roles", `${userObj.roles.cache.filter(role => role.id !== message?.guild!.id).map(role => ` ${role.toString()}`)}`);
-				embed.setColor(EMBED_COLOURS.SUCCESS);
+				// If (userObj?.displayColor !== undefined) embed.setColor(userObj?.displayColor);
+				embed.setColor(EMBED_COLOURS.SUCCESS.toLowerCase());
 			} else {
 				embed.setTitle("Error");
 				embed.setDescription("No match found.");
