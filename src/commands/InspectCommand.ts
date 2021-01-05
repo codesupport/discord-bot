@@ -24,9 +24,7 @@ class InspectCommand extends Command {
 				} else {
 					if (args[0].includes("#")) args[0] = args[0].split("#")[0];
 
-					const username = args[0];
-
-					const userList = await message.guild?.members?.fetch({query: username});
+					const userList = await message.guild?.members?.fetch({query: args[0]});
 
 					userObj = userList?.first();
 				}
