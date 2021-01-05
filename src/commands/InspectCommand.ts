@@ -1,4 +1,4 @@
-import {Collection, GuildMember, Message, MessageEmbed, Snowflake} from "discord.js";
+import {Collection, GuildMember, Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
 import { EMBED_COLOURS } from "../config.json";
