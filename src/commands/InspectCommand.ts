@@ -43,8 +43,7 @@ class InspectCommand extends Command {
 				if (userObj?.nickname !== null) embed.addField("Nickname", userObj?.nickname);
 				if (userObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(userObj?.joinedAt));
 				embed.addField("Roles", `${userObj.roles.cache.filter(role => role.id !== message?.guild!.id).map(role => ` ${role.toString()}`)}`);
-				// If (userObj?.displayColor !== undefined) embed.setColor(userObj?.displayColor);
-				embed.setColor(EMBED_COLOURS.SUCCESS.toLowerCase());
+				embed.setColor(userObj?.displayColor || EMBED_COLOURS.DEFAULT);
 			} else {
 				embed.setTitle("Error");
 				embed.setDescription("No match found.");

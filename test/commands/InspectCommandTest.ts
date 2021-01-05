@@ -1,6 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Collection, EmbedField, GuildMemberManager, GuildMemberRoleManager, Message, Role } from "discord.js";
+import { Collection, EmbedField, GuildMember, GuildMemberManager, GuildMemberRoleManager, Message, Role } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
@@ -71,6 +71,7 @@ describe("InspectCommand", () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
+			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
 			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
@@ -91,13 +92,14 @@ describe("InspectCommand", () => {
 			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
 			expect(embed.fields[4].name).to.equal("Roles");
 			expect(embed.fields[4].value).to.equal(" <@&12345>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(embed.hexColor).to.equal(member.displayColor);
 		});
 
 		it("sends a message with information if the argument was a userID", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
+			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
 			// @ts-ignore (the types aren't recognising the overloaded fetch function)
 			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(member);
 
@@ -119,13 +121,14 @@ describe("InspectCommand", () => {
 			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
 			expect(embed.fields[4].name).to.equal("Roles");
 			expect(embed.fields[4].value).to.equal(" <@&12345>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(embed.hexColor).to.equal(member.displayColor);
 		});
 
 		it("sends a message with information if there no argument", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
+			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			await command.run(message, []);
@@ -140,7 +143,7 @@ describe("InspectCommand", () => {
 			expect(embed.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(message.member?.nickname);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(message.member?.joinedAt);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Roles")?.value).to.equal(" <@&12345>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(embed.hexColor).to.equal(member.displayColor);
 		});
 
 		afterEach(() => {
