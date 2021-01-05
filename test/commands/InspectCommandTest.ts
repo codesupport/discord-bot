@@ -1,13 +1,12 @@
-import {createSandbox, SinonSandbox} from "sinon";
-import {expect} from "chai";
-import {Collection, EmbedField, GuildMemberManager, GuildMemberRoleManager, Message, Role} from "discord.js";
-import {BaseMocks} from "@lambocreeper/mock-discord.js";
+import { createSandbox, SinonSandbox } from "sinon";
+import { expect } from "chai";
+import { Collection, EmbedField, GuildMemberManager, GuildMemberRoleManager, Message, Role } from "discord.js";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
 import Command from "../../src/abstracts/Command";
-import {EMBED_COLOURS} from "../../src/config.json";
+import { EMBED_COLOURS } from "../../src/config.json";
 import DateUtils from "../../src/utils/DateUtils";
-import exp = require("constants");
 
 describe("InspectCommand", () => {
 	describe("constructor()", () => {

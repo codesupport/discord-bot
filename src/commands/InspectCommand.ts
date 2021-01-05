@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
-import {EMBED_COLOURS} from "../config.json";
+import { EMBED_COLOURS } from "../config.json";
 
 class InspectCommand extends Command {
 	constructor() {
