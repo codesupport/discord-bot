@@ -7,6 +7,7 @@ import InspectCommand from "../../src/commands/InspectCommand";
 import Command from "../../src/abstracts/Command";
 import {EMBED_COLOURS} from "../../src/config.json";
 import DateUtils from "../../src/utils/DateUtils";
+import exp = require("constants");
 
 describe("InspectCommand", () => {
 	describe("constructor()", () => {
@@ -54,6 +55,23 @@ describe("InspectCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("No user was found with this username/userID.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+		});
+
+		it("sends an error message username has incorrect format", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([]));
+
+			await command.run(message, ["FakeUser#123"]);
+
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("Incorrect usage of command");
+			expect(embed.fields[0].name).to.equal("Correct Usage");
+			expect(embed.fields[0].value).to.equal("?inspect [username + discriminator / userID]");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
@@ -128,7 +146,7 @@ describe("InspectCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
-		it.only("sends a message with information if there no argument", async () => {
+		it("sends a message with information if there no argument", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 

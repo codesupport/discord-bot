@@ -64,7 +64,7 @@ class InspectCommand extends Command {
 				embed.setColor(EMBED_COLOURS.ERROR);
 			}
 		} catch (error) {
-			embed.setTitle("Formatting Error");
+			embed.setTitle("Error");
 			embed.setDescription("Incorrect usage of command");
 			embed.addField("Correct Usage", "?inspect [username + discriminator / userID]");
 			embed.setColor(EMBED_COLOURS.ERROR);
