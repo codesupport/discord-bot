@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import {Collection, GuildMember, Message, MessageEmbed, Snowflake} from "discord.js";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
 import { EMBED_COLOURS } from "../config.json";
@@ -15,8 +15,8 @@ class InspectCommand extends Command {
 		const embed = new MessageEmbed();
 
 		try {
-			let userObj;
-			let userList;
+			let userObj: GuildMember | undefined;
+			let userList: Collection<string, GuildMember> | undefined;
 
 			if (args.length > 0) {
 				if ((/^[0-9]+$/g).test(args[0])) {
