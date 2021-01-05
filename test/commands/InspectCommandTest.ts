@@ -67,23 +67,6 @@ describe("InspectCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it("sends an error message username has incorrect format", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([]));
-
-			await command.run(message, ["FakeUser#123"]);
-
-			const embed = messageMock.getCall(0).firstArg.embed;
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("Incorrect usage of command");
-			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("?inspect [username|userID]");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
-		});
-
 		it("sends a message with information if the argument was a username", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
@@ -92,7 +75,7 @@ describe("InspectCommand", () => {
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
-			await command.run(message, ["Test#1234"]);
+			await command.run(message, ["Test"]);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
