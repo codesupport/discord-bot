@@ -16,7 +16,6 @@ class InspectCommand extends Command {
 
 		try {
 			let userObj: GuildMember | undefined;
-			let userList: Collection<string, GuildMember> | undefined;
 
 			if (args.length > 0) {
 				if ((/^[0-9]+$/g).test(args[0])) {
@@ -27,6 +26,8 @@ class InspectCommand extends Command {
 					if (!(/^.*#[0-9]{4}$/).test(args[0])) throw "Username was not formatted correctly";
 
 					const [username, discriminator] = args[0].split("#");
+
+					let userList: Collection<string, GuildMember> | undefined;
 
 					userList = await message.guild?.members?.fetch({query: username, limit: 1000});
 
