@@ -6,7 +6,7 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import app from "../src/app";
 import DirectoryUtils from "../src/utils/DirectoryUtils";
 import MockHandler from "./MockHandler";
-import { AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../src/config.json";
+import { AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV, DEVELOPMENT_ENV } from "../src/config.json";
 
 describe("app", () => {
 	let sandbox: SinonSandbox;
@@ -88,6 +88,36 @@ describe("app", () => {
 		await app();
 
 		expect(consoleErrorStub.calledOnce).to.be.true;
+	});
+
+	it("Should load typescript files in development", async () => {
+		const testEnv = process.env.NODE_ENV;
+
+		process.env.NODE_ENV = DEVELOPMENT_ENV;
+
+		const getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+
+		await app();
+
+		expect(getFilesStub.firstCall.lastArg).to.include(".ts");
+		expect(getFilesStub.firstCall.lastArg).to.not.include(".js");
+
+		process.env.NODE_ENV = testEnv;
+	});
+
+	it("Should load javascript files in non-development", async () => {
+		const testEnv = process.env.NODE_ENV;
+
+		process.env.NODE_ENV = PRODUCTION_ENV;
+
+		const getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+
+		await app();
+
+		expect(getFilesStub.firstCall.lastArg).to.include(".js");
+		expect(getFilesStub.firstCall.lastArg).to.not.include(".ts");
+
+		process.env.NODE_ENV = testEnv;
 	});
 
 	afterEach(() => {

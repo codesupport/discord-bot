@@ -1,7 +1,7 @@
 import { Client, Intents, TextChannel } from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
-import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
+import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV, DEVELOPMENT_ENV } from "./config.json";
 
 const client = new Client({
 	ws: {
@@ -21,7 +21,7 @@ async function app() {
 			await client.login(process.env.DISCORD_TOKEN);
 			console.log(`Successfully logged in as ${client.user?.username}`);
 
-			const handleFileEnding = process.env.MODE === "development" ? "Handler.ts" : "Handler.js";
+			const handleFileEnding = process.env.NODE_ENV === DEVELOPMENT_ENV ? "Handler.ts" : "Handler.js";
 
 			const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 				`${__dirname}/${handlers_directory}`,

@@ -12,6 +12,7 @@
     "FIELD_SPACER_CHAR": "\u200B",
     "MEMBER_ROLE_COLOR": "#FFFFFE",
     "PRODUCTION_ENV": "production",
+    "DEVELOPMENT_ENV": "development",
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",
     "LOG_CHANNEL_ID": "405068878151024640",
@@ -42,8 +43,7 @@
         "mp4",
         "mov"
     ],
-    "rules": [
-        {
+    "rules": [{
             "name": "Asking For Help",
             "triggers": ["0", "ask", "help", "details"],
             "description": "Help us to help you, instead of just saying \"my code doesn't work\" or \"can someone help me.\""

@@ -6,6 +6,7 @@ import DirectoryUtils from "../../src/utils/DirectoryUtils";
 // @ts-ignore - TS does not like MockCommand not living in src/
 import MockCommand from "../MockCommand";
 import MockCommandWithAlias from "../MockCommandWithAlias";
+import { PRODUCTION_ENV, DEVELOPMENT_ENV } from "../../src/config.json";
 
 describe("CommandFactory", () => {
 	let factory: CommandFactory;
@@ -62,6 +63,32 @@ describe("CommandFactory", () => {
 			await emptyFactory.loadCommands();
 
 			expect(emptyFactory.commandExists(new MockCommandWithAlias().getName())).to.be.true;
+		});
+
+		it("Should load typescript files in development", async () => {
+			const testEnv = process.env.NODE_ENV;
+
+			process.env.NODE_ENV = DEVELOPMENT_ENV;
+
+			await emptyFactory.loadCommands();
+
+			expect(getFilesStub.firstCall.lastArg).to.include(".ts");
+			expect(getFilesStub.firstCall.lastArg).to.not.include(".js");
+
+			process.env.NODE_ENV = testEnv;
+		});
+
+		it("Should load javascript files in non-development", async () => {
+			const testEnv = process.env.NODE_ENV;
+
+			process.env.NODE_ENV = PRODUCTION_ENV;
+
+			await emptyFactory.loadCommands();
+
+			expect(getFilesStub.firstCall.lastArg).to.include(".js");
+			expect(getFilesStub.firstCall.lastArg).to.not.include(".ts");
+
+			process.env.NODE_ENV = testEnv;
 		});
 
 		afterEach(() => {
