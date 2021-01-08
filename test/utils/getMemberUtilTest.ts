@@ -12,13 +12,13 @@ describe("getMemberUtil", () => {
 			sandbox = createSandbox();
 		});
 
-		it("returns GuildMember if value is a userID string", () => {
+		it("returns GuildMember if value is a userID string", async () => {
 			const user = CustomMocks.getUser({id: "123456789", username: "fakeUser", discriminator: "12345"});
 			const member = CustomMocks.getGuildMember({user: user});
 
 			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
 
-			expect(getMemberUtil.getGuildMember("fakeUser#1234", BaseMocks.getGuild())).to.deep.equal(member);
+			expect(await getMemberUtil.getGuildMember("fakeUser#1234", BaseMocks.getGuild())).to.equal(member);
 		});
 	});
 });
