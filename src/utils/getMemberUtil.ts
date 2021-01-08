@@ -6,18 +6,18 @@ class getMemberUtil {
 
 		if ((/^[0-9]+$/g).test(value)) {
 			// UserID
-			return guild.members?.fetch(value);
+			return guild.members?.fetch(value) || undefined;
 		} else if ((/^.*#[0-9]{4}$/g).test(value)) {
 			// Username + discriminator
 			const [username, discriminator] = value.split("#");
-			const userList = await guild.members?.fetch({query: username});
+			const memberList = await guild.members?.fetch({query: username});
 
-			return await userList?.find(memberObject => memberObject.user.discriminator === discriminator);
+			return await memberList?.find(memberObject => memberObject.user.discriminator === discriminator) || undefined;
 		} else {
 			// Username without discriminator
-			const userObj = await guild.members?.fetch({query: value});
+			const guildMember = await guild.members?.fetch({query: value});
 
-			return userObj.first();
+			return guildMember.first() || undefined;
 		}
 	}
 }

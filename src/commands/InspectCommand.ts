@@ -1,4 +1,5 @@
 import { GuildMember, Message, MessageEmbed } from "discord.js";
+import getMemberUtil from "../utils/getMemberUtil";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
 import { EMBED_COLOURS } from "../config.json";
@@ -18,16 +19,7 @@ class InspectCommand extends Command {
 			let userObj: GuildMember | undefined;
 
 			if (args.length > 0) {
-				if ((/^[0-9]+$/g).test(args[0])) {
-					// - args[0] only contains numbers so its a user ID
-					userObj = await message.guild?.members?.fetch(args[0]);
-				} else {
-					if (args[0].includes("#")) args[0] = args[0].split("#")[0];
-
-					const userList = await message.guild?.members?.fetch({query: args[0]});
-
-					userObj = userList?.first();
-				}
+				userObj = await getMemberUtil.getGuildMember(args[0], message.guild!);
 			} else {
 				if (message.member === null) return;
 				userObj = message.member;
