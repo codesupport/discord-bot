@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config ./build/index.js",
     "build": "tsc",
-    "dev": "ts-node -r dotenv/config ./src/index.ts",
+    "dev": "cross-env MODE=development nodemon --watch src --ext ts --exec 'ts-node -r dotenv/config ./src/index.ts'",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --exit",
     "test:debug": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --timeout 999999999 --exit",
@@ -30,8 +30,10 @@
   "dependencies": {
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
+    "cross-env": "^7.0.3",
     "discord.js": "^12.5.0",
     "dotenv": "^8.2.0",
+    "nodemon": "^2.0.7",
     "twitter": "^1.7.1"
   },
   "devDependencies": {
