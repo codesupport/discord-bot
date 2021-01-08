@@ -30,10 +30,8 @@
   "dependencies": {
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
-    "cross-env": "^7.0.3",
     "discord.js": "^12.5.0",
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.7",
     "twitter": "^1.7.1"
   },
   "devDependencies": {
@@ -49,9 +47,11 @@
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "chai": "^4.2.0",
+    "cross-env": "^7.0.3",
     "eslint": "^6.8.0",
     "eslint-config-codesupport": "^1.0.2",
     "mocha": "^7.2.0",
+    "nodemon": "^2.0.7",
     "nyc": "^15.1.0",
     "sinon": "^9.2.1",
     "ts-mocha": "^7.0.0",
