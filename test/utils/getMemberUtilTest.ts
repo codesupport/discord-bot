@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
 import getMemberUtil from "../../src/utils/getMemberUtil";
-import { CustomMocks } from "@lambocreeper/mock-discord.js";
-import {Collection, GuildMember} from "discord.js";
+import {BaseMocks, CustomMocks} from "@lambocreeper/mock-discord.js";
+import {Collection, GuildMember, GuildMemberManager} from "discord.js";
 
 describe("getMemberUtil", () => {
 	describe("::getGuildMember()", () => {
@@ -13,12 +13,12 @@ describe("getMemberUtil", () => {
 		});
 
 		it("returns GuildMember if value is a userID string", () => {
-			const guild = CustomMocks.getGuild();
 			const user = CustomMocks.getUser({id: "123456789", username: "fakeUser", discriminator: "12345"});
+			const member = CustomMocks.getGuildMember({user: user});
 
-			guild.addMember(user, {accessToken: "123456789"});
+			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
 
-			expect(getMemberUtil.getGuildMember("fakeUser#1234", guild)).to.deep.equal(GuildMember);
+			expect(getMemberUtil.getGuildMember("fakeUser#1234", BaseMocks.getGuild())).to.deep.equal(member);
 		});
 	});
 });
