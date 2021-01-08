@@ -1,17 +1,14 @@
 import { commands_directory } from "../config.json";
 import Command from "../abstracts/Command";
 import DirectoryUtils from "../utils/DirectoryUtils";
-import { DEVELOPMENT_ENV } from "../config.json";
 
 class CommandFactory {
 	private commands: any = {};
 
 	async loadCommands(): Promise<void> {
-		const commandFileEnding = process.env.NODE_ENV === DEVELOPMENT_ENV ? "Command.ts" : "Command.js";
-
 		const commandFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/../${commands_directory}`,
-			commandFileEnding
+			DirectoryUtils.appendFileExtension("Command")
 		);
 
 		commandFiles.forEach(command => {

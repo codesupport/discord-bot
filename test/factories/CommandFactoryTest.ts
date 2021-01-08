@@ -65,32 +65,6 @@ describe("CommandFactory", () => {
 			expect(emptyFactory.commandExists(new MockCommandWithAlias().getName())).to.be.true;
 		});
 
-		it("Should load typescript files in development", async () => {
-			const testEnv = process.env.NODE_ENV;
-
-			process.env.NODE_ENV = DEVELOPMENT_ENV;
-
-			await emptyFactory.loadCommands();
-
-			expect(getFilesStub.firstCall.lastArg).to.include(".ts");
-			expect(getFilesStub.firstCall.lastArg).to.not.include(".js");
-
-			process.env.NODE_ENV = testEnv;
-		});
-
-		it("Should load javascript files in non-development", async () => {
-			const testEnv = process.env.NODE_ENV;
-
-			process.env.NODE_ENV = PRODUCTION_ENV;
-
-			await emptyFactory.loadCommands();
-
-			expect(getFilesStub.firstCall.lastArg).to.include(".js");
-			expect(getFilesStub.firstCall.lastArg).to.not.include(".ts");
-
-			process.env.NODE_ENV = testEnv;
-		});
-
 		afterEach(() => {
 			sandbox.restore();
 		});

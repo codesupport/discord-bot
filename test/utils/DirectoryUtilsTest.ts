@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
 import DirectoryUtils from "../../src/utils/DirectoryUtils";
+import { DEVELOPMENT_ENV, PRODUCTION_ENV } from "../../src/config.json";
 
 describe("DirectoryUtils", () => {
 	describe("::getFilesInDirectory()", () => {
@@ -43,5 +44,31 @@ describe("DirectoryUtils", () => {
 		afterEach(() => {
 			sandbox.restore();
 		});
+	});
+
+	it("Should return typescript file in development", async () => {
+		const testEnv = process.env.NODE_ENV;
+
+		process.env.NODE_ENV = DEVELOPMENT_ENV;
+
+		const file = DirectoryUtils.appendFileExtension("test");
+
+		expect(file).to.include(".ts");
+		expect(file).to.not.include(".js");
+
+		process.env.NODE_ENV = testEnv;
+	});
+
+	it("Should return javascript in non-development", async () => {
+		const testEnv = process.env.NODE_ENV;
+
+		process.env.NODE_ENV = PRODUCTION_ENV;
+
+		const file = DirectoryUtils.appendFileExtension("test");
+
+		expect(file).to.include(".js");
+		expect(file).to.not.include(".ts");
+
+		process.env.NODE_ENV = testEnv;
 	});
 });
