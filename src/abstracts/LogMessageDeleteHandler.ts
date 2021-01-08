@@ -3,10 +3,6 @@ import { LOG_CHANNEL_ID, EMBED_COLOURS } from "../config.json";
 import EventHandler from "./EventHandler";
 
 abstract class LogMessageDeleteHandler extends EventHandler {
-	protected constructor(event: any) {
-		super(event);
-	}
-
 	async sendLog(message: Message): Promise<void> {
 		if (message.content !== "") {
 			const embed = new MessageEmbed();
