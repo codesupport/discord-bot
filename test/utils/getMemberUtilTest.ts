@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
 import getMemberUtil from "../../src/utils/getMemberUtil";
-import {BaseMocks, CustomMocks} from "@lambocreeper/mock-discord.js";
+import { CustomMocks } from "@lambocreeper/mock-discord.js";
 import {Collection, GuildMember} from "discord.js";
 
 describe("getMemberUtil", () => {
