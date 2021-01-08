@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config ./build/index.js",
     "build": "tsc",
+    "dev": "ts-node -r dotenv/config ./src/index.ts",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --exit",
     "test:debug": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --timeout 999999999 --exit",
@@ -34,8 +35,8 @@
     "twitter": "^1.7.1"
   },
   "devDependencies": {
-    "@lambocreeper/mock-discord.js": "^1.0.9",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@lambocreeper/mock-discord.js": "^1.0.9",
     "@types/assert": "^1.5.2",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^7.0.2",
@@ -52,6 +53,7 @@
     "nyc": "^15.1.0",
     "sinon": "^9.2.1",
     "ts-mocha": "^7.0.0",
+    "ts-node": "^9.1.1",
     "typescript": "^3.9.7"
   }
 }

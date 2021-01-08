@@ -6,9 +6,11 @@ class CommandFactory {
 	private commands: any = {};
 
 	async loadCommands(): Promise<void> {
+		const commandFileEnding = process.env.MODE === "development" ? "Command.ts" : "Command.js";
+
 		const commandFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/../${commands_directory}`,
-			"Command.js"
+			commandFileEnding
 		);
 
 		commandFiles.forEach(command => {

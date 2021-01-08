@@ -21,9 +21,11 @@ async function app() {
 			await client.login(process.env.DISCORD_TOKEN);
 			console.log(`Successfully logged in as ${client.user?.username}`);
 
+			const handleFileEnding = process.env.MODE === "development" ? "Handler.ts" : "Handler.js";
+
 			const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 				`${__dirname}/${handlers_directory}`,
-				"Handler.js"
+				handleFileEnding
 			);
 
 			handlerFiles.forEach(handler => {
