@@ -1,6 +1,6 @@
 import {Guild} from "discord.js";
 
-class getMemberUtil {
+class DiscordUtil {
 	static async getGuildMember(value: string, guild: Guild) {
 		if (value === "") return;
 
@@ -22,4 +22,4 @@ class getMemberUtil {
 	}
 }
 
-export default getMemberUtil;
+export default DiscordUtil;
