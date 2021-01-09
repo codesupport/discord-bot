@@ -31,6 +31,7 @@ class InspectCommand extends Command {
 		embed.setDescription("No match found.");
 		embed.addField("Correct Usage", "?inspect [username|userID]");
 		embed.setColor(EMBED_COLOURS.ERROR);
+
 		return embed;
 	}
 
@@ -42,7 +43,9 @@ class InspectCommand extends Command {
 		embed.setThumbnail(memberObj?.user.displayAvatarURL());
 		embed.addField("User ID", memberObj?.user.id);
 		embed.addField("Username", memberObj?.user.tag);
+
 		if (memberObj?.nickname !== null) embed.addField("Nickname", memberObj?.nickname);
+
 		if (memberObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(memberObj?.joinedAt!));
 
 		if (memberObj?.roles.cache.size > 1) {
