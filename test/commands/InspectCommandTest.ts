@@ -7,7 +7,7 @@ import InspectCommand from "../../src/commands/InspectCommand";
 import Command from "../../src/abstracts/Command";
 import { EMBED_COLOURS } from "../../src/config.json";
 import DateUtils from "../../src/utils/DateUtils";
-import DiscordUtil from "../../src/utils/DiscordUtil";
+import DiscordUtils from "../../src/utils/DiscordUtils";
 
 const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
 	"id": "12345",
@@ -46,7 +46,7 @@ describe("InspectCommand", () => {
 		it("sends a message to the channel", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(DiscordUtil, "getGuildMember").resolves(undefined);
+			sandbox.stub(DiscordUtils, "getGuildMember").resolves(undefined);
 
 			await command.run(message, ["User"]);
 
@@ -56,7 +56,7 @@ describe("InspectCommand", () => {
 		it("sends an error message when user is not found", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(DiscordUtil, "getGuildMember").resolves(undefined);
+			sandbox.stub(DiscordUtils, "getGuildMember").resolves(undefined);
 
 			await command.run(message, ["FakeUser#1234"]);
 
@@ -75,7 +75,7 @@ describe("InspectCommand", () => {
 			const member = BaseMocks.getGuildMember();
 
 			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
-			sandbox.stub(DiscordUtil, "getGuildMember").resolves(member);
+			sandbox.stub(DiscordUtils, "getGuildMember").resolves(member);
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
@@ -125,7 +125,7 @@ describe("InspectCommand", () => {
 			const member = BaseMocks.getGuildMember();
 
 			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#1555B7");
-			sandbox.stub(DiscordUtil, "getGuildMember").resolves(member);
+			sandbox.stub(DiscordUtils, "getGuildMember").resolves(member);
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([]));
 

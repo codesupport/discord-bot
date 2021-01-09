@@ -1,6 +1,6 @@
 import { Guild, GuildMember } from "discord.js";
 
-class DiscordUtil {
+class DiscordUtils {
 	static async getGuildMember(value: string, guild: Guild): Promise<GuildMember | undefined> {
 		if (value === "") return;
 
@@ -28,4 +28,4 @@ class DiscordUtil {
 	}
 }
 
-export default DiscordUtil;
+export default DiscordUtilss;

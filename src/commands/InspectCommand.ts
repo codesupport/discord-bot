@@ -1,5 +1,5 @@
 import { GuildMember, Message, MessageEmbed } from "discord.js";
-import DiscordUtil from "../utils/DiscordUtil";
+import DiscordUtils from "../utils/DiscordUtils";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
 import { EMBED_COLOURS } from "../config.json";
@@ -14,7 +14,7 @@ class InspectCommand extends Command {
 
 	async run(message: Message, args: string[]) {
 		const userObj = args.length > 0
-			? await DiscordUtil.getGuildMember(args[0], message.guild!)
+			? await DiscordUtils.getGuildMember(args[0], message.guild!)
 			: message.member!;
 
 		const embed = userObj === undefined
