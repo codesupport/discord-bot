@@ -13,30 +13,24 @@ class InspectCommand extends Command {
 	}
 
 	async run(message: Message, args: string[]) {
-		let embed: MessageEmbed;
+		const userObj = args.length > 0 ? await DiscordUtil.getGuildMember(args[0], message.guild!) : message.member!;
 
-		try {
-			const userObj = args.length > 0 ? await DiscordUtil.getGuildMember(args[0], message.guild!) : message.member!;
-
-			embed = userObj === undefined ? this._errorEmbed("No match found.") : this._inspectEmbed(userObj!);
-		} catch (error) {
-			embed = this._errorEmbed("Incorrect usage of command.");
-		}
+		const embed = userObj === undefined ? this.noMatchEmbed() : this.inspectEmbed(userObj!);
 
 		await message.channel.send({embed});
 	}
 
-	private _errorEmbed(errorMessage: string): MessageEmbed {
+	private noMatchEmbed(): MessageEmbed {
 		const embed = new MessageEmbed();
 
 		embed.setTitle("Error");
-		embed.setDescription(errorMessage);
+		embed.setDescription("No match found.");
 		embed.addField("Correct Usage", "?inspect [username|userID]");
 		embed.setColor(EMBED_COLOURS.ERROR);
 		return embed;
 	}
 
-	private _inspectEmbed(memberObj: GuildMember): MessageEmbed {
+	private inspectEmbed(memberObj: GuildMember): MessageEmbed {
 		const embed = new MessageEmbed();
 
 		embed.setTitle(`Inspecting ${memberObj?.user.tag}`);
