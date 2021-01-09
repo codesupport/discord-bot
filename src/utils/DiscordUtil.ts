@@ -22,9 +22,9 @@ class DiscordUtil {
 		}
 
 		// Username without discriminator
-		const guildMember = await guild.members.fetch({query: value});
+		const fetchedMembers = await guild.members.fetch({query: value});
 
-		return guildMember.first();
+		return fetchedMembers.first();
 	}
 }
 
