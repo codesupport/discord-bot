@@ -8,7 +8,7 @@ class DiscordUtils {
 		if ((/^[0-9]+$/g).test(value)) {
 			try {
 				return await guild.members.fetch(value);
-			} catch (e) {
+			} catch {
 				return undefined;
 			}
 		}
