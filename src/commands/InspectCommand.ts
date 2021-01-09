@@ -1,4 +1,4 @@
-import {GuildMember, Message, MessageEmbed} from "discord.js";
+import { GuildMember, Message, MessageEmbed } from "discord.js";
 import DiscordUtil from "../utils/DiscordUtil";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
@@ -43,7 +43,7 @@ class InspectCommand extends Command {
 		embed.addField("User ID", memberObj?.user.id);
 		embed.addField("Username", memberObj?.user.tag);
 		if (memberObj?.nickname !== null) embed.addField("Nickname", memberObj?.nickname);
-		if (memberObj?.nickname !== null) embed.addField("Joined At", DateUtils.formatAsText(memberObj?.joinedAt!));
+		if (memberObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(memberObj?.joinedAt!));
 
 		if (memberObj?.roles.cache.size > 1) {
 			embed.addField("Roles", `${memberObj.roles.cache.filter(role => role.id !== memberObj?.guild!.id).map(role => ` ${role.toString()}`)}`);

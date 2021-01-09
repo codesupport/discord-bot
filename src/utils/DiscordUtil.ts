@@ -1,4 +1,4 @@
-import {Guild, GuildMember} from "discord.js";
+import { Guild, GuildMember } from "discord.js";
 
 class DiscordUtil {
 	static async getGuildMember(value: string, guild: Guild): Promise<GuildMember | undefined> {

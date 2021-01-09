@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
 import DiscordUtil from "../../src/utils/DiscordUtil";
-import {BaseMocks, CustomMocks} from "@lambocreeper/mock-discord.js";
-import {Collection, GuildMemberManager} from "discord.js";
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
+import { Collection, GuildMemberManager } from "discord.js";
 
 const user = CustomMocks.getUser({id: "123456789", username: "fakeUser", discriminator: "1234"});
 const member = CustomMocks.getGuildMember({user: user});
