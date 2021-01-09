@@ -1,12 +1,16 @@
-import {Guild} from "discord.js";
+import {Guild, GuildMember} from "discord.js";
 
 class DiscordUtil {
-	static async getGuildMember(value: string, guild: Guild) {
+	static async getGuildMember(value: string, guild: Guild): Promise<GuildMember | undefined> {
 		if (value === "") return;
 
 		if ((/^[0-9]+$/g).test(value)) {
 			// UserID
-			return await guild.members.fetch(value) || undefined;
+			try {
+				return await guild.members.fetch(value);
+			} catch (error) {
+				return undefined;
+			}
 		} else if ((/^.*#[0-9]{4}$/g).test(value)) {
 			// Username + discriminator
 			const [username, discriminator] = value.split("#");
