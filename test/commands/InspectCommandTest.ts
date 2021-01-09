@@ -46,6 +46,8 @@ describe("InspectCommand", () => {
 		it("sends a message to the channel", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
+			sandbox.stub(DiscordUtil, "getGuildMember").resolves(undefined);
+
 			await command.run(message, ["User"]);
 
 			expect(messageMock.calledOnce).to.be.true;
@@ -122,6 +124,7 @@ describe("InspectCommand", () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
+			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#1555B7");
 			sandbox.stub(DiscordUtil, "getGuildMember").resolves(member);
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([]));
@@ -141,8 +144,8 @@ describe("InspectCommand", () => {
 			expect(embed.fields[3].name).to.equal("Joined At");
 			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
 			expect(embed.fields[4].name).to.equal("Roles");
-			expect(embed.fields[4].value).to.equal(" No roles");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toString());
+			expect(embed.fields[4].value).to.equal("No roles");
+			expect(embed.hexColor).to.equal("#1555b7");
 		});
 
 		afterEach(() => {
