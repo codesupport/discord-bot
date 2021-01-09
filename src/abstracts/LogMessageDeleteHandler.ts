@@ -1,13 +1,9 @@
-import { Constants, MessageEmbed, Message, TextChannel } from "discord.js";
-import { LOG_CHANNEL_ID, EMBED_COLOURS } from "../../config.json";
-import EventHandler from "../../abstracts/EventHandler";
+import { MessageEmbed, Message, TextChannel } from "discord.js";
+import { LOG_CHANNEL_ID, EMBED_COLOURS } from "../config.json";
+import EventHandler from "./EventHandler";
 
-class LogMessageDeleteHandler extends EventHandler {
-	constructor() {
-		super(Constants.Events.MESSAGE_DELETE);
-	}
-
-	async handle(message: Message): Promise<void> {
+abstract class LogMessageDeleteHandler extends EventHandler {
+	async sendLog(message: Message): Promise<void> {
 		if (message.content !== "") {
 			const embed = new MessageEmbed();
 
