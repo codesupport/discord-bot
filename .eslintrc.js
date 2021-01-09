@@ -14,6 +14,7 @@ module.exports = {
     rules: {
         "no-unused-vars": "off",
         "no-invalid-this": "off",
+        "multiline-ternary": 0,
         "curly": ["error", "multi-line"],
         "lines-between-class-members": "off",
         "space-before-function-paren": ["error", {

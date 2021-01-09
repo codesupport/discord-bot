@@ -13,14 +13,18 @@ class InspectCommand extends Command {
 	}
 
 	async run(message: Message, args: string[]) {
-		const userObj = args.length > 0 ? await DiscordUtil.getGuildMember(args[0], message.guild!) : message.member!;
+		const userObj = args.length > 0
+			? await DiscordUtil.getGuildMember(args[0], message.guild!)
+			: message.member!;
 
-		const embed = userObj === undefined ? this.noMatchEmbed() : this.inspectEmbed(userObj!);
+		const embed = userObj === undefined
+			? this.buildNoMatchEmbed()
+			: this.buildInspectEmbed(userObj!);
 
 		await message.channel.send({embed});
 	}
 
-	private noMatchEmbed(): MessageEmbed {
+	private buildNoMatchEmbed(): MessageEmbed {
 		const embed = new MessageEmbed();
 
 		embed.setTitle("Error");
@@ -30,7 +34,7 @@ class InspectCommand extends Command {
 		return embed;
 	}
 
-	private inspectEmbed(memberObj: GuildMember): MessageEmbed {
+	private buildInspectEmbed(memberObj: GuildMember): MessageEmbed {
 		const embed = new MessageEmbed();
 
 		embed.setTitle(`Inspecting ${memberObj?.user.tag}`);
