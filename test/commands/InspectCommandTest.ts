@@ -1,13 +1,13 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Message, Role } from "discord.js";
-import { BaseMocks } from "@lambocreeper/mock-discord.js";
+import {BaseMocks, CustomMocks} from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
 import Command from "../../src/abstracts/Command";
 import { EMBED_COLOURS } from "../../src/config.json";
 import DateUtils from "../../src/utils/DateUtils";
-import getMemberUtil from "../../src/utils/getMemberUtil";
+import DiscordUtil from "../../src/utils/DiscordUtil";
 
 const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
 	"id": "12345",
@@ -54,7 +54,7 @@ describe("InspectCommand", () => {
 		it("sends an error message when user is not found", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(getMemberUtil, "getGuildMember").resolves(undefined);
+			sandbox.stub(DiscordUtil, "getGuildMember").resolves(undefined);
 
 			await command.run(message, ["FakeUser#1234"]);
 
@@ -73,16 +73,16 @@ describe("InspectCommand", () => {
 			const member = BaseMocks.getGuildMember();
 
 			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
-			sandbox.stub(getMemberUtil, "getGuildMember").resolves(member);
+			sandbox.stub(DiscordUtil, "getGuildMember").resolves(member);
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
-			await command.run(message, ["010101010101010101"]);
+			await command.run(message, [member.user.username]);
 
 			const embed = messageMock.getCall(0).firstArg.embed;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal(`Inspecting ${member.user.username}#${member.user.discriminator}`);
+			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
 			expect(embed.fields[0].name).to.equal("User ID");
 			expect(embed.fields[0].value).to.equal(member.user.id);
 			expect(embed.fields[1].name).to.equal("Username");
@@ -109,13 +109,40 @@ describe("InspectCommand", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 
-			expect(embed.title).to.equal(`Inspecting ${member.user.username}#${member.user.discriminator}`);
+			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
 			expect(embed.fields.find((field: EmbedField) => field.name === "User ID")?.value).to.equal(member.user.id);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Username")?.value).to.equal(member.user.tag);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(message.member?.nickname);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(message.member?.joinedAt);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Roles")?.value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(member.displayColor);
+		});
+
+		it("handles role field correctly if member has no role", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+			const member = BaseMocks.getGuildMember();
+
+			sandbox.stub(DiscordUtil, "getGuildMember").resolves(member);
+
+			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([]));
+
+			await command.run(message, [member.user.username]);
+
+			const embed = messageMock.getCall(0).firstArg.embed;
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
+			expect(embed.fields[0].name).to.equal("User ID");
+			expect(embed.fields[0].value).to.equal(member.user.id);
+			expect(embed.fields[1].name).to.equal("Username");
+			expect(embed.fields[1].value).to.equal(member.user.tag);
+			expect(embed.fields[2].name).to.equal("Nickname");
+			expect(embed.fields[2].value).to.equal("my name");
+			expect(embed.fields[3].name).to.equal("Joined At");
+			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[4].name).to.equal("Roles");
+			expect(embed.fields[4].value).to.equal(" No roles");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toString());
 		});
 
 		afterEach(() => {
