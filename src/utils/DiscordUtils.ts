@@ -15,10 +15,10 @@ class DiscordUtils {
 
 		// Username and/or discriminator
 		if ((/^.*#[0-9]{4}$/g).test(value)) {
-			const [username] = value.split("#");
+			const [username, discriminator] = value.split("#");
 			const memberList = await guild.members.fetch({query: username, limit: 1000000000});
 
-			return memberList?.find(memberObject => memberObject.user.tag === value);
+			return memberList?.find(memberObject => memberObject.user.discriminator === discriminator);
 		}
 
 		// Everything else (Username without discriminator or nickname)
