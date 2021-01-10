@@ -34,6 +34,14 @@ describe("DiscordUtils", () => {
 			expect(await DiscordUtils.getGuildMember("123456789", BaseMocks.getGuild())).to.equal(member);
 		});
 
+		it("returns GuildMember if value is a nickname", async () => {
+			const nicknameMember = CustomMocks.getGuildMember({nick: "Lambo", user: user});
+
+			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", nicknameMember]]));
+
+			expect(await DiscordUtils.getGuildMember("Lambo", BaseMocks.getGuild())).to.equal(nicknameMember);
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
