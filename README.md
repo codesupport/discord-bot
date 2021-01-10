@@ -25,8 +25,9 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 - [TypeScript ESLint Parser](https://www.npmjs.com/package/@typescript-eslint/parser)
 - [CodeSupport's ESLint Config](https://www.npmjs.com/package/eslint-config-codesupport)
 - [NYC](https://www.npmjs.com/package/nyc)
+- [TS-Node](https://www.npmjs.com/package/ts-node)
 
-**Notes:** 
+**Notes:**
 - We have excluded [@types](http://definitelytyped.org) packages from this list.
 - Although TypeScript is listed as a development dependency, it is needed to build the source code.
 
@@ -35,7 +36,7 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 2. Build the source code with `npm run build`
 3. Start the Discord bot with `npm start`
    - You will need to supply the `DISCORD_TOKEN` environment variable
- 
+
 If you would like to use a `.env` file for storing your environment variables please create it in the root of the project.
 
 ## Structure
@@ -59,7 +60,7 @@ class ExampleCommand extends Command {
         super(
             "example",
             "an example command"
-        );    
+        );
     }
 
     async run(message: Message): Promise<void> {
@@ -75,7 +76,7 @@ To create an event handler, create a new file in `src/event/handlers` named `<Ha
 ```ts
 class ExampleHandler extends EventHandler {
     constructor() {
-        super(Constants.Events.MESSAGE_CREATE);    
+        super(Constants.Events.MESSAGE_CREATE);
     }
 
     async handle(message: Message): Promise<void> {
@@ -90,6 +91,7 @@ We are using [Mocha](https://mochajs.org) with [Sinon](https://sinonjs.org) and 
 ## Scripts
 - To start the Discord bot use `npm start`
 - To build the source code use `npm run build`
+- To start the bot in developer mode (auto-reload + run) `npm run dev`
 - To test the code use `npm test`
 - To lint the code use `npm run lint`
 - To get coverage stats use `npm run coverage`

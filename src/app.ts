@@ -23,7 +23,7 @@ async function app() {
 
 			const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 				`${__dirname}/${handlers_directory}`,
-				"Handler.js"
+				DirectoryUtils.appendFileExtension("Handler")
 			);
 
 			handlerFiles.forEach(handler => {

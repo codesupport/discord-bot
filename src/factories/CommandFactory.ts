@@ -8,7 +8,7 @@ class CommandFactory {
 	async loadCommands(): Promise<void> {
 		const commandFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/../${commands_directory}`,
-			"Command.js"
+			DirectoryUtils.appendFileExtension("Command")
 		);
 
 		commandFiles.forEach(command => {

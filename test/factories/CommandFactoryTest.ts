@@ -6,6 +6,7 @@ import DirectoryUtils from "../../src/utils/DirectoryUtils";
 // @ts-ignore - TS does not like MockCommand not living in src/
 import MockCommand from "../MockCommand";
 import MockCommandWithAlias from "../MockCommandWithAlias";
+import { PRODUCTION_ENV, DEVELOPMENT_ENV } from "../../src/config.json";
 
 describe("CommandFactory", () => {
 	let factory: CommandFactory;
