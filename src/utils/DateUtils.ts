@@ -20,6 +20,39 @@ class DateUtils {
 
 		return `${time} on ${date.getDate()} ${month} ${date.getFullYear()}`;
 	}
+
+	static getFormattedTimeSinceEpoch(timeInMs: number): string {
+		let difference = Date.now() - timeInMs;
+
+		let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
+
+		difference -= daysDifference * 1000 * 60 * 60 * 24;
+
+		const hoursDifference = Math.floor(difference / 1000 / 60 / 60);
+
+		difference -= hoursDifference * 1000 * 60 * 60;
+
+		const minutesDifference = Math.floor(difference / 1000 / 60);
+
+		difference -= minutesDifference * 1000 * 60;
+
+		const secondDifference = Math.floor(difference / 1000);
+
+		const yearsDifference = Math.floor(daysDifference / 365.2422);
+
+		daysDifference -= yearsDifference * 365.2422;
+
+		let formattedString = "its been ";
+
+		if (yearsDifference > 0) formattedString += `${yearsDifference} years, `;
+		if (daysDifference > 0) formattedString += `${daysDifference} days, `;
+		if (hoursDifference > 0) formattedString += `${hoursDifference} hours, `;
+		if (minutesDifference > 0) formattedString += `${minutesDifference} minutes and `;
+
+		formattedString += `${secondDifference} seconds.`;
+
+		return formattedString;
+	}
 }
 
 export default DateUtils;
