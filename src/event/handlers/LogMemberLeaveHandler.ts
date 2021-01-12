@@ -1,6 +1,6 @@
 import { Constants, GuildMember, MessageEmbed, TextChannel } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
-import { EMBED_COLOURS } from "../../config.json";
+import { EMBED_COLOURS, MEMBER_ROLE, LOG_CHANNEL_ID } from "../../config.json";
 import DateUtils from "../../utils/DateUtils";
 
 class LogMemberLeaveHandler extends EventHandler {
@@ -16,14 +16,9 @@ class LogMemberLeaveHandler extends EventHandler {
 		embed.addField("Join date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
 		embed.addField("Leave date", new Date(Date.now()).toLocaleString(), true);
 		embed.addField("Time elapsed", DateUtils.getFormattedTimeSinceEpoch(guildMember.joinedTimestamp!));
+		embed.addField("Authenticated", guildMember.roles.cache.has(MEMBER_ROLE) ? "True" : "False");
 
-		if (guildMember?.roles.cache.size > 1) {
-			embed.addField("Roles", `${guildMember.roles.cache.filter(role => role.id !== guildMember?.guild!.id).map(role => ` ${role.toString()}`)}`);
-		} else {
-			embed.addField("Roles", "No roles");
-		}
-
-		const logsChannel = guildMember.guild?.channels.cache.find(channel => channel.id === "772542546282807316") as TextChannel;
+		const logsChannel = guildMember.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
 
 		await logsChannel?.send({embed});
 	}
