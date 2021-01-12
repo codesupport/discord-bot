@@ -21,8 +21,10 @@ class DateUtils {
 		return `${time} on ${date.getDate()} ${month} ${date.getFullYear()}`;
 	}
 
-	static getFormattedTimeSinceEpoch(timeInMs: number): string {
-		let difference = Date.now() - timeInMs;
+	static getFormattedTimeSinceDate(startTimeMs: number, endTimeMs: number): string | null {
+		if (endTimeMs < startTimeMs) return null;
+
+		let difference = endTimeMs - startTimeMs;
 
 		let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
 
@@ -38,18 +40,18 @@ class DateUtils {
 
 		const secondDifference = Math.floor(difference / 1000);
 
-		const yearsDifference = Math.floor(daysDifference / 365.2422);
+		const yearsDifference = Math.floor(daysDifference / 365);
 
-		daysDifference -= yearsDifference * 365.2422;
+		daysDifference -= yearsDifference * 365;
 
 		let formattedString = "";
 
-		if (yearsDifference > 0) formattedString += `${yearsDifference} years, `;
-		if (daysDifference > 0) formattedString += `${daysDifference} days, `;
-		if (hoursDifference > 0) formattedString += `${hoursDifference} hours, `;
-		if (minutesDifference > 0) formattedString += `${minutesDifference} minutes and `;
+		if (yearsDifference > 0) formattedString += `${yearsDifference} ${yearsDifference > 1 ? "years" : "year"}, `;
+		if (daysDifference > 0) formattedString += `${daysDifference} ${daysDifference > 1 ? "days" : "day"}, `;
+		if (hoursDifference > 0) formattedString += `${hoursDifference} ${hoursDifference > 1 ? "hours" : "hour"}, `;
+		if (minutesDifference > 0) formattedString += `${minutesDifference} ${minutesDifference > 1 ? "minutes" : "minute"} and `;
 
-		formattedString += `${secondDifference} seconds`;
+		formattedString += `${secondDifference} ${secondDifference > 1 ? "seconds" : "second"}`;
 
 		return formattedString;
 	}
