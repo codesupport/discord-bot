@@ -1,20 +1,12 @@
 import { expect } from "chai";
-import {ChannelManager, Collection, Constants, GuildChannelManager, GuildMemberRoleManager, Role} from "discord.js";
+import { Collection, Constants, GuildMemberRoleManager, Role } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
-import { MEMBER_ROLE, LOG_CHANNEL_ID } from "../../../src/config.json";
+import { MEMBER_ROLE } from "../../../src/config.json";
 
 import EventHandler from "../../../src/abstracts/EventHandler";
 import LogMemberLeaveHandler from "../../../src/event/handlers/LogMemberLeaveHandler";
 import DateUtils from "../../../src/utils/DateUtils";
-
-const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
-	"id": MEMBER_ROLE.toString(),
-	"name": "member"
-}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
-	"id": BaseMocks.getGuild().id,
-	"name": "@everyone"
-}, BaseMocks.getGuild())]]);
 
 describe("LogMemberLeaveHandler", () => {
 	describe("constructor()", () => {
@@ -34,17 +26,22 @@ describe("LogMemberLeaveHandler", () => {
 			handler = new LogMemberLeaveHandler();
 		});
 
-		it.only("sends a message in logs channel when a member leaves", async () => {
+		it("sends a message in logs channel when a member leaves", async () => {
 			const message = CustomMocks.getMessage();
-			const messageMock = sandbox.stub(message.channel, "send");
+			const messageMock = sandbox.stub(message.guild!.channels.cache, "find");
 
 			const guildMember = CustomMocks.getGuildMember({joined_at: 1610478967732});
 
+			const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
+				"id": MEMBER_ROLE.toString(),
+				"name": "member"
+			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
+				"id": BaseMocks.getGuild().id,
+				"name": "@everyone"
+			}, BaseMocks.getGuild())]]);
+
 			sandbox.stub(DateUtils, "getFormattedTimeSinceDate").resolves("10 seconds");
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
-			sandbox.stub(GuildChannelManager.prototype, "cache").get(() => {
-				CustomMocks.getGuildChannel({id: LOG_CHANNEL_ID});
-			});
 
 			await handler.handle(guildMember);
 
