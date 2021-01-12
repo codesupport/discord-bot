@@ -42,14 +42,14 @@ class DateUtils {
 
 		daysDifference -= yearsDifference * 365.2422;
 
-		let formattedString = "its been ";
+		let formattedString = "";
 
 		if (yearsDifference > 0) formattedString += `${yearsDifference} years, `;
 		if (daysDifference > 0) formattedString += `${daysDifference} days, `;
 		if (hoursDifference > 0) formattedString += `${hoursDifference} hours, `;
 		if (minutesDifference > 0) formattedString += `${minutesDifference} minutes and `;
 
-		formattedString += `${secondDifference} seconds.`;
+		formattedString += `${secondDifference} seconds`;
 
 		return formattedString;
 	}
