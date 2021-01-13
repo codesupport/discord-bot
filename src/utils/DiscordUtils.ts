@@ -22,7 +22,7 @@ class DiscordUtils {
 		}
 
 		// Everything else (Username without discriminator or nickname)
-		const fetchedMembers = await guild.members.fetch({query: value, limit: guild.memberCount});
+		const fetchedMembers = await guild.members.fetch({query: value});
 
 		return fetchedMembers.first();
 	}
