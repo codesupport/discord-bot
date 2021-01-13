@@ -21,25 +21,20 @@ class DateUtils {
 		return `${time} on ${date.getDate()} ${month} ${date.getFullYear()}`;
 	}
 
-	static getFormattedTimeSinceDate(startTimeMs: number, endTimeMs: number): string | null {
-		if (endTimeMs < startTimeMs) return null;
+	static getFormattedTimeSinceDate(startDate: Date, endDate: Date): string | null {
+		if (endDate.getTime() < startDate.getTime()) return null;
 
-		let difference = endTimeMs - startTimeMs;
-
+		let difference = endDate.getTime() - startDate.getTime();
 		let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
 
 		difference -= daysDifference * 1000 * 60 * 60 * 24;
-
 		const hoursDifference = Math.floor(difference / 1000 / 60 / 60);
 
 		difference -= hoursDifference * 1000 * 60 * 60;
-
 		const minutesDifference = Math.floor(difference / 1000 / 60);
 
 		difference -= minutesDifference * 1000 * 60;
-
 		const secondDifference = Math.floor(difference / 1000);
-
 		const yearsDifference = Math.floor(daysDifference / 365);
 
 		daysDifference -= yearsDifference * 365;

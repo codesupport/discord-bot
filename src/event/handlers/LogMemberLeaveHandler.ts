@@ -8,14 +8,15 @@ class LogMemberLeaveHandler extends EventHandler {
 		super(Constants.Events.GUILD_MEMBER_REMOVE);
 	}
 
-	async handle(guildMember: GuildMember): Promise <void> {
+	async handle(guildMember: GuildMember): Promise<void> {
 		const embed = new MessageEmbed();
 
-		embed.setTitle(`${guildMember.user.tag} left the server.`);
+		embed.setTitle("Member Left");
+		embed.setDescription(`User: <@${guildMember.user.id}>`);
 		embed.setColor(EMBED_COLOURS.DEFAULT);
-		embed.addField("Join date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
-		embed.addField("Leave date", new Date(Date.now()).toLocaleString(), true);
-		embed.addField("Time in server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedTimestamp!, Date.now()));
+		embed.addField("Join Date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
+		embed.addField("Leave Date", new Date(Date.now()).toLocaleString(), true);
+		embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedAt!, new Date(Date.now())));
 		embed.addField("Authenticated", guildMember.roles.cache.has(MEMBER_ROLE) ? "True" : "False");
 
 		const logsChannel = guildMember.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
