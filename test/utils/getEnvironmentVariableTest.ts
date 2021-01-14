@@ -8,7 +8,7 @@ describe("getEnvironmentVariable", () => {
 	});
 
 	it("should throw error if variable is not set", () => {
-		expect(() => getEnvironmentVariable("FAKE_VAR")).to.throw('The environment variable "FAKE_VAR" is not set.');
+		expect(() => getEnvironmentVariable("FAKE_VAR")).to.throw("The environment variable \"FAKE_VAR\" is not set.");
 	});
 
 	afterEach(() => {

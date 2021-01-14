@@ -7,6 +7,6 @@ export default class MockCommand extends Command {
 	}
 
 	async run(message: Message, args: string[]): Promise<void> {
-
+		return;
 	}
 }

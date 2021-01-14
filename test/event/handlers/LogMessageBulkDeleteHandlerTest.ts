@@ -59,7 +59,7 @@ describe("LogMessageDeleteHandler", () => {
 			const sendLogMock = sandbox.stub(Collection.prototype, "find");
 
 			await handler.handle(messageFactory(1, {
-				content: ''
+				content: ""
 			}));
 
 			expect(sendLogMock.calledOnce).to.be.false;
@@ -69,7 +69,7 @@ describe("LogMessageDeleteHandler", () => {
 			const sendLogMock = sandbox.stub(Collection.prototype, "find");
 
 			await handler.handle(messageFactory(5, {
-				content: ''
+				content: ""
 			}));
 
 			expect(sendLogMock.calledOnce).to.be.false;

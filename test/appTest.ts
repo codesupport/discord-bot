@@ -31,7 +31,7 @@ describe("app", () => {
 	});
 
 	it("should login with the provided DISCORD_TOKEN", async () => {
-		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory");
 
 		await app();
 
@@ -39,7 +39,7 @@ describe("app", () => {
 	});
 
 	it("should look for handler files", async () => {
-		const getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(() => []);
+		const getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory");
 
 		await app();
 
@@ -47,7 +47,7 @@ describe("app", () => {
 	});
 
 	it("should bind handlers to events", async () => {
-		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("./MockHandler")]);
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [MockHandler]);
 
 		const onStub = sandbox.stub(Client.prototype, "on");
 

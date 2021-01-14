@@ -7,7 +7,6 @@ import EventHandler from "../../../src/abstracts/EventHandler";
 import MessagePreviewService from "../../../src/services/MessagePreviewService";
 import DiscordMessageLinkHandler from "../../../src/event/handlers/DiscordMessageLinkHandler";
 
-
 describe("DiscordMessageLinkHandler", () => {
 	describe("Constructor()", () => {
 		it("creates a handler for MESSAGE_CREATE", () => {

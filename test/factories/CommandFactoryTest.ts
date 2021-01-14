@@ -39,7 +39,8 @@ describe("CommandFactory", () => {
 			emptyFactory = new CommandFactory();
 
 			getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [
-				require("../MockCommand"), require("../MockCommandWithAlias")
+				MockCommand,
+				MockCommandWithAlias
 			]);
 		});
 

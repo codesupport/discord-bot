@@ -13,6 +13,6 @@ export default class MockCommandWithAlias extends Command {
 	}
 
 	async run(message: Message, args: string[]): Promise<void> {
-
+		return;
 	}
 }

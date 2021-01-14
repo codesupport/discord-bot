@@ -36,8 +36,8 @@ describe("TwitterService", () => {
 			channel = BaseMocks.getTextChannel();
 		});
 
-		it("streams twitter for statuses/filter on the codesupportdev account", (done) => {
-			let eventEmitter = new EventEmitter();
+		it("streams twitter for statuses/filter on the codesupportdev account", done => {
+			const eventEmitter = new EventEmitter();
 
 			const streamSpy = sandbox.stub(Twitter.prototype, "stream").returns(eventEmitter);
 			const send = sandbox.stub(channel, "send");
@@ -55,11 +55,11 @@ describe("TwitterService", () => {
 					retweeted_status: {
 						id_str: "1244"
 					}
-				}
+				};
 
 				eventEmitter.on("data", () => {
 					done();
-				})
+				});
 
 				eventEmitter.emit("data", tweet);
 				expect(streamSpy.calledOnce).to.be.true;

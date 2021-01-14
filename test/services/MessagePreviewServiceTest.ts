@@ -28,13 +28,13 @@ describe("MessagePreviewService", () => {
 
 			messagePreview = MessagePreviewService.getInstance();
 
-			let guild = CustomMocks.getGuild({
+			const guild = CustomMocks.getGuild({
 				id: "guild-id",
 				channels: []
 			});
 
 			channel = CustomMocks.getTextChannel({
-				id: '518817917438001152'
+				id: "518817917438001152"
 			}, guild);
 
 			callingMessage = CustomMocks.getMessage({}, {
