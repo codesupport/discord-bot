@@ -7,7 +7,6 @@ import { RAID_SETTINGS, MOD_CHANNEL_ID } from "../../../src/config.json";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
 import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandler";
 
-
 describe("RaidDetectionHandler", () => {
 	describe("constructor()", () => {
 		it("creates a handler for GUILD_MEMBER_ADD", () => {
@@ -36,6 +35,7 @@ describe("RaidDetectionHandler", () => {
 
 		it("removes member from joinQueue", done => {
 			const mockGuildMember = BaseMocks.getGuildMember();
+
 			sandbox.stub(getConfigValue, "default").returns(0.002);
 
 			handler.handle(mockGuildMember).then(() => {

@@ -39,7 +39,11 @@ describe("CommandFactory", () => {
 			emptyFactory = new CommandFactory();
 
 			getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [
-				require("../MockCommand"), require("../MockCommandWithAlias")
+				// eslint-disable-next-line global-require
+				require("../MockCommand"),
+
+				// eslint-disable-next-line global-require
+				require("../MockCommandWithAlias")
 			]);
 		});
 

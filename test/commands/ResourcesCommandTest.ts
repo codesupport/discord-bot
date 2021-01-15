@@ -6,7 +6,6 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import Command from "../../src/abstracts/Command";
 import ResourcesCommand from "../../src/commands/ResourcesCommand";
 
-
 describe("ResourcesCommand", () => {
 	describe("constructor()", () => {
 		it("creates a command called resources", () => {
