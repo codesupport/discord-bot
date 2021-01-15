@@ -69,4 +69,23 @@ describe("DateUtils", () => {
 			expect(DateUtils.formatAsText(date)).to.equal("09:05 on 7 Feb 2010");
 		});
 	});
+
+	describe("::getFormattedTimeSinceDate()", () => {
+		it("returns a formatted string that contains the difference between two dates", () => {
+			const expected = "1 year, 3 days, 6 hours, 30 minutes and 5 seconds";
+			const start = new Date("01/12/2021 00:00:00");
+			const end = new Date("01/15/2022 06:30:05");
+			const actual = DateUtils.getFormattedTimeSinceDate(start, end);
+
+			expect(actual).to.equal(expected);
+		});
+
+		it("returns null if endDate is earlier then startDate", () => {
+			const start = new Date(Date.now() + 1800000);
+			const end = new Date(Date.now());
+			const actual = DateUtils.getFormattedTimeSinceDate(start, end);
+
+			expect(actual).to.equal(null);
+		});
+	});
 });
