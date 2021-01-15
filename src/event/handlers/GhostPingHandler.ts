@@ -25,7 +25,6 @@ class GhostPingHandler extends EventHandler {
 
 					if (repliedToChannel instanceof TextChannel) {
 						repliedToMessage = await repliedToChannel.messages.fetch(message.reference.messageID);
-						console.log(repliedToMessage);
 						repliedToUser = repliedToMessage?.author;
 					}
 				}
