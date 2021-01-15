@@ -121,7 +121,7 @@ describe("GhostPingHandler", () => {
 
 			expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
 			if (sentEmbed instanceof MessageEmbed) {
-				const replyToField = sentEmbed.fields.find(field => field.name === "Reply to");
+				const replyToField = sentEmbed.fields.find(field => field.name === "Author - Reply to");
 
 				expect(replyToField).to.not.be.null;
 
