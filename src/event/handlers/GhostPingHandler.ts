@@ -17,8 +17,8 @@ class GhostPingHandler extends EventHandler {
 
 				const embed = new MessageEmbed();
 
-				let repliedToMessage : Message|null|undefined = null;
-				let repliedToUser: User|null|undefined = null;
+				let repliedToMessage : Message | null | undefined = null;
+				let repliedToUser: User | null | undefined = null;
 
 				if (message.reference?.messageID && message.reference.guildID === message.guild?.id) {
 					const repliedToChannel = message.guild.channels.resolve(message.reference.channelID);
