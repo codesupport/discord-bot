@@ -47,7 +47,8 @@ describe("app", () => {
 	});
 
 	it("should bind handlers to events", async () => {
-		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("./MockHandler")]); // eslint-disable-line global-require
+		// eslint-disable-next-line global-require
+		sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("./MockHandler")]);
 		const onStub = sandbox.stub(Client.prototype, "on");
 
 		await app();
