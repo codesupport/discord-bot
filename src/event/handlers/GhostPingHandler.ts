@@ -32,15 +32,16 @@ class GhostPingHandler extends EventHandler {
 				embed.setTitle("Ghost Ping Detected!");
 
 				if (repliedToUser !== null && repliedToUser !== undefined) {
-					embed.addField("Author - Reply to", `<@${message.author.id}> - <@${repliedToUser.id}>`);
+					embed.addField("Author", message.author, true);
+					embed.addField("Reply to", repliedToUser, true);
 				} else {
 					embed.addField("Author", message.author);
 				}
 
 				embed.addField("Message", message.content);
 
-				if (repliedToMessage !== null && repliedToMessage !== undefined) {
-					embed.addField("Message replied to", `https://discord.com/channels/${repliedToMessage.guild?.id}/${repliedToMessage.channel.id}/${repliedToMessage.id}`);
+				if (repliedToMessage !== null && repliedToMessage !== undefined && repliedToMessage !== null) {
+					embed.addField("Message replied to", `https://discord.com/channels/${repliedToMessage.guild?.id}/${repliedToMessage.channel.id}/${repliedToMessage.id}`, true);
 				}
 
 				embed.setFooter(`Message sent at ${DateUtils.formatAsText(message.createdAt)}`);
