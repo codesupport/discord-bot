@@ -13,15 +13,15 @@ class DiscordUtils {
 			}
 		}
 
-		// Username + discriminator
+		// Username and/or discriminator
 		if ((/^.*#[0-9]{4}$/g).test(value)) {
 			const [username, discriminator] = value.split("#");
-			const memberList = await guild.members.fetch({query: username});
+			const memberList = await guild.members.fetch({query: username, limit: guild.memberCount});
 
 			return memberList?.find(memberObject => memberObject.user.discriminator === discriminator);
 		}
 
-		// Username without discriminator
+		// Everything else (Username without discriminator or nickname)
 		const fetchedMembers = await guild.members.fetch({query: value});
 
 		return fetchedMembers.first();
