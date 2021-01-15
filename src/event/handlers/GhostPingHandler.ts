@@ -39,7 +39,7 @@ class GhostPingHandler extends EventHandler {
 
 				embed.addField("Message", message.content);
 
-				if (repliedToMessage !== null && repliedToMessage !== undefined && repliedToMessage !== null) {
+				if (repliedToMessage !== null && repliedToMessage !== undefined) {
 					embed.addField("Message replied to", `https://discord.com/channels/${repliedToMessage.guild?.id}/${repliedToMessage.channel.id}/${repliedToMessage.id}`);
 				}
 
