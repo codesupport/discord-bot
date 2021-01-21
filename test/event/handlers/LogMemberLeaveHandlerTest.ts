@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, GuildMemberRoleManager, Role, TextChannel } from "discord.js";
+import { Collection, Constants, GuildAuditLogs, GuildMemberRoleManager, Role, TextChannel } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 import { MEMBER_ROLE, LOG_CHANNEL_ID } from "../../../src/config.json";
@@ -49,6 +49,27 @@ describe("LogMemberLeaveHandler", () => {
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(messageMock.firstCall.firstArg.embed.description).to.equal("User: my-username#1234 (010101010101010101)");
+		});
+
+		it.only("does not send a message when a user is kicked part of a raid", async () => {
+			const message = CustomMocks.getMessage();
+			const guildMember = CustomMocks.getGuildMember({ joined_at: 1610478967732 });
+			const logs = new GuildAuditLogs(CustomMocks.getGuild(), {
+				audit_log_entries: [{
+					action_type: GuildAuditLogs.Actions.MEMBER_KICK,
+					reason: "Detected as part of a raid.",
+					target_id: guildMember.id
+				}]
+			});
+
+			sandbox.stub(message.guild, "fetchAuditLogs").resolves(logs);
+			const channelMock = sandbox.stub(message.guild!.channels.cache, "find").returns(message.channel as TextChannel);
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			await handler.handle(guildMember);
+
+			expect(messageMock.called).to.be.false;
+			expect(channelMock.called).to.be.false;
 		});
 
 		afterEach(() => {
