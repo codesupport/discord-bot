@@ -26,7 +26,7 @@ describe("LogMemberLeaveHandler", () => {
 			handler = new LogMemberLeaveHandler();
 		});
 
-		it.only("sends a message in logs channel when a member leaves", async () => {
+		it("sends a message in logs channel when a member leaves", async () => {
 			const message = CustomMocks.getMessage();
 
 			sandbox.stub(message.guild!.channels.cache, "find").returns(message.channel as TextChannel);
