@@ -8,20 +8,20 @@ class LogMemberLeaveHandler extends EventHandler {
 		super(Constants.Events.GUILD_MEMBER_REMOVE);
 	}
 
-	async handle(guildMember: GuildMember): Promise<void> {
+	async handle(member: GuildMember): Promise<void> {
 		const embed = new MessageEmbed();
 
 		embed.setTitle("Member Left");
-		embed.setDescription(`User: <@${guildMember.user.id}>`);
+		embed.setDescription(`User: ${member.user.username}#${member.user.discriminator} (${member.user.id})`);
 		embed.setColor(EMBED_COLOURS.DEFAULT);
-		embed.addField("Join Date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
+		embed.addField("Join Date", new Date(member.joinedTimestamp!).toLocaleString(), true);
 		embed.addField("Leave Date", new Date(Date.now()).toLocaleString(), true);
-		embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedAt!, new Date(Date.now())));
-		embed.addField("Authenticated", guildMember.roles.cache.has(MEMBER_ROLE) ? "True" : "False");
+		embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(member.joinedAt!, new Date(Date.now())));
+		embed.addField("Authenticated", member.roles.cache.has(MEMBER_ROLE) ? "True" : "False");
 
-		const logsChannel = guildMember.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
+		const logsChannel = member.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
 
-		await logsChannel?.send({embed});
+		await logsChannel?.send({ embed });
 	}
 }
 
