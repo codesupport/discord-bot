@@ -17,29 +17,19 @@ class ArticleCommand extends Command {
 
 			try {
 				const Articles = ArticleService.getInstance();
-				console.log("Test");
 				const latestArticles = await Articles.getLatest();
 
-				console.log("latestArticles");
-
-				embed.setTitle(`Check out our latest articles!`);
+				embed.setTitle(`Latest CodeSupport Articles`);
+				embed.setDescription(`[View all Articles](https://codesupport.dev/articles)`)
 
 				latestArticles.forEach((article: ArticlePreview) => {
-						console.log("loopdieloop");
-						//embed.addField(article.title, `${article.description} \nWritten by [${article.author}](${article.author_url})`);
+						embed.addField(article.title, `${article.description} \n[View Article](${article.article_url}) - Written by [${article.author}](${article.author_url})`);
 					});
 
 					embed.setColor(EMBED_COLOURS.SUCCESS);
-				// } else {
-				// 	embed.setTitle("No Issues found");
-				// 	embed.setDescription(`This repository has no issues. [Create one](${resRep.url}/issues/new)`);
-				// 	embed.setColor(EMBED_COLOURS.SUCCESS);
-				// }
 			} catch (error) {
-				console.log(error);
 				embed.setTitle("Error");
-				embed.setDescription("There was a problem with the request to GitHub.");
-				embed.addField("Correct Usage", "?issues <username>/<repository>");
+				embed.setDescription("We're having some issues with retrieving the articles. Try again later!");
 				embed.setColor(EMBED_COLOURS.ERROR);
 			}
 
