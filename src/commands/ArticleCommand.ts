@@ -17,7 +17,7 @@ class ArticleCommand extends Command {
 
 			try {
 				const Articles = ArticleService.getInstance();
-				const latestArticles = await Articles.getLatest();
+				const latestArticles = await Articles.getLatest(5);
 
 				embed.setTitle(`Latest CodeSupport Articles`);
 				embed.setDescription(`[View all Articles](https://codesupport.dev/articles)`)
