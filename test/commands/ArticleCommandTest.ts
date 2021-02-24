@@ -46,7 +46,6 @@ describe("ArticleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 		});
 
-
 		it("states it had a problem with the request to the CodeSupport Article Api", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
@@ -63,7 +62,6 @@ describe("ArticleCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-
 		it("states the result from the github service", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
@@ -73,10 +71,9 @@ describe("ArticleCommand", () => {
 					description: "This is the description",
 					author: "user",
 					author_url: "https://codesupport.com/profile/user",
-					article_url: "https://codesupport.com/article/this-is-the-title",
+					article_url: "https://codesupport.com/article/this-is-the-title"
 				}]
 			);
-
 
 			await command.run(message, []);
 

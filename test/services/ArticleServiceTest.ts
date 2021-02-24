@@ -62,7 +62,7 @@ describe("ArticleService", () => {
 						}
 					},
 
-						{
+					{
 						titleId: "this-is-a-title",
 						title: "This is a title",
 						revision: {
@@ -73,7 +73,7 @@ describe("ArticleService", () => {
 						}
 					},
 
-						{
+					{
 						titleId: "this-is-a-title",
 						title: "This is a title",
 						revision: {
