@@ -17,7 +17,7 @@ class ArticleService {
 	}
 
 
-	async getLatest(): Promise<ArticlePreview[]> {
+	async getLatest(amount: number): Promise<ArticlePreview[]> {
 		const url = `https://api.codesupport.dev/article/v1/articles?publishedonly=true`;
 
 		const { data } = await axios.get(url);
@@ -28,7 +28,7 @@ class ArticleService {
 
 			articleData.response.sort((a: any, b: any) => b.createdOn - a.createdOn);
 
-			articleData = articleData.response.slice(0, 5);
+			articleData = articleData.response.slice(0, amount);
 
 			const articles = articleData.map((article: any) => ({
 					title: article.title,
