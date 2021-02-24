@@ -29,7 +29,7 @@ class ArticleCommand extends Command {
 					embed.setColor(EMBED_COLOURS.SUCCESS);
 			} catch (error) {
 				embed.setTitle("Error");
-				embed.setDescription("We're having some issues with retrieving the articles. Try again later!");
+				embed.setDescription("There was a problem with requesting the articles API.");
 				embed.setColor(EMBED_COLOURS.ERROR);
 			}
 

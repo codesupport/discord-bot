@@ -24,14 +24,20 @@ describe("ArticleService", () => {
 
 		it("performs a GET request to the CodeSupport Api", async () => {
 			const axiosGet = sandbox.stub(axios, "get").resolves({
-				status: "OK",
-				response: [{
-					title: "This is a title",
-					description: "This is a description",
-					author: "Author name",
-					author_url: "Url",
-					article_url: "Url"
-				}]
+				status: 200,
+				data: {
+					status: "OK",
+					response: [{
+						titleId: "this-is-a-title",
+						title: "This is a title",
+						revision: {
+							description: "This is a description",
+						},
+						createdBy: {
+							alias: "Author name",
+						},
+					}]
+				}
 			});
 
 			const result = await article.getLatest();
@@ -43,7 +49,9 @@ describe("ArticleService", () => {
 		it("returns an empty array if there are no articles", async () => {
 			const axiosGet = sandbox.stub(axios, "get").resolves({
 				status: "OK",
-				data: []
+				data: {
+					response: []
+				}
 			});
 
 			const result = await article.getLatest();
