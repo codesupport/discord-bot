@@ -22,13 +22,9 @@ class ArticleService {
 		const { data } = await axios.get(url);
 
 		if (data.length !== 0) {
-			let articleData = data;
+			data.response.sort((a: any, b: any) => b.createdOn - a.createdOn).slice(0, amount);
 
-			articleData.response.sort((a: any, b: any) => b.createdOn - a.createdOn);
-
-			articleData = articleData.response.slice(0, amount);
-
-			const articles = articleData.map((article: any) => ({
+			const articles = data.map((article: any) => ({
 				title: article.title,
 				description: article.revision.description,
 				author: article.createdBy.alias,

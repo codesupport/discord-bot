@@ -23,7 +23,7 @@ class ArticleCommand extends Command {
 			embed.setDescription("[View all Articles](https://codesupport.dev/articles)");
 
 			latestArticles.forEach((article: ArticlePreview) => {
-				embed.addField(article.title, `${article.description} \n[View Article](${article.article_url}) - Written by [${article.author}](${article.author_url})`);
+				embed.addField(article.title, `${article.description} \n[Read Article](${article.article_url}) - Written by [${article.author}](${article.author_url})`);
 			});
 
 			embed.setColor(EMBED_COLOURS.SUCCESS);

@@ -84,7 +84,7 @@ describe("ArticleCommand", () => {
 			expect(embed.title).to.equal("Latest CodeSupport Articles");
 			expect(embed.description).to.equal("[View all Articles](https://codesupport.dev/articles)");
 			expect(embed.fields[0].name).to.equal("This is the title");
-			expect(embed.fields[0].value).to.equal("This is the description \n[View Article](https://codesupport.com/article/this-is-the-title) - Written by [user](https://codesupport.com/profile/user)");
+			expect(embed.fields[0].value).to.equal("This is the description \n[Read Article](https://codesupport.com/article/this-is-the-title) - Written by [user](https://codesupport.com/profile/user)");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
