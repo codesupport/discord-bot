@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Constants } from "discord.js";
+import { Constants, Message, TextChannel } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -19,15 +19,17 @@ describe("DiscordMessageLinkHandler", () => {
 	describe("handle()", () => {
 		let sandbox: SinonSandbox;
 		let handler: EventHandler;
+		let message: Message;
+		let channel: TextChannel;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new DiscordMessageLinkHandler();
+			message = CustomMocks.getMessage();
+			channel = CustomMocks.getTextChannel();
 		});
 
 		it("sends a message in message channel when contains discord message link mid sentence", async () => {
-			const message = CustomMocks.getMessage();
-			const channel = CustomMocks.getTextChannel();
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "aaaaaaaaa\nhttps://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982 aaaa";
@@ -39,8 +41,6 @@ describe("DiscordMessageLinkHandler", () => {
 		});
 
 		it("sends a message in message channel when contains discord message link", async () => {
-			const message = CustomMocks.getMessage();
-			const channel = CustomMocks.getTextChannel();
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982";
@@ -52,8 +52,6 @@ describe("DiscordMessageLinkHandler", () => {
 		});
 
 		it("sends a single message in message channel when contains multiple discord message links however one is escaped", async () => {
-			const message = CustomMocks.getMessage();
-			const channel = CustomMocks.getTextChannel();
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982 <https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982>";
@@ -65,8 +63,6 @@ describe("DiscordMessageLinkHandler", () => {
 		});
 
 		it("sends multiple messages in message channel when contains multiple discord message link", async () => {
-			const message = CustomMocks.getMessage();
-			const channel = CustomMocks.getTextChannel();
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982 https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982";
@@ -78,8 +74,6 @@ describe("DiscordMessageLinkHandler", () => {
 		});
 
 		it("does not send a message if the message starts with < and ends with >", async () => {
-			const message = CustomMocks.getMessage();
-			const channel = CustomMocks.getTextChannel();
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "<https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982>";
@@ -91,8 +85,6 @@ describe("DiscordMessageLinkHandler", () => {
 		});
 
 		it("does not send a message if the url was escaped mid sentence", async () => {
-			const message = CustomMocks.getMessage();
-			const channel = CustomMocks.getTextChannel();
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "placeholderText <https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982> placeholderText";

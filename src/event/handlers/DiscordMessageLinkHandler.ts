@@ -15,7 +15,7 @@ class DiscordMessageLinkHandler extends EventHandler {
 			const index = match.index;
 
 			if (index !== undefined) {
-				let link = match[0];
+				let [link] = match;
 
 				if (message.content.charAt(index - 1) !== "<" || message.content.charAt(index + link.length) !== ">") {
 					link = link.replace(/app/, "").replace(/ptb\./, "");
