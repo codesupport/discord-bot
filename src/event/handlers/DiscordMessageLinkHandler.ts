@@ -20,6 +20,7 @@ class DiscordMessageLinkHandler extends EventHandler {
 				if (message.content.charAt(index - 1) !== "<" || message.content.charAt(index + link.length) !== ">") {
 					link = link.replace(/app/, "").replace(/ptb\./, "");
 					const messagePreviewService = MessagePreviewService.getInstance();
+
 					await messagePreviewService.generatePreview(link, message);
 				}
 			}
