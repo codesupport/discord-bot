@@ -19,6 +19,7 @@ async function app() {
 	if (!process.env.DISCORD_TOKEN) {
 		throw new Error("You must supply the DISCORD_TOKEN environment variable.");
 	}
+
 	try {
 		await client.login(process.env.DISCORD_TOKEN);
 		console.log(`Successfully logged in as ${client.user?.username}`);
