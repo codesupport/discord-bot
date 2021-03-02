@@ -9,7 +9,7 @@ class DiscordMessageLinkHandler extends EventHandler {
 
 	async handle(message: Message): Promise<void> {
 		const messageRegex = /https:\/\/(?:ptb\.)?discord(?:app)?\.com\/channels\/\d+\/\d+\/\d+/gm;
-		const matches = [...message.content.matchAll(messageRegex)];
+		const matches = message.content.matchAll(messageRegex);
 
 		for (const match of matches) {
 			const index = match.index;
