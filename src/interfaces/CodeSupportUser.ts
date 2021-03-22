@@ -1,3 +1,4 @@
+/*eslint-disable */
 export default interface CodeSupportRole {
 	code: string;
 	id: number;
@@ -14,3 +15,4 @@ export default interface CodeSupportUser {
 	joinDate: number;
 	role: CodeSupportRole;
 }
+/* eslint-enable */

@@ -1,5 +1,5 @@
 import CodeSupportUser from "./CodeSupportUser";
-
+/*eslint-disable */
 export default interface CodeSupportArticleRevision {
 	articleId: number;
 	content: string;
@@ -19,3 +19,4 @@ export default interface CodeSupportArticle {
 	updatedBy: CodeSupportUser;
 	updatedOn: number;
 }
+/* eslint-enable */
