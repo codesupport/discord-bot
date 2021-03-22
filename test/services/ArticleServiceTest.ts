@@ -3,6 +3,7 @@ import {expect} from "chai";
 import axios from "axios";
 
 import ArticleService from "../../src/services/ArticleService";
+import {CodeSupportArticle} from "../../src/interfaces/CodeSupportArticle";
 
 describe("ArticleService", () => {
 	describe("::getInstance()", () => {
@@ -106,6 +107,26 @@ describe("ArticleService", () => {
 
 			expect(axiosGet.called).to.be.true;
 			expect(result).to.have.length(0);
+		});
+
+		afterEach(() => {
+			sandbox.restore();
+		});
+	});
+
+	describe("buildProfileURL()", () => {
+		let sandbox: SinonSandbox;
+		let article: ArticleService;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			article = ArticleService.getInstance();
+		});
+
+		it("Generates url containing alias", async () => {
+			const result = await article.buildProfileURL(article.createdBy);
+
+			expect(result).to.have.length(1);
 		});
 
 		afterEach(() => {

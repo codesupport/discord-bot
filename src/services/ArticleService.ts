@@ -1,5 +1,6 @@
 import axios from "axios";
-import ArticlePreview from "../interfaces/ArticlePreview";
+import {CodeSupportArticle} from "../interfaces/CodeSupportArticle";
+import {CodeSupportUser} from "../interfaces/CodeSupportUser";
 
 class ArticleService {
 	private static instance: ArticleService;
@@ -16,26 +17,25 @@ class ArticleService {
 		return this.instance;
 	}
 
-	async getLatest(amount: number): Promise<ArticlePreview[]> {
+	public async getLatest(amount: number): Promise<CodeSupportArticle[]> {
 		const url = "https://api.codesupport.dev/article/v1/articles?publishedonly=true";
 
 		const { data } = await axios.get(url);
 
 		if (data.length !== 0) {
-			data.response.sort((a: any, b: any) => b.createdOn - a.createdOn).slice(0, amount);
-
-			const articles = data.map((article: any) => ({
-				title: article.title,
-				description: article.revision.description,
-				author: article.createdBy.alias,
-				author_url: `https://codesupport.dev/profile/${article.createdBy.alias.toLowerCase()}`,
-				article_url: `https://codesupport.dev/article/${article.titleId}`
-			}));
-
-			return articles;
+			data.response.sort((a: CodeSupportArticle, b: CodeSupportArticle) => b.createdOn - a.createdOn);
+			return data.response.slice(0, amount);
 		}
 
 		return [];
+	}
+
+	public buildArticleURL(article: CodeSupportArticle): string {
+		return `https://codesupport.dev/article/${article.titleId}`;
+	}
+
+	public buildProfileURL(user: CodeSupportUser): string {
+		return `https://codesupport.dev/profile/${user.alias.toLowerCase()}`;
 	}
 }
 

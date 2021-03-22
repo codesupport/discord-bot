@@ -2,7 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import { EMBED_COLOURS } from "../config.json";
 import ArticleService from "../services/ArticleService";
-import ArticlePreview from "../interfaces/ArticlePreview";
+import {CodeSupportArticle} from "../interfaces/CodeSupportArticle";
 
 class ArticleCommand extends Command {
 	constructor() {
@@ -22,8 +22,11 @@ class ArticleCommand extends Command {
 			embed.setTitle("Latest CodeSupport Articles");
 			embed.setDescription("[View all Articles](https://codesupport.dev/articles)");
 
-			latestArticles.forEach((article: ArticlePreview) => {
-				embed.addField(article.title, `${article.description} \n[Read Article](${article.article_url}) - Written by [${article.author}](${article.author_url})`);
+			latestArticles.forEach((article: CodeSupportArticle) => {
+				const articleUrl = Articles.buildArticleURL(article);
+				const profileUrl = Articles.buildProfileURL(article.createdBy);
+
+				embed.addField(article.title, `${article.revision.description} \n[Read Article](${articleUrl}) - Written by [${article.createdBy.alias}](${profileUrl})`);
 			});
 
 			embed.setColor(EMBED_COLOURS.SUCCESS);
