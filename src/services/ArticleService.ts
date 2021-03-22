@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CodeSupportArticle } from "../interfaces/CodeSupportArticle";
+import CodeSupportArticle from "../interfaces/CodeSupportArticle";
 
 class ArticleService {
 	private static instance: ArticleService;
@@ -22,8 +22,9 @@ class ArticleService {
 		const { data } = await axios.get(url);
 
 		if (data.length !== 0) {
-			data.response.sort((a: CodeSupportArticle, b: CodeSupportArticle) => b.createdOn - a.createdOn);
-			return data.response.slice(0, amount);
+			return data.response
+				.sort((a: CodeSupportArticle, b: CodeSupportArticle) => b.createdOn - a.createdOn)
+				.slice(0, amount);
 		}
 
 		return [];

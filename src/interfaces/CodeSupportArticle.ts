@@ -1,6 +1,6 @@
-import { CodeSupportUser } from "./CodeSupportUser";
+import CodeSupportUser from "./CodeSupportUser";
 
-export interface CodeSupportArticleRevision {
+export default interface CodeSupportArticleRevision {
 	articleId: number;
 	content: string;
 	createdBy: CodeSupportUser;
@@ -9,7 +9,7 @@ export interface CodeSupportArticleRevision {
 	id: number;
 }
 
-export interface CodeSupportArticle {
+export default interface CodeSupportArticle {
 	createdBy: CodeSupportUser;
 	createdOn: number;
 	id: number;

@@ -1,10 +1,10 @@
-export interface CodeSupportRole {
+export default interface CodeSupportRole {
 	code: string;
 	id: number;
 	label: string;
 }
 
-export interface CodeSupportUser {
+export default interface CodeSupportUser {
 	alias: string;
 	avatarLink: string;
 	disabled: boolean;
