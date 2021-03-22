@@ -1,8 +1,8 @@
-/*eslint-disable */
 export default interface CodeSupportRole {
 	code: string;
 	id: number;
 	label: string;
+	// eslint-disable-next-line
 }
 
 export default interface CodeSupportUser {
@@ -14,5 +14,5 @@ export default interface CodeSupportUser {
 	id: number;
 	joinDate: number;
 	role: CodeSupportRole;
+	// eslint-disable-next-line
 }
-/* eslint-enable */

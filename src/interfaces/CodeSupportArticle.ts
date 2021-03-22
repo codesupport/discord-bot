@@ -1,5 +1,5 @@
 import CodeSupportUser from "./CodeSupportUser";
-/*eslint-disable */
+
 export default interface CodeSupportArticleRevision {
 	articleId: number;
 	content: string;
@@ -7,6 +7,7 @@ export default interface CodeSupportArticleRevision {
 	createdOn: number;
 	description: string;
 	id: number;
+	// eslint-disable-next-line
 }
 
 export default interface CodeSupportArticle {
@@ -18,5 +19,5 @@ export default interface CodeSupportArticle {
 	titleId: string;
 	updatedBy: CodeSupportUser;
 	updatedOn: number;
+	// eslint-disable-next-line
 }
-/* eslint-enable */
