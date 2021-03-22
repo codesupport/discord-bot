@@ -23,8 +23,8 @@ class ArticleCommand extends Command {
 			embed.setDescription("[View all Articles](https://codesupport.dev/articles)");
 
 			latestArticles.forEach((article: CodeSupportArticle) => {
-				const articleUrl = Articles.buildArticleURL(article);
-				const profileUrl = Articles.buildProfileURL(article.createdBy);
+				const articleUrl = Articles.buildArticleURL(article.titleId);
+				const profileUrl = Articles.buildProfileURL(article.createdBy.alias);
 
 				embed.addField(article.title, `${article.revision.description} \n[Read Article](${articleUrl}) - Written by [${article.createdBy.alias}](${profileUrl})`);
 			});

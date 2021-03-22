@@ -10,7 +10,7 @@ import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("ArticleCommand", () => {
 	describe("constructor", () => {
-		it("creates a command called issues", () => {
+		it("creates a command called article", () => {
 			const command = new ArticleCommand();
 
 			expect(command.getName()).to.equal("article");
@@ -62,16 +62,65 @@ describe("ArticleCommand", () => {
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
-		it("states the result from the github service", async () => {
+		it("states the result from the ArticleService", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
 			sandbox.stub(article, "getLatest").resolves(
 				[{
-					title: "This is the title",
-					description: "This is the description",
-					author: "user",
-					author_url: "https://codesupport.com/profile/user",
-					article_url: "https://codesupport.com/article/this-is-the-title"
+					"id": 0,
+					"title": "This is a title",
+					"titleId": "this-is-a-title",
+					"revision": {
+						"id": 0,
+						"articleId": 0,
+						"description": "This is a description",
+						"content": "",
+						"createdBy": {
+							"id": 0,
+							"alias": "ArticleWriter",
+							"discordId": "",
+							"discordUsername": "",
+							"avatarLink": "",
+							"disabled": false,
+							"role": {
+								"id": 0,
+								"code": "",
+								"label": ""
+							},
+							"joinDate": 0
+						},
+						"createdOn": 0
+					},
+					"createdBy": {
+						"id": 0,
+						"alias": "ArticleWriter",
+						"discordId": "",
+						"discordUsername": "",
+						"avatarLink": "",
+						"disabled": false,
+						"role": {
+							"id": 0,
+							"code": "",
+							"label": ""
+						},
+						"joinDate": 0
+					},
+					"createdOn": 0,
+					"updatedBy": {
+						"id": 0,
+						"alias": "",
+						"discordId": "",
+						"discordUsername": "",
+						"avatarLink": "",
+						"disabled": false,
+						"role": {
+							"id": 0,
+							"code": "",
+							"label": ""
+						},
+						"joinDate": 0
+					},
+					"updatedOn": 0
 				}]
 			);
 
@@ -83,8 +132,8 @@ describe("ArticleCommand", () => {
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Latest CodeSupport Articles");
 			expect(embed.description).to.equal("[View all Articles](https://codesupport.dev/articles)");
-			expect(embed.fields[0].name).to.equal("This is the title");
-			expect(embed.fields[0].value).to.equal("This is the description \n[Read Article](https://codesupport.com/article/this-is-the-title) - Written by [user](https://codesupport.com/profile/user)");
+			expect(embed.fields[0].name).to.equal("This is a title");
+			expect(embed.fields[0].value).to.equal("This is a description \n[Read Article](https://codesupport.dev/article/this-is-a-title) - Written by [ArticleWriter](https://codesupport.dev/profile/articlewriter)");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 

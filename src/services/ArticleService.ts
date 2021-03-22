@@ -1,6 +1,5 @@
 import axios from "axios";
-import {CodeSupportArticle} from "../interfaces/CodeSupportArticle";
-import {CodeSupportUser} from "../interfaces/CodeSupportUser";
+import { CodeSupportArticle } from "../interfaces/CodeSupportArticle";
 
 class ArticleService {
 	private static instance: ArticleService;
@@ -30,12 +29,12 @@ class ArticleService {
 		return [];
 	}
 
-	public buildArticleURL(article: CodeSupportArticle): string {
-		return `https://codesupport.dev/article/${article.titleId}`;
+	public buildArticleURL(title: string): string {
+		return `https://codesupport.dev/article/${title}`;
 	}
 
-	public buildProfileURL(user: CodeSupportUser): string {
-		return `https://codesupport.dev/profile/${user.alias.toLowerCase()}`;
+	public buildProfileURL(user: string): string {
+		return `https://codesupport.dev/profile/${user.toLowerCase()}`;
 	}
 }
 

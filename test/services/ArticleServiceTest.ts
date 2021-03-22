@@ -3,7 +3,6 @@ import {expect} from "chai";
 import axios from "axios";
 
 import ArticleService from "../../src/services/ArticleService";
-import {CodeSupportArticle} from "../../src/interfaces/CodeSupportArticle";
 
 describe("ArticleService", () => {
 	describe("::getInstance()", () => {
@@ -41,7 +40,7 @@ describe("ArticleService", () => {
 				}
 			});
 
-			const result = await article.getLatest(5);
+			const result = await article.getLatest(1);
 
 			expect(axiosGet.called).to.be.true;
 			expect(result).to.have.length(1);
@@ -123,10 +122,40 @@ describe("ArticleService", () => {
 			article = ArticleService.getInstance();
 		});
 
-		it("Generates url containing alias", async () => {
-			const result = await article.buildProfileURL(article.createdBy);
+		it("Generates url containing profile name", async () => {
+			const mockArticle = {
+				createdBy: {
+					alias: "userAwesome"
+				}
+			};
 
-			expect(result).to.have.length(1);
+			const result = await article.buildProfileURL(mockArticle.createdBy.alias);
+
+			expect(result).to.equal("https://codesupport.dev/profile/userawesome");
+		});
+
+		afterEach(() => {
+			sandbox.restore();
+		});
+	});
+
+	describe("buildArticleURL()", () => {
+		let sandbox: SinonSandbox;
+		let article: ArticleService;
+
+		beforeEach(() => {
+			sandbox = createSandbox();
+			article = ArticleService.getInstance();
+		});
+
+		it("Generates url containing article name", async () => {
+			const mockArticle = {
+				titleId: "this-is-an-article"
+			};
+
+			const result = await article.buildArticleURL(mockArticle.titleId);
+
+			expect(result).to.equal("https://codesupport.dev/article/this-is-an-article");
 		});
 
 		afterEach(() => {
