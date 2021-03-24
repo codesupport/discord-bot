@@ -1,16 +1,7 @@
 import CodeSupportUser from "./CodeSupportUser";
+import CodeSupportArticleRevision from "./CodeSupportArticleRevision";
 
-export default interface CodeSupportArticleRevision {
-	articleId: number;
-	content: string;
-	createdBy: CodeSupportUser;
-	createdOn: number;
-	description: string;
-	id: number;
-	// eslint-disable-next-line
-}
-
-export default interface CodeSupportArticle {
+interface CodeSupportArticle {
 	createdBy: CodeSupportUser;
 	createdOn: number;
 	id: number;
@@ -19,5 +10,6 @@ export default interface CodeSupportArticle {
 	titleId: string;
 	updatedBy: CodeSupportUser;
 	updatedOn: number;
-	// eslint-disable-next-line
 }
+
+export default CodeSupportArticle;

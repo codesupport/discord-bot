@@ -1,11 +1,6 @@
-export default interface CodeSupportRole {
-	code: string;
-	id: number;
-	label: string;
-	// eslint-disable-next-line
-}
+import CodeSupportRole from "./CodeSupportRole";
 
-export default interface CodeSupportUser {
+interface CodeSupportUser {
 	alias: string;
 	avatarLink: string;
 	disabled: boolean;
@@ -14,5 +9,6 @@ export default interface CodeSupportUser {
 	id: number;
 	joinDate: number;
 	role: CodeSupportRole;
-	// eslint-disable-next-line
 }
+
+export default CodeSupportUser;
