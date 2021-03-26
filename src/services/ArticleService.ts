@@ -33,10 +33,6 @@ class ArticleService {
 	public buildArticleURL(title: string): string {
 		return `https://codesupport.dev/article/${title}`;
 	}
-
-	public buildProfileURL(user: string): string {
-		return `https://codesupport.dev/profile/${user.toLowerCase()}`;
-	}
 }
 
 export default ArticleService;

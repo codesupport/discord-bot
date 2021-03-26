@@ -113,32 +113,6 @@ describe("ArticleService", () => {
 		});
 	});
 
-	describe("buildProfileURL()", () => {
-		let sandbox: SinonSandbox;
-		let article: ArticleService;
-
-		beforeEach(() => {
-			sandbox = createSandbox();
-			article = ArticleService.getInstance();
-		});
-
-		it("Generates url containing profile name", async () => {
-			const mockArticle = {
-				createdBy: {
-					alias: "userAwesome"
-				}
-			};
-
-			const result = await article.buildProfileURL(mockArticle.createdBy.alias);
-
-			expect(result).to.equal("https://codesupport.dev/profile/userawesome");
-		});
-
-		afterEach(() => {
-			sandbox.restore();
-		});
-	});
-
 	describe("buildArticleURL()", () => {
 		let sandbox: SinonSandbox;
 		let article: ArticleService;

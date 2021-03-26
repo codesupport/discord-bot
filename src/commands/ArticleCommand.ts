@@ -3,6 +3,7 @@ import Command from "../abstracts/Command";
 import { EMBED_COLOURS } from "../config.json";
 import ArticleService from "../services/ArticleService";
 import CodeSupportArticle from "../interfaces/CodeSupportArticle";
+import WebsiteUserService from "../services/WebsiteUserService";
 
 class ArticleCommand extends Command {
 	constructor() {
@@ -16,15 +17,16 @@ class ArticleCommand extends Command {
 		const embed = new MessageEmbed();
 
 		try {
-			const Articles = ArticleService.getInstance();
-			const latestArticles = await Articles.getLatest(5);
+			const articleService = ArticleService.getInstance();
+			const websiteUserService = WebsiteUserService.getInstance();
+			const latestArticles = await articleService.getLatest(5);
 
 			embed.setTitle("Latest CodeSupport Articles");
 			embed.setDescription("[View all Articles](https://codesupport.dev/articles)");
 
 			latestArticles.forEach((article: CodeSupportArticle) => {
-				const articleUrl = Articles.buildArticleURL(article.titleId);
-				const profileUrl = Articles.buildProfileURL(article.createdBy.alias);
+				const articleUrl = articleService.buildArticleURL(article.titleId);
+				const profileUrl = websiteUserService.buildProfileURL(article.createdBy.alias);
 
 				embed.addField(article.title, `${article.revision.description} \n[Read Article](${articleUrl}) - Written by [${article.createdBy.alias}](${profileUrl})`);
 			});
