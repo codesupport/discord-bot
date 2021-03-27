@@ -21,6 +21,12 @@ describe("ArticleCommand", () => {
 
 			expect(command.getDescription()).to.equal("Shows the latest CodeSupport articles");
 		});
+
+		it("creates a command with correct aliases", () => {
+			const command = new ArticleCommand();
+
+			expect(command.getAliases().includes("articles")).to.be.true;
+		});
 	});
 
 	describe("run()", () => {

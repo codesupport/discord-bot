@@ -9,7 +9,10 @@ class ArticleCommand extends Command {
 	constructor() {
 		super(
 			"article",
-			"Shows the latest CodeSupport articles"
+			"Shows the latest CodeSupport articles",
+			{
+				aliases: ["articles"]
+			},
 		);
 	}
 
