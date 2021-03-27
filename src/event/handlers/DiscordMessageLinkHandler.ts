@@ -8,21 +8,23 @@ class DiscordMessageLinkHandler extends EventHandler {
 	}
 
 	async handle(message: Message): Promise<void> {
-		const messageRegex = /https:\/\/(ptb\.)?discord(app)?\.com\/channels\//gm;
-		const linkIndex = message.content.search(messageRegex);
+		const messageRegex = /https:\/\/(?:ptb\.)?discord(?:app)?\.com\/channels\/\d+\/\d+\/\d+/gm;
+		const matches = message.content.matchAll(messageRegex);
 
-		if (linkIndex === -1) return;
+		for (const match of matches) {
+			const index = match.index;
 
-		const wordIndex = message.content.slice(0, linkIndex).split(" ").length - 1;
-		const linkContent = message.content.split(" ")[wordIndex];
+			if (index !== undefined) {
+				let [link] = match;
 
-		if (linkContent.startsWith("<") && linkContent.endsWith(">")) return;
+				if (message.content.charAt(index - 1) !== "<" || message.content.charAt(index + link.length) !== ">") {
+					link = link.replace(/app/, "").replace(/ptb\./, "");
+					const messagePreviewService = MessagePreviewService.getInstance();
 
-		const link = message.content.replace(/app/, "").replace(/ptb\./, "").substring(linkIndex, linkIndex + 85);
-
-		const messagePreviewService = MessagePreviewService.getInstance();
-
-		await messagePreviewService.generatePreview(link, message);
+					await messagePreviewService.generatePreview(link, message);
+				}
+			}
+		}
 	}
 }
 

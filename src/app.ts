@@ -16,33 +16,33 @@ if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 }
 
 async function app() {
-	if (process.env.DISCORD_TOKEN) {
-		try {
-			await client.login(process.env.DISCORD_TOKEN);
-			console.log(`Successfully logged in as ${client.user?.username}`);
-
-			const handlerFiles = await DirectoryUtils.getFilesInDirectory(
-				`${__dirname}/${handlers_directory}`,
-				DirectoryUtils.appendFileExtension("Handler")
-			);
-
-			handlerFiles.forEach(handler => {
-				const { default: Handler } = handler;
-				const handlerInstance = new Handler();
-
-				client.on(handlerInstance.getEvent(), handlerInstance.handle);
-			});
-
-			if (process.env.NODE_ENV === PRODUCTION_ENV) {
-				const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
-
-				await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	} else {
+	if (!process.env.DISCORD_TOKEN) {
 		throw new Error("You must supply the DISCORD_TOKEN environment variable.");
+	}
+
+	try {
+		await client.login(process.env.DISCORD_TOKEN);
+		console.log(`Successfully logged in as ${client.user?.username}`);
+
+		const handlerFiles = await DirectoryUtils.getFilesInDirectory(
+			`${__dirname}/${handlers_directory}`,
+			DirectoryUtils.appendFileExtension("Handler")
+		);
+
+		handlerFiles.forEach(handler => {
+			const { default: Handler } = handler;
+			const handlerInstance = new Handler();
+
+			client.on(handlerInstance.getEvent(), handlerInstance.handle);
+		});
+
+		if (process.env.NODE_ENV === PRODUCTION_ENV) {
+			const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
+
+			await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
+		}
+	} catch (error) {
+		console.error(error);
 	}
 }
 

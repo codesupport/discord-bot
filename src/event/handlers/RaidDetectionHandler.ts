@@ -29,7 +29,7 @@ class RaidDetectionHandler extends EventHandler {
 				await generalChannel.send(`
 					**:warning: We have detected a raid is currently going on and are solving the issue.**
 					Please refrain from notifying the moderators or spamming this channel.
-					Thank you for your cooperation and we apologise for any incontinence.
+					Thank you for your cooperation and we apologise for any inconvenience.
 				`);
 			} catch (error) {
 				console.error(error);

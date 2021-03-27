@@ -5,7 +5,7 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import HiringLookingCommand from "../../src/commands/HiringLookingCommand";
 import Command from "../../src/abstracts/Command";
-import { EMBED_COLOURS } from "../../src/config.json";
+import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../../src/config.json";
 
 describe("HiringLookingCommand", () => {
 	describe("constructor()", () => {
@@ -62,8 +62,10 @@ describe("HiringLookingCommand", () => {
 		`);
 			expect(embed.fields[0].name).to.equal("Payment");
 			expect(embed.fields[0].value).to.equal("If you are trying to hire people for a project, and that project is not open source, your post must state how much you will pay them (or a percentage of profits they will receive).");
-			expect(embed.fields[1].name).to.equal("Example Post");
-			expect(embed.fields[1].value).to.equal(`
+			expect(embed.fields[1].name).to.equal("Post Frequency");
+			expect(embed.fields[1].value).to.equal(`Please only post in <#${BOTLESS_CHANNELS.HIRING_OR_LOOKING}> once per week to keep the channel clean and fair. Posting multiple times per week will lead to your access to the channel being revoked.`);
+			expect(embed.fields[2].name).to.equal("Example Post");
+			expect(embed.fields[2].value).to.equal(`
 			Please use the example below as a template to base your post on.\n
 			\`\`\`
 [HIRING]
