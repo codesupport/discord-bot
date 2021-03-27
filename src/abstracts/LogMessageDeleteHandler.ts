@@ -12,7 +12,7 @@ abstract class LogMessageDeleteHandler extends EventHandler {
 			embed.addField("Message", message.content);
 			embed.setColor(EMBED_COLOURS.DEFAULT);
 
-			const logsChannel = message.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
+			const logsChannel = message.guild?.channels.cache.get(LOG_CHANNEL_ID) as TextChannel;
 
 			await logsChannel?.send({ embed });
 		}
