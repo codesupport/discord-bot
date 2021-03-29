@@ -93,5 +93,6 @@
             "triggers": ["9", "sfw", "clean", "appropriate"],
             "description": "Keep it appropriate, some people use this at school or at work."
         }
-    ]
+    ],
+    "MAX_INVITE_USAGE": 1
 }
