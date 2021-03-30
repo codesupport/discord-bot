@@ -94,5 +94,10 @@
             "description": "Keep it appropriate, some people use this at school or at work."
         }
     ],
-    "MAX_INVITE_USAGE": 1
+    "INVITE": {
+        "MAX_USAGE": 1,
+        "CHANNEL_ID": "826154294876962826",
+        "MESSAGE": "826160859222638633"
+    }
+
 }

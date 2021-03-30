@@ -1,5 +1,5 @@
-import {Constants, GuildChannel, Invite, TextChannel} from "discord.js";
-import { MAX_INVITE_USAGE} from "../../config.json";
+import {Constants, Invite, TextChannel} from "discord.js";
+import { INVITE } from "../../config.json";
 
 import EventHandler from "../../abstracts/EventHandler";
 
@@ -9,26 +9,17 @@ class InviteCycleHandler extends EventHandler {
 	}
 
 	async handle(invite: Invite): Promise<void> {
-		const guildChannel = await invite.channel as GuildChannel;
+		const inviteChannel = invite.guild?.channels.cache.get(INVITE.CHANNEL_ID) as TextChannel;
 
-		const createdInvite = await guildChannel.createInvite({
-			maxUses: MAX_INVITE_USAGE,
+		const createdInvite = await inviteChannel.createInvite({
+			maxUses: INVITE.MAX_USAGE,
 			maxAge: 0,
 			unique: true
 		});
 
-		const inviteChannel = await invite.guild?.channels.cache.find(channel => channel.id === createdInvite.channel.id) as TextChannel;
+		const message = await inviteChannel.messages.fetch(INVITE.MESSAGE);
 
-		const messages = await inviteChannel.messages.fetch();
-
-		const firstMessage = messages.first();
-
-		if (firstMessage?.author.id === createdInvite.inviter?.id) {
-		firstMessage?.edit(createdInvite.toString());
-		return;
-		}
-
-		await inviteChannel.send(createdInvite.toString());
+		await message.edit(createdInvite.toString());
 	}
 }
 
