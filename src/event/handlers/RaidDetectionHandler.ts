@@ -1,6 +1,6 @@
-import { Constants, GuildMember, TextChannel } from "discord.js";
+import {Constants, GuildMember, MessageEmbed, TextChannel} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
-import { RAID_SETTINGS, LOG_CHANNEL_ID, GENERAL_CHANNEL_ID, MOD_ROLE } from "../../config.json";
+import { RAID_SETTINGS, LOG_CHANNEL_ID, GENERAL_CHANNEL_ID, MOD_ROLE, EMBED_COLOURS } from "../../config.json";
 import getConfigValue from "../../utils/getConfigValue";
 
 class RaidDetectionHandler extends EventHandler {
@@ -26,11 +26,16 @@ class RaidDetectionHandler extends EventHandler {
 
 				this.joinQueue = [];
 
-				await generalChannel.send(`
-					**:warning: We have detected a raid is currently going on and are solving the issue.**
+				const embed = new MessageEmbed();
+
+				embed.setTitle(":warning: Raid Detected");
+				embed.setDescription(`**We have detected a raid is currently going on and are solving the issue.**
 					Please refrain from notifying the moderators or spamming this channel.
-					Thank you for your cooperation and we apologise for any inconvenience.
-				`);
+					Thank you for your cooperation and we apologise for any inconvenience.`);
+				embed.setColor(EMBED_COLOURS.ERROR);
+				embed.setTimestamp();
+
+				await generalChannel.send(embed);
 			} catch (error) {
 				console.error(error);
 
