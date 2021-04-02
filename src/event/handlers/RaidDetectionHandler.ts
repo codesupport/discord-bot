@@ -32,7 +32,7 @@ class RaidDetectionHandler extends EventHandler {
 				embed.setDescription(`**We have detected a raid is currently going on and are solving the issue.**
 					Please refrain from notifying the moderators or spamming this channel.
 					Thank you for your cooperation and we apologise for any inconvenience.`);
-				embed.setColor(EMBED_COLOURS.ERROR);
+				embed.setColor(EMBED_COLOURS.WARNING);
 				embed.setTimestamp();
 
 				await generalChannel.send(embed);
