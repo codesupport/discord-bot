@@ -32,8 +32,7 @@
     "EMBED_COLOURS": {
         "SUCCESS": "#35BC31",
         "ERROR": "#BC3131",
-        "DEFAULT": "#1555B7",
-        "WARNING": "#F7CE61"
+        "DEFAULT": "#1555B7"
     },
     "ALLOWED_FILE_EXTENSIONS": [
         "jpg",
