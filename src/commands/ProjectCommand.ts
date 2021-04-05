@@ -3,6 +3,7 @@ import {Message, MessageEmbed} from "discord.js";
 import {readFile} from "fs";
 
 export default class ProjectCommand extends Command {
+	private readonly fileDirectory = "./assets/projects.json";
 	constructor() {
 		super(
 			"project",
@@ -18,9 +19,8 @@ export default class ProjectCommand extends Command {
 			embed.setTitle("Projects")
 				.setColor("#add8e6")
 				.setDescription("Please provide arguments on the projects command.");
-			await message.channel.send(embed);
 		} else {
-			readFile("./assets/projects.json", {encoding: "utf8"}, async (error, projectData) => {
+			readFile(`${this.fileDirectory}`, {encoding: "utf8"}, async (error, projectData) => {
 				const projects: Array<Project> = JSON.parse(projectData);
 				const project = projects
 					.filter(this.removeTooLongDescriptions)
@@ -34,16 +34,14 @@ export default class ProjectCommand extends Command {
 						.setTitle(project.title)
 						.addFields({name: "tags", value: project.tags.join(" ")},)
 						.addField("Project details", project.description);
-
-					await message.channel.send(embed);
 				} else {
 					embed.setTitle("Could not find a project")
 						.setColor("#bc3131")
 						.setDescription("try to enter less search arguments to broaden your search.");
-					await message.channel.send(embed);
 				}
 			});
 		}
+		await message.channel.send(embed);
 	}
 
     private readonly loadDifficultyColorMap: () => Map<string, string> = () => new Map([["easy", "#35BC31"], ["medium", "#ffa500"], ["hard", "#bc3131"]]);
