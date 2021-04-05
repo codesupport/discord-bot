@@ -137,5 +137,28 @@
       "react"
     ],
     "description": "Create a dashboard with data visualisation on the following datasets: https://www.who.int/data/gho/info/gho-odata-api . Add in filtering options, searching options with auto completion. Bonus: Try to work this out with rxjs. Try to change all functionality in the UI as requests towards the API with rxjs."
+  },
+  {
+    "title": "Icecream app",
+    "tags": [
+      "front-end",
+      "frontend",
+      "medium",
+      "spa",
+      "angular",
+      "vue",
+      "react",
+      "patterns"
+    ],
+    "description": "Create an app where users can order their own icecream. Start with asking for a cone or a cup (or other options). Next add the ability to add flavors. Do show extra information concerning these flavors, such as vegan, home made, etc. Show warnings for potential allergies. give the option for decoration, such as caramel, chocolate, strawberry dip, fruits, etc. All these options should make use of search options using a searchbar which makes use of a specification pattern. The icecream itself should make use of a decorator pattern. Allow a user to purchase multiple icecreams. At the end of the selection, display the total costs + allergy warnings. Different flavors / options can have different prices."
+  },
+  {
+    "title": "Icecream app",
+    "tags": [
+      "back-end",
+      "backend",
+      "medium"
+    ],
+    "description": "Design an api service which can be used to easily exchange small code snippets between developers. These snippets should be search-able on given params. In addition, if a search is done on multiple codesnippets, return this result with pagination."
   }
 ]
