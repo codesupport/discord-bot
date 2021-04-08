@@ -16,9 +16,9 @@ export default class ProjectCommand extends Command {
 		const query = args.map(arg => arg.toLowerCase()).filter(arg => arg.trim().length > 0);
 
 		if (args.length === 0) {
-			embed.setTitle("Projects")
-				.setColor("#add8e6")
-				.setDescription("Please provide arguments on the projects command.");
+			embed.setTitle("Projects");
+			embed.setColor("#add8e6");
+			embed.setDescription("Please provide arguments on the projects command.");
 			await message.channel.send(embed);
 		} else {
 			readFile(`${this.fileDirectory}`, {encoding: "utf8"}, async (error, projectData) => {
@@ -31,14 +31,14 @@ export default class ProjectCommand extends Command {
 				if (project) {
 					const difficulty = this.retrieveFirstFoundTag(project, ["easy", "medium", "hard"]);
 
-					embed.setColor(this.loadDifficultyColorMap().get(difficulty || "") || "#add8e6")
-						.setTitle(project.title)
-						.addFields({name: "tags", value: project.tags.join(" ")},)
-						.addField("Project details", project.description);
+					embed.setColor(this.loadDifficultyColorMap().get(difficulty || "") || "#add8e6");
+					embed.setTitle(project.title);
+					embed.addFields({name: "tags", value: project.tags.join(" ")},);
+					embed.addField("Project details", project.description);
 				} else {
-					embed.setTitle("Could not find a project")
-						.setColor("#bc3131")
-						.setDescription("try to enter less search arguments to broaden your search.");
+					embed.setTitle("Could not find a project");
+					embed.setColor("#bc3131");
+					embed.setDescription("try to enter less search arguments to broaden your search.");
 				}
 				await message.channel.send(embed);
 			});

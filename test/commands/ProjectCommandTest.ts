@@ -2,6 +2,7 @@ import {expect} from "chai";
 import {createSandbox, SinonSandbox} from "sinon";
 import {BaseMocks} from "@lambocreeper/mock-discord.js";
 import Command from "../../src/abstracts/Command";
+// @ts-ignore
 import fs from "fs";
 import {Message} from "discord.js";
 import ProjectCommand from "../../src/commands/ProjectCommand";
