@@ -4,10 +4,11 @@ import {readFile} from "fs";
 
 export default class ProjectCommand extends Command {
 	private readonly fileDirectory = "./assets/projects.json";
+
 	constructor() {
 		super(
 			"project",
-			"Returns a random project idea based on given parameters.",
+			"Returns a random project idea based on given parameters."
 		);
 	}
 
@@ -33,7 +34,7 @@ export default class ProjectCommand extends Command {
 
 					embed.setColor(this.loadDifficultyColorMap().get(difficulty || "") || "#add8e6");
 					embed.setTitle(project.title);
-					embed.addFields({name: "tags", value: project.tags.join(" ")},);
+					embed.addFields({name: "tags", value: project.tags.join(" ")});
 					embed.addField("Project details", project.description);
 				} else {
 					embed.setTitle("Could not find a project");
@@ -45,16 +46,13 @@ export default class ProjectCommand extends Command {
 		}
 	}
 
-    private readonly loadDifficultyColorMap: () => Map<string, string> = () => new Map([["easy", "#35BC31"], ["medium", "#ffa500"], ["hard", "#bc3131"]]);
-    private readonly removeTooLongDescriptions: (project: Project) => boolean = ({description}) => description.length <= 2048;
-    private readonly filterTags: (project: Project, requestedTags: Array<string>) => boolean =
-        ({tags}, requestedTags: Array<string>) => requestedTags.every(tag => tags.includes(tag))
-    private readonly retrieveFirstFoundTag: (project: Project, tagsToRetrieve: Array<string>) => string | undefined =
-        ({tags}, tagsToRetrieve: Array<string>) => tagsToRetrieve.filter(tag => tags.map(tag => tag.toLowerCase()).includes(tag)).pop();
-}
+	private readonly loadDifficultyColorMap: () => Map<string, string> = () => new Map([["easy", "#35BC31"], ["medium", "#ffa500"], ["hard", "#bc3131"]]);
 
-interface Project {
-    title: string,
-    tags: Array<string>,
-    description: string,
+	private readonly removeTooLongDescriptions: (project: Project) => boolean = ({description}) => description.length <= 2048;
+
+	private readonly filterTags: (project: Project, requestedTags: Array<string>) => boolean =
+		({tags}, requestedTags: Array<string>) => requestedTags.every(tag => tags.includes(tag));
+
+	private readonly retrieveFirstFoundTag: (project: Project, tagsToRetrieve: Array<string>) => string | undefined =
+		({tags}, tagsToRetrieve: Array<string>) => tagsToRetrieve.filter(tag => tags.map(tag => tag.toLowerCase()).includes(tag)).pop();
 }
