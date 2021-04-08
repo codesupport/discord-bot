@@ -2,7 +2,7 @@ import Command from "../abstracts/Command";
 import {Message, MessageEmbed} from "discord.js";
 // @ts-ignore
 import projects from "../../assets/projects.json";
-import {Project} from "../interfaces/Project";
+import Project from "../interfaces/Project";
 
 export default class ProjectCommand extends Command {
 	private readonly defaultSearchTags = ["easy", "medium", "hard"];
@@ -19,13 +19,12 @@ export default class ProjectCommand extends Command {
 	async run(message: Message, args: string[]): Promise<void> {
 		const embed = new MessageEmbed();
 
-		const query = args.map(arg => arg.toLowerCase()).filter(arg => arg.trim().length > 0);
+		const query = args.map((arg: string) => arg.toLowerCase()).filter((arg: string) => arg.trim().length > 0);
 
 		if (args.length === 0) {
 			embed.setTitle("Projects");
 			embed.setColor("#add8e6");
 			embed.setDescription("Please provide arguments on the projects command.");
-			await message.channel.send(embed);
 		} else {
 			const displayProject = this.provideProjects()
 				.filter(this.removeTooLongDescriptions)
@@ -44,8 +43,8 @@ export default class ProjectCommand extends Command {
 				embed.setColor("#bc3131");
 				embed.setDescription("try to enter less search arguments to broaden your search.");
 			}
-			await message.channel.send(embed);
 		}
+		await message.channel.send(embed);
 	}
 
 	private readonly loadDifficultyColorMap: () => Map<string, string> = () => new Map([["easy", "#35BC31"], ["medium", "#ffa500"], ["hard", "#bc3131"]]);
