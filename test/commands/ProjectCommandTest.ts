@@ -55,9 +55,7 @@ describe("ProjectCommand", () => {
 		beforeEach(() => {
 			sandbox = createSandbox();
 			message = BaseMocks.getMessage();
-			sandbox.stub(fs, "readFile")
-				.withArgs("./assets/projects.json", {encoding: "utf8"})
-				.yields(null, JSON.stringify(mockProjects));
+			sandbox.stub(command as ProjectCommand, "provideProjects").callsFake(() => mockProjects);
 		});
 
 		afterEach(() => {

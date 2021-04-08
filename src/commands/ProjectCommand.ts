@@ -1,9 +1,11 @@
 import Command from "../abstracts/Command";
 import {Message, MessageEmbed} from "discord.js";
-import {readFile} from "fs";
+// @ts-ignore
+import projects from "../../assets/projects.json";
+import {Project} from "../interfaces/Project";
 
 export default class ProjectCommand extends Command {
-	private readonly fileDirectory = "./assets/projects.json";
+	private readonly defaultSearchTags = ["easy", "medium", "hard"];
 
 	constructor() {
 		super(
@@ -12,8 +14,11 @@ export default class ProjectCommand extends Command {
 		);
 	}
 
+	readonly provideProjects: () => Array<Project> = () => projects;
+
 	async run(message: Message, args: string[]): Promise<void> {
 		const embed = new MessageEmbed();
+
 		const query = args.map(arg => arg.toLowerCase()).filter(arg => arg.trim().length > 0);
 
 		if (args.length === 0) {
@@ -22,27 +27,24 @@ export default class ProjectCommand extends Command {
 			embed.setDescription("Please provide arguments on the projects command.");
 			await message.channel.send(embed);
 		} else {
-			readFile(`${this.fileDirectory}`, {encoding: "utf8"}, async (error, projectData) => {
-				const projects: Array<Project> = JSON.parse(projectData);
-				const project = projects
-					.filter(this.removeTooLongDescriptions)
-					.filter(project => this.filterTags(project, query))
-					.sort(() => 0.5 - Math.random()).pop();
+			const displayProject = this.provideProjects()
+				.filter(this.removeTooLongDescriptions)
+				.filter(project => this.filterTags(project, query))
+				.sort(() => 0.5 - Math.random()).pop();
 
-				if (project) {
-					const difficulty = this.retrieveFirstFoundTag(project, ["easy", "medium", "hard"]);
+			if (displayProject) {
+				const difficulty = this.retrieveFirstFoundTag(displayProject, this.defaultSearchTags);
 
-					embed.setColor(this.loadDifficultyColorMap().get(difficulty || "") || "#add8e6");
-					embed.setTitle(project.title);
-					embed.addFields({name: "tags", value: project.tags.join(" ")});
-					embed.addField("Project details", project.description);
-				} else {
-					embed.setTitle("Could not find a project");
-					embed.setColor("#bc3131");
-					embed.setDescription("try to enter less search arguments to broaden your search.");
-				}
-				await message.channel.send(embed);
-			});
+				embed.setColor(this.loadDifficultyColorMap().get(difficulty || "") || "#add8e6");
+				embed.setTitle(displayProject.title);
+				embed.addFields({name: "tags", value: displayProject.tags.join(" ")});
+				embed.addField("Project details", displayProject.description);
+			} else {
+				embed.setTitle("Could not find a project");
+				embed.setColor("#bc3131");
+				embed.setDescription("try to enter less search arguments to broaden your search.");
+			}
+			await message.channel.send(embed);
 		}
 	}
 
@@ -54,5 +56,5 @@ export default class ProjectCommand extends Command {
 		({tags}, requestedTags: Array<string>) => requestedTags.every(tag => tags.includes(tag));
 
 	private readonly retrieveFirstFoundTag: (project: Project, tagsToRetrieve: Array<string>) => string | undefined =
-		({tags}, tagsToRetrieve: Array<string>) => tagsToRetrieve.filter(tag => tags.map(tag => tag.toLowerCase()).includes(tag)).pop();
+		({tags}, tagsToRetrieve: Array<string>) => tagsToRetrieve.filter(tag => tags.map((tag: string) => tag.toLowerCase()).includes(tag)).pop();
 }
