@@ -1,7 +1,7 @@
 import Command from "../abstracts/Command";
 import {Message, MessageEmbed} from "discord.js";
 // @ts-ignore
-import projects from "../../assets/projects.json";
+import projects from "../src-assets/projects.json";
 import Project from "../interfaces/Project";
 
 export default class ProjectCommand extends Command {
