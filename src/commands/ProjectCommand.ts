@@ -2,7 +2,7 @@ import Command from "../abstracts/Command";
 import {Message, MessageEmbed} from "discord.js";
 // @ts-ignore
 import projects from "../../assets/projects.json";
-import {Project} from "../interfaces/Project";
+import Project from "../interfaces/Project";
 
 export default class ProjectCommand extends Command {
 	private readonly defaultSearchTags = ["easy", "medium", "hard"];
