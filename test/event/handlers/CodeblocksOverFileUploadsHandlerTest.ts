@@ -57,7 +57,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 		});
 
 		it("sends a message and deletes the user's upload when there is an invalid attachment.", async () => {
-			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.cpp"));
+			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.pdf"));
 			const addMockSend = sandbox.stub(message.channel, "send");
 			const addMockDelete = sandbox.stub(message, "delete");
 
@@ -68,13 +68,13 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.pdf\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		it("deletes the message when any attachment on the message is invalid.", async () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
-			message.attachments.set("72039095884736104", new MessageAttachment("72039095884736105", "test.cpp"));
+			message.attachments.set("72039095884736104", new MessageAttachment("72039095884736105", "test.pdf"));
 			const addMockSend = sandbox.stub(message.channel, "send");
 			const addMockDelete = sandbox.stub(message, "delete");
 
@@ -86,7 +86,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.pdf\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
