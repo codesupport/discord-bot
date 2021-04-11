@@ -18,11 +18,6 @@ class ProjectService {
 		return this.instance;
 	}
 
-	/*
-	Formats tags to be used by other methods
-	@param tags - Takes in an array of unformatted tags
-	@returns string[] - List of formatted tags
-	 */
 	public formatTags(args: string[]): string[] {
 		const formattedTags = args.map((arg: string) => arg.replace("#", "").toLowerCase());
 
