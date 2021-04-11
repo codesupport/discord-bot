@@ -1,10 +1,9 @@
-import {expect} from "chai";
-import {createSandbox, SinonSandbox} from "sinon";
-import {BaseMocks} from "@lambocreeper/mock-discord.js";
+import { expect } from "chai";
+import { Message } from "discord.js";
+import { createSandbox, SinonSandbox } from "sinon";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import Command from "../../src/abstracts/Command";
-// @ts-ignore
-import fs from "fs";
-import {Message} from "discord.js";
+import { EMBED_COLOURS } from "../../src/config.json";
 import ProjectCommand from "../../src/commands/ProjectCommand";
 
 describe("ProjectCommand", () => {
@@ -71,9 +70,9 @@ describe("ProjectCommand", () => {
 			const embed = messageMock.getCall(0).firstArg;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Could not find a project");
-			expect(embed.description).to.equal("try to enter less search arguments to broaden your search.");
-			expect(embed.hexColor).to.equal("#bc3131");
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("Could not find a project result for the given query.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
 		it("should assign the correct colors for difficulty grade if difficulty grade is specified", async () => {
@@ -93,10 +92,10 @@ describe("ProjectCommand", () => {
 			// @ts-ignore - firstArg does not live on getCall()
 			const lastCall = messageMock.getCall(3).firstArg;
 
-			expect(firstCall.hexColor).to.equal("#add8e6");
-			expect(secondCall.hexColor).to.equal("#35bc31");
-			expect(thirdCall.hexColor).to.equal("#ffa500");
-			expect(lastCall.hexColor).to.equal("#bc3131");
+			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(secondCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(thirdCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(lastCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
 
 		it("should filter out too long descriptions out of the resultset", async () => {
@@ -108,9 +107,9 @@ describe("ProjectCommand", () => {
 			const firstCall = messageMock.getCall(0).firstArg;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(firstCall.title).to.equal("Could not find a project");
-			expect(firstCall.description).to.equal("try to enter less search arguments to broaden your search.");
-			expect(firstCall.hexColor).to.equal("#bc3131");
+			expect(firstCall.title).to.equal("Error");
+			expect(firstCall.description).to.equal("Could not find a project result for the given query.");
+			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
 		it("should return instructions on how to use the command if no args are provided", async () => {
@@ -122,9 +121,9 @@ describe("ProjectCommand", () => {
 			const firstCall = messageMock.getCall(0).firstArg;
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(firstCall.title).to.equal("Projects");
-			expect(firstCall.description).to.equal("Please provide arguments on the projects command.");
-			expect(firstCall.hexColor).to.equal("#add8e6");
+			expect(firstCall.title).to.equal("Error");
+			expect(firstCall.description).to.equal("You must provide a search query/tag.");
+			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 	});
 });
