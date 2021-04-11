@@ -162,13 +162,9 @@
     "description": "Design an api service which can be used to easily exchange small code snippets between developers. These snippets should be search-able on given params. In addition, if a search is done on multiple codesnippets, return this result with pagination."
   },
   {
-    "title": "Math game",
+    "title": "Math Game",
     "tags": [
       "easy",
-      "javascript",
-      "react native",
-      "typescript",
-      "futter",
       "mobile",
       "math"
     ],
@@ -178,9 +174,7 @@
     "title": "Hangman",
     "tags": [
       "easy",
-      "console",
-      "java"
     ],
-    "description": "Create a console application which asks for a word that is atleast 7 characters long. Others have to guess the 'hidden' word by submitting a single character. If the character is in the word, it will be displayed. That would look like: h a n _ m a n. When it is not, a piece of the hangman will be displayed. If the hangman is fully drawn the guessers have lost. It is up to yourself how you will draw it as long it is clear for the guessers how much guesses they have left."
+    "description": "Create an application which asks for a word that is atleast 7 characters long. Others have to guess the 'hidden' word by submitting a single character. If the character is in the word, it will be displayed. That would look like: h a n _ m a n. When it is not, a piece of the hangman will be displayed. If the hangman is fully drawn the guessers have lost. It is up to yourself how you will draw it as long it is clear for the guessers how much guesses they have left."
   }
 ]
