@@ -6,8 +6,6 @@ import projects from "../src-assets/projects.json";
 import StringUtils from "../utils/StringUtils";
 
 export default class ProjectCommand extends Command {
-	private readonly defaultSearchTags = ["easy", "medium", "hard"];
-
 	constructor() {
 		super(
 			"project",
@@ -18,12 +16,13 @@ export default class ProjectCommand extends Command {
 		);
 	}
 
+	private readonly defaultSearchTags = ["easy", "medium", "hard"];
 	readonly provideProjects: () => Array<Project> = () => projects;
 
 	async run(message: Message, args: string[]): Promise<void> {
 		const embed = new MessageEmbed();
 
-		const query = args.map((arg: string) => arg.toLowerCase()).filter((arg: string) => arg.trim().length > 0);
+		const query = args.map((arg: string) => arg.replace("#", "").toLowerCase()).filter((arg: string) => arg.trim().length > 0);
 
 		if (args.length === 0) {
 			embed.setTitle("Error");
