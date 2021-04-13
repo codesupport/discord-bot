@@ -160,5 +160,68 @@
       "medium"
     ],
     "description": "Design an application which can be used to easily exchange small code snippets between developers.\n\nThese snippets should be search-able on given params. In addition, if a search is done on multiple code snippets return this result with pagination."
+  },
+  {
+    "title": "Potion Brewing App",
+    "tags": [
+      "medium",
+      "fullstack",
+      "front-end",
+      "frontend",
+      "backend",
+      "back-end"
+    ],
+    "description": "Have a list of ingredients. You can add these ingredients in a sequence. When a specific combination of ingredients are present, they may merge into another ingredient (which is not present in the selection list). Once all ingredients are calculated, the potion should brew into a specific potion depending on the ingredients. Ingredients are handled as they are added. For instance, water + herb + sugar would yield tea + sugar would yield sweet tea. water + sugar + herb would yield sugar water + herb (sugar water + herb doesn't appear to have a path in this mixture).\n\n**Bonus:** Allow 'actions' to be done in the ingredient list, such as warm up, cool down, rest, mix and so on. These actions exist in their own selection list. Depending on these actions, specific ingredients may be formed."
+  },
+  {
+    "title": "Age Calculator",
+    "tags": [
+      "easy",
+      "beginner"
+    ],
+    "description": "Ask a user their timezone location. After you got the timezone, ask the user for their birth date. Calculate the current age of the user, and when the user's next birthday is in months, weeks, days, hours, minutes, seconds.\n\n **bonus:** automatically get their timezone."
+  },
+  {
+    "title": "Freedom Units",
+    "tags": [
+      "easy",
+      "beginner"
+    ],
+    "description": "Allow the user to select what they want to convere: temperature, length, weight. Allow the user to select their own known type (for instance, they can select celcius / farhenheid / kelvin / ...). The output will be the other options with their re-calculated value.\n\n**Bonus:** Provide chemical mole calculations / physics calories calculations, etc."
+  },
+  {
+    "title": "Weather App",
+    "tags": [
+      "easy",
+      "beginner",
+      "front-end",
+      "frontend"
+    ],
+    "description": "Use the following [API](https://openweathermap.org/current) to get weather data. In an input box, request the location of where the user wants to see the weather from. Send this data to the above API. The output should be seen on the screen as \\\"The weather at LOCATION is currently DESCRIPTION with a temperature of TEMPERATURE\\\".\n\n**bonus:** by default show their current location's weather."
+  },
+  {
+    "title": "Movie List App",
+    "tags": [
+      "medium",
+      "fullstack"
+    ],
+    "description": "Make an app that lists out the movies you put into it. The movies should get a rating, description, picture and genre. You should be able to sort on rating and genre. The rating should be represented as 0 to 5 stars, and should progress in half stars. The application should make use of pagination. Display 10 movies, upon scrolling 80% of the list, load in the next 10 movies.\n\n You should be able to search on the movies in a search box. The following properties should be searchable in the one and same input box; rating (number), genre and description. You can use a specification pattern for this.\n\nAllow a user to input new movies in their list using a form. The genre selection should be a dropdown. Upon selecting an item from this dropdown, add it to a list and add another dropdown which allows the user to select another genre. Furthermore the description should be written by the user.\n\n**Bonus**: search for an API which can fetch you the description of the movie."
+  },
+  {
+    "title": "Mastermind",
+    "tags": [
+      "easy",
+      "beginner"
+    ],
+    "description": "Generate a sequence of 4, made of 5 different colors (duplicates are allowed) represented by a letter (R = Red, B = Blue, G = green, W = white, P = pink). The user will have 12 chances to guess the correct collors and the correct sequence of these colors, for instance. The user guesses by putting in a string, for instance : PPWBR would be a guess for pink pink white blue red.\n\n The output of the computer when guessing is one of the following: \n-'Correct, player wins'\n-'Incorrect, player losers' (after 12 rounds) \n-'Incorrect, 1 color is in the correct location, 2 are correct but at the wrong location'\n\n (these numbers can vary)."
+  },
+  {
+    "title": "What Do We Eat Today?",
+    "tags": [
+      "medium",
+      "backend",
+      "back-end"
+    ],
+    "description": "Create a database with things to eat. Every day you eat something, enrich this database with the thing you ate. If you're out of options on what to cook or going out to get something or so on, query your database. It should have bias towards something you haven't had for quite some time. Add other bias options, for instance, the user should be able to select if they want something healthy to eat, on which the program should give a healthier suggestion. You can add further bias on \"what do I like\". And obvious - every Wednesday it should output pizza !"
   }
 ]
