@@ -51,9 +51,9 @@ class MineSweeperService {
 
 		for (let rowI = 0; rowI < this.GRID_ROWS; rowI++) {
 			for (let colI = 0; colI < this.GRID_COLUMNS; colI++) {
-				// eslint-disable-next-line no-continue
-				if (typeof grid[rowI][colI] !== "number") continue;
-				grid[rowI][colI] = numbers[grid[rowI][colI]];
+				if (typeof grid[rowI][colI] === "number") {
+					grid[rowI][colI] = numbers[grid[rowI][colI]];
+				}
 			}
 		}
 
