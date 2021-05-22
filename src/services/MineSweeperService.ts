@@ -24,24 +24,20 @@ class MineSweeperService {
 
 		const grid = Array.from(Array(rows), () => new Array(cols).fill(0));
 
-		const isOutsideTopEdge = rowIndex => rowIndex < 0;
-		const isOutsideBottomEdge = rowIndex => rowIndex == rows;
-		const isOutsideLeftEdge = colIndex => colIndex < 0;
-		const isOutsideRightEdge = colIndex => colIndex == cols;
+		function isOutsideEdges(rowIndex: number, colIndex: number) {
+			// Top/Bottom
+			if (rowIndex < 0 || rowIndex === rows) return true;
+			// Sides
+			if (colIndex < 0 || colIndex === cols) return true;
 
-		const isOutside = (rowIndex, colIndex) => {
-			if (isOutsideTopEdge(rowIndex)) return true;
-			if (isOutsideBottomEdge(rowIndex)) return true;
-			if (isOutsideLeftEdge(colIndex)) return true;
-			if (isOutsideRightEdge(colIndex)) return true;
 			return false;
-		};
+		}
 
 		let currentCount = 0;
 
 		while (currentCount < bombCount) {
-			const randomRow = NumberUtil.getRandomNumber(0, rows - 1);
-			const randomColumn = NumberUtil.getRandomNumber(0, cols - 1);
+			const randomRow = NumberUtil.getRandomNumberInRange(0, rows - 1);
+			const randomColumn = NumberUtil.getRandomNumberInRange(0, cols - 1);
 
 			// eslint-disable-next-line no-continue
 			if (grid[randomRow][randomColumn] === bomb) continue;
@@ -53,7 +49,7 @@ class MineSweeperService {
 		bombIndex.map(([rowI, colI]) => {
 			// Check around every bomb and add +1 to cell counter
 			positions.map(([rowPosition, colPosition]) => {
-				if (isOutside(rowI + rowPosition, colI + colPosition)) return;
+				if (isOutsideEdges(rowI + rowPosition, colI + colPosition)) return;
 				if (typeof grid[rowI + rowPosition][colI + colPosition] !== "number") return;
 
 				grid[rowI + rowPosition][colI + colPosition] += 1;
