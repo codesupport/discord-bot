@@ -65,7 +65,7 @@ describe("MineSweeperCommand", () => {
 
 			const returnedGame = "||:boom:||||:one:||||:zero:||\n||:one:||||:one:||||:zero:||\n";
 
-			sandbox.stub(mineSweeperService, "generateGame").resolves(returnedGame);
+			sandbox.stub(mineSweeperService, "generateGame").returns(returnedGame);
 
 			await command.run(message, ["easy"]);
 
