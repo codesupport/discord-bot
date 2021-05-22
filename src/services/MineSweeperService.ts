@@ -1,4 +1,4 @@
-import NumberUtil from "../utils/NumberUtil";
+import NumberUtils from "../utils/NumberUtils";
 
 class MineSweeperService {
 	private static instance: MineSweeperService;
@@ -36,8 +36,8 @@ class MineSweeperService {
 		let currentCount = 0;
 
 		while (currentCount < bombCount) {
-			const randomRow = NumberUtil.getRandomNumberInRange(0, rows - 1);
-			const randomColumn = NumberUtil.getRandomNumberInRange(0, cols - 1);
+			const randomRow = NumberUtils.getRandomNumberInRange(0, rows - 1);
+			const randomColumn = NumberUtils.getRandomNumberInRange(0, cols - 1);
 
 			// eslint-disable-next-line no-continue
 			if (grid[randomRow][randomColumn] === bomb) continue;

@@ -2,12 +2,13 @@ import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
 import { EMBED_COLOURS } from "../config.json";
 import MineSweeperService from "../services/MineSweeperService";
+import StringUtils from "../utils/StringUtils";
 
 class MineSweeperCommand extends Command {
 	constructor() {
 		super(
 			"minesweeper",
-			"generates a minesweeper"
+			"Generates a minesweeper game."
 		);
 	}
 
@@ -18,24 +19,24 @@ class MineSweeperCommand extends Command {
 		if (!args[0]) args[0] = "easy";
 
 		interface DifficultyLevel {
-			[key: string]: {display: string, ratio: number}
+			[key: string]: {ratio: number}
 		}
 
 		const difficultyLevels: DifficultyLevel = {
-			"easy": {display: "Easy", ratio: 7},
-			"medium": {display: "Medium", ratio: 5},
-			"hard": {display: "Hard", ratio: 3}
+			"easy": {ratio: 7},
+			"medium": {ratio: 5},
+			"hard": {ratio: 3}
 		};
 
 		if (Object.keys(difficultyLevels).includes(args[0].toLowerCase())) {
 			const difficulty = difficultyLevels[args[0].toLowerCase()];
 
-			embed.setTitle(`MineSweeper (${difficulty.display})`);
+			embed.setTitle(`MineSweeper (${StringUtils.capitalise(args[0].toLowerCase())})`);
 			embed.setDescription(mineSweeperService.generateGame(11, 11, difficulty.ratio));
 			embed.setColor(EMBED_COLOURS.DEFAULT);
 		} else {
 			embed.setTitle("Error");
-			embed.setDescription("You must provide an existing difficulty");
+			embed.setDescription("You must provide an existing difficulty.");
 			embed.addField("Correct Usage", "?minesweeper [easy|medium|hard]");
 			embed.setColor(EMBED_COLOURS.ERROR);
 		}
