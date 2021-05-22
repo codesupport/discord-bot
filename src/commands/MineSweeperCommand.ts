@@ -15,24 +15,21 @@ class MineSweeperCommand extends Command {
 	async run(message: Message, args: string[]) {
 		const embed = new MessageEmbed();
 		const mineSweeperService = MineSweeperService.getInstance();
+		const givenDifficulty = args[0].toLowerCase();
 
 		if (!args[0]) args[0] = "easy";
 
-		interface DifficultyLevel {
-			[key: string]: {ratio: number}
-		}
-
-		const difficultyLevels: DifficultyLevel = {
-			"easy": {ratio: 7},
-			"medium": {ratio: 5},
-			"hard": {ratio: 3}
+		const difficultyLevels: {[key: string]: number} = {
+			"easy": 7,
+			"medium": 5,
+			"hard": 3
 		};
 
-		if (Object.keys(difficultyLevels).includes(args[0].toLowerCase())) {
-			const difficulty = difficultyLevels[args[0].toLowerCase()];
+		if (Object.keys(difficultyLevels).includes(givenDifficulty)) {
+			const difficulty = difficultyLevels[givenDifficulty];
 
-			embed.setTitle(`MineSweeper (${StringUtils.capitalise(args[0].toLowerCase())})`);
-			embed.setDescription(mineSweeperService.generateGame(11, 11, difficulty.ratio));
+			embed.setTitle(`MineSweeper (${StringUtils.capitalise(givenDifficulty)})`);
+			embed.setDescription(mineSweeperService.generateGame(difficulty));
 			embed.setColor(EMBED_COLOURS.DEFAULT);
 		} else {
 			embed.setTitle("Error");

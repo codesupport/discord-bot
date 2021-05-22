@@ -22,21 +22,21 @@ describe("MineSweeperService", () => {
 		});
 
 		it("has the correct amount of cells", async () => {
-			const result = mineSweeperService.generateGame(10, 10, 10);
+			const result = mineSweeperService.generateGame(10);
 			const count = (result.split("||")!.length - 1) / 2;
 
-			expect(count).to.equal(100);
+			expect(count).to.equal(121);
 		});
 
 		it("has the correct amount of bombs", async () => {
-			const result = mineSweeperService.generateGame(10, 10, 1);
+			const result = mineSweeperService.generateGame(1);
 			const count = result.split(":boom:")!.length - 1;
 
-			expect(count).to.equal(100);
+			expect(count).to.equal(121);
 		});
 
 		it("returned string has no numbers", async () => {
-			const result = mineSweeperService.generateGame(10, 10, 10);
+			const result = mineSweeperService.generateGame(10);
 			const hasNumber = (/\d/).test(result);
 
 			expect(hasNumber).to.equal(false);
