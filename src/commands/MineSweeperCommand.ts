@@ -15,9 +15,9 @@ class MineSweeperCommand extends Command {
 	async run(message: Message, args: string[]) {
 		const embed = new MessageEmbed();
 		const mineSweeperService = MineSweeperService.getInstance();
-		const givenDifficulty = args[0].toLowerCase();
 
 		if (!args[0]) args[0] = "easy";
+		const givenDifficulty = args[0].toLowerCase();
 
 		const difficultyLevels: {[key: string]: number} = {
 			"easy": 7,
