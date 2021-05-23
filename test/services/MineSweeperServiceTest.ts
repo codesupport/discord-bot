@@ -22,7 +22,7 @@ describe("MineSweeperService", () => {
 		});
 
 		it("has the correct amount of cells", async () => {
-			const result = mineSweeperService.generateGame(10);
+			const result = mineSweeperService.generateGame(1);
 			const count = (result.split("||")!.length - 1) / 2;
 
 			expect(count).to.equal(121);
@@ -36,7 +36,7 @@ describe("MineSweeperService", () => {
 		});
 
 		it("returned string has no numbers", async () => {
-			const result = mineSweeperService.generateGame(10);
+			const result = mineSweeperService.generateGame(1);
 			const hasNumber = (/\d/).test(result);
 
 			expect(hasNumber).to.equal(false);

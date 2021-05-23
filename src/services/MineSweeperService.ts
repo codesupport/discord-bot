@@ -31,15 +31,18 @@ class MineSweeperService {
 
 	private placeBombs(grid: any[][], bombCount: number) {
 		const bombPositions = [];
+		let i = 0;
 
-		for (let i = 0; i < bombCount; i++) {
+		while (i < bombCount) {
 			const randomRow = NumberUtils.getRandomNumberInRange(0, MineSweeperService.GRID_ROWS - 1);
 			const randomColumn = NumberUtils.getRandomNumberInRange(0, MineSweeperService.GRID_COLUMNS - 1);
 
 			// eslint-disable-next-line no-continue
 			if (grid[randomRow][randomColumn] === MineSweeperService.BOMB) continue;
+
 			grid[randomRow][randomColumn] = MineSweeperService.BOMB;
 			bombPositions.push([randomRow, randomColumn]);
+			i++;
 		}
 
 		return [grid, bombPositions];
