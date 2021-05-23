@@ -6,11 +6,8 @@ class MineSweeperService {
 	private static readonly GRID_COLUMNS = 11;
 	private static readonly BOMB = ":boom:";
 
-	/* eslint-disable */
-	private constructor() {
-	}
-
-	/* eslint-enable */
+	// eslint-disable-next-line
+	private constructor() {}
 
 	static getInstance(): MineSweeperService {
 		if (!this.instance) {
@@ -70,23 +67,13 @@ class MineSweeperService {
 		const numbers = [":zero:", ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"];
 		let stringGrid = "";
 
-		// Console.log(grid);
-
-		const formattedGrid: string[][] = grid.map((row, rowI) =>
-			row.map((col, colI) => {
-				if (grid[rowI][colI] !== -1) {
-					console.log(grid[rowI][colI]);
-					return numbers[grid[rowI][colI]];
-				}
-
-				return MineSweeperService.BOMB;
-			})
-		);
-
-		// Console.log(formattedGrid);
+		const formattedGrid: string[][] = grid.map((row, rowI) => row.map((col, colI) => {
+			if (grid[rowI][colI] !== -1) return numbers[grid[rowI][colI]];
+			return MineSweeperService.BOMB;
+		}));
 
 		formattedGrid.map((row, index) => {
-			stringGrid += `||${grid[index].join("||||")}||\n`;
+			stringGrid += `||${formattedGrid[index].join("||||")}||\n`;
 		});
 
 		return stringGrid;
