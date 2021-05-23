@@ -7,7 +7,9 @@ class MineSweeperService {
 	private static readonly BOMB = ":boom:";
 
 	/* eslint-disable */
-	private constructor() { }
+	private constructor() {
+	}
+
 	/* eslint-enable */
 
 	static getInstance(): MineSweeperService {
@@ -29,7 +31,7 @@ class MineSweeperService {
 		return this.formatGameResult(gameGrid);
 	}
 
-	private placeBombs(grid: any[][], bombCount: number) {
+	private placeBombs(grid: number[][], bombCount: number) {
 		const bombPositions = [];
 		let i = 0;
 
@@ -38,9 +40,9 @@ class MineSweeperService {
 			const randomColumn = NumberUtils.getRandomNumberInRange(0, MineSweeperService.GRID_COLUMNS - 1);
 
 			// eslint-disable-next-line no-continue
-			if (grid[randomRow][randomColumn] === MineSweeperService.BOMB) continue;
+			if (grid[randomRow][randomColumn] === -1) continue;
 
-			grid[randomRow][randomColumn] = MineSweeperService.BOMB;
+			grid[randomRow][randomColumn] = -1;
 			bombPositions.push([randomRow, randomColumn]);
 			i++;
 		}
@@ -48,14 +50,14 @@ class MineSweeperService {
 		return [grid, bombPositions];
 	}
 
-	private calculateBombSurrounding(grid: any[][], bombPositions: any[][]) {
+	private calculateBombSurrounding(grid: number[][], bombPositions: number[][]) {
 		const bombSurroundingPositions = [[0, -1], [0, 1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
 
 		bombPositions.map(([rowI, colI]) => {
 			// Check around every bomb and add +1 to cell counter
 			bombSurroundingPositions.map(([rowPosition, colPosition]) => {
-				if (typeof grid[rowI + rowPosition] === "undefined") return;
-				if (typeof grid[rowI + rowPosition][colI + colPosition] !== "number") return;
+				if (typeof grid[rowI + rowPosition] === "undefined" || typeof grid[rowI + rowPosition][colI + colPosition] === "undefined") return;
+				if (grid[rowI + rowPosition][colI + colPosition] === -1) return;
 
 				grid[rowI + rowPosition][colI + colPosition] += 1;
 			});
@@ -64,19 +66,26 @@ class MineSweeperService {
 		return grid;
 	}
 
-	private formatGameResult(grid: any[][]) {
+	private formatGameResult(grid: number[][]): string {
 		const numbers = [":zero:", ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"];
 		let stringGrid = "";
 
-		for (let rowI = 0; rowI < MineSweeperService.GRID_ROWS; rowI++) {
-			for (let colI = 0; colI < MineSweeperService.GRID_COLUMNS; colI++) {
-				if (typeof grid[rowI][colI] === "number") {
-					grid[rowI][colI] = numbers[grid[rowI][colI]];
-				}
-			}
-		}
+		// Console.log(grid);
 
-		grid.map((row, index) => {
+		const formattedGrid: string[][] = grid.map((row, rowI) =>
+			row.map((col, colI) => {
+				if (grid[rowI][colI] !== -1) {
+					console.log(grid[rowI][colI]);
+					return numbers[grid[rowI][colI]];
+				}
+
+				return MineSweeperService.BOMB;
+			})
+		);
+
+		// Console.log(formattedGrid);
+
+		formattedGrid.map((row, index) => {
 			stringGrid += `||${grid[index].join("||||")}||\n`;
 		});
 
