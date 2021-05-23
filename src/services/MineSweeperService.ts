@@ -28,7 +28,7 @@ class MineSweeperService {
 		return this.formatGameResult(gameGrid);
 	}
 
-	private placeBombs(grid: number[][], bombCount: number) {
+	private placeBombs(grid: number[][], bombCount: number): number[][][] {
 		const bombPositions = [];
 		let i = 0;
 
@@ -47,7 +47,7 @@ class MineSweeperService {
 		return [grid, bombPositions];
 	}
 
-	private calculateBombSurrounding(grid: number[][], bombPositions: number[][]) {
+	private calculateBombSurrounding(grid: number[][], bombPositions: number[][]): number[][] {
 		const bombSurroundingPositions = [[0, -1], [0, 1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
 
 		bombPositions.map(([rowI, colI]) => {
