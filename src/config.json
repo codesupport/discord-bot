@@ -43,7 +43,7 @@
         "mp3",
         "mp4",
         "mov",
-        "webp"
+        "webm"
     ],
     "rules": [{
             "name": "Asking For Help",
