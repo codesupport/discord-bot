@@ -42,7 +42,8 @@
         "gif",
         "mp3",
         "mp4",
-        "mov"
+        "mov",
+        "webp"
     ],
     "rules": [{
             "name": "Asking For Help",
