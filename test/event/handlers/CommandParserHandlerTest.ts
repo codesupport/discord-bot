@@ -9,7 +9,6 @@ import CommandFactory from "../../../src/factories/CommandFactory";
 import CommandParserHandler from "../../../src/event/handlers/CommandParserHandler";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
 import { COMMAND_PREFIX } from "../../../src/config.json";
-import exp = require("constants");
 
 describe("CommandParserHandler", () => {
 	describe("constructor()", () => {
