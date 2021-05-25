@@ -31,6 +31,11 @@ class CommandParserHandler extends EventHandler {
 			/* eslint-disable */
 			if (this.commandFactory.commandExists(trigger)) {
 				const command = this.commandFactory.getCommand(trigger);
+				const whitelist = command.getWhitelistedChannels();
+
+				if (whitelist.length >= 1 && !whitelist.includes(message.channel.id)) {
+					return;
+				}
 
 				await command.run(message, args);
 

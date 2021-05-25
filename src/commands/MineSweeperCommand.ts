@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import Command from "../abstracts/Command";
-import { EMBED_COLOURS } from "../config.json";
+import { EMBED_COLOURS, CHANNELS } from "../config.json";
 import MineSweeperService from "../services/MineSweeperService";
 import StringUtils from "../utils/StringUtils";
 
@@ -8,7 +8,10 @@ class MineSweeperCommand extends Command {
 	constructor() {
 		super(
 			"minesweeper",
-			"Generates a minesweeper game."
+			"Generates a minesweeper game.",
+			{
+				whitelistedChannels: [CHANNELS.BOT_CHAT]
+			}
 		);
 	}
 

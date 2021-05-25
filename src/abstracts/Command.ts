@@ -26,6 +26,10 @@ abstract class Command {
 		return this.options?.aliases || [];
 	}
 
+	getWhitelistedChannels(): string[] {
+		return this.options?.whitelistedChannels || [];
+	}
+
 	isSelfDestructing(): boolean {
 		return this.options?.selfDestructing || false;
 	}

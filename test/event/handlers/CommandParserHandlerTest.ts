@@ -4,11 +4,12 @@ import { Message } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import MockCommand from "../../MockCommand";
+import MockCommand, {MockWhitelistedCommand} from "../../MockCommand";
 import CommandFactory from "../../../src/factories/CommandFactory";
 import CommandParserHandler from "../../../src/event/handlers/CommandParserHandler";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
 import { COMMAND_PREFIX } from "../../../src/config.json";
+import exp = require("constants");
 
 describe("CommandParserHandler", () => {
 	describe("constructor()", () => {
@@ -105,6 +106,17 @@ describe("CommandParserHandler", () => {
 			}
 
 			expect(errorWasThrown).to.be.false;
+		});
+
+		it("should not run command if whitelisted to a channel which is not the execution channel", async () => {
+			const message = BaseMocks.getMessage();
+			const command = new MockWhitelistedCommand();
+			const commandSpy = sandbox.spy(command, "run");
+
+			message.channel.id = "abcdef";
+			message.content = "?whitelist";
+
+			expect(commandSpy.calledOnce).to.be.false;
 		});
 
 		it("should run command", async () => {
