@@ -19,7 +19,7 @@ class LogMessageUpdateHandler extends EventHandler {
 		const embed = new MessageEmbed();
 
 		embed.setTitle("Message Updated");
-		embed.setDescription(`Author: <@${oldMessage.author}>\nChannel: <#${oldMessage.channel}>`);
+		embed.setDescription(`Author: ${oldMessage.author}\nChannel: ${oldMessage.channel}`);
 		embed.addField("Old Message", oldMessage.content);
 		embed.addField("New Message", newMessage.content);
 		embed.setColor(EMBED_COLOURS.DEFAULT);

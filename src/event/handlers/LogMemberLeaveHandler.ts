@@ -12,7 +12,7 @@ class LogMemberLeaveHandler extends EventHandler {
 		const embed = new MessageEmbed();
 
 		embed.setTitle("Member Left");
-		embed.setDescription(`User: <@${guildMember.user.id}>`);
+		embed.setDescription(`User: ${guildMember.user}`);
 		embed.setColor(EMBED_COLOURS.DEFAULT);
 		embed.addField("Join Date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
 		embed.addField("Leave Date", new Date(Date.now()).toLocaleString(), true);
