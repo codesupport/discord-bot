@@ -25,7 +25,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				const embed = new MessageEmbed();
 
 				embed.setTitle("Uploading Files");
-				embed.setDescription(`<@${message.author.id}>, you tried to upload a \`.${invalidFileExtension}\` file, which is not allowed. Please use codeblocks over attachments when sending code.`);
+				embed.setDescription(`${message.author}, you tried to upload a \`.${invalidFileExtension}\` file, which is not allowed. Please use codeblocks over attachments when sending code.`);
 				embed.setFooter("Type ?codeblock for more information.");
 				embed.setColor(EMBED_COLOURS.DEFAULT);
 
