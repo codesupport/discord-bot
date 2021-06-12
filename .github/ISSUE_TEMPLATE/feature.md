@@ -3,7 +3,7 @@
 name: Bug
 about: Suggest new functionality for the bot
 title: ''
-labels: 'bug'
+labels: 'enhancement'
 assignees: ''
 ---
 
