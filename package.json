@@ -31,8 +31,7 @@
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
     "discord.js": "^12.5.0",
-    "dotenv": "^8.2.0",
-    "twitter": "^1.7.1"
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -42,7 +41,6 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.32",
     "@types/sinon": "^9.0.8",
-    "@types/twitter": "^1.7.0",
     "@types/ws": "^7.4.0",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
