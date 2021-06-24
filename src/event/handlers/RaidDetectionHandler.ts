@@ -24,9 +24,11 @@ class RaidDetectionHandler extends EventHandler {
 		}
 
 		try {
+			await modChannel.send(`@<${MOD_ROLE}> **RAID DETECTION**`);
+
 			for (const member of this.joinQueue) {
 				await member.kick("Detected as part of a raid.");
-				await modChannel.send(`@<${MOD_ROLE}> **RAID DETECTION** Kicked user ${member.displayName} (${member.id}).`);
+				await modChannel.send(`Kicked user ${member.displayName} (${member.id}).`);
 			}
 
 			this.joinQueue = [];
