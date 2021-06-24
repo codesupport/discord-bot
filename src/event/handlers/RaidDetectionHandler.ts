@@ -5,7 +5,7 @@ import getConfigValue from "../../utils/getConfigValue";
 
 class RaidDetectionHandler extends EventHandler {
 	private joinQueue: GuildMember[] = [];
-	private cycleCount = 0;
+	private cycleCount = getConfigValue<number>("RAID_SETTINGS.WARN_CYCLE_COUNT") || 0;
 
 	constructor() {
 		super(Constants.Events.GUILD_MEMBER_ADD);
