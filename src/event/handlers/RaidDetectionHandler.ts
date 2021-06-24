@@ -5,7 +5,7 @@ import getConfigValue from "../../utils/getConfigValue";
 
 class RaidDetectionHandler extends EventHandler {
 	private joinQueue: GuildMember[] = [];
-	private cycleCount = getConfigValue<number>("RAID_SETTINGS.WARN_CYCLE_COUNT") || 0;
+	private isActive = false;
 
 	constructor() {
 		super(Constants.Events.GUILD_MEMBER_ADD);
@@ -23,28 +23,27 @@ class RaidDetectionHandler extends EventHandler {
 			return;
 		}
 
-		try {
-			await modChannel.send(`@<${MOD_ROLE}> **RAID DETECTION**`);
+		if (this.isActive) return;
+		this.isActive = true;
 
-			for (const member of this.joinQueue) {
+		try {
+			await generalChannel.send(this.buildRaidEmbed());
+			await modChannel.send(`@<${MOD_ROLE}> **RAID DETECTION**`);
+			const zeroIndexQueueSize = RAID_SETTINGS.MAX_QUEUE_SIZE - 1;
+
+			// If 14 join, only 10 get kicked, others are stuck in Limbo, since timeout was ignored (que is bigger then max size)
+			// And the below statement only kicks 10 members
+			for (const member of this.joinQueue.splice(0, zeroIndexQueueSize)) {
 				await member.kick("Detected as part of a raid.");
 				await modChannel.send(`Kicked user ${member.displayName} (${member.id}).`);
 			}
-
-			this.joinQueue = [];
-
-			if (this.cycleCount < RAID_SETTINGS.WARN_CYCLE_COUNT) {
-				this.cycleCount++;
-				return;
-			}
-
-			await generalChannel.send(this.buildRaidEmbed());
-			this.cycleCount = 0;
 		} catch (error) {
 			console.error(error);
 
 			await modChannel.send(`Failed to kick users or empty queue: \n\`${error.message}\``);
 		}
+
+		this.isActive = false;
 	}
 
 	private buildRaidEmbed(): MessageEmbed {

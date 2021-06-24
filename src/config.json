@@ -27,7 +27,6 @@
     "RAID_SETTINGS": {
         "TIME_TILL_REMOVAL": 60,
         "MAX_QUEUE_SIZE": 10,
-        "WARN_CYCLE_COUNT": 3
     },
     "EMBED_COLOURS": {
         "SUCCESS": "#35BC31",
