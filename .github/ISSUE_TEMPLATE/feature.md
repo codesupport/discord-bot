@@ -1,6 +1,6 @@
 ---
 
-name: Bug
+name: Feature
 about: Suggest new functionality for the bot
 title: ''
 labels: 'enhancement'
