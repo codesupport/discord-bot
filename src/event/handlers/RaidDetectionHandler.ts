@@ -5,7 +5,7 @@ import getConfigValue from "../../utils/getConfigValue";
 
 class RaidDetectionHandler extends EventHandler {
 	private joinQueue: GuildMember[] = [];
-	private isActive = false;
+	private isAlreadyBeingExecuted = false;
 
 	constructor() {
 		super(Constants.Events.GUILD_MEMBER_ADD);
@@ -18,24 +18,34 @@ class RaidDetectionHandler extends EventHandler {
 
 		this.joinQueue.push(member);
 
+		// This will only shift() the array if there are less members than a raid would require.
+		// This also stops the code from continuing since the joinQueue is to small.
 		if (this.joinQueue.length < RAID_SETTINGS.MAX_QUEUE_SIZE) {
 			setTimeout(() => this.joinQueue.shift(), timeToWait);
 			return;
 		}
 
-		if (this.isActive) return;
-		this.isActive = true;
+		// Will stop any new joined member from re executing the try/catch again, if its already being ran.
+		if (this.isAlreadyBeingExecuted) return;
+		this.isAlreadyBeingExecuted = true;
 
 		try {
 			await generalChannel.send(this.buildRaidEmbed());
 			await modChannel.send(`@<${MOD_ROLE}> **RAID DETECTION**`);
-			const zeroIndexQueueSize = RAID_SETTINGS.MAX_QUEUE_SIZE - 1;
+			let kickCounter = 0;
 
-			// If 14 join, only 10 get kicked, others are stuck in Limbo, since timeout was ignored (que is bigger then max size)
-			// And the below statement only kicks 10 members
-			for (const member of this.joinQueue.splice(0, zeroIndexQueueSize)) {
+			for (const member of this.joinQueue) {
 				await member.kick("Detected as part of a raid.");
 				await modChannel.send(`Kicked user ${member.displayName} (${member.id}).`);
+
+				// This will send a warning message for every group in the joinQueue
+				// For example, with a queue size of 30 and a raid being every 10 members, this will send 3 messages and kick all 30
+				if (kickCounter >= RAID_SETTINGS.MAX_QUEUE_SIZE) {
+					await generalChannel.send(this.buildRaidEmbed());
+					kickCounter = 0;
+				}
+
+				kickCounter++;
 			}
 		} catch (error) {
 			console.error(error);
@@ -43,7 +53,7 @@ class RaidDetectionHandler extends EventHandler {
 			await modChannel.send(`Failed to kick users or empty queue: \n\`${error.message}\``);
 		}
 
-		this.isActive = false;
+		this.isAlreadyBeingExecuted = false;
 	}
 
 	private buildRaidEmbed(): MessageEmbed {
