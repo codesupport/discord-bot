@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, MessageAttachment } from "discord.js";
+import {Message, MessageEmbed, MessageAttachment, ColorResolvable} from "discord.js";
 import Command from "../abstracts/Command";
 import { EMBED_COLOURS } from "../config.json";
 
@@ -22,7 +22,7 @@ class CodeblockCommand extends Command {
 		embed.setDescription("Please use codeblocks when sending code.");
 		embed.addField("Sending lots of code?", "Consider using a [GitHub Gist](http://gist.github.com).");
 		embed.setImage("attachment://codeblock-tutorial.png");
-		embed.setColor(EMBED_COLOURS.DEFAULT);
+		embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
 
 		await message.channel.send({ embeds: [embed], files: [image] });
 	}

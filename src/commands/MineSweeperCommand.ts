@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../abstracts/Command";
 import { EMBED_COLOURS } from "../config.json";
 import MineSweeperService from "../services/MineSweeperService";
@@ -30,12 +30,12 @@ class MineSweeperCommand extends Command {
 
 			embed.setTitle(`MineSweeper (${StringUtils.capitalise(givenDifficulty)})`);
 			embed.setDescription(mineSweeperService.generateGame(difficulty));
-			embed.setColor(EMBED_COLOURS.DEFAULT);
+			embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 		} else {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide an existing difficulty.");
 			embed.addField("Correct Usage", "?minesweeper [easy|medium|hard]");
-			embed.setColor(EMBED_COLOURS.ERROR);
+			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 		}
 
 		await message.channel.send({ embeds: [embed] });

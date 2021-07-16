@@ -1,5 +1,5 @@
 import Command from "../abstracts/Command";
-import { Message, MessageEmbed } from "discord.js";
+import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import { EMBED_COLOURS } from "../config.json";
 import Project from "../interfaces/Project";
 import projects from "../src-assets/projects.json";
@@ -29,7 +29,7 @@ export default class ProjectCommand extends Command {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a search query/tag.");
 			embed.addField("Correct Usage", "?projects <query>");
-			embed.setColor(EMBED_COLOURS.ERROR);
+			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 		} else {
 			const displayProject = this.provideProjects()
 				.filter(this.removeTooLongDescriptions)
@@ -43,10 +43,10 @@ export default class ProjectCommand extends Command {
 				embed.setDescription(displayProject.description);
 				if (difficulty) embed.addField("Difficulty", StringUtils.capitalise(difficulty), true);
 				embed.addField("Tags", displayProject.tags.map(tag => `#${tag}`).join(", "), true);
-				embed.setColor(EMBED_COLOURS.DEFAULT);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 			} else {
 				embed.setTitle("Error");
-				embed.setColor(EMBED_COLOURS.ERROR);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 				embed.setDescription("Could not find a project result for the given query.");
 			}
 		}

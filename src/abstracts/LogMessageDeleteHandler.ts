@@ -1,4 +1,4 @@
-import { MessageEmbed, Message, TextChannel } from "discord.js";
+import {MessageEmbed, Message, TextChannel, ColorResolvable} from "discord.js";
 import { LOG_CHANNEL_ID, EMBED_COLOURS } from "../config.json";
 import EventHandler from "./EventHandler";
 
@@ -10,7 +10,7 @@ abstract class LogMessageDeleteHandler extends EventHandler {
 			embed.setTitle("Message Deleted");
 			embed.setDescription(`Author: ${message.author}\nChannel: ${message.channel}`);
 			embed.addField("Message", message.content);
-			embed.setColor(EMBED_COLOURS.DEFAULT);
+			embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 
 			const logsChannel = message.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
 

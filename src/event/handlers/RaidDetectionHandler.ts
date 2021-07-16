@@ -1,4 +1,4 @@
-import {Constants, GuildMember, MessageEmbed, TextChannel} from "discord.js";
+import {ColorResolvable, Constants, GuildMember, MessageEmbed, TextChannel} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import { RAID_SETTINGS, LOG_CHANNEL_ID, GENERAL_CHANNEL_ID, MOD_ROLE, EMBED_COLOURS } from "../../config.json";
 import getConfigValue from "../../utils/getConfigValue";
@@ -32,7 +32,7 @@ class RaidDetectionHandler extends EventHandler {
 				embed.setDescription(`**We have detected a raid is currently going on and are solving the issue.**
 					Please refrain from notifying the moderators or spamming this channel.
 					Thank you for your cooperation and we apologise for any inconvenience.`);
-				embed.setColor(EMBED_COLOURS.WARNING);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.WARNING);
 				embed.setTimestamp();
 
 				await generalChannel.send({embeds: [embed]});

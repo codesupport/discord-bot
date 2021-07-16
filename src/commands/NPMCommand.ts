@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Message, MessageEmbed } from "discord.js";
+import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../abstracts/Command";
 import { EMBED_COLOURS } from "../config.json";
 
@@ -19,7 +19,7 @@ class NPMCommand extends Command {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a NPM package.");
 			embed.addField("Correct Usage", "?npm <package>");
-			embed.setColor(EMBED_COLOURS.ERROR);
+			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 
 			await message.channel.send({ embeds: [embed] });
 		} else {
@@ -33,7 +33,7 @@ class NPMCommand extends Command {
 			} catch (error) {
 				embed.setTitle("Error");
 				embed.setDescription("That is not a valid NPM package.");
-				embed.setColor(EMBED_COLOURS.ERROR);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 
 				await message.channel.send({ embeds: [embed] });
 			}

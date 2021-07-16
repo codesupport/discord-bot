@@ -1,4 +1,4 @@
-import { Constants, MessageEmbed, Message, User, TextChannel } from "discord.js";
+import {Constants, MessageEmbed, Message, User, TextChannel, ColorResolvable} from "discord.js";
 import { EMBED_COLOURS } from "../../config.json";
 import DateUtils from "../../utils/DateUtils";
 import EventHandler from "../../abstracts/EventHandler";
@@ -45,7 +45,7 @@ class GhostPingHandler extends EventHandler {
 				}
 
 				embed.setFooter(`Message sent at ${DateUtils.formatAsText(message.createdAt)}`);
-				embed.setColor(EMBED_COLOURS.DEFAULT);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 
 				await message.channel.send({embeds: [embed]});
 			}

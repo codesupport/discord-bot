@@ -1,4 +1,4 @@
-import { Constants, GuildMember, MessageEmbed, TextChannel } from "discord.js";
+import {ColorResolvable, Constants, GuildMember, MessageEmbed, TextChannel} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import { EMBED_COLOURS, MEMBER_ROLE, LOG_CHANNEL_ID } from "../../config.json";
 import DateUtils from "../../utils/DateUtils";
@@ -13,7 +13,7 @@ class LogMemberLeaveHandler extends EventHandler {
 
 		embed.setTitle("Member Left");
 		embed.setDescription(`User: ${guildMember.user}`);
-		embed.setColor(EMBED_COLOURS.DEFAULT);
+		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 		embed.addField("Join Date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
 		embed.addField("Leave Date", new Date(Date.now()).toLocaleString(), true);
 		embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedAt!, new Date(Date.now()))!);
