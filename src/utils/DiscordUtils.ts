@@ -1,4 +1,4 @@
-import { Guild, GuildMember } from "discord.js";
+import { Guild, GuildMember, Snowflake } from "discord.js";
 
 class DiscordUtils {
 	static async getGuildMember(value: string, guild: Guild): Promise<GuildMember | undefined> {
@@ -7,7 +7,7 @@ class DiscordUtils {
 		// UserID
 		if ((/^[0-9]+$/g).test(value)) {
 			try {
-				return await guild.members.fetch(value);
+				return await guild.members.fetch(<Snowflake>value);
 			} catch {
 				return undefined;
 			}

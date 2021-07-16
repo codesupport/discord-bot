@@ -1,4 +1,4 @@
-import {Message, TextChannel, MessageEmbed, ColorResolvable} from "discord.js";
+import {Message, TextChannel, MessageEmbed, ColorResolvable, Snowflake} from "discord.js";
 import DateUtils from "../utils/DateUtils";
 import { MEMBER_ROLE_COLOR, FIELD_SPACER_CHAR } from "../config.json";
 
@@ -22,8 +22,8 @@ class MessagePreviewService {
 
 		if (this.verifyGuild(callingMessage, msgArray[0])) {
 			if (callingMessage.guild?.available) {
-				const channel = callingMessage.guild.channels.cache.get(msgArray[1]) as TextChannel;
-				const messageToPreview = await channel.messages.fetch(msgArray[2]);
+				const channel = callingMessage.guild.channels.cache.get(<Snowflake>msgArray[1]) as TextChannel;
+				const messageToPreview = await channel.messages.fetch(<Snowflake>msgArray[2]);
 
 				if (!messageToPreview.author?.bot) {
 					const embed = new MessageEmbed();
