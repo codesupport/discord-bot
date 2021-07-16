@@ -1,4 +1,4 @@
-import { Constants, MessageReaction, User } from "discord.js";
+import {Constants, MessageReaction, RoleResolvable, User} from "discord.js";
 import { AUTHENTICATION_MESSAGE_ID, MEMBER_ROLE } from "../../config.json";
 import EventHandler from "../../abstracts/EventHandler";
 
@@ -15,7 +15,7 @@ class NewUserAuthenticationHandler extends EventHandler {
 		if (isAuthMessage && isAuthEmoji) {
 			const guildMember = await reaction.message.guild?.members.fetch(member);
 
-			await guildMember?.roles.add(MEMBER_ROLE, "User has authenticated their account.");
+			await guildMember?.roles.add(<RoleResolvable>MEMBER_ROLE, "User has authenticated their account.");
 		}
 	}
 }

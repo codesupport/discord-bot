@@ -1,4 +1,4 @@
-import { Message, TextChannel, MessageEmbed } from "discord.js";
+import {Message, TextChannel, MessageEmbed, ColorResolvable} from "discord.js";
 import DateUtils from "../utils/DateUtils";
 import { MEMBER_ROLE_COLOR, FIELD_SPACER_CHAR } from "../config.json";
 
@@ -33,7 +33,7 @@ class MessagePreviewService {
 					embed.setDescription(`<#${channel.id}>\n\n${parsedContent}\n`);
 					embed.addField(FIELD_SPACER_CHAR, `[View Original Message](${link})`);
 					embed.setFooter(`Message sent at ${DateUtils.formatAsText(messageToPreview.createdAt)}`);
-					embed.setColor(messageToPreview.member?.displayColor || MEMBER_ROLE_COLOR);
+					embed.setColor(<ColorResolvable>(messageToPreview.member?.displayColor || MEMBER_ROLE_COLOR));
 
 					await callingMessage.channel.send({embeds: [embed]});
 				}
