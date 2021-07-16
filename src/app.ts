@@ -1,9 +1,9 @@
-import { Client, TextChannel } from "discord.js";
+import {Client, IntentsString, TextChannel} from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
 import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV, INTENDS } from "./config.json";
 
-const client = new Client({intents: [INTENDS]});
+const client = new Client({intents: INTENDS as IntentsString[]});
 
 if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 	env({
