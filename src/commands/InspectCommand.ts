@@ -21,7 +21,7 @@ class InspectCommand extends Command {
 			? this.buildNoMatchEmbed()
 			: this.buildInspectEmbed(userObj!);
 
-		await message.channel.send({embed});
+		await message.channel.send({embeds: [embed]});
 	}
 
 	private buildNoMatchEmbed(): MessageEmbed {

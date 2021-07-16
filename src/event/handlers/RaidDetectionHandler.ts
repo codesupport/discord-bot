@@ -35,7 +35,7 @@ class RaidDetectionHandler extends EventHandler {
 				embed.setColor(EMBED_COLOURS.WARNING);
 				embed.setTimestamp();
 
-				await generalChannel.send(embed);
+				await generalChannel.send({embeds: [embed]});
 			} catch (error) {
 				console.error(error);
 
