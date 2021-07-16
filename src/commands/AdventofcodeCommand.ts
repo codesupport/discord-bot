@@ -101,9 +101,9 @@ class AdventOfCodeCommand extends Command {
 			embed.setTitle("Advent Of Code");
 			embed.setDescription(description);
 			embed.addField(`Scores of ${user.name}`, "\u200B");
-			embed.addField("Position", position, true);
-			embed.addField("Stars", user.stars, true);
-			embed.addField("Points", user.local_score, true);
+			embed.addField("Position", position.toString(), true);
+			embed.addField("Stars", user.stars.toString(), true);
+			embed.addField("Points", user.local_score.toString(), true);
 			embed.setColor(EMBED_COLOURS.SUCCESS);
 
 			await message.channel.send({ embeds: [embed] });

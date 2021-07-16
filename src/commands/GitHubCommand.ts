@@ -40,11 +40,11 @@ class GitHubCommand extends Command {
 				embed.setTitle(`GitHub Repository: ${res.user}/${res.repo}`);
 				embed.setDescription(desc);
 				embed.addField("Language", res.language, true);
-				embed.addField("Open issues", res.issues_and_pullrequests_count - resPR.length, true);
-				embed.addField("Open Pull Requests", resPR.length, true);
-				embed.addField("Forks", res.forks, true);
-				embed.addField("Stars", res.stars, true);
-				embed.addField("Watchers", res.watchers, true);
+				embed.addField("Open issues", (res.issues_and_pullrequests_count - resPR.length).toString(), true);
+				embed.addField("Open Pull Requests", resPR.length.toString(), true);
+				embed.addField("Forks", res.forks.toString(), true);
+				embed.addField("Stars", res.stars.toString(), true);
+				embed.addField("Watchers", res.watchers.toString(), true);
 				embed.setColor(EMBED_COLOURS.SUCCESS);
 			} catch (error) {
 				embed.setTitle("Error");

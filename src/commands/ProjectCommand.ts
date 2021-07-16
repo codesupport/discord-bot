@@ -51,7 +51,7 @@ export default class ProjectCommand extends Command {
 			}
 		}
 
-		await message.channel.send(embed);
+		await message.channel.send({embeds: [embed]});
 	}
 
 	private readonly removeTooLongDescriptions: (project: Project) => boolean = ({description}) => description.length <= 2048;

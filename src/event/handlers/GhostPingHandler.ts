@@ -32,10 +32,10 @@ class GhostPingHandler extends EventHandler {
 				embed.setTitle("Ghost Ping Detected!");
 
 				if (repliedToUser !== null && repliedToUser !== undefined) {
-					embed.addField("Author", message.author, true);
-					embed.addField("Reply to", repliedToUser, true);
+					embed.addField("Author", message.author.toString(), true);
+					embed.addField("Reply to", repliedToUser.toString(), true);
 				} else {
-					embed.addField("Author", message.author);
+					embed.addField("Author", message.author.toString());
 				}
 
 				embed.addField("Message", message.content);
@@ -47,7 +47,7 @@ class GhostPingHandler extends EventHandler {
 				embed.setFooter(`Message sent at ${DateUtils.formatAsText(message.createdAt)}`);
 				embed.setColor(EMBED_COLOURS.DEFAULT);
 
-				await message.channel.send(embed);
+				await message.channel.send({embeds: [embed]});
 			}
 		}
 	}

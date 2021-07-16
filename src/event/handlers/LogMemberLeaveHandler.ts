@@ -16,12 +16,12 @@ class LogMemberLeaveHandler extends EventHandler {
 		embed.setColor(EMBED_COLOURS.DEFAULT);
 		embed.addField("Join Date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
 		embed.addField("Leave Date", new Date(Date.now()).toLocaleString(), true);
-		embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedAt!, new Date(Date.now())));
+		embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedAt!, new Date(Date.now()))!);
 		embed.addField("Authenticated", guildMember.roles.cache.has(MEMBER_ROLE) ? "True" : "False");
 
 		const logsChannel = guildMember.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
 
-		await logsChannel?.send({embed});
+		await logsChannel?.send({embeds: [embed]});
 	}
 }
 
