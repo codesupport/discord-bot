@@ -12,7 +12,7 @@ abstract class Command {
 		this.options = options;
 	}
 
-	abstract async run(message: Message, args?: string[]): Promise<void>;
+	abstract run(message: Message, args?: string[]): Promise<void>;
 
 	getName(): string {
 		return this.name;
