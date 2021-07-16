@@ -20,11 +20,11 @@ class GhostPingHandler extends EventHandler {
 				let repliedToMessage : Message | null | undefined = null;
 				let repliedToUser: User | null | undefined = null;
 
-				if (message.reference?.messageID && message.reference.guildID === message.guild?.id) {
-					const repliedToChannel = message.guild.channels.resolve(message.reference.channelID);
+				if (message.reference?.messageId && message.reference.guildId === message.guild?.id) {
+					const repliedToChannel = message.guild?.channels.resolve(message.reference.channelId);
 
 					if (repliedToChannel instanceof TextChannel) {
-						repliedToMessage = await repliedToChannel.messages.fetch(message.reference.messageID);
+						repliedToMessage = await repliedToChannel.messages.fetch(message.reference.messageId);
 						repliedToUser = repliedToMessage?.author;
 					}
 				}
