@@ -38,7 +38,7 @@ class MineSweeperCommand extends Command {
 			embed.setColor(EMBED_COLOURS.ERROR);
 		}
 
-		await message.channel.send({ embed });
+		await message.channel.send({ embeds: [embed] });
 	}
 }
 

@@ -77,7 +77,7 @@ class AdventOfCodeCommand extends Command {
 			embed.setTitle("Error");
 			embed.setDescription(`Year requested not available.\nPlease query a year between 2015 and ${year}`);
 			embed.setColor(EMBED_COLOURS.ERROR);
-			await message.channel.send({ embed });
+			await message.channel.send({ embeds: [embed] });
 
 			return;
 		}
@@ -94,7 +94,7 @@ class AdventOfCodeCommand extends Command {
 				embed.setDescription("Could not get the user requested\nPlease make sure you typed the name correctly");
 				embed.setColor(EMBED_COLOURS.ERROR);
 
-				await message.channel.send({ embed });
+				await message.channel.send({ embeds: [embed] });
 				return;
 			}
 
@@ -106,7 +106,7 @@ class AdventOfCodeCommand extends Command {
 			embed.addField("Points", user.local_score, true);
 			embed.setColor(EMBED_COLOURS.SUCCESS);
 
-			await message.channel.send({ embed });
+			await message.channel.send({ embeds: [embed] });
 			return;
 		}
 
@@ -125,7 +125,7 @@ class AdventOfCodeCommand extends Command {
 			embed.setColor(EMBED_COLOURS.ERROR);
 		}
 
-		await message.channel.send({ embed });
+		await message.channel.send({ embeds: [embed] });
 	}
 }
 

@@ -21,7 +21,7 @@ class NPMCommand extends Command {
 			embed.addField("Correct Usage", "?npm <package>");
 			embed.setColor(EMBED_COLOURS.ERROR);
 
-			await message.channel.send({ embed });
+			await message.channel.send({ embeds: [embed] });
 		} else {
 			try {
 				const url = `https://www.npmjs.com/package/${packageName}`;
@@ -35,7 +35,7 @@ class NPMCommand extends Command {
 				embed.setDescription("That is not a valid NPM package.");
 				embed.setColor(EMBED_COLOURS.ERROR);
 
-				await message.channel.send({ embed });
+				await message.channel.send({ embeds: [embed] });
 			}
 		}
 	}

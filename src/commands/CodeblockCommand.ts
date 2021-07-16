@@ -25,7 +25,7 @@ class CodeblockCommand extends Command {
 		embed.setImage("attachment://codeblock-tutorial.png");
 		embed.setColor(EMBED_COLOURS.DEFAULT);
 
-		await message.channel.send({ embed });
+		await message.channel.send({ embeds: [embed] });
 	}
 }
 

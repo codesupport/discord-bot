@@ -14,7 +14,7 @@ abstract class LogMessageDeleteHandler extends EventHandler {
 
 			const logsChannel = message.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
 
-			await logsChannel?.send({ embed });
+			await logsChannel?.send({ embeds: [embed] });
 		}
 	}
 }

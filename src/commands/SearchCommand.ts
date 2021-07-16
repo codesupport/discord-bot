@@ -44,7 +44,7 @@ class SearchCommand extends Command {
 			}
 		}
 
-		await message.channel.send({ embed });
+		await message.channel.send({ embeds: [embed] });
 	}
 }
 

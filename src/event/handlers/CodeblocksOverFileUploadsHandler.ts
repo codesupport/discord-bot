@@ -29,7 +29,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				embed.setFooter("Type ?codeblock for more information.");
 				embed.setColor(EMBED_COLOURS.DEFAULT);
 
-				await message.channel.send({ embed });
+				await message.channel.send({ embeds: [embed] });
 				if (message.deletable) {
 					await message.delete();
 				}

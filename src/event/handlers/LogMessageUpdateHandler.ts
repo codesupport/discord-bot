@@ -26,7 +26,7 @@ class LogMessageUpdateHandler extends EventHandler {
 
 		const logsChannel = oldMessage.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
 
-		await logsChannel?.send({ embed });
+		await logsChannel?.send({ embeds: [embed] });
 	}
 }
 

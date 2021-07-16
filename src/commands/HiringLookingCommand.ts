@@ -38,7 +38,7 @@ Requirements:
 		`);
 		embed.setColor(EMBED_COLOURS.DEFAULT);
 
-		await message.channel.send({ embed });
+		await message.channel.send({ embeds: [embed] });
 	}
 }
 
