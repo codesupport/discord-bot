@@ -30,6 +30,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
+    "discord-api-types": "^0.18.1",
     "discord.js": "^13.0.0-dev.f200f14.1626436969",
     "dotenv": "^8.2.0"
   },
