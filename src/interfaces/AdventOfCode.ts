@@ -1,7 +1,5 @@
-export interface AOCLeaderBoard {
-	event: string;
-	owner_id: string;
-	members: { [key: string]: AOCMember };
+export interface AOCCompletionDayLevel {
+	get_star_ts: string;
 }
 
 export interface AOCMember {
@@ -14,6 +12,9 @@ export interface AOCMember {
 	name: null | string;
 }
 
-export interface AOCCompletionDayLevel {
-	get_star_ts: string;
+export interface AOCLeaderBoard {
+	event: string;
+	owner_id: string;
+	members: { [key: string]: AOCMember };
 }
+
