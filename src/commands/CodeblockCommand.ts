@@ -22,7 +22,7 @@ class CodeblockCommand extends Command {
 		embed.setDescription("Please use codeblocks when sending code.");
 		embed.addField("Sending lots of code?", "Consider using a [GitHub Gist](http://gist.github.com).");
 		embed.setImage("attachment://codeblock-tutorial.png");
-		embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
+		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 
 		await message.channel.send({ embeds: [embed], files: [image] });
 	}
