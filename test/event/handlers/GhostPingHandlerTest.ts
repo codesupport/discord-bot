@@ -132,6 +132,72 @@ describe("GhostPingHandler", () => {
 			}
 		});
 
+		it("does not send a message when author only mentions himself and bots", async () => {
+			const message = CustomMocks.getMessage();
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			const botUser = CustomMocks.getUser({id: "328194044587147278"});
+
+			botUser.bot = true;
+
+			message.author = BaseMocks.getUser();
+			message.mentions = new MessageMentions(message, [message.author, botUser], [], false);
+			message.content = `<@${message.author.id}> <@${botUser.id}>`;
+
+			await handler.handle(message);
+
+			expect(messageMock.called).to.be.false;
+		});
+
+		it("does not send a message when author only mentions bots", async () => {
+			const message = CustomMocks.getMessage();
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			const botUser = CustomMocks.getUser({id: "328194044587147278"});
+			const botUser2 = CustomMocks.getUser({id: "328194044587147279"});
+
+			botUser.bot = true;
+			botUser2.bot = true;
+
+			message.author = BaseMocks.getUser();
+			message.mentions = new MessageMentions(message, [botUser, botUser2], [], false);
+			message.content = `<@${botUser.id}> <@${botUser2.id}>`;
+
+			await handler.handle(message);
+
+			expect(messageMock.called).to.be.false;
+		});
+
+		it("does not send a message when author replies to a bot", async () => {
+			const message = CustomMocks.getMessage({guild: CustomMocks.getGuild()});
+			const messageMock = sandbox.stub(message.channel, "send");
+			const channelMock = CustomMocks.getTextChannel();
+			const repliedToMessage = CustomMocks.getMessage({	id: "328194044587147280", guild: CustomMocks.getGuild()});
+			const resolveChannelStub = sandbox.stub(message.guild.channels, "resolve").returns(channelMock);
+			const fetchMessageStub = sandbox.stub(channelMock.messages, "fetch").returns(Promise.resolve(repliedToMessage));
+			const author = BaseMocks.getUser();
+			const botUser = CustomMocks.getUser({id: "328194044587147276"});
+
+			botUser.bot = true;
+
+			message.author = author;
+			message.mentions = new MessageMentions(message, [botUser], [], false);
+			message.guild.id = "328194044587147279";
+			message.content = "this is a reply";
+			message.reference = {
+				channelID: "328194044587147278",
+				guildID: "328194044587147279",
+				messageID: "328194044587147280"
+			};
+
+			repliedToMessage.channel = CustomMocks.getTextChannel({ id: "328194044587147278"});
+
+			await handler.handle(message);
+			expect(messageMock.called).to.be.false;
+			expect(resolveChannelStub.called).to.be.false;
+			expect(fetchMessageStub.called).to.be.false;
+		});
+
 		afterEach(() => {
 			sandbox.restore();
 		});
