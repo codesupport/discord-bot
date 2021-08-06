@@ -11,9 +11,9 @@ class NewUserAuthenticationHandler extends EventHandler {
 		if (oldMember.roles.cache.get(MOD_ROLE)) return;
 
 		const mods = oldMember.guild.roles.cache.get(MOD_ROLE)?.members
-			.map(member => member.user.username);
+			.map(member => member.user.username.toLowerCase());
 
-		if (mods?.includes(newMember.user.username)) {
+		if (mods?.includes(newMember.user.username.toLowerCase())) {
 			await newMember.ban({
 				reason: "Impersonation"
 			});
