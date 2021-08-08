@@ -76,7 +76,7 @@ describe("Adventofcode Command", () => {
 			sandbox.stub(command, "getYear").returns(2019);
 
 			await command.run(message, ["2021"]);
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -91,7 +91,7 @@ describe("Adventofcode Command", () => {
 			sandbox.stub(command, "getYear").returns(2018);
 
 			await command.run(message, ["2000"]);
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -120,7 +120,7 @@ describe("Adventofcode Command", () => {
 
 			await command.run(message, []);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Advent Of Code");
@@ -137,7 +137,7 @@ describe("Adventofcode Command", () => {
 
 			await command.run(message, []);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -153,7 +153,7 @@ describe("Adventofcode Command", () => {
 
 			await command.run(message, ["Lambo"]);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Advent Of Code");
@@ -176,7 +176,7 @@ describe("Adventofcode Command", () => {
 
 			await command.run(message, ["Bob"]);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -192,7 +192,7 @@ describe("Adventofcode Command", () => {
 
 			await command.run(message, ["2019"]);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(APIMock.getCall(0).args[1]).to.equal(2019);

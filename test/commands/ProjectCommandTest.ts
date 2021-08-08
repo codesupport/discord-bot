@@ -67,7 +67,7 @@ describe("ProjectCommand", () => {
 			await command.run(message, [Math.random().toString(36)]);
 
 			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -83,14 +83,10 @@ describe("ProjectCommand", () => {
 			await command.run(message, ["medium"]);
 			await command.run(message, ["hard"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const firstCall = messageMock.getCall(0).firstArg;
-			// @ts-ignore - firstArg does not live on getCall()
-			const secondCall = messageMock.getCall(1).firstArg;
-			// @ts-ignore - firstArg does not live on getCall()
-			const thirdCall = messageMock.getCall(2).firstArg;
-			// @ts-ignore - firstArg does not live on getCall()
-			const lastCall = messageMock.getCall(3).firstArg;
+			const firstCall = messageMock.getCall(0).firstArg.embeds[0];
+			const secondCall = messageMock.getCall(1).firstArg.embeds[0];
+			const thirdCall = messageMock.getCall(2).firstArg.embeds[0];
+			const lastCall = messageMock.getCall(3).firstArg.embeds[0];
 
 			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 			expect(secondCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
@@ -103,8 +99,7 @@ describe("ProjectCommand", () => {
 
 			await command.run(message, ["6"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const firstCall = messageMock.getCall(0).firstArg;
+			const firstCall = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(firstCall.title).to.equal("Error");
@@ -117,8 +112,7 @@ describe("ProjectCommand", () => {
 
 			await command.run(message, []);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const firstCall = messageMock.getCall(0).firstArg;
+			const firstCall = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(firstCall.title).to.equal("Error");

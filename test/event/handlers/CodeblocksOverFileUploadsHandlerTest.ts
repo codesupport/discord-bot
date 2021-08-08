@@ -62,8 +62,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 			const addMockDelete = sandbox.stub(message, "delete");
 
 			await handler.handle(message);
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = addMockSend.getCall(0).firstArg.embed;
+			const embed = addMockSend.getCall(0).firstArg.embeds[0];
 
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
@@ -80,8 +79,7 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 
 			await handler.handle(message);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = addMockSend.getCall(0).firstArg.embed;
+			const embed = addMockSend.getCall(0).firstArg.embeds[0];
 
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;

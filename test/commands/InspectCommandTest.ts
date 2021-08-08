@@ -11,10 +11,12 @@ import DiscordUtils from "../../src/utils/DiscordUtils";
 
 const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
 	"id": "12345",
-	"name": "TestRole"
+	"name": "TestRole",
+	"permissions": 1
 }, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
 	"id": BaseMocks.getGuild().id,
-	"name": "@everyone"
+	"name": "@everyone",
+	"permissions": 1
 }, BaseMocks.getGuild())]]);
 
 describe("InspectCommand", () => {
@@ -60,7 +62,7 @@ describe("InspectCommand", () => {
 
 			await command.run(message, ["FakeUser#1234"]);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -81,7 +83,7 @@ describe("InspectCommand", () => {
 
 			await command.run(message, [member.user.username]);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
@@ -107,7 +109,7 @@ describe("InspectCommand", () => {
 
 			await command.run(message, []);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 
@@ -131,7 +133,7 @@ describe("InspectCommand", () => {
 
 			await command.run(message, [member.user.username]);
 
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);

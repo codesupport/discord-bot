@@ -52,8 +52,7 @@ describe("IssuesCommand", () => {
 
 			await command.run(message, []);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -66,8 +65,7 @@ describe("IssuesCommand", () => {
 
 			await command.run(message, ["wrongformat"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -83,8 +81,7 @@ describe("IssuesCommand", () => {
 
 			await command.run(message, ["thisuserdoesnotexist/thisrepodoesnotexist"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -115,8 +112,7 @@ describe("IssuesCommand", () => {
 
 			await command.run(message, ["user/repo"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("No Issues found");
@@ -152,8 +148,7 @@ describe("IssuesCommand", () => {
 
 			await command.run(message, ["user/repo"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("GitHub Issues: user/repo");
