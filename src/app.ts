@@ -1,9 +1,10 @@
-import {Client, IntentsString, TextChannel, Snowflake} from "discord.js";
+import { Client, TextChannel, Snowflake } from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
-import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV, INTENDS } from "./config.json";
+import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
+import DiscordUtils from "./utils/DiscordUtils";
 
-const client = new Client({intents: INTENDS as IntentsString[]});
+const client = new Client({intents: DiscordUtils.getAllIntents()});
 
 if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 	env({
