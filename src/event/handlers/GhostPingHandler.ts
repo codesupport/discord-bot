@@ -13,7 +13,7 @@ class GhostPingHandler extends EventHandler {
 			if (!message.author?.bot) {
 				const usersMentioned = message.mentions.users;
 
-				if (usersMentioned.first()?.id === message.author.id && usersMentioned.size === 1) return;
+				if (usersMentioned.every(user => user.id === message.author.id || user.bot)) return;
 
 				const embed = new MessageEmbed();
 
