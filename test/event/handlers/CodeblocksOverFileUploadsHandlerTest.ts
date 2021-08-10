@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Collection, Constants, Message, MessageAttachment } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { BaseMocks, CustomMocks } from "updated-mock-discord.js";
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";;
 
 import { EMBED_COLOURS } from "../../../src/config.json";
 import EventHandler from "../../../src/abstracts/EventHandler";

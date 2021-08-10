@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@lambocreeper/mock-discord.js": "^1.0.9",
+    "@lambocreeper/mock-discord.js": "^2.0.0",
     "@types/assert": "^1.5.2",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^7.0.2",
@@ -54,7 +54,6 @@
     "sinon": "^9.2.1",
     "ts-mocha": "^7.0.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.3.5",
-    "updated-mock-discord.js": "github:jason2605/mock-discord.js"
+    "typescript": "^4.3.5"
   }
 }

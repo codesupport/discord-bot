@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { SinonSandbox, createSandbox } from "sinon";
 import { Message } from "discord.js";
 import axios from "axios";
-import { BaseMocks } from "updated-mock-discord.js";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";;
 
 import NPMCommand from "../../src/commands/NPMCommand";
 import Command from "../../src/abstracts/Command";
