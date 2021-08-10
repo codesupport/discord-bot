@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
 import { Constants, User } from "discord.js";
-import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
+import { BaseMocks, CustomMocks } from "updated-mock-discord.js";
 
 import NewUserAuthenticationHandler from "../../../src/event/handlers/NewUserAuthenticationHandler";
 import EventHandler from "../../../src/abstracts/EventHandler";

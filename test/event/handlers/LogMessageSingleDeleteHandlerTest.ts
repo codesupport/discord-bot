@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Constants } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { CustomMocks } from "@lambocreeper/mock-discord.js";
+import { CustomMocks } from "updated-mock-discord.js";
 
 import EventHandler from "../../../src/abstracts/EventHandler";
 import LogMessageSingleDeleteHandler from "../../../src/event/handlers/LogMessageSingleDeleteHandler";
