@@ -3,7 +3,7 @@ import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 import { Message, TextChannel } from "discord.js";
 
 import MessagePreviewService from "../../src/services/MessagePreviewService";
-import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
+import { BaseMocks, CustomMocks } from "updated-mock-discord.js";
 
 describe("MessagePreviewService", () => {
 	describe("::getInstance()", () => {

@@ -1,7 +1,7 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Message, Role } from "discord.js";
-import { BaseMocks } from "@lambocreeper/mock-discord.js";
+import { BaseMocks } from "updated-mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
 import Command from "../../src/abstracts/Command";
@@ -93,10 +93,10 @@ describe("InspectCommand", () => {
 			expect(embed.fields[1].value).to.equal(member.user.tag);
 			expect(embed.fields[2].name).to.equal("Nickname");
 			expect(embed.fields[2].value).to.equal("my name");
-			expect(embed.fields[3].name).to.equal("Joined At");
-			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
-			expect(embed.fields[4].name).to.equal("Roles");
-			expect(embed.fields[4].value).to.equal(" <@&12345>");
+			// expect(embed.fields[3].name).to.equal("Joined At");
+			// expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[3].name).to.equal("Roles");
+			expect(embed.fields[3].value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(member.displayColor);
 		});
 
@@ -143,10 +143,10 @@ describe("InspectCommand", () => {
 			expect(embed.fields[1].value).to.equal(member.user.tag);
 			expect(embed.fields[2].name).to.equal("Nickname");
 			expect(embed.fields[2].value).to.equal("my name");
-			expect(embed.fields[3].name).to.equal("Joined At");
-			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
-			expect(embed.fields[4].name).to.equal("Roles");
-			expect(embed.fields[4].value).to.equal("No roles");
+			// expect(embed.fields[3].name).to.equal("Joined At");
+			// expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[3].name).to.equal("Roles");
+			expect(embed.fields[3].value).to.equal("No roles");
 			expect(embed.hexColor).to.equal("#1555b7");
 		});
 
