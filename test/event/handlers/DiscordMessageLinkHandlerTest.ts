@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Constants, Message, TextChannel } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { CustomMocks } from "@lambocreeper/mock-discord.js";;
+import { CustomMocks } from "@lambocreeper/mock-discord.js";
 
 import EventHandler from "../../../src/abstracts/EventHandler";
 import MessagePreviewService from "../../../src/services/MessagePreviewService";

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Collection, Constants, GuildMemberRoleManager, Role } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";;
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 import { MEMBER_ROLE } from "../../../src/config.json";
 
 import EventHandler from "../../../src/abstracts/EventHandler";
@@ -30,16 +30,16 @@ describe("LogMemberLeaveHandler", () => {
 			const message = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(message.guild!.channels.cache, "find");
 
-			const guildMember = CustomMocks.getGuildMember({joined_at: '1610478967732'});
+			const guildMember = CustomMocks.getGuildMember({joined_at: "1610478967732"});
 
 			const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
 				id: MEMBER_ROLE.toString(),
 				name: "member",
-				permissions: '1'
+				permissions: "1"
 			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
 				id: BaseMocks.getGuild().id,
 				name: "@everyone",
-				permissions: '1'
+				permissions: "1"
 			}, BaseMocks.getGuild())]]);
 
 			sandbox.stub(DateUtils, "getFormattedTimeSinceDate").resolves("10 seconds");

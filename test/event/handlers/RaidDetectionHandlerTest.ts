@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Constants } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";;
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
 import { RAID_SETTINGS, MOD_CHANNEL_ID } from "../../../src/config.json";
 import * as getConfigValue from "../../../src/utils/getConfigValue";

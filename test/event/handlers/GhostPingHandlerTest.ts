@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Collection, Constants, Guild, Message, MessageEmbed, MessageMentions, MessageReference } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";;
+import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
 import EventHandler from "../../../src/abstracts/EventHandler";
 import GhostPingHandler from "../../../src/event/handlers/GhostPingHandler";
@@ -119,15 +119,15 @@ describe("GhostPingHandler", () => {
 			expect(fetchMessageStub.called).to.be.true;
 			const sentEmbed = messageMock.getCall(0).args[0];
 
-			// expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
-			// if (sentEmbed instanceof MessageEmbed) {
-			// 	const replyToField = sentEmbed.fields.find(field => field.name === "Reply to");
+			// Expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
+			// If (sentEmbed instanceof MessageEmbed) {
+			// 	Const replyToField = sentEmbed.fields.find(field => field.name === "Reply to");
 			//
-			// 	expect(replyToField).to.not.be.null;
+			// 	Expect(replyToField).to.not.be.null;
 			//
-			// 	const messageLinkField = sentEmbed.fields.find(field => field.name === "Message replied to");
+			// 	Const messageLinkField = sentEmbed.fields.find(field => field.name === "Message replied to");
 			//
-			// 	expect(messageLinkField).to.not.be.null;
+			// 	Expect(messageLinkField).to.not.be.null;
 			// 	expect(messageLinkField.value).to.equal("https://discord.com/channels/328194044587147279/328194044587147278/328194044587147280");
 			// }
 		});

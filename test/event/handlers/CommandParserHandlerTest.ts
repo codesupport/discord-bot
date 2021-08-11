@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { Constants } from "discord.js";
 import { Message } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
-import { BaseMocks } from "@lambocreeper/mock-discord.js";;
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import MockCommand from "../../MockCommand";
 import CommandFactory from "../../../src/factories/CommandFactory";
