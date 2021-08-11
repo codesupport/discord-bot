@@ -1,4 +1,4 @@
-import {ColorResolvable, Constants, GuildMember, MessageEmbed, TextChannel, Snowflake} from "discord.js";
+import { ColorResolvable, Constants, GuildMember, MessageEmbed, TextChannel, Snowflake } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import { EMBED_COLOURS, MEMBER_ROLE, LOG_CHANNEL_ID } from "../../config.json";
 import DateUtils from "../../utils/DateUtils";
@@ -16,7 +16,7 @@ class LogMemberLeaveHandler extends EventHandler {
 		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 		embed.addField("Join Date", new Date(guildMember.joinedTimestamp!).toLocaleString(), true);
 		embed.addField("Leave Date", new Date(Date.now()).toLocaleString(), true);
-		// Embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedAt!, new Date(Date.now()))!);
+		embed.addField("Time In Server", DateUtils.getFormattedTimeSinceDate(guildMember.joinedAt!, new Date(Date.now()))!);
 		embed.addField("Authenticated", guildMember.roles.cache.has(<Snowflake>MEMBER_ROLE) ? "True" : "False");
 
 		const logsChannel = guildMember.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;

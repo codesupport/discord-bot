@@ -42,7 +42,7 @@ describe("LogMemberLeaveHandler", () => {
 				permissions: "1"
 			}, BaseMocks.getGuild())]]);
 
-			sandbox.stub(DateUtils, "getFormattedTimeSinceDate").resolves("10 seconds");
+			sandbox.stub(DateUtils, "getFormattedTimeSinceDate").returns("10 seconds");
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			await handler.handle(guildMember);
