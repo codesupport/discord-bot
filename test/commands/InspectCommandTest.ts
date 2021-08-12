@@ -93,10 +93,10 @@ describe("InspectCommand", () => {
 			expect(embed.fields[1].value).to.equal(member.user.tag);
 			expect(embed.fields[2].name).to.equal("Nickname");
 			expect(embed.fields[2].value).to.equal("my name");
-			// Expect(embed.fields[3].name).to.equal("Joined At");
-			// Expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
-			expect(embed.fields[3].name).to.equal("Roles");
-			expect(embed.fields[3].value).to.equal(" <@&12345>");
+			expect(embed.fields[3].name).to.equal("Joined At");
+			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[4].name).to.equal("Roles");
+			expect(embed.fields[4].value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(member.displayColor);
 		});
 
@@ -117,7 +117,7 @@ describe("InspectCommand", () => {
 			expect(embed.fields.find((field: EmbedField) => field.name === "User ID")?.value).to.equal(member.user.id);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Username")?.value).to.equal(member.user.tag);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(message.member?.nickname);
-			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(message.member?.joinedAt);
+			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(DateUtils.formatAsText(message.member!.joinedAt!));
 			expect(embed.fields.find((field: EmbedField) => field.name === "Roles")?.value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(member.displayColor);
 		});
@@ -143,10 +143,10 @@ describe("InspectCommand", () => {
 			expect(embed.fields[1].value).to.equal(member.user.tag);
 			expect(embed.fields[2].name).to.equal("Nickname");
 			expect(embed.fields[2].value).to.equal("my name");
-			// Expect(embed.fields[3].name).to.equal("Joined At");
-			// Expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
-			expect(embed.fields[3].name).to.equal("Roles");
-			expect(embed.fields[3].value).to.equal("No roles");
+			expect(embed.fields[3].name).to.equal("Joined At");
+			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[4].name).to.equal("Roles");
+			expect(embed.fields[4].value).to.equal("No roles");
 			expect(embed.hexColor).to.equal("#1555b7");
 		});
 

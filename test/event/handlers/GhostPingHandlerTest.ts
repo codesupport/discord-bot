@@ -117,19 +117,19 @@ describe("GhostPingHandler", () => {
 			expect(messageMock.called).to.be.true;
 			expect(resolveChannelStub.called).to.be.true;
 			expect(fetchMessageStub.called).to.be.true;
-			const sentEmbed = messageMock.getCall(0).args[0];
+			const sentEmbed = messageMock.getCall(0).args[0].embeds[0];
 
-			// Expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
-			// If (sentEmbed instanceof MessageEmbed) {
-			// 	Const replyToField = sentEmbed.fields.find(field => field.name === "Reply to");
-			//
-			// 	Expect(replyToField).to.not.be.null;
-			//
-			// 	Const messageLinkField = sentEmbed.fields.find(field => field.name === "Message replied to");
-			//
-			// 	Expect(messageLinkField).to.not.be.null;
-			// 	expect(messageLinkField.value).to.equal("https://discord.com/channels/328194044587147279/328194044587147278/328194044587147280");
-			// }
+			expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
+			if (sentEmbed instanceof MessageEmbed) {
+				const replyToField = sentEmbed.fields.find(field => field.name === "Reply to");
+
+				expect(replyToField).to.not.be.null;
+
+				const messageLinkField = sentEmbed.fields.find(field => field.name === "Message replied to");
+
+				expect(messageLinkField).to.not.be.null;
+				expect(messageLinkField.value).to.equal("https://discord.com/channels/328194044587147279/328194044587147278/328194044587147280");
+			}
 		});
 
 		it("does not send a message when author only mentions himself and bots", async () => {
