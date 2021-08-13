@@ -27,6 +27,10 @@
     "url": "https://github.com/codesupport/discord-bot/issues"
   },
   "homepage": "https://github.com/codesupport/discord-bot#readme",
+  "engines": {
+    "node": ">=16.6.0",
+    "npm": ">=7.0.0"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
