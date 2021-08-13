@@ -1,4 +1,4 @@
-import { Constants, MessageEmbed, Message } from "discord.js";
+import {Constants, MessageEmbed, Message, ColorResolvable} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import { ALLOWED_FILE_EXTENSIONS, EMBED_COLOURS } from "../../config.json";
 
@@ -27,9 +27,9 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				embed.setTitle("Uploading Files");
 				embed.setDescription(`${message.author}, you tried to upload a \`.${invalidFileExtension}\` file, which is not allowed. Please use codeblocks over attachments when sending code.`);
 				embed.setFooter("Type ?codeblock for more information.");
-				embed.setColor(EMBED_COLOURS.DEFAULT);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 
-				await message.channel.send({ embed });
+				await message.channel.send({ embeds: [embed] });
 				if (message.deletable) {
 					await message.delete();
 				}

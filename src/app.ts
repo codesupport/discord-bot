@@ -1,13 +1,10 @@
-import { Client, Intents, TextChannel } from "discord.js";
+import { Client, TextChannel, Snowflake } from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
 import { handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
+import DiscordUtils from "./utils/DiscordUtils";
 
-const client = new Client({
-	ws: {
-		intents: [Intents.ALL]
-	}
-});
+const client = new Client({intents: DiscordUtils.getAllIntents()});
 
 if (process.env.NODE_ENV !== PRODUCTION_ENV) {
 	env({
@@ -37,9 +34,9 @@ async function app() {
 		});
 
 		if (process.env.NODE_ENV === PRODUCTION_ENV) {
-			const authChannel = await client.channels.fetch(AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
+			const authChannel = await client.channels.fetch(<Snowflake>AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
 
-			await authChannel.messages.fetch(AUTHENTICATION_MESSAGE_ID);
+			await authChannel.messages.fetch(<Snowflake>AUTHENTICATION_MESSAGE_ID);
 		}
 	} catch (error) {
 		console.error(error);

@@ -20,20 +20,19 @@ describe("DiscordMessageLinkHandler", () => {
 		let sandbox: SinonSandbox;
 		let handler: EventHandler;
 		let message: Message;
-		let channel: TextChannel;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			handler = new DiscordMessageLinkHandler();
-			message = CustomMocks.getMessage();
-			channel = CustomMocks.getTextChannel();
+			message = CustomMocks.getMessage({}, {
+				channel: CustomMocks.getTextChannel()
+			});
 		});
 
 		it("sends a message in message channel when contains discord message link mid sentence", async () => {
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "aaaaaaaaa\nhttps://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982 aaaa";
-			message.channel = channel;
 
 			await handler.handle(message);
 
@@ -44,7 +43,6 @@ describe("DiscordMessageLinkHandler", () => {
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982";
-			message.channel = channel;
 
 			await handler.handle(message);
 
@@ -55,7 +53,6 @@ describe("DiscordMessageLinkHandler", () => {
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982 <https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982>";
-			message.channel = channel;
 
 			await handler.handle(message);
 
@@ -66,7 +63,6 @@ describe("DiscordMessageLinkHandler", () => {
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982 https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982";
-			message.channel = channel;
 
 			await handler.handle(message);
 
@@ -77,7 +73,6 @@ describe("DiscordMessageLinkHandler", () => {
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "<https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982>";
-			message.channel = channel;
 
 			await handler.handle(message);
 
@@ -88,7 +83,6 @@ describe("DiscordMessageLinkHandler", () => {
 			const generatePreviewMock = sandbox.stub(MessagePreviewService.prototype, "generatePreview");
 
 			message.content = "placeholderText <https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982> placeholderText";
-			message.channel = channel;
 
 			await handler.handle(message);
 

@@ -60,7 +60,7 @@ describe("ArticleCommand", () => {
 			await command.run(message, []);
 
 			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -133,7 +133,7 @@ describe("ArticleCommand", () => {
 			await command.run(message, []);
 
 			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Latest CodeSupport Articles");

@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../abstracts/Command";
 import GitHubService from "../services/GitHubService";
 import { EMBED_COLOURS } from "../config.json";
@@ -24,7 +24,7 @@ class GitHubCommand extends Command {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a username and repo from GitHub.");
 			embed.addField("Correct Usage", "?github <username>/<repository>");
-			embed.setColor(EMBED_COLOURS.ERROR);
+			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 		} else {
 			const [user, repoName] = args[0].split("/");
 
@@ -40,21 +40,21 @@ class GitHubCommand extends Command {
 				embed.setTitle(`GitHub Repository: ${res.user}/${res.repo}`);
 				embed.setDescription(desc);
 				embed.addField("Language", res.language, true);
-				embed.addField("Open issues", res.issues_and_pullrequests_count - resPR.length, true);
-				embed.addField("Open Pull Requests", resPR.length, true);
-				embed.addField("Forks", res.forks, true);
-				embed.addField("Stars", res.stars, true);
-				embed.addField("Watchers", res.watchers, true);
-				embed.setColor(EMBED_COLOURS.SUCCESS);
+				embed.addField("Open issues", (res.issues_and_pullrequests_count - resPR.length).toString(), true);
+				embed.addField("Open Pull Requests", resPR.length.toString(), true);
+				embed.addField("Forks", res.forks.toString(), true);
+				embed.addField("Stars", res.stars.toString(), true);
+				embed.addField("Watchers", res.watchers.toString(), true);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
 			} catch (error) {
 				embed.setTitle("Error");
 				embed.setDescription("There was a problem with the request to GitHub.");
 				embed.addField("Correct Usage", "?github <username>/<repository>");
-				embed.setColor(EMBED_COLOURS.ERROR);
+				embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 			}
 		}
 
-		await message.channel.send({ embed });
+		await message.channel.send({ embeds: [embed] });
 	}
 }
 

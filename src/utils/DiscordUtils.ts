@@ -1,4 +1,4 @@
-import { Guild, GuildMember } from "discord.js";
+import { BitFieldResolvable, Guild, GuildMember, Intents, IntentsString, Snowflake } from "discord.js";
 
 class DiscordUtils {
 	static async getGuildMember(value: string, guild: Guild): Promise<GuildMember | undefined> {
@@ -7,7 +7,7 @@ class DiscordUtils {
 		// UserID
 		if ((/^[0-9]+$/g).test(value)) {
 			try {
-				return await guild.members.fetch(value);
+				return await guild.members.fetch(<Snowflake>value);
 			} catch {
 				return undefined;
 			}
@@ -25,6 +25,12 @@ class DiscordUtils {
 		const fetchedMembers = await guild.members.fetch({query: value});
 
 		return fetchedMembers.first();
+	}
+
+	static getAllIntents(): BitFieldResolvable<IntentsString, number> {
+		// Stole... copied from an older version of discord.js...
+		// https://github.com/discordjs/discord.js/blob/51551f544b80d7d27ab0b315da01dfc560b2c115/src/util/Intents.js#L75
+		return Object.values(Intents.FLAGS).reduce((acc, p) => acc | p, 0);
 	}
 }
 

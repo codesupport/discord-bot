@@ -51,8 +51,7 @@ describe("SearchCommand", () => {
 
 			await command.run(message);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -67,8 +66,7 @@ describe("SearchCommand", () => {
 
 			await command.run(message, ["thisruledoesnotexist"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -87,8 +85,7 @@ describe("SearchCommand", () => {
 
 			await command.run(message, ["thisruledoesnotexist"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Example Heading");
@@ -108,8 +105,7 @@ describe("SearchCommand", () => {
 
 			await command.run(message, ["thisruledoesnotexist"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(embed.description).to.equal("The capybara is an adorable rodent.\n\n[View on en.wikipedia.org](https://en.wikipedia.org/wiki/Capybara)");
 		});

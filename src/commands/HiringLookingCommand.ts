@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../abstracts/Command";
 import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../config.json";
 
@@ -36,9 +36,9 @@ Requirements:
 - Able to stick to deadlines and work as a team.
 			\`\`\`
 		`);
-		embed.setColor(EMBED_COLOURS.DEFAULT);
+		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 
-		await message.channel.send({ embed });
+		await message.channel.send({ embeds: [embed] });
 	}
 }
 

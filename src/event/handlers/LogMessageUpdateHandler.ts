@@ -1,4 +1,4 @@
-import { Constants, MessageEmbed, Message, TextChannel } from "discord.js";
+import {Constants, MessageEmbed, Message, TextChannel, ColorResolvable} from "discord.js";
 import { LOG_CHANNEL_ID, EMBED_COLOURS } from "../../config.json";
 import EventHandler from "../../abstracts/EventHandler";
 
@@ -22,11 +22,11 @@ class LogMessageUpdateHandler extends EventHandler {
 		embed.setDescription(`Author: ${oldMessage.author}\nChannel: ${oldMessage.channel}`);
 		embed.addField("Old Message", oldMessage.content);
 		embed.addField("New Message", newMessage.content);
-		embed.setColor(EMBED_COLOURS.DEFAULT);
+		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 
 		const logsChannel = oldMessage.guild?.channels.cache.find(channel => channel.id === LOG_CHANNEL_ID) as TextChannel;
 
-		await logsChannel?.send({ embed });
+		await logsChannel?.send({ embeds: [embed] });
 	}
 }
 

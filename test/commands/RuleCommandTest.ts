@@ -47,8 +47,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -61,8 +60,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["thisruledoesnotexist"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -77,8 +75,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["0"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Asking For Help");
@@ -93,8 +90,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["1"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Be Patient");
@@ -109,8 +105,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["2"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Unsolicited Contact/Bumps");
@@ -125,8 +120,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["3"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Be Nice");
@@ -141,8 +135,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["4"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: No Advertising");
@@ -157,8 +150,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["5"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Use The Right Channel");
@@ -173,8 +165,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["6"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Illegal/Immoral Tasks");
@@ -189,8 +180,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["7"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: No Spoon-feeding");
@@ -205,8 +195,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["8"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Use Codeblocks");
@@ -221,8 +210,7 @@ describe("RuleCommand", () => {
 
 			await command.run(message, ["9"]);
 
-			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embed;
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Keep it Clean");

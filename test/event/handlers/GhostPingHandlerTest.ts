@@ -96,7 +96,9 @@ describe("GhostPingHandler", () => {
 			const message = CustomMocks.getMessage({guild: CustomMocks.getGuild()});
 			const messageMock = sandbox.stub(message.channel, "send");
 			const channelMock = CustomMocks.getTextChannel();
-			const repliedToMessage = CustomMocks.getMessage({	id: "328194044587147280", guild: CustomMocks.getGuild()});
+			const repliedToMessage = CustomMocks.getMessage({ id: "328194044587147280", guild: CustomMocks.getGuild()}, {
+				channel: CustomMocks.getTextChannel({ id: "328194044587147278"})
+			});
 			const resolveChannelStub = sandbox.stub(message.guild.channels, "resolve").returns(channelMock);
 			const fetchMessageStub = sandbox.stub(channelMock.messages, "fetch").returns(Promise.resolve(repliedToMessage));
 			const author = CustomMocks.getUser();
@@ -106,18 +108,16 @@ describe("GhostPingHandler", () => {
 			message.guild.id = "328194044587147279";
 			message.content = "this is a reply";
 			message.reference = {
-				channelID: "328194044587147278",
-				guildID: "328194044587147279",
-				messageID: "328194044587147280"
+				channelId: "328194044587147278",
+				guildId: "328194044587147279",
+				messageId: "328194044587147280"
 			};
-
-			repliedToMessage.channel = CustomMocks.getTextChannel({ id: "328194044587147278"});
 
 			await handler.handle(message);
 			expect(messageMock.called).to.be.true;
 			expect(resolveChannelStub.called).to.be.true;
 			expect(fetchMessageStub.called).to.be.true;
-			const sentEmbed = messageMock.getCall(0).args[0];
+			const sentEmbed = messageMock.getCall(0).args[0].embeds[0];
 
 			expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
 			if (sentEmbed instanceof MessageEmbed) {
@@ -172,7 +172,9 @@ describe("GhostPingHandler", () => {
 			const message = CustomMocks.getMessage({guild: CustomMocks.getGuild()});
 			const messageMock = sandbox.stub(message.channel, "send");
 			const channelMock = CustomMocks.getTextChannel();
-			const repliedToMessage = CustomMocks.getMessage({	id: "328194044587147280", guild: CustomMocks.getGuild()});
+			const repliedToMessage = CustomMocks.getMessage({ id: "328194044587147280", guild: CustomMocks.getGuild() }, {
+				channel: CustomMocks.getTextChannel({ id: "328194044587147278"})
+			});
 			const resolveChannelStub = sandbox.stub(message.guild.channels, "resolve").returns(channelMock);
 			const fetchMessageStub = sandbox.stub(channelMock.messages, "fetch").returns(Promise.resolve(repliedToMessage));
 			const author = BaseMocks.getUser();
@@ -185,12 +187,10 @@ describe("GhostPingHandler", () => {
 			message.guild.id = "328194044587147279";
 			message.content = "this is a reply";
 			message.reference = {
-				channelID: "328194044587147278",
-				guildID: "328194044587147279",
-				messageID: "328194044587147280"
+				channelId: "328194044587147278",
+				guildId: "328194044587147279",
+				messageId: "328194044587147280"
 			};
-
-			repliedToMessage.channel = CustomMocks.getTextChannel({ id: "328194044587147278"});
 
 			await handler.handle(message);
 			expect(messageMock.called).to.be.false;

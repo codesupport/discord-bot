@@ -1,4 +1,4 @@
-import { GuildMember, Message, MessageEmbed } from "discord.js";
+import {ColorResolvable, GuildMember, Message, MessageEmbed} from "discord.js";
 import DiscordUtils from "../utils/DiscordUtils";
 import Command from "../abstracts/Command";
 import DateUtils from "../utils/DateUtils";
@@ -21,7 +21,7 @@ class InspectCommand extends Command {
 			? this.buildNoMatchEmbed()
 			: this.buildInspectEmbed(userObj!);
 
-		await message.channel.send({embed});
+		await message.channel.send({embeds: [embed]});
 	}
 
 	private buildNoMatchEmbed(): MessageEmbed {
@@ -30,7 +30,7 @@ class InspectCommand extends Command {
 		embed.setTitle("Error");
 		embed.setDescription("No match found.");
 		embed.addField("Correct Usage", "?inspect [username|userID]");
-		embed.setColor(EMBED_COLOURS.ERROR);
+		embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
 
 		return embed;
 	}
@@ -39,7 +39,7 @@ class InspectCommand extends Command {
 		const embed = new MessageEmbed();
 
 		embed.setTitle(`Inspecting ${memberObj?.user.tag}`);
-		embed.setColor(memberObj?.displayColor || EMBED_COLOURS.DEFAULT);
+		embed.setColor(<ColorResolvable>(memberObj?.displayColor || EMBED_COLOURS.DEFAULT));
 		embed.setThumbnail(memberObj?.user.displayAvatarURL());
 		embed.addField("User ID", memberObj?.user.id);
 		embed.addField("Username", memberObj?.user.tag);

@@ -5,7 +5,7 @@ abstract class EventHandler {
 		this.event = event;
 	}
 
-	abstract async handle(...args: any[]): Promise<void>;
+	abstract handle(...args: any[]): Promise<void>;
 
 	getEvent(): any {
 		return this.event;

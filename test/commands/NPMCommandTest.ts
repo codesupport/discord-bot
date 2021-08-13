@@ -49,7 +49,7 @@ describe("NPMCommand", () => {
 
 			await command.run(message, []);
 
-			const embed = messageMock.getCall(0).lastArg.embed;
+			const embed = messageMock.getCall(0).lastArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
@@ -66,7 +66,7 @@ describe("NPMCommand", () => {
 
 			await command.run(message, ["mongoboy"]);
 
-			const embed = messageMock.getCall(0).lastArg.embed;
+			const embed = messageMock.getCall(0).lastArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");

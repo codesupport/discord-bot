@@ -30,17 +30,19 @@ describe("LogMemberLeaveHandler", () => {
 			const message = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(message.guild!.channels.cache, "find");
 
-			const guildMember = CustomMocks.getGuildMember({joined_at: 1610478967732});
+			const guildMember = CustomMocks.getGuildMember({joined_at: new Date(1610478967732).toISOString()});
 
 			const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
-				"id": MEMBER_ROLE.toString(),
-				"name": "member"
+				id: MEMBER_ROLE.toString(),
+				name: "member",
+				permissions: "1"
 			}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
-				"id": BaseMocks.getGuild().id,
-				"name": "@everyone"
+				id: BaseMocks.getGuild().id,
+				name: "@everyone",
+				permissions: "1"
 			}, BaseMocks.getGuild())]]);
 
-			sandbox.stub(DateUtils, "getFormattedTimeSinceDate").resolves("10 seconds");
+			sandbox.stub(DateUtils, "getFormattedTimeSinceDate").returns("10 seconds");
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			await handler.handle(guildMember);

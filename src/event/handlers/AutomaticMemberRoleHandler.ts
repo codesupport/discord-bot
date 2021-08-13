@@ -1,4 +1,4 @@
-import { Constants, GuildMember } from "discord.js";
+import {Constants, GuildMember, RoleResolvable} from "discord.js";
 import { MEMBER_ROLE } from "../../config.json";
 import EventHandler from "../../abstracts/EventHandler";
 
@@ -15,7 +15,7 @@ class AutomaticMemberRoleHandler extends EventHandler {
 		const is30DaysOld = dateDifference / 2592000000 > 1;
 
 		if (hasAvatar && is30DaysOld) {
-			await member.roles.add(MEMBER_ROLE, "Appears to be a valid account.");
+			await member.roles.add(<RoleResolvable>MEMBER_ROLE, "Appears to be a valid account.");
 		}
 	}
 }
