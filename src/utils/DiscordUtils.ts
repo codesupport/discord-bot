@@ -29,6 +29,7 @@ class DiscordUtils {
 
 	static getAllIntents(): BitFieldResolvable<IntentsString, number> {
 		// Stole... copied from an older version of discord.js...
+		// https://github.com/discordjs/discord.js/blob/51551f544b80d7d27ab0b315da01dfc560b2c115/src/util/Intents.js#L75
 		return Object.values(Intents.FLAGS).reduce((acc, p) => acc | p, 0);
 	}
 }

@@ -3,7 +3,6 @@ import { createSandbox, SinonSandbox } from "sinon";
 import DiscordUtils from "../../src/utils/DiscordUtils";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 import { Collection, GuildMemberManager } from "discord.js";
-import assert from "assert";
 
 const user = CustomMocks.getUser({id: "123456789", username: "fakeUser", discriminator: "1234"});
 const member = CustomMocks.getGuildMember({user: user});

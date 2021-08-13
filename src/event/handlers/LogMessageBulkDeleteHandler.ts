@@ -7,9 +7,7 @@ class LogMessageBulkDeleteHandler extends LogMessageDeleteHandler {
 	}
 
 	async handle(messages: Collection<Snowflake, Message>): Promise<void> {
-		messages.forEach(async message => {
-			await super.sendLog(message);
-		});
+		await Promise.all(messages.map(super.sendLog));
 	}
 }
 
