@@ -1,14 +1,22 @@
 {
     "COMMAND_PREFIX": "?",
+    "SERVER_ID": "630220999002161152",
     "MEMBER_ROLE": "592088198746996768",
     "MOD_ROLE": "490594428549857281",
     "AUTHENTICATION_MESSAGE_ID": "592316062796873738",
     "AUTHENTICATION_MESSAGE_CHANNEL": "592087564295471105",
+    "DISCORD": {
+        "API": "https://discordapp.com/api/v6"
+    },
     "INSTANT_ANSWER_HIGHLIGHTS": [
         "javascript",
         "html",
         "css"
     ],
+    "ADVERTISEMENT_BLOCKER": {
+        "USER_JOINED_WITHIN_HOURS": 24,
+        "CHANNEL_POST_THRESHOLD": 3
+    },
     "FIELD_SPACER_CHAR": "\u200B",
     "MEMBER_ROLE_COLOR": "#FFFFFE",
     "PRODUCTION_ENV": "production",
