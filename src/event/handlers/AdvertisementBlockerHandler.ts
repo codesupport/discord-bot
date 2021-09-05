@@ -12,15 +12,26 @@ import {AdminService} from "../../services/AdminService";
  * @returns boolean Returns true if the user joined in less than the given hours, false otherwise.
  */
 function joinedWithin(member: GuildMember, hours: number): boolean {
-	return member.joinedTimestamp === null || member.joinedTimestamp > (new Date().getTime() - (hours * 60 * 60 * 1000));
+	return member.joinedTimestamp === null || member.joinedTimestamp > new Date().getTime() - hours * 60 * 60 * 1000;
 }
 
 /**
- * Helper function to hash a message for later comparison/tracking.
+ * Checks if the {@link GuildMember} only has 'Member' role, and no higher one.
  *
- * @param message The discord message to hash.
+ * @param member The {@link GuildMember} to check.
+ * @returns boolean Returns true if the
+ */
+function hasOnlyMemberRole(member: GuildMember): boolean {
+	return member.roles.cache.size === 2
+        && member.roles.cache.some(role => role.id === MEMBER_ROLE);
+}
+
+/**
+ * Helper function to hash a {@link Message} for later comparison/tracking.
  *
- * @returns number The hashed value of the discord message contents.
+ * @param message The {@link Message} to hash.
+ *
+ * @returns number The hashed value of the {@link Message} contents.
  */
 function hashMessage(message: Message): number {
 	const messageString: string = message.content;
@@ -61,13 +72,9 @@ class TrackedMessage {
 		this.messages.push({channelId, messageId});
 	}
 
-	getMessages = (): MessageTemplate[] => {
-		return this.messages;
-	}
+	getMessages = (): MessageTemplate[] => this.messages
 
-	channelCount = (): number => {
-		return this.uniqueChannelIds.length;
-	}
+	channelCount = (): number => this.uniqueChannelIds.length
 }
 
 /**
@@ -80,12 +87,12 @@ class TrackedUsers {
 	 * Adds a new entry for the given message from the given discord id.
 	 *
 	 * If the user has no previous data, it creates a new map entry for the user.
-	 * If the message content is unique to previously seen ones, it creates a new {@link TrackedMessage} entry.
+	 * If the {@link Message} content is unique to previously seen ones, it creates a new {@link TrackedMessage} entry.
 	 *
 	 * @param discordId The discord ID of the sending user.
-	 * @param message	The discord message that was sent.
+	 * @param message	The {@link Message} that was sent.
 	 *
-	 * @returns TrackedMessage A reference to the {@link TrackedMessage} associated to the given discord message.
+	 * @returns TrackedMessage A reference to the {@link TrackedMessage} associated to the given {@link Message}.
 	 */
 	addUserMessage = (discordId: string, message: Message): TrackedMessage => {
 		const messageHash: number = hashMessage(message);
@@ -111,9 +118,7 @@ class TrackedUsers {
 		return trackedMessage;
 	}
 
-	hasUser = (discordId: string): boolean => {
-		return this.map.has(discordId);
-	}
+	hasUser = (discordId: string): boolean => this.map.has(discordId)
 
 	removeUser = (discordId: string): void => {
 		this.map.delete(discordId);
@@ -124,14 +129,13 @@ class TrackedUsers {
  * Detects potential advertisements, removing them and the user.
  *
  * Uses the following criteria:
- *   - User is new to the server (less than T [configurable] hours)
+ *   - User is new to the server (less than N [configurable] hours)
  *   - User posts the same message in X (configured) channels.
  *
- * Messages are hashed and stored for later comparison, removing them from the tracked messages when the user
- * has stayed for more than T (configurable) hours.
+ * Messages are hashed and stored for later comparison, removing them from the {@link TrackedMessage}s when the user
+ * has stayed for more than N (configurable) hours.
  */
 class AdvertisementBlockerHandler extends EventHandler {
-
 	private trackedUsers: TrackedUsers;
 	private adminService: AdminService;
 
@@ -147,29 +151,39 @@ class AdvertisementBlockerHandler extends EventHandler {
 	 *
 	 * Checks if the user account is new, storing messages if it is, or deleting any existing ones if it isn't.
 	 *
-	 * @param message The message received from the discord event.
+	 * @param message The {@link Message} received from the discord event.
 	 */
 	handle = async (message: Message): Promise<void> => {
-		if (message.member !== null && this.isOnlyMemberRole(message.member)) {
+		if (message.member !== null) {
 			const member: GuildMember = message.member;
 			const memberId: string = member.id;
+
 			const isNewMember = joinedWithin(member, ADVERTISEMENT_BLOCKER.USER_JOINED_WITHIN_HOURS);
+			const isBeingTracked = this.trackedUsers.hasUser(memberId);
 
-			if (isNewMember || this.trackedUsers.hasUser(memberId)) {
-				if (isNewMember) {
-					const trackedMessage = this.trackedUsers.addUserMessage(memberId, message);
-
-					if (trackedMessage.channelCount() >= ADVERTISEMENT_BLOCKER.CHANNEL_POST_THRESHOLD) {
-						await this.adminService.kickUser(member, "Spamming advertisements in multiple channels", "ADVERTISEMENT", message);
-						await this.cleanUpMessages(trackedMessage);
-						this.trackedUsers.removeUser(memberId);
-					}
-				} else {
-					this.trackedUsers.removeUser(memberId);
-				}
+			if (isNewMember && hasOnlyMemberRole(message.member)) {
+				await this.trackUserMessage(member, message);
+			} else if (isBeingTracked) {
+				this.trackedUsers.removeUser(memberId);
 			}
 		} else {
 			// How would this happen?
+		}
+	}
+
+	/**
+	 * Track a user message to check if it is spammed in multiple channels.
+	 *
+	 * @param member    The {@link GuildMember} who sent the message.
+	 * @param message   The {@link Message} that was sent.
+	 */
+	async trackUserMessage(member: GuildMember, message: Message) {
+		const trackedMessage = this.trackedUsers.addUserMessage(member.id, message);
+
+		if (trackedMessage.channelCount() >= ADVERTISEMENT_BLOCKER.CHANNEL_POST_THRESHOLD) {
+			await this.adminService.kickUser(member, "Spamming advertisements in multiple channels", "ADVERTISEMENT", message);
+			await this.cleanUpMessages(trackedMessage);
+			this.trackedUsers.removeUser(member.id);
 		}
 	}
 
@@ -186,11 +200,6 @@ class AdvertisementBlockerHandler extends EventHandler {
 		for (const message of messagesToDelete) {
 			await this.adminService.deleteMessage(message.channelId, message.messageId);
 		}
-	}
-
-	isOnlyMemberRole(member: GuildMember): boolean {
-		return member.roles.cache.size == 2
-			&& member.roles.cache.some(role => role.id === MEMBER_ROLE);
 	}
 }
 
