@@ -1,9 +1,23 @@
 import { commands_directory } from "../config.json";
 import Command from "../abstracts/Command";
-import {ApplicationCommandDataResolvable, Collection} from "discord.js";
+import {ApplicationCommandDataResolvable, Collection, CommandInteraction} from "discord.js";
 import DirectoryUtils from "../utils/DirectoryUtils";
 
 class CommandFactory {
+	private static instance: CommandFactory;
+
+	/* eslint-disable */
+	private constructor() { }
+	/* eslint-enable */
+
+	static getInstance(): CommandFactory {
+		if (!this.instance) {
+			this.instance = new CommandFactory();
+		}
+
+		return this.instance;
+	}
+
 	private commands = new Collection<string, Command>();
 
 	async loadCommands(): Promise<void> {
@@ -20,12 +34,10 @@ class CommandFactory {
 		});
 	}
 
-	commandExists(command: string): boolean {
-		return this.commands.has(command.toLowerCase());
-	}
+	async executeCommand(interaction: CommandInteraction): Promise<void> {
+		const commandInstance = await this.commands.get(interaction.commandName.toLowerCase())!;
 
-	getCommand(command: string): Command {
-		return this.commands.get(command.toLowerCase())!;
+		commandInstance.run(interaction);
 	}
 
 	getCommandsJson(): ApplicationCommandDataResolvable[] {
