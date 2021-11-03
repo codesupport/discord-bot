@@ -9,7 +9,7 @@ class CommandLoaderHandler extends EventHandler {
 
 	constructor() {
 		super(Constants.Events.CLIENT_READY);
-		this.commandFactory = new CommandFactory();
+		this.commandFactory = CommandFactory.getInstance();
 		this.commandFactory.loadCommands();
 	}
 

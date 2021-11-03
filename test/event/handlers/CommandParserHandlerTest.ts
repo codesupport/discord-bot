@@ -6,11 +6,11 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import MockCommand from "../../MockCommand";
 import CommandFactory from "../../../src/factories/CommandFactory";
-import CommandParserHandler from "../../../src/event/handlers/CommandParserHandler";
+import CommandInteractionHandler from "../../../src/event/handlers/CommandInteractionHandler";
 import * as getConfigValue from "../../../src/utils/getConfigValue";
 import { COMMAND_PREFIX } from "../../../src/config.json";
 
-describe("CommandParserHandler", () => {
+describe("CommandInteractionHandler", () => {
 	describe("constructor()", () => {
 		let sandbox: SinonSandbox;
 
@@ -19,7 +19,7 @@ describe("CommandParserHandler", () => {
 		});
 
 		it("creates a handler for MESSAGE_CREATE", () => {
-			const handler = new CommandParserHandler();
+			const handler = new CommandInteractionHandler();
 
 			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_CREATE);
 		});
@@ -27,7 +27,7 @@ describe("CommandParserHandler", () => {
 		it("should call loadCommands()", () => {
 			const factoryMock = sandbox.stub(CommandFactory.prototype, "loadCommands");
 
-			const handler = new CommandParserHandler();
+			const handler = new CommandInteractionHandler();
 
 			expect(factoryMock.calledOnce).to.be.true;
 		});
@@ -39,12 +39,12 @@ describe("CommandParserHandler", () => {
 
 	describe("handle", () => {
 		let sandbox: SinonSandbox;
-		let handler: CommandParserHandler;
+		let handler: CommandInteractionHandler;
 		let command: MockCommand;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			handler = new CommandParserHandler();
+			handler = new CommandInteractionHandler();
 			command = new MockCommand();
 		});
 
