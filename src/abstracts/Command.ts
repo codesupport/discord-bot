@@ -1,33 +1,20 @@
-import { Message } from "discord.js";
-import CommandOptions from "../interfaces/CommandOptions";
+import {ApplicationCommandData, Message} from "discord.js";
 
 abstract class Command {
-	private readonly name: string;
-	private readonly description: string;
-	private readonly options: CommandOptions | undefined;
+	private readonly slashCommandData: ApplicationCommandData
 
-	protected constructor(name: string, description: string, options?: CommandOptions) {
-		this.name = name;
-		this.description = description;
-		this.options = options;
+	protected constructor(slashCommandData: ApplicationCommandData) {
+		this.slashCommandData = slashCommandData;
 	}
 
 	abstract run(message: Message, args?: string[]): Promise<void>;
 
 	getName(): string {
-		return this.name;
+		return this.slashCommandData.name;
 	}
 
-	getDescription(): string {
-		return this.description;
-	}
-
-	getAliases(): string[] {
-		return this.options?.aliases || [];
-	}
-
-	isSelfDestructing(): boolean {
-		return this.options?.selfDestructing || false;
+	getSlashCommandData(): ApplicationCommandData {
+		return this.slashCommandData;
 	}
 }
 
