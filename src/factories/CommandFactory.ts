@@ -1,9 +1,10 @@
 import { commands_directory } from "../config.json";
 import Command from "../abstracts/Command";
+import {ApplicationCommandDataResolvable, Collection} from "discord.js";
 import DirectoryUtils from "../utils/DirectoryUtils";
 
 class CommandFactory {
-	private commands: any = {};
+	private commands = new Collection<string, Command>();
 
 	async loadCommands(): Promise<void> {
 		const commandFiles = await DirectoryUtils.getFilesInDirectory(
@@ -15,22 +16,20 @@ class CommandFactory {
 			const { default: Command } = command;
 			const name = new Command().getName().toLowerCase();
 
-			this.commands[name] = () => new Command();
-
-			const aliases = new Command().getAliases();
-
-			aliases.forEach((alias: string) => {
-				this.commands[alias] = () => new Command();
-			});
+			this.commands.set(name, new Command());
 		});
 	}
 
 	commandExists(command: string): boolean {
-		return typeof this.commands[command.toLowerCase()] !== "undefined";
+		return this.commands.has(command.toLowerCase());
 	}
 
 	getCommand(command: string): Command {
-		return this.commands[command.toLowerCase()]();
+		return this.commands.get(command.toLowerCase())!;
+	}
+
+	getCommandsJson(): ApplicationCommandDataResolvable[] {
+		return this.commands.map(command => command.getSlashCommandData());
 	}
 }
 
