@@ -20,6 +20,7 @@ async function app() {
 	try {
 		await client.login(process.env.DISCORD_TOKEN);
 		console.log(`Successfully logged in as ${client.user?.username}`);
+		DiscordUtils.setClientInstance(client);
 
 		const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/${handlers_directory}`,
