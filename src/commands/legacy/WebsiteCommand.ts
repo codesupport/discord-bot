@@ -1,5 +1,5 @@
 import {Message} from "discord.js";
-import Command from "../abstracts/Command";
+import Command from "../../abstracts/Command";
 
 class WebsiteCommand extends Command {
 	constructor() {

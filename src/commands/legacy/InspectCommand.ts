@@ -1,8 +1,8 @@
 import {ColorResolvable, GuildMember, Message, MessageEmbed} from "discord.js";
-import DiscordUtils from "../utils/DiscordUtils";
-import Command from "../abstracts/Command";
-import DateUtils from "../utils/DateUtils";
-import { EMBED_COLOURS } from "../config.json";
+import DiscordUtils from "../../utils/DiscordUtils";
+import Command from "../../abstracts/Command";
+import DateUtils from "../../utils/DateUtils";
+import { EMBED_COLOURS } from "../../config.json";
 
 class InspectCommand extends Command {
 	constructor() {
@@ -49,6 +49,7 @@ class InspectCommand extends Command {
 		if (memberObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(memberObj?.joinedAt!));
 
 		if (memberObj?.roles.cache.size > 1) {
+			console.log(memberObj.guild.id);
 			embed.addField("Roles", `${memberObj.roles.cache.filter(role => role.id !== memberObj?.guild!.id).map(role => ` ${role.toString()}`)}`);
 		} else {
 			embed.addField("Roles", "No roles");

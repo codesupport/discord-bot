@@ -1,20 +1,11 @@
-import {Message, MessageEmbed, MessageAttachment, ColorResolvable} from "discord.js";
-import Command from "../abstracts/Command";
+import { MessageEmbed, MessageAttachment, ColorResolvable, CommandInteraction} from "discord.js";
 import { EMBED_COLOURS } from "../config.json";
+import {Discord, Slash} from "discordx";
 
-class CodeblockCommand extends Command {
-	constructor() {
-		super(
-			"codeblock",
-			"Shows a tutorial on how to use Discord's codeblocks.",
-			{
-				selfDestructing: true,
-				aliases: ["codeblocks", "cb"]
-			},
-		);
-	}
-
-	async run(message: Message, args: string[]): Promise<void> {
+@Discord()
+class CodeblockCommand {
+	@Slash("codeblock")
+	async run(interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 		const image = new MessageAttachment("./assets/codeblock.png", "codeblock-tutorial.png");
 
@@ -24,7 +15,7 @@ class CodeblockCommand extends Command {
 		embed.setImage("attachment://codeblock-tutorial.png");
 		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
 
-		await message.channel.send({ embeds: [embed], files: [image] });
+		await interaction.reply({ embeds: [embed], files: [image] });
 	}
 }
 

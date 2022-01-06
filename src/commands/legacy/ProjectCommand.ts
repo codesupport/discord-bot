@@ -1,9 +1,9 @@
-import Command from "../abstracts/Command";
+import Command from "../../abstracts/Command";
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import { EMBED_COLOURS } from "../config.json";
-import Project from "../interfaces/Project";
-import projects from "../src-assets/projects.json";
-import StringUtils from "../utils/StringUtils";
+import { EMBED_COLOURS } from "../../config.json";
+import Project from "../../interfaces/Project";
+import projects from "../../src-assets/projects.json";
+import StringUtils from "../../utils/StringUtils";
 
 export default class ProjectCommand extends Command {
 	private readonly defaultSearchTags = ["easy", "medium", "hard"];

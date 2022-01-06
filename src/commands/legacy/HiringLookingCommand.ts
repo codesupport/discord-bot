@@ -1,6 +1,6 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../config.json";
+import Command from "../../abstracts/Command";
+import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../../config.json";
 
 class HiringLookingCommand extends Command {
 	constructor() {

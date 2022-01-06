@@ -1,9 +1,9 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import { EMBED_COLOURS } from "../config.json";
-import ArticleService from "../services/ArticleService";
-import CodeSupportArticle from "../interfaces/CodeSupportArticle";
-import WebsiteUserService from "../services/WebsiteUserService";
+import Command from "../../abstracts/Command";
+import { EMBED_COLOURS } from "../../config.json";
+import ArticleService from "../../services/ArticleService";
+import CodeSupportArticle from "../../interfaces/CodeSupportArticle";
+import WebsiteUserService from "../../services/WebsiteUserService";
 
 class ArticleCommand extends Command {
 	constructor() {

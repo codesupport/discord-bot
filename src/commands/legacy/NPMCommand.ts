@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import { EMBED_COLOURS } from "../config.json";
+import Command from "../../abstracts/Command";
+import { EMBED_COLOURS } from "../../config.json";
 
 class NPMCommand extends Command {
 	constructor() {

@@ -3,9 +3,9 @@ import { expect } from "chai";
 import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import RuleCommand from "../../src/commands/RuleCommand";
-import Command from "../../src/abstracts/Command";
-import { EMBED_COLOURS } from "../../src/config.json";
+import RuleCommand from "../../../src/commands/legacy/RuleCommand";
+import Command from "../../../src/abstracts/Command";
+import { EMBED_COLOURS } from "../../../src/config.json";
 
 describe("RuleCommand", () => {
 	describe("constructor()", () => {
