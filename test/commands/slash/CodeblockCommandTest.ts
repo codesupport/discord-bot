@@ -1,62 +1,40 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Message } from "discord.js";
-import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import Command from "../../src/abstracts/Command";
-import CodeblockCommand from "../../src/commands/CodeblockCommand";
-import { EMBED_COLOURS } from "../../src/config.json";
+import CodeblockCommand from "../../../src/commands/slash/CodeblockCommand";
+import { EMBED_COLOURS } from "../../../src/config.json";
 
 describe("CodeblockCommand", () => {
-	describe("constructor()", () => {
-		it("creates a command called codeblock", () => {
-			const command = new CodeblockCommand();
-
-			expect(command.getName()).to.equal("codeblock");
-		});
-
-		it("creates a command with correct description", () => {
-			const command = new CodeblockCommand();
-
-			expect(command.getDescription()).to.equal("Shows a tutorial on how to use Discord's codeblocks.");
-		});
-
-		it("creates a command with correct aliases", () => {
-			const command = new CodeblockCommand();
-
-			expect(command.getAliases().includes("cb")).to.be.true;
-			expect(command.getAliases().includes("codeblocks")).to.be.true;
-		});
-	});
-
-	describe("run()", () => {
+	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
-		let message: Message;
-		let command: Command;
+		let command: CodeblockCommand;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new CodeblockCommand();
-			message = BaseMocks.getMessage();
 		});
 
 		it("sends a message to the channel", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
+			const replyStub = sandbox.stub().resolves();
 
-			await command.run(message, ["1"]);
+			await command.onInteract({
+				reply: replyStub
+			});
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states how to create a codeblock", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
+			const replyStub = sandbox.stub().resolves();
 
-			await command.run(message);
+			await command.onInteract({
+				reply: replyStub
+			});
 
 			// @ts-ignore - firstArg does not live on getCall()
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Codeblock Tutorial");
 			expect(embed.description).to.equal("Please use codeblocks when sending code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
