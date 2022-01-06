@@ -49,7 +49,6 @@ class InspectCommand extends Command {
 		if (memberObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(memberObj?.joinedAt!));
 
 		if (memberObj?.roles.cache.size > 1) {
-			console.log(memberObj.guild.id);
 			embed.addField("Roles", `${memberObj.roles.cache.filter(role => role.id !== memberObj?.guild!.id).map(role => ` ${role.toString()}`)}`);
 		} else {
 			embed.addField("Roles", "No roles");
