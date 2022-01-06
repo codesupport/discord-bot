@@ -1,11 +1,11 @@
+import { Discord, Slash } from "discordx";
 import { MessageEmbed, MessageAttachment, ColorResolvable, CommandInteraction} from "discord.js";
-import { EMBED_COLOURS } from "../config.json";
-import {Discord, Slash} from "discordx";
+import { EMBED_COLOURS } from "../../config.json";
 
 @Discord()
 class CodeblockCommand {
 	@Slash("codeblock")
-	async run(interaction: CommandInteraction): Promise<void> {
+	async onInteract(interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 		const image = new MessageAttachment("./assets/codeblock.png", "codeblock-tutorial.png");
 
