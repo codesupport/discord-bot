@@ -31,9 +31,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 				await message.channel.send({ embeds: [embed] });
-				if (message.deletable) {
-					await message.delete();
-				}
+				await message.delete();
 			}
 		}
 	}

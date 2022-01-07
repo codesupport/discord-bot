@@ -1,10 +1,10 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import ArticleService from "../services/ArticleService";
-import CodeSupportArticle from "../interfaces/CodeSupportArticle";
-import WebsiteUserService from "../services/WebsiteUserService";
-import getConfigValue from "../utils/getConfigValue";
-import GenericObject from "../interfaces/GenericObject";
+import Command from "../../abstracts/Command";
+import ArticleService from "../../services/ArticleService";
+import CodeSupportArticle from "../../interfaces/CodeSupportArticle";
+import WebsiteUserService from "../../services/WebsiteUserService";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class ArticleCommand extends Command {
 	constructor() {

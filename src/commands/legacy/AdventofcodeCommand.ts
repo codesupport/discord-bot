@@ -1,9 +1,9 @@
-import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import AdventOfCodeService from "../services/AdventOfCodeService";
-import {AOCMember} from "../interfaces/AdventOfCode";
-import getConfigValue from "../utils/getConfigValue";
-import GenericObject from "../interfaces/GenericObject";
+import { ColorResolvable, Message, MessageEmbed } from "discord.js";
+import Command from "../../abstracts/Command";
+import AdventOfCodeService from "../../services/AdventOfCodeService";
+import { AOCMember } from "../../interfaces/AdventOfCode";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class AdventOfCodeCommand extends Command {
 	constructor() {

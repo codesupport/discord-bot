@@ -12,6 +12,7 @@ module.exports = {
         }
     },
     rules: {
+        "new-cap": "off",
         "no-unused-vars": "off",
         "no-invalid-this": "off",
         "multiline-ternary": 0,

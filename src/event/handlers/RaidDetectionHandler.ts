@@ -39,7 +39,9 @@ class RaidDetectionHandler extends EventHandler {
 			} catch (error) {
 				console.error(error);
 
-				await modChannel.send(`Failed to kick users or empty queue: \n\`${error.message}\``);
+				if (error instanceof Error) {
+					await modChannel.send(`Failed to kick users or empty queue: \n\`${error.message}\``);
+				}
 			}
 		}
 

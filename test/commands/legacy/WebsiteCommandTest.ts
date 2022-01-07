@@ -3,8 +3,8 @@ import { expect } from "chai";
 import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import WebsiteCommand from "../../src/commands/WebsiteCommand";
-import Command from "../../src/abstracts/Command";
+import WebsiteCommand from "../../../src/commands/legacy/WebsiteCommand";
+import Command from "../../../src/abstracts/Command";
 
 describe("WebsiteCommand", () => {
 	describe("constructor()", () => {

@@ -3,11 +3,11 @@ import { expect } from "chai";
 import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Message, Role } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import InspectCommand from "../../src/commands/InspectCommand";
-import Command from "../../src/abstracts/Command";
-import { EMBED_COLOURS } from "../../src/config.json";
-import DateUtils from "../../src/utils/DateUtils";
-import DiscordUtils from "../../src/utils/DiscordUtils";
+import InspectCommand from "../../../src/commands/legacy/InspectCommand";
+import Command from "../../../src/abstracts/Command";
+import { EMBED_COLOURS } from "../../../src/config.json";
+import DateUtils from "../../../src/utils/DateUtils";
+import DiscordUtils from "../../../src/utils/DiscordUtils";
 
 const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
 	"id": "12345",

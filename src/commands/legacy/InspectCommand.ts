@@ -1,9 +1,9 @@
 import {ColorResolvable, GuildMember, Message, MessageEmbed} from "discord.js";
-import DiscordUtils from "../utils/DiscordUtils";
-import Command from "../abstracts/Command";
-import DateUtils from "../utils/DateUtils";
-import getConfigValue from "../utils/getConfigValue";
-import GenericObject from "../interfaces/GenericObject";
+import DiscordUtils from "../../utils/DiscordUtils";
+import Command from "../../abstracts/Command";
+import DateUtils from "../../utils/DateUtils";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class InspectCommand extends Command {
 	constructor() {

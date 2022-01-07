@@ -1,8 +1,8 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import GitHubService from "../services/GitHubService";
-import getConfigValue from "../utils/getConfigValue";
-import GenericObject from "../interfaces/GenericObject";
+import Command from "../../abstracts/Command";
+import GitHubService from "../../services/GitHubService";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class GitHubCommand extends Command {
 	constructor() {

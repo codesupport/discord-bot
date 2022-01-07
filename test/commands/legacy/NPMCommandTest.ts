@@ -4,9 +4,9 @@ import { Message } from "discord.js";
 import axios from "axios";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import NPMCommand from "../../src/commands/NPMCommand";
-import Command from "../../src/abstracts/Command";
-import { EMBED_COLOURS } from "../../src/config.json";
+import NPMCommand from "../../../src/commands/legacy/NPMCommand";
+import Command from "../../../src/abstracts/Command";
+import { EMBED_COLOURS } from "../../../src/config.json";
 
 describe("NPMCommand", () => {
 	describe("constructor()", () => {

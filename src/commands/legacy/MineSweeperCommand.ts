@@ -1,9 +1,9 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import MineSweeperService from "../services/MineSweeperService";
-import StringUtils from "../utils/StringUtils";
-import getConfigValue from "../utils/getConfigValue";
-import GenericObject from "../interfaces/GenericObject";
+import Command from "../../abstracts/Command";
+import MineSweeperService from "../../services/MineSweeperService";
+import StringUtils from "../../utils/StringUtils";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class MineSweeperCommand extends Command {
 	constructor() {

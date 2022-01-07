@@ -1,10 +1,10 @@
-import Command from "../abstracts/Command";
+import Command from "../../abstracts/Command";
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Project from "../interfaces/Project";
-import projects from "../src-assets/projects.json";
-import StringUtils from "../utils/StringUtils";
-import getConfigValue from "../utils/getConfigValue";
-import GenericObject from "../interfaces/GenericObject";
+import Project from "../../interfaces/Project";
+import projects from "../../src-assets/projects.json";
+import StringUtils from "../../utils/StringUtils";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 export default class ProjectCommand extends Command {
 	private readonly defaultSearchTags = ["easy", "medium", "hard"];

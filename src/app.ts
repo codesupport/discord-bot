@@ -1,10 +1,10 @@
-import { Client, TextChannel, Snowflake } from "discord.js";
+import "reflect-metadata";
+import { Client } from "discordx";
+import { TextChannel, Snowflake } from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
 import DiscordUtils from "./utils/DiscordUtils";
 import getConfigValue from "./utils/getConfigValue";
-
-const client = new Client({intents: DiscordUtils.getAllIntents()});
 
 if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	env({
@@ -18,8 +18,22 @@ async function app() {
 	}
 
 	try {
-		await client.login(process.env.DISCORD_TOKEN);
-		console.log(`Successfully logged in as ${client.user?.username}`);
+		const client = new Client({
+			botId: getConfigValue<string>("BOT_ID"),
+			botGuilds: [getConfigValue<string>("GUILD_ID")],
+			intents: DiscordUtils.getAllIntents()
+		});
+
+		client.once("ready", async () => {
+			await client.initApplicationCommands({ guild: { log: true }});
+			await client.initApplicationPermissions();
+		});
+
+		client.on("interactionCreate", interaction => {
+			client.executeInteraction(interaction);
+		});
+
+		await client.login(process.env.DISCORD_TOKEN!);
 
 		const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/${getConfigValue<string>("handlers_directory")}`,

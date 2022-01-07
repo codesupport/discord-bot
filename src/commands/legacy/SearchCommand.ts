@@ -1,8 +1,8 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import InstantAnswerService from "../services/InstantAnswerService";
-import getConfigValue from "../utils/getConfigValue";
-import GenericObject from "../interfaces/GenericObject";
+import Command from "../../abstracts/Command";
+import InstantAnswerService from "../../services/InstantAnswerService";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class SearchCommand extends Command {
 	constructor() {
