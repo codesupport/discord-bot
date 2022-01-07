@@ -3,10 +3,10 @@ import { expect } from "chai";
 import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import MineSweeperCommand from "../../src/commands/MineSweeperCommand";
-import Command from "../../src/abstracts/Command";
-import MineSweeperService from "../../src/services/MineSweeperService";
-import { EMBED_COLOURS } from "../../src/config.json";
+import MineSweeperCommand from "../../../src/commands/legacy/MineSweeperCommand";
+import Command from "../../../src/abstracts/Command";
+import MineSweeperService from "../../../src/services/MineSweeperService";
+import { EMBED_COLOURS } from "../../../src/config.json";
 
 describe("MineSweeperCommand", () => {
 	describe("constructor", () => {

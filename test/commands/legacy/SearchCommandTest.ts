@@ -3,10 +3,10 @@ import { expect } from "chai";
 import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import SearchCommand from "../../src/commands/SearchCommand";
-import Command from "../../src/abstracts/Command";
-import InstantAnswerService from "../../src/services/InstantAnswerService";
-import { EMBED_COLOURS } from "../../src/config.json";
+import SearchCommand from "../../../src/commands/legacy/SearchCommand";
+import Command from "../../../src/abstracts/Command";
+import InstantAnswerService from "../../../src/services/InstantAnswerService";
+import { EMBED_COLOURS } from "../../../src/config.json";
 
 describe("SearchCommand", () => {
 	describe("constructor()", () => {

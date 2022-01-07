@@ -1,10 +1,10 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import GitHubService from "../services/GitHubService";
-import { EMBED_COLOURS } from "../config.json";
-import GitHubIssue from "../interfaces/GitHubIssue";
-import DateUtils from "../utils/DateUtils";
-import StringUtils from "../utils/StringUtils";
+import Command from "../../abstracts/Command";
+import GitHubService from "../../services/GitHubService";
+import { EMBED_COLOURS } from "../../config.json";
+import GitHubIssue from "../../interfaces/GitHubIssue";
+import DateUtils from "../../utils/DateUtils";
+import StringUtils from "../../utils/StringUtils";
 
 class IssuesCommand extends Command {
 	constructor() {

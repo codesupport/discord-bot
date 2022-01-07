@@ -3,23 +3,24 @@ import { expect } from "chai";
 import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import IssuesCommand from "../../src/commands/IssuesCommand";
-import Command from "../../src/abstracts/Command";
-import GitHubService from "../../src/services/GitHubService";
-import { EMBED_COLOURS } from "../../src/config.json";
+import GitHubCommand from "../../../src/commands/legacy/GitHubCommand";
+import Command from "../../../src/abstracts/Command";
+import GitHubService from "../../../src/services/GitHubService";
+import { EMBED_COLOURS } from "../../../src/config.json";
 
-describe("IssuesCommand", () => {
+describe("GitHubCommand", () => {
 	describe("constructor", () => {
-		it("creates a command called issues", () => {
-			const command = new IssuesCommand();
+		it("creates a command called github", () => {
+			const command = new GitHubCommand();
 
-			expect(command.getName()).to.equal("issues");
+			expect(command.getName()).to.equal("github");
+			expect(command.getAliases().includes("gh")).to.be.true;
 		});
 
 		it("creates a command with correct description", () => {
-			const command = new IssuesCommand();
+			const command = new GitHubCommand();
 
-			expect(command.getDescription()).to.equal("Shows all the issues of the given repository.");
+			expect(command.getDescription()).to.equal("Shows the repo of the given user.");
 		});
 	});
 
@@ -31,7 +32,7 @@ describe("IssuesCommand", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			command = new IssuesCommand();
+			command = new GitHubCommand();
 			message = BaseMocks.getMessage();
 			gitHub = GitHubService.getInstance();
 		});
@@ -39,10 +40,10 @@ describe("IssuesCommand", () => {
 		it("sends a message to the channel", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(gitHub, "getIssues");
 			sandbox.stub(gitHub, "getRepository");
+			sandbox.stub(gitHub, "getPullRequest");
 
-			await command.run(message, ["user/repo"]);
+			await command.run(message, ["user", "repo"]);
 
 			expect(messageMock.calledOnce).to.be.true;
 		});
@@ -76,64 +77,25 @@ describe("IssuesCommand", () => {
 		it("states it had a problem with the request to GitHub", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(gitHub, "getIssues").resolves(null);
 			sandbox.stub(gitHub, "getRepository").resolves(null);
+			sandbox.stub(gitHub, "getPullRequest").resolves(null);
 
 			await command.run(message, ["thisuserdoesnotexist/thisrepodoesnotexist"]);
 
+			// @ts-ignore - firstArg does not live on getCall()
 			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("There was a problem with the request to GitHub.");
 			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("?issues <username>/<repository>");
+			expect(embed.fields[0].value).to.equal("?github <username>/<repository>");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
-		});
-
-		it("states no issues have been found", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			sandbox.stub(gitHub, "getIssues").resolves(
-				[]
-			);
-
-			sandbox.stub(gitHub, "getRepository").resolves({
-				user: "user",
-				repo: "repo",
-				description: "This is the description",
-				language: "TypeScript",
-				url: "https://github.com/codesupport/discord-bot",
-				issues_and_pullrequests_count: 3,
-				forks: 5,
-				stars: 10,
-				watchers: 3
-			});
-
-			await command.run(message, ["user/repo"]);
-
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("No Issues found");
-			expect(embed.description).to.equal("This repository has no issues. [Create one](https://github.com/codesupport/discord-bot/issues/new)");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
 		it("states the result from the github service", async () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			sandbox.stub(gitHub, "getIssues").resolves(
-				[{
-					title: "This is the title",
-					number: 69,
-					author: "user",
-					author_url: "https://github.com/user",
-					issue_url: "https://github.com/codesupport/discord-bot/issues/69",
-					created_at: new Date(Date.now() - 1000)
-				}]
-			);
-
 			sandbox.stub(gitHub, "getRepository").resolves({
 				user: "user",
 				repo: "repo",
@@ -146,16 +108,67 @@ describe("IssuesCommand", () => {
 				watchers: 3
 			});
 
+			sandbox.stub(gitHub, "getPullRequest").resolves(
+				[{
+					title: "This is the title",
+					description: "This is the description",
+					author: "user"
+				}]
+			);
+
 			await command.run(message, ["user/repo"]);
 
+			// @ts-ignore - firstArg does not live on getCall()
 			const embed = messageMock.getCall(0).firstArg.embeds[0];
 
 			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("GitHub Issues: user/repo");
-			expect(embed.description).to.equal("This is the description\n\n[View Issues on GitHub](https://github.com/codesupport/discord-bot/issues) - [Create An Issue](https://github.com/codesupport/discord-bot/issues/new)");
-			expect(embed.fields[0].name).to.equal("#69 - This is the title");
-			expect(embed.fields[0].value).to.equal("View on [GitHub](https://github.com/codesupport/discord-bot/issues/69) - Today by [user](https://github.com/user)");
+			expect(embed.title).to.equal("GitHub Repository: user/repo");
+			expect(embed.description).to.equal("This is the description\n\n[View on GitHub](https://github.com/codesupport/discord-bot)");
+			expect(embed.fields[0].name).to.equal("Language");
+			expect(embed.fields[0].value).to.equal("TypeScript");
+			expect(embed.fields[1].name).to.equal("Open issues");
+			expect(embed.fields[1].value).to.equal("2");
+			expect(embed.fields[2].name).to.equal("Open Pull Requests");
+			expect(embed.fields[2].value).to.equal("1");
+			expect(embed.fields[3].name).to.equal("Forks");
+			expect(embed.fields[3].value).to.equal("5");
+			expect(embed.fields[4].name).to.equal("Stars");
+			expect(embed.fields[4].value).to.equal("10");
+			expect(embed.fields[5].name).to.equal("Watchers");
+			expect(embed.fields[5].value).to.equal("3");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+		});
+
+		it("states the result from the github service with an empty repo description", async () => {
+			const messageMock = sandbox.stub(message.channel, "send");
+
+			sandbox.stub(gitHub, "getRepository").resolves({
+				user: "user",
+				repo: "repo",
+				description: null,
+				language: "TypeScript",
+				url: "https://github.com/codesupport/discord-bot",
+				issues_and_pullrequests_count: 3,
+				forks: 5,
+				stars: 10,
+				watchers: 3
+			});
+
+			sandbox.stub(gitHub, "getPullRequest").resolves(
+				[{
+					title: "This is the title",
+					description: "This is the description",
+					author: "user"
+				}]
+			);
+
+			await command.run(message, ["user/repo"]);
+
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = messageMock.getCall(0).firstArg.embeds[0];
+
+			expect(messageMock.calledOnce).to.be.true;
+			expect(embed.description).to.equal("[View on GitHub](https://github.com/codesupport/discord-bot)");
 		});
 
 		afterEach(() => {

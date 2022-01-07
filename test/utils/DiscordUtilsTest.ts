@@ -46,12 +46,4 @@ describe("DiscordUtils", () => {
 			sandbox.restore();
 		});
 	});
-
-	describe("::getAllIntents()", () => {
-		it("Should return the sum of intents (32767)", () => {
-			const intents = DiscordUtils.getAllIntents();
-
-			expect(intents).to.equal(32767);
-		});
-	});
 });

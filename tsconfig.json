@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "ESNext",
     "module": "commonjs",
     "outDir": "./build",
     "rootDir": "./src",
@@ -10,7 +10,11 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "noUnusedLocals": true,
-    "lib": ["es2020.string"]
+    "lib": ["es2020.string"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "moduleResolution": "Node"
   },
-  "exclude": ["./test"]
+  "exclude": ["./test", "node_modules"]
 }

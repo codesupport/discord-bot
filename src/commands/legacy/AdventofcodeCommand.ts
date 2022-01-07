@@ -1,13 +1,13 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import AdventOfCodeService from "../services/AdventOfCodeService";
+import Command from "../../abstracts/Command";
+import AdventOfCodeService from "../../services/AdventOfCodeService";
 import {
 	ADVENT_OF_CODE_INVITE,
 	ADVENT_OF_CODE_LEADERBOARD,
 	ADVENT_OF_CODE_RESULTS_PER_PAGE,
 	EMBED_COLOURS
-} from "../config.json";
-import {AOCMember} from "../interfaces/AdventOfCode";
+} from "../../config.json";
+import {AOCMember} from "../../interfaces/AdventOfCode";
 
 class AdventOfCodeCommand extends Command {
 	constructor() {

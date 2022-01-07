@@ -1,7 +1,7 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import { rules } from "../config.json";
-import Command from "../abstracts/Command";
-import { EMBED_COLOURS } from "../config.json";
+import { rules } from "../../config.json";
+import Command from "../../abstracts/Command";
+import { EMBED_COLOURS } from "../../config.json";
 
 class RuleCommand extends Command {
 	constructor() {

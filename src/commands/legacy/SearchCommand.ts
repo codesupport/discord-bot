@@ -1,7 +1,7 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import InstantAnswerService from "../services/InstantAnswerService";
-import { EMBED_COLOURS } from "../config.json";
+import Command from "../../abstracts/Command";
+import InstantAnswerService from "../../services/InstantAnswerService";
+import { EMBED_COLOURS } from "../../config.json";
 
 class SearchCommand extends Command {
 	constructor() {

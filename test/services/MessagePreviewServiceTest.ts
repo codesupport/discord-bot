@@ -93,14 +93,10 @@ describe("MessagePreviewService", () => {
 		});
 
 		it("should return true if message's guild and provided guild id match", () => {
-			message.guild.id = "RANDOM_GUILD_ID";
-
-			expect(messagePreview.verifyGuild(message, "RANDOM_GUILD_ID")).to.be.true;
+			expect(messagePreview.verifyGuild(message, BaseMocks.getGuild().id)).to.be.true;
 		});
 
 		it("should return false if message's guild and provided guild id don't match", () => {
-			message.guild.id = "RANDOM_GUILD_ID";
-
 			expect(messagePreview.verifyGuild(message, "OTHER_GUILD_ID")).to.be.false;
 		});
 

@@ -1,7 +1,7 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../abstracts/Command";
-import GitHubService from "../services/GitHubService";
-import { EMBED_COLOURS } from "../config.json";
+import Command from "../../abstracts/Command";
+import GitHubService from "../../services/GitHubService";
+import { EMBED_COLOURS } from "../../config.json";
 
 class GitHubCommand extends Command {
 	constructor() {

@@ -1,4 +1,6 @@
 {
+    "GUILD_ID": "240880736851329024",
+    "BOT_ID": "545281816026677258",
     "COMMAND_PREFIX": "?",
     "MEMBER_ROLE": "592088198746996768",
     "MOD_ROLE": "490594428549857281",
@@ -13,7 +15,8 @@
     "MEMBER_ROLE_COLOR": "#FFFFFE",
     "PRODUCTION_ENV": "production",
     "DEVELOPMENT_ENV": "development",
-    "commands_directory": "commands",
+    "slash_commands_directory": "commands/slash",
+    "commands_directory": "commands/legacy",
     "handlers_directory": "event/handlers",
     "LOG_CHANNEL_ID": "405068878151024640",
     "MOD_CHANNEL_ID": "495713774205141022",

@@ -1,8 +1,8 @@
 import {ColorResolvable, GuildMember, Message, MessageEmbed} from "discord.js";
-import DiscordUtils from "../utils/DiscordUtils";
-import Command from "../abstracts/Command";
-import DateUtils from "../utils/DateUtils";
-import { EMBED_COLOURS } from "../config.json";
+import DiscordUtils from "../../utils/DiscordUtils";
+import Command from "../../abstracts/Command";
+import DateUtils from "../../utils/DateUtils";
+import { EMBED_COLOURS } from "../../config.json";
 
 class InspectCommand extends Command {
 	constructor() {

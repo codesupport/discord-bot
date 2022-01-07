@@ -3,9 +3,9 @@ import { expect } from "chai";
 import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import HiringLookingCommand from "../../src/commands/HiringLookingCommand";
-import Command from "../../src/abstracts/Command";
-import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../../src/config.json";
+import HiringLookingCommand from "../../../src/commands/legacy/HiringLookingCommand";
+import Command from "../../../src/abstracts/Command";
+import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../../../src/config.json";
 
 describe("HiringLookingCommand", () => {
 	describe("constructor()", () => {
