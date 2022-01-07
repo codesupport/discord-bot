@@ -1,0 +1,8 @@
+{
+	"EMBED_COLOURS": {
+		"SUCCESS": "#35BC31",
+		"ERROR": "#FFFFFF",
+		"DEFAULT": "#1555B7",
+		"WARNING": "#F7CE61"
+	}
+}

@@ -1,13 +1,9 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../abstracts/Command";
 import AdventOfCodeService from "../services/AdventOfCodeService";
-import {
-	ADVENT_OF_CODE_INVITE,
-	ADVENT_OF_CODE_LEADERBOARD,
-	ADVENT_OF_CODE_RESULTS_PER_PAGE,
-	EMBED_COLOURS
-} from "../config.json";
 import {AOCMember} from "../interfaces/AdventOfCode";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 
 class AdventOfCodeCommand extends Command {
 	constructor() {
@@ -41,23 +37,23 @@ class AdventOfCodeCommand extends Command {
 		} else if (queriedYear) {
 			embed.setTitle("Error");
 			embed.setDescription(`Year requested not available.\nPlease query a year between 2015 and ${year}`);
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 			await message.channel.send({embeds: [embed]});
 
 			return;
 		}
 
-		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`;
-		const description = `Leaderboard ID: \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard](${link})`;
+		const link = `https://adventofcode.com/${year}/leaderboard/private/view/${getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD")}`;
+		const description = `Leaderboard ID: \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\`\n\n[View Leaderboard](${link})`;
 
 		if (!queriedYear && args[0]) {
 			const name = args.join(" ");
-			const [position, user] = await adventOfCodeService.getSinglePlayer(ADVENT_OF_CODE_LEADERBOARD, year, name);
+			const [position, user] = await adventOfCodeService.getSinglePlayer(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), year, name);
 
 			if (!user) {
 				embed.setTitle("Error");
 				embed.setDescription("Could not get the user requested\nPlease make sure you typed the name correctly");
-				embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 
 				await message.channel.send({embeds: [embed]});
 				return;
@@ -69,25 +65,25 @@ class AdventOfCodeCommand extends Command {
 			embed.addField("Position", position.toString(), true);
 			embed.addField("Stars", user.stars.toString(), true);
 			embed.addField("Points", user.local_score.toString(), true);
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 
 			await message.channel.send({embeds: [embed]});
 			return;
 		}
 
 		try {
-			const members = await adventOfCodeService.getSortedPlayerList(ADVENT_OF_CODE_LEADERBOARD, year);
+			const members = await adventOfCodeService.getSortedPlayerList(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), year);
 
-			const playerList = this.generatePlayerList(members, ADVENT_OF_CODE_RESULTS_PER_PAGE);
+			const playerList = this.generatePlayerList(members, getConfigValue<number>("ADVENT_OF_CODE_RESULTS_PER_PAGE"));
 
 			embed.setTitle("Advent Of Code");
 			embed.setDescription(description);
-			embed.addField(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`, playerList);
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
+			embed.addField(`Top ${getConfigValue<number>("ADVENT_OF_CODE_RESULTS_PER_PAGE")}`, playerList);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 		} catch {
 			embed.setTitle("Error");
 			embed.setDescription("Could not get the leaderboard for Advent Of Code.");
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		}
 
 		await message.channel.send({embeds: [embed]});

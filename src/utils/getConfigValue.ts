@@ -1,20 +1,15 @@
-import config from "../config.json";
+import InheritedConfig from "@codesupport/inherited-config";
 
-export function getKeyValue<T>(key: string, obj: Record<string, any>): T {
-	if (key.includes(".")) {
-		const newKey = key.split(".");
-		const [newObj] = newKey;
-
-		delete newKey[0];
-
-		return getKeyValue(newKey.join(""), obj[newObj]);
-	}
-
-	return obj[key];
-}
+const config = new InheritedConfig({
+	path: "src"
+});
 
 function getConfigValue<T>(key: string): T {
-	return getKeyValue<T>(key, config);
+	const value = config.getValue<T>(key);
+
+	if (!value) throw new Error(`Config for '${key}' is not found.`);
+
+	return value;
 }
 
 export default getConfigValue;

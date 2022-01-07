@@ -12,7 +12,7 @@
     "FIELD_SPACER_CHAR": "\u200B",
     "MEMBER_ROLE_COLOR": "#FFFFFE",
     "PRODUCTION_ENV": "production",
-    "DEVELOPMENT_ENV": "development",
+    "DEVELOPMENT_ENV": "dev",
     "commands_directory": "commands",
     "handlers_directory": "event/handlers",
     "LOG_CHANNEL_ID": "405068878151024640",

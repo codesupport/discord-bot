@@ -1,6 +1,6 @@
 import { readdir } from "fs";
 import { promisify } from "util";
-import { DEVELOPMENT_ENV } from "../config.json";
+import getConfigValue from "./getConfigValue";
 
 class DirectoryUtils {
 	static readDirectory = promisify(readdir);
@@ -18,7 +18,7 @@ class DirectoryUtils {
 	/* eslint-enable */
 
 	static appendFileExtension(fileName: string): string {
-		const extension = process.env.NODE_ENV === DEVELOPMENT_ENV ? ".ts" : ".js";
+		const extension = process.env.NODE_ENV === getConfigValue<string>("DEVELOPMENT_ENV") ? ".ts" : ".js";
 
 		return fileName + extension;
 	}

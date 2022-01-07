@@ -1,13 +1,13 @@
-import { commands_directory } from "../config.json";
 import Command from "../abstracts/Command";
 import DirectoryUtils from "../utils/DirectoryUtils";
+import getConfigValue from "../utils/getConfigValue";
 
 class CommandFactory {
 	private commands: any = {};
 
 	async loadCommands(): Promise<void> {
 		const commandFiles = await DirectoryUtils.getFilesInDirectory(
-			`${__dirname}/../${commands_directory}`,
+			`${__dirname}/../${getConfigValue<string>("commands_directory")}`,
 			DirectoryUtils.appendFileExtension("Command")
 		);
 
