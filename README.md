@@ -14,6 +14,7 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 - [Axios](https://www.npmjs.com/package/axios)
 - [Twitter](https://www.npmjs.com/package/twitter)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+- [Inherited Config](https://www.npmjs.com/package/@codesupport/inherited-config)
 
 ### Development
 - [TypeScript](https://www.npmjs.com/package/typescript)
