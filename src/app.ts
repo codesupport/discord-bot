@@ -3,11 +3,10 @@ import { Client } from "discordx";
 import { TextChannel, Snowflake } from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
-import { BOT_ID, GUILD_ID, handlers_directory, AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "./config.json";
 import DiscordUtils from "./utils/DiscordUtils";
-import "./commands/slash/CodeblockCommand";
+import getConfigValue from "./utils/getConfigValue";
 
-if (process.env.NODE_ENV !== PRODUCTION_ENV) {
+if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	env({
 		path: "../.env"
 	});
@@ -20,8 +19,8 @@ async function app() {
 
 	try {
 		const client = new Client({
-			botId: BOT_ID,
-			botGuilds: [GUILD_ID],
+			botId: getConfigValue<string>("BOT_ID"),
+			botGuilds: [getConfigValue<string>("GUILD_ID")],
 			intents: DiscordUtils.getAllIntents()
 		});
 
@@ -37,7 +36,7 @@ async function app() {
 		await client.login(process.env.DISCORD_TOKEN!);
 
 		const handlerFiles = await DirectoryUtils.getFilesInDirectory(
-			`${__dirname}/${handlers_directory}`,
+			`${__dirname}/${getConfigValue<string>("handlers_directory")}`,
 			DirectoryUtils.appendFileExtension("Handler")
 		);
 
@@ -48,10 +47,15 @@ async function app() {
 			client.on(handlerInstance.getEvent(), handlerInstance.handle);
 		});
 
-		if (process.env.NODE_ENV === PRODUCTION_ENV) {
-			const authChannel = await client.channels.fetch(<Snowflake>AUTHENTICATION_MESSAGE_CHANNEL) as TextChannel;
+		if (process.env.NODE_ENV === getConfigValue<string>("PRODUCTION_ENV")) {
+			const channelSnowflake = getConfigValue<Snowflake>("AUTHENTICATION_MESSAGE_CHANNEL");
+			const messageSnowflake = getConfigValue<Snowflake>("AUTHENTICATION_MESSAGE_ID");
 
-			await authChannel.messages.fetch(<Snowflake>AUTHENTICATION_MESSAGE_ID);
+			if (channelSnowflake && messageSnowflake) {
+				const authChannel = await client.channels.fetch(channelSnowflake) as TextChannel;
+
+				await authChannel.messages.fetch(messageSnowflake);
+			}
 		}
 	} catch (error) {
 		console.error(error);

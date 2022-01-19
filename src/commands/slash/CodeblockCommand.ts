@@ -1,6 +1,7 @@
 import { Discord, Slash } from "discordx";
 import { MessageEmbed, MessageAttachment, ColorResolvable, CommandInteraction} from "discord.js";
-import { EMBED_COLOURS } from "../../config.json";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 @Discord()
 class CodeblockCommand {
@@ -13,7 +14,7 @@ class CodeblockCommand {
 		embed.setDescription("Please use codeblocks when sending code.");
 		embed.addField("Sending lots of code?", "Consider using a [GitHub Gist](http://gist.github.com).");
 		embed.setImage("attachment://codeblock-tutorial.png");
-		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
+		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 		await interaction.reply({ embeds: [embed], files: [image] });
 	}

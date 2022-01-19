@@ -14,6 +14,7 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
 - [Axios](https://www.npmjs.com/package/axios)
 - [Twitter](https://www.npmjs.com/package/twitter)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+- [Inherited Config](https://www.npmjs.com/package/@codesupport/inherited-config)
 
 ### Development
 - [TypeScript](https://www.npmjs.com/package/typescript)
@@ -39,6 +40,7 @@ This repository contains the code for the CodeSupport Discord Bot. The project i
    - You will need to supply the `DISCORD_TOKEN` environment variable
 
 If you would like to use a `.env` file for storing your environment variables please create it in the root of the project.
+If you would like to overwrite values in `config.json` to better suit your local environment create a file named `config.dev.json` with any values you would like to overwrite `config.json` with.
 
 ## Structure
 - All source code lives inside `src/`

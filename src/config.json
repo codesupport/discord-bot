@@ -14,7 +14,7 @@
     "FIELD_SPACER_CHAR": "\u200B",
     "MEMBER_ROLE_COLOR": "#FFFFFE",
     "PRODUCTION_ENV": "production",
-    "DEVELOPMENT_ENV": "development",
+    "DEVELOPMENT_ENV": "dev",
     "slash_commands_directory": "commands/slash",
     "commands_directory": "commands/legacy",
     "handlers_directory": "event/handlers",

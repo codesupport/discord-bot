@@ -1,6 +1,7 @@
 import {Constants, MessageEmbed, Message, ColorResolvable} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
-import { ALLOWED_FILE_EXTENSIONS, EMBED_COLOURS } from "../../config.json";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class CodeblocksOverFileUploadsHandler extends EventHandler {
 	constructor() {
@@ -15,7 +16,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 			message.attachments.forEach(attachment => {
 				const fileExtension = attachment.name?.split(".").pop()!.toLowerCase() || "";
 
-				if (!ALLOWED_FILE_EXTENSIONS.includes(fileExtension) || fileExtension === "") {
+				if (!getConfigValue<string[]>("ALLOWED_FILE_EXTENSIONS").includes(fileExtension) || fileExtension === "") {
 					invalidFileExtension = fileExtension;
 					invalidFileFlag = true;
 				}
@@ -27,7 +28,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				embed.setTitle("Uploading Files");
 				embed.setDescription(`${message.author}, you tried to upload a \`.${invalidFileExtension}\` file, which is not allowed. Please use codeblocks over attachments when sending code.`);
 				embed.setFooter("Type ?codeblock for more information.");
-				embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
+				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 				await message.channel.send({ embeds: [embed] });
 				await message.delete();

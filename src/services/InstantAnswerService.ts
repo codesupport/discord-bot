@@ -1,6 +1,6 @@
 import axios from "axios";
-import { INSTANT_ANSWER_HIGHLIGHTS } from "../config.json";
 import InstantAnswer from "../interfaces/InstantAnswer";
+import getConfigValue from "../utils/getConfigValue";
 
 class InstantAnswerService {
 	private static instance: InstantAnswerService;
@@ -23,7 +23,7 @@ class InstantAnswerService {
 
 		if (status === 200) {
 			if (data.Heading !== "") {
-				const [language] = INSTANT_ANSWER_HIGHLIGHTS.map(highlight =>
+				const [language] = getConfigValue<string[]>("INSTANT_ANSWER_HIGHLIGHTS").map(highlight =>
 					data.Heading.toLowerCase().includes(highlight) && highlight
 				);
 

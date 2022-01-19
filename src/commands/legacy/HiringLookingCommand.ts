@@ -1,6 +1,7 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../../abstracts/Command";
-import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../../config.json";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class HiringLookingCommand extends Command {
 	constructor() {
@@ -21,7 +22,7 @@ class HiringLookingCommand extends Command {
 			nothing we can do, however, we do ask that you let a moderator know.
 		`);
 		embed.addField("Payment", "If you are trying to hire people for a project, and that project is not open source, your post must state how much you will pay them (or a percentage of profits they will receive).");
-		embed.addField("Post Frequency", `Please only post in <#${BOTLESS_CHANNELS.HIRING_OR_LOOKING}> once per week to keep the channel clean and fair. Posting multiple times per week will lead to your access to the channel being revoked.`);
+		embed.addField("Post Frequency", `Please only post in <#${getConfigValue<GenericObject<string>>("BOTLESS_CHANNELS").HIRING_OR_LOOKING}> once per week to keep the channel clean and fair. Posting multiple times per week will lead to your access to the channel being revoked.`);
 		embed.addField("Example Post", `
 			Please use the example below as a template to base your post on.\n
 			\`\`\`
@@ -36,7 +37,7 @@ Requirements:
 - Able to stick to deadlines and work as a team.
 			\`\`\`
 		`);
-		embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
+		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 		await message.channel.send({ embeds: [embed] });
 	}

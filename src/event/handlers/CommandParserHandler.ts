@@ -2,7 +2,6 @@ import { Constants, Message } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import CommandFactory from "../../factories/CommandFactory";
 import getConfigValue from "../../utils/getConfigValue";
-import { COMMAND_PREFIX } from "../../config.json";
 import GenericObject from "../../interfaces/GenericObject";
 
 class CommandParserHandler extends EventHandler {
@@ -16,14 +15,16 @@ class CommandParserHandler extends EventHandler {
 	}
 
 	handle = async (message: Message): Promise<void> => {
-		if (message.content.startsWith(COMMAND_PREFIX)) {
+		const prefix = getConfigValue<string>("COMMAND_PREFIX");
+
+		if (message.content.startsWith(prefix)) {
 			const BOTLESS_CHANNELS = getConfigValue<GenericObject<string>>("BOTLESS_CHANNELS");
 
-			if (Object.values(BOTLESS_CHANNELS).includes(message.channel.id)) {
+			if (BOTLESS_CHANNELS && Object.values(BOTLESS_CHANNELS).includes(message.channel.id)) {
 				return;
 			}
 
-			const args = message.content.replace("?", "").split(" ");
+			const args = message.content.replace(prefix, "").split(" ");
 			const trigger = args.shift() || args[0];
 
 			if (!trigger) return;

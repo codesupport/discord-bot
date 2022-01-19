@@ -1,9 +1,10 @@
 import Command from "../../abstracts/Command";
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import { EMBED_COLOURS } from "../../config.json";
 import Project from "../../interfaces/Project";
 import projects from "../../src-assets/projects.json";
 import StringUtils from "../../utils/StringUtils";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 export default class ProjectCommand extends Command {
 	private readonly defaultSearchTags = ["easy", "medium", "hard"];
@@ -29,7 +30,7 @@ export default class ProjectCommand extends Command {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a search query/tag.");
 			embed.addField("Correct Usage", "?projects <query>");
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		} else {
 			const displayProject = this.provideProjects()
 				.filter(this.removeTooLongDescriptions)
@@ -43,10 +44,10 @@ export default class ProjectCommand extends Command {
 				embed.setDescription(displayProject.description);
 				if (difficulty) embed.addField("Difficulty", StringUtils.capitalise(difficulty), true);
 				embed.addField("Tags", displayProject.tags.map(tag => `#${tag}`).join(", "), true);
-				embed.setColor(<ColorResolvable>EMBED_COLOURS.DEFAULT);
+				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 			} else {
 				embed.setTitle("Error");
-				embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 				embed.setDescription("Could not find a project result for the given query.");
 			}
 		}

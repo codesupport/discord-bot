@@ -1,9 +1,10 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../../abstracts/Command";
-import { EMBED_COLOURS } from "../../config.json";
 import ArticleService from "../../services/ArticleService";
 import CodeSupportArticle from "../../interfaces/CodeSupportArticle";
 import WebsiteUserService from "../../services/WebsiteUserService";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class ArticleCommand extends Command {
 	constructor() {
@@ -34,11 +35,11 @@ class ArticleCommand extends Command {
 				embed.addField(article.title, `${article.revision.description} \n[Read Article](${articleUrl}) - Written by [${article.createdBy.alias}](${profileUrl})`);
 			});
 
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 		} catch (error) {
 			embed.setTitle("Error");
 			embed.setDescription("There was a problem with requesting the articles API.");
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		}
 
 		await message.channel.send({ embeds: [embed] });

@@ -1,6 +1,6 @@
 import {Message, TextChannel, MessageEmbed, ColorResolvable, Snowflake} from "discord.js";
 import DateUtils from "../utils/DateUtils";
-import { MEMBER_ROLE_COLOR, FIELD_SPACER_CHAR } from "../config.json";
+import getConfigValue from "../utils/getConfigValue";
 
 class MessagePreviewService {
 	private static instance: MessagePreviewService;
@@ -31,9 +31,9 @@ class MessagePreviewService {
 
 					embed.setAuthor(this.getAuthorName(messageToPreview), messageToPreview.author.avatarURL() || undefined, link);
 					embed.setDescription(`<#${channel.id}>\n\n${parsedContent}\n`);
-					embed.addField(FIELD_SPACER_CHAR, `[View Original Message](${link})`);
+					embed.addField(getConfigValue<string>("FIELD_SPACER_CHAR"), `[View Original Message](${link})`);
 					embed.setFooter(`Message sent at ${DateUtils.formatAsText(messageToPreview.createdAt)}`);
-					embed.setColor(<ColorResolvable>(messageToPreview.member?.displayColor || MEMBER_ROLE_COLOR));
+					embed.setColor(<ColorResolvable>(messageToPreview.member?.displayColor || getConfigValue<string>("MEMBER_ROLE_COLOR")));
 
 					await callingMessage.channel.send({embeds: [embed]});
 				}

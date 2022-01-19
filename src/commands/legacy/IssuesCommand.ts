@@ -1,10 +1,11 @@
 import {ColorResolvable, Message, MessageEmbed} from "discord.js";
 import Command from "../../abstracts/Command";
 import GitHubService from "../../services/GitHubService";
-import { EMBED_COLOURS } from "../../config.json";
 import GitHubIssue from "../../interfaces/GitHubIssue";
 import DateUtils from "../../utils/DateUtils";
 import StringUtils from "../../utils/StringUtils";
+import getConfigValue from "../../utils/getConfigValue";
+import GenericObject from "../../interfaces/GenericObject";
 
 class IssuesCommand extends Command {
 	constructor() {
@@ -24,7 +25,7 @@ class IssuesCommand extends Command {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a username and repo from GitHub.");
 			embed.addField("Correct Usage", "?issues <username>/<repository>");
-			embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		} else {
 			const [user, repoName] = args[0].split("/");
 
@@ -46,17 +47,17 @@ class IssuesCommand extends Command {
 						embed.addField(`#${issue.number} - ${issue.title}`, `View on [GitHub](${issue.issue_url}) - ${daysText} by [${issue.author}](${issue.author_url})`);
 					});
 
-					embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
+					embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 				} else {
 					embed.setTitle("No Issues found");
 					embed.setDescription(`This repository has no issues. [Create one](${resRep.url}/issues/new)`);
-					embed.setColor(<ColorResolvable>EMBED_COLOURS.SUCCESS);
+					embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 				}
 			} catch (error) {
 				embed.setTitle("Error");
 				embed.setDescription("There was a problem with the request to GitHub.");
 				embed.addField("Correct Usage", "?issues <username>/<repository>");
-				embed.setColor(<ColorResolvable>EMBED_COLOURS.ERROR);
+				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 			}
 		}
 
