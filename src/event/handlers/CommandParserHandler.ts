@@ -15,14 +15,16 @@ class CommandParserHandler extends EventHandler {
 	}
 
 	handle = async (message: Message): Promise<void> => {
-		if (message.content.startsWith(getConfigValue<string>("COMMAND_PREFIX"))) {
+		const prefix = getConfigValue<string>("COMMAND_PREFIX");
+
+		if (message.content.startsWith(prefix)) {
 			const BOTLESS_CHANNELS = getConfigValue<GenericObject<string>>("BOTLESS_CHANNELS");
 
 			if (BOTLESS_CHANNELS && Object.values(BOTLESS_CHANNELS).includes(message.channel.id)) {
 				return;
 			}
 
-			const args = message.content.replace("?", "").split(" ");
+			const args = message.content.replace(prefix, "").split(" ");
 			const trigger = args.shift() || args[0];
 
 			if (!trigger) return;
