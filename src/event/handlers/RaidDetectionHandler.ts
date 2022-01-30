@@ -17,12 +17,11 @@ class RaidDetectionHandler extends EventHandler {
 		this.joinQueue.push(member);
 		if (this.joinQueue.length >= getConfigValue<GenericObject<number>>("RAID_SETTINGS").MAX_QUEUE_SIZE && !this.kickFlag) {
 			this.kickFlag = true;
-			await this.kickArray(member);
-			this.kickFlag = false;
+			this.kickArray(member).then(() => this.kickFlag = false);
 		}
 
 		setTimeout(() => {
-			if (this.joinQueue.includes(member)) {
+			if (this.joinQueue.includes(member) && !this.kickFlag) {
 				this.joinQueue.splice(this.joinQueue.indexOf(member), 1);
 			}
 		}, timeToWait);
