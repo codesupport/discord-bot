@@ -8,15 +8,10 @@ import DiscordUtils from "../../utils/DiscordUtils";
 @Discord()
 class InspectCommand {
 	@Slash("inspect")
-	async onInteract(@SlashOption("id", {description: "ID of user", required: false}) userID: string, interaction: CommandInteraction): Promise<void> {
-		let memberID: string;
-
-		if (userID === undefined) {
-			memberID = interaction.member!.user.id;
-		} else {
-			memberID = userID.substr(0, 3) === "<@!" ? userID.substr(3, userID.length - 4) : userID;
-		}
-		const userObj = await DiscordUtils.getGuildMember(memberID, interaction.guild!);
+	async onInteract(
+		@SlashOption("user", {type: "MENTIONABLE", required: false}) userID: GuildMember,
+			interaction: CommandInteraction): Promise<void> {
+		const userObj = await DiscordUtils.getGuildMember(userID === undefined ? interaction.user.id : userID.id, interaction.guild!);
 
 		const embed = userObj === undefined
 			? this.buildNoMatchEmbed()

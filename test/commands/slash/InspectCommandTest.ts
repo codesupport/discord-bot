@@ -30,12 +30,12 @@ describe("InspectCommand", () => {
 			replyStub = sandbox.stub().resolves();
 			interaction = {
 				reply: replyStub,
-				member: BaseMocks.getGuildMember()
+				user: BaseMocks.getGuildMember()
 			};
 		});
 
 		it("sends a message to the channel", async () => {
-			await command.onInteract("123", interaction);
+			await command.onInteract(BaseMocks.getGuildMember(), interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
