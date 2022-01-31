@@ -1,11 +1,9 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Message, Role } from "discord.js";
+import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Role } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import InspectCommand from "../../../src/commands/legacy/InspectCommand";
-import Command from "../../../src/abstracts/Command";
-import { EMBED_COLOURS } from "../../../src/config.json";
+import InspectCommand from "../../../src/commands/slash/InspectCommand";
 import DateUtils from "../../../src/utils/DateUtils";
 import DiscordUtils from "../../../src/utils/DiscordUtils";
 
@@ -20,60 +18,29 @@ const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(),
 }, BaseMocks.getGuild())]]);
 
 describe("InspectCommand", () => {
-	describe("constructor()", () => {
-		it("creates a command called inspect", () => {
-			const command = new InspectCommand();
-
-			expect(command.getName()).to.equal("inspect");
-		});
-
-		it("creates a command with correct description", () => {
-			const command = new InspectCommand();
-
-			expect(command.getDescription()).to.equal("Show information about a given user");
-		});
-	});
-
-	describe("run()", () => {
+	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
-		let message: Message;
-		let command: Command;
+		let command: InspectCommand;
+		let interaction: any;
+		let replyStub: sinon.SinonStub<any[], any>;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new InspectCommand();
-			message = BaseMocks.getMessage();
+			replyStub = sandbox.stub().resolves();
+			interaction = {
+				reply: replyStub,
+				user: BaseMocks.getGuildMember()
+			};
 		});
 
 		it("sends a message to the channel", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
+			await command.onInteract(BaseMocks.getGuildMember(), interaction);
 
-			sandbox.stub(DiscordUtils, "getGuildMember").resolves(undefined);
-
-			await command.run(message, ["User"]);
-
-			expect(messageMock.calledOnce).to.be.true;
-		});
-
-		it("sends an error message when user is not found", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			sandbox.stub(DiscordUtils, "getGuildMember").resolves(undefined);
-
-			await command.run(message, ["FakeUser#1234"]);
-
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("No match found.");
-			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("?inspect [username|userID]");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("sends a message with information if an argument was provided", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
 			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
@@ -81,11 +48,13 @@ describe("InspectCommand", () => {
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
-			await command.run(message, [member.user.username]);
+			// @ts-ignore
+			await command.onInteract("123321hehexd", interaction);
 
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
 			expect(embed.fields[0].name).to.equal("User ID");
 			expect(embed.fields[0].value).to.equal(member.user.id);
@@ -101,41 +70,41 @@ describe("InspectCommand", () => {
 		});
 
 		it("sends a message with information if no argument was provided", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
 			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
+			sandbox.stub(DiscordUtils, "getGuildMember").resolves(member);
+
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
-			await command.run(message, []);
+			// @ts-ignore
+			await command.onInteract(undefined, interaction);
 
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
-
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
 			expect(embed.fields.find((field: EmbedField) => field.name === "User ID")?.value).to.equal(member.user.id);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Username")?.value).to.equal(member.user.tag);
-			expect(embed.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(message.member?.nickname);
-			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(DateUtils.formatAsText(message.member!.joinedAt!));
+			expect(embed.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(member?.nickname);
+			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(DateUtils.formatAsText(member!.joinedAt!));
 			expect(embed.fields.find((field: EmbedField) => field.name === "Roles")?.value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(member.displayColor);
 		});
 
 		it("handles role field correctly if member has no role", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
 			const member = BaseMocks.getGuildMember();
 
-			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#1555B7");
+			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#1555b7");
 			sandbox.stub(DiscordUtils, "getGuildMember").resolves(member);
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([]));
 
-			await command.run(message, [member.user.username]);
+			await command.onInteract(member.user.username, interaction);
 
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
 			expect(embed.fields[0].name).to.equal("User ID");
 			expect(embed.fields[0].value).to.equal(member.user.id);
