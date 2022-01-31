@@ -1,54 +1,42 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Message } from "discord.js";
-import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import HiringLookingCommand from "../../../src/commands/legacy/HiringLookingCommand";
-import Command from "../../../src/abstracts/Command";
-import { EMBED_COLOURS, BOTLESS_CHANNELS } from "../../../src/config.json";
+import { EMBED_COLOURS } from "../../../src/config.json";
+import HiringLookingCommand from "../../../src/commands/slash/HiringLookingCommand";
+import getConfigValue from "../../../src/utils/getConfigValue";
+import GenericObject from "../../../src/interfaces/GenericObject";
 
 describe("HiringLookingCommand", () => {
-	describe("constructor()", () => {
-		it("creates a command called hl", () => {
-			const command = new HiringLookingCommand();
-
-			expect(command.getName()).to.equal("hl");
-		});
-
-		it("creates a command with correct description", () => {
-			const command = new HiringLookingCommand();
-
-			expect(command.getDescription()).to.equal("Get information on how to correctly format a Hiring/Looking post");
-		});
-	});
-
-	describe("run()", () => {
+	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
-		let message: Message;
-		let command: Command;
+		let command: HiringLookingCommand;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new HiringLookingCommand();
-			message = BaseMocks.getMessage();
 		});
 
 		it("sends a message to the channel", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
+			const replyStub = sandbox.stub().resolves();
 
-			await command.run(message);
+			await command.onInteract({
+				reply: replyStub
+			});
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states how to format a post", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
+			const replyStub = sandbox.stub().resolves();
 
-			await command.run(message);
+			await command.onInteract({
+				reply: replyStub
+			});
 
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			// @ts-ignore - firstArg does not live on getCall()
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Hiring or Looking Posts");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 
@@ -62,7 +50,7 @@ describe("HiringLookingCommand", () => {
 			expect(embed.fields[0].name).to.equal("Payment");
 			expect(embed.fields[0].value).to.equal("If you are trying to hire people for a project, and that project is not open source, your post must state how much you will pay them (or a percentage of profits they will receive).");
 			expect(embed.fields[1].name).to.equal("Post Frequency");
-			expect(embed.fields[1].value).to.equal(`Please only post in <#${BOTLESS_CHANNELS.HIRING_OR_LOOKING}> once per week to keep the channel clean and fair. Posting multiple times per week will lead to your access to the channel being revoked.`);
+			expect(embed.fields[1].value).to.equal(`Please only post in <#${getConfigValue<GenericObject<string>>("BOTLESS_CHANNELS").HIRING_OR_LOOKING}> once per week to keep the channel clean and fair. Posting multiple times per week will lead to your access to the channel being revoked.`);
 			expect(embed.fields[2].name).to.equal("Example Post");
 			expect(embed.fields[2].value).to.equal(`
 			Please use the example below as a template to base your post on.\n

@@ -1,17 +1,12 @@
-import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../../abstracts/Command";
+import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
+import {Discord, Slash} from "discordx";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
 
-class HiringLookingCommand extends Command {
-	constructor() {
-		super(
-			"hl",
-			"Get information on how to correctly format a Hiring/Looking post"
-		);
-	}
-
-	async run(message: Message): Promise<void> {
+@Discord()
+class HiringLookingCommand {
+	@Slash("hl")
+	async onInteract(interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 
 		embed.setTitle("Hiring or Looking Posts");
@@ -39,7 +34,7 @@ Requirements:
 		`);
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
-		await message.channel.send({ embeds: [embed] });
+		await interaction.reply({ embeds: [embed]});
 	}
 }
 
