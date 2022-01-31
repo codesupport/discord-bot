@@ -1,11 +1,11 @@
 import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
+import {Discord, Slash} from "discordx";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
-import {Discord, Slash} from "discordx";
 
 @Discord()
 class HiringLookingCommand {
-	@Slash("hiring")
+	@Slash("hl")
 	async onInteract(interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 
