@@ -6,6 +6,7 @@ import DirectoryUtils from "./utils/DirectoryUtils";
 import DiscordUtils from "./utils/DiscordUtils";
 import getConfigValue from "./utils/getConfigValue";
 import "./commands/slash/CodeblockCommand";
+import "./commands/slash/HiringLookingCommand";
 
 if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	env({
