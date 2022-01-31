@@ -1,28 +1,28 @@
-import {ColorResolvable, GuildMember, Message, MessageEmbed} from "discord.js";
-import DiscordUtils from "../../utils/DiscordUtils";
-import Command from "../../abstracts/Command";
-import DateUtils from "../../utils/DateUtils";
+import {Discord, Slash, SlashOption} from "discordx";
+import {MessageEmbed, ColorResolvable, CommandInteraction, GuildMember} from "discord.js";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
+import DateUtils from "../../utils/DateUtils";
+import DiscordUtils from "../../utils/DiscordUtils";
 
-class InspectCommand extends Command {
-	constructor() {
-		super(
-			"inspect",
-			"Show information about a given user"
-		);
-	}
+@Discord()
+class InspectCommand {
+	@Slash("inspect")
+	async onInteract(@SlashOption("id", {description: "ID of user", required: false}) userID: string, interaction: CommandInteraction): Promise<void> {
+		let memberID: string;
 
-	async run(message: Message, args: string[]) {
-		const userObj = args.length > 0
-			? await DiscordUtils.getGuildMember(args[0], message.guild!)
-			: message.member!;
+		if (userID === undefined) {
+			memberID = interaction.member!.user.id;
+		} else {
+			memberID = userID.substr(0, 3) === "<@!" ? userID.substr(3, userID.length - 4) : userID;
+		}
+		const userObj = await DiscordUtils.getGuildMember(memberID, interaction.guild!);
 
 		const embed = userObj === undefined
 			? this.buildNoMatchEmbed()
 			: this.buildInspectEmbed(userObj!);
 
-		await message.channel.send({embeds: [embed]});
+		await interaction.reply({embeds: [embed]});
 	}
 
 	private buildNoMatchEmbed(): MessageEmbed {
