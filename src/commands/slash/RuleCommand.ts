@@ -1,5 +1,5 @@
-import {ColorResolvable, Message, MessageEmbed} from "discord.js";
-import Command from "../../abstracts/Command";
+import {AutocompleteInteraction, ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
+import {Discord, Slash, SlashOption} from "discordx";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
 
@@ -9,28 +9,27 @@ interface Rule {
 	description: string;
 }
 
-class RuleCommand extends Command {
-	constructor() {
-		super(
-			"rule",
-			"Get a specific rule.",
-			{
-				selfDestructing: true,
-				aliases: ["rl"]
-			}
-		);
-	}
+@Discord()
+class RuleCommand {
+	@Slash("rule")
+	async onInteract(
+		@SlashOption("rule", {
+			autocomplete: (interaction: AutocompleteInteraction) => {
+				const rule = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: it.triggers[1]}));
 
-	async run(message: Message, args: string[]): Promise<void> {
+				interaction.respond(rule);
+			},
+			type: "STRING"
+		}) ruleName: string, interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 
-		if (!args || typeof args[0] === "undefined") {
+		if (!ruleName) {
 			embed.setTitle("Error");
 			embed.setDescription("You must define a rule number.");
 			embed.addField("Correct Usage", "?rule <rule number/trigger>");
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		} else {
-			const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(args[0]));
+			const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(ruleName));
 
 			if (rule !== undefined) {
 				embed.setTitle(`Rule: ${rule.name}`);
@@ -44,8 +43,7 @@ class RuleCommand extends Command {
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 			}
 		}
-
-		await message.channel.send({ embeds: [embed] });
+		await interaction.reply({embeds: [embed]});
 	}
 }
 
