@@ -31,7 +31,7 @@ describe("ResourcesCommand", () => {
 				reply: replyStub
 			});
 
-			const url = replyStub.firstCall.lastArg;
+			const { content: url } = replyStub.firstCall.lastArg;
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(url).to.equal("https://codesupport.dev/resources");
@@ -44,7 +44,7 @@ describe("ResourcesCommand", () => {
 				reply: replyStub
 			});
 
-			const url = replyStub.firstCall.lastArg;
+			const { content: url } = replyStub.firstCall.lastArg;
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(url).to.equal("https://codesupport.dev/resources?category=javascript");
