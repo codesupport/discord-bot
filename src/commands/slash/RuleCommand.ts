@@ -15,7 +15,7 @@ class RuleCommand {
 	async onInteract(
 		@SlashOption("rule", {
 			autocomplete: (interaction: AutocompleteInteraction) => {
-				const rule = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: it.triggers[1]}));
+				const rule = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: it.triggers[0]}));
 
 				interaction.respond(rule);
 			},
@@ -23,27 +23,20 @@ class RuleCommand {
 		}) ruleName: string, interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 
-		if (!ruleName) {
+		const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(ruleName));
+
+		if (rule !== undefined) {
+			embed.setTitle(`Rule: ${rule.name}`);
+			embed.setDescription(rule.description);
+			embed.addField("To familiarise yourself with all of the server's rules please see", "<#240884566519185408>");
+			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
+		} else {
 			embed.setTitle("Error");
-			embed.setDescription("You must define a rule number.");
+			embed.setDescription("Unknown rule number/trigger.");
 			embed.addField("Correct Usage", "?rule <rule number/trigger>");
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
-		} else {
-			const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(ruleName));
-
-			if (rule !== undefined) {
-				embed.setTitle(`Rule: ${rule.name}`);
-				embed.setDescription(rule.description);
-				embed.addField("To familiarise yourself with all of the server's rules please see", "<#240884566519185408>");
-				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
-			} else {
-				embed.setTitle("Error");
-				embed.setDescription("Unknown rule number/trigger.");
-				embed.addField("Correct Usage", "?rule <rule number/trigger>");
-				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
-			}
 		}
-		await interaction.reply({embeds: [embed]});
+		await interaction.reply({embeds: [embed], ephemeral: rule === undefined});
 	}
 }
 
