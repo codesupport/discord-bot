@@ -33,7 +33,7 @@ async function app() {
 			`${__dirname}/${getConfigValue<string>("slash_commands_directory")}`,
 			DirectoryUtils.appendFileExtension("Command")
 		);
-		
+
 		client.on("interactionCreate", interaction => {
 			client.executeInteraction(interaction);
 		});
