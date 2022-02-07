@@ -9,15 +9,15 @@ interface Rule {
 	description: string;
 }
 
+const rules = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: it.triggers[0]}));
+
 @Discord()
 class RuleCommand {
 	@Slash("rule")
 	async onInteract(
 		@SlashOption("rule", {
 			autocomplete: (interaction: AutocompleteInteraction) => {
-				const rule = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: it.triggers[0]}));
-
-				interaction.respond(rule);
+				interaction.respond(rules);
 			},
 			type: "STRING"
 		}) ruleName: string, interaction: CommandInteraction): Promise<void> {
