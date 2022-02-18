@@ -37,7 +37,7 @@ describe("RuleCommand", () => {
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("Unknown rule number/trigger.");
 			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("?rule <rule number/trigger>");
+			expect(embed.fields[0].value).to.equal("/rule <rule number/trigger>");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
