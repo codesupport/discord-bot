@@ -9,9 +9,7 @@ interface Rule {
 	description: string;
 }
 
-const rules = Object.assign({}, ...getConfigValue<Rule[]>("rules").map(rule => ({
-	[rule.name]: rule.triggers[0]
-})));
+const rules = getConfigValue<Rule[]>("rules").reduce((r, it) => ({...r, [it.name]: it.triggers[0]}), {});
 
 @Discord()
 class RuleCommand {
