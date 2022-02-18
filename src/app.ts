@@ -5,9 +5,6 @@ import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
 import DiscordUtils from "./utils/DiscordUtils";
 import getConfigValue from "./utils/getConfigValue";
-import "./commands/slash/CodeblockCommand";
-import "./commands/slash/HiringLookingCommand";
-import "./commands/slash/InspectCommand";
 
 if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	env({
@@ -31,6 +28,11 @@ async function app() {
 			await client.initApplicationCommands({ guild: { log: true }});
 			await client.initApplicationPermissions();
 		});
+
+		await DirectoryUtils.getFilesInDirectory(
+			`${__dirname}/${getConfigValue<string>("slash_commands_directory")}`,
+			DirectoryUtils.appendFileExtension("Command")
+		);
 
 		client.on("interactionCreate", interaction => {
 			client.executeInteraction(interaction);
