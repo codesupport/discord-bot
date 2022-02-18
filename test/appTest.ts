@@ -38,12 +38,20 @@ describe("app", () => {
 		expect(loginStub.calledWith("FAKE_TOKEN")).to.be.true;
 	});
 
+	it("should look for slash commands", async () => {
+		const getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory");
+
+		await app();
+
+		expect(getFilesStub.args[0][1]).to.equal("Command.js");
+	});
+
 	it("should look for handler files", async () => {
 		const getFilesStub = sandbox.stub(DirectoryUtils, "getFilesInDirectory");
 
 		await app();
 
-		expect(getFilesStub.args[0][1]).to.equal("Handler.js");
+		expect(getFilesStub.args[1][1]).to.equal("Handler.js");
 	});
 
 	it("should bind handlers to events", async () => {
