@@ -13,7 +13,6 @@ const rules = Object.assign({}, ...getConfigValue<Rule[]>("rules").map(rule => (
 	[rule.name]: rule.triggers[0]
 })));
 
-console.log(rules);
 @Discord()
 class RuleCommand {
 	@Slash("rule")
@@ -29,13 +28,8 @@ class RuleCommand {
 			embed.setDescription(rule.description);
 			embed.addField("To familiarise yourself with all of the server's rules please see", "<#240884566519185408>");
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
-		} else {
-			embed.setTitle("Error");
-			embed.setDescription("Unknown rule number/trigger.");
-			embed.addField("Correct Usage", "/rule <rule number/trigger>");
-			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		}
-		await interaction.reply({embeds: [embed], ephemeral: rule === undefined});
+		await interaction.reply({embeds: [embed]});
 	}
 }
 

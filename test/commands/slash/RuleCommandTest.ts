@@ -24,23 +24,6 @@ describe("RuleCommand", () => {
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
-		it("states it is an unknown rule trigger if not found in rules object", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("doesn'texist", {
-				reply: replyStub
-			});
-
-			const embed = replyStub.getCall(0).firstArg.embeds[0];
-
-			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("Unknown rule number/trigger.");
-			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("/rule <rule number/trigger>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
-		});
-
 		it("states rule 0 if you ask for rule 0", async () => {
 			const replyStub = sandbox.stub().resolves();
 
