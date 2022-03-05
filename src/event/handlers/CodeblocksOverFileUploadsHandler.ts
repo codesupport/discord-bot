@@ -27,7 +27,7 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 
 				embed.setTitle("Uploading Files");
 				embed.setDescription(`${message.author}, you tried to upload a \`.${invalidFileExtension}\` file, which is not allowed. Please use codeblocks over attachments when sending code.`);
-				embed.setFooter("Type ?codeblock for more information.");
+				embed.setFooter("Type /codeblock for more information.");
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 				await message.channel.send({ embeds: [embed] });
