@@ -1,32 +1,26 @@
-import Command from "../../abstracts/Command";
-import {ColorResolvable, Message, MessageEmbed} from "discord.js";
+import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
 import Project from "../../interfaces/Project";
 import projects from "../../src-assets/projects.json";
 import StringUtils from "../../utils/StringUtils";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
+import {Discord, Slash, SlashOption} from "discordx";
 
-export default class ProjectCommand extends Command {
+@Discord()
+class ProjectCommand {
 	private readonly defaultSearchTags = ["easy", "medium", "hard"];
-
-	constructor() {
-		super(
-			"project",
-			"Returns a random project idea based on given parameters.",
-			{
-				aliases: ["projects"]
-			}
-		);
-	}
 
 	readonly provideProjects: () => Array<Project> = () => projects;
 
-	async run(message: Message, args: string[]): Promise<void> {
+	@Slash("project")
+	async onInteract(
+		@SlashOption("query", {type: "STRING"}) queryString: string,
+			interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 
-		const query = args.map((arg: string) => arg.toLowerCase()).filter((arg: string) => arg.trim().length > 0);
+		const query = queryString.split(" ").map((arg: string) => arg.toLowerCase()).filter((arg: string) => arg.trim().length > 0);
 
-		if (args.length === 0) {
+		if (query.length === 0) {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a search query/tag.");
 			embed.addField("Correct Usage", "?projects <query>");
@@ -52,7 +46,7 @@ export default class ProjectCommand extends Command {
 			}
 		}
 
-		await message.channel.send({embeds: [embed]});
+		await interaction.reply({embeds: [embed]});
 	}
 
 	private readonly removeTooLongDescriptions: (project: Project) => boolean = ({description}) => description.length <= 2048;
@@ -63,3 +57,4 @@ export default class ProjectCommand extends Command {
 	private readonly retrieveFirstFoundTag: (project: Project, tagsToRetrieve: Array<string>) => string | undefined =
 		({tags}, tagsToRetrieve: Array<string>) => tagsToRetrieve.filter(tag => tags.map((tag: string) => tag.toLowerCase()).includes(tag)).pop();
 }
+export default ProjectCommand;
