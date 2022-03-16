@@ -47,6 +47,7 @@ describe("ProjectCommand", () => {
 				reply: replyStub,
 				user: BaseMocks.getGuildMember()
 			};
+			sandbox.stub(command as ProjectCommand, "provideProjects").callsFake(() => mockProjects);
 		});
 
 		it("returns an embed to request the user to search with less args if no result is found for given args", async () => {
@@ -77,33 +78,17 @@ describe("ProjectCommand", () => {
 			expect(thirdCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 			expect(lastCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
 		});
-/*
+
 		it("should filter out too long descriptions out of the resultset", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
+			await command.onInteract("6", interaction);
 
-			await command.run(message, ["6"]);
+			const firstCall = replyStub.getCall(0).firstArg.embeds[0];
 
-			const firstCall = messageMock.getCall(0).firstArg.embeds[0];
-
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(firstCall.title).to.equal("Error");
 			expect(firstCall.description).to.equal("Could not find a project result for the given query.");
 			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
-
-		it("should return instructions on how to use the command if no args are provided", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, []);
-
-			const firstCall = messageMock.getCall(0).firstArg.embeds[0];
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(firstCall.title).to.equal("Error");
-			expect(firstCall.description).to.equal("You must provide a search query/tag.");
-			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
-		});
-		*/
 
 		afterEach(() => {
 			sandbox.restore();
