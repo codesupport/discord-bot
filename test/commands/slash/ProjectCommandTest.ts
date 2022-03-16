@@ -1,8 +1,8 @@
+import ProjectCommand from "../../../src/commands/slash/ProjectCommand";
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import { EMBED_COLOURS } from "../../../src/config.json";
-import ProjectCommand from "../../../src/commands/slash/ProjectCommand";
 
 describe("ProjectCommand", () => {
 	describe("onInteract()", () => {
