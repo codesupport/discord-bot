@@ -90,7 +90,7 @@ describe("MessagePreviewService", () => {
 
 		it("doesn't send preview message if the message ID is wrong", async () => {
 			fetchMessageMock.restore();
-			fetchMessageMock = sandbox.stub(channel.messages, "fetch").throwsException();
+			fetchMessageMock = sandbox.stub(channel.messages, "fetch").returns(Promise.reject());
 
 			await messagePreview.generatePreview(link, callingMessage);
 
