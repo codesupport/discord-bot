@@ -23,12 +23,12 @@ class MessagePreviewService {
 		if (this.verifyGuild(callingMessage, msgArray[0])) {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(<Snowflake>msgArray[1]) as TextChannel;
-				let messageToPreview = null;
+				let messageToPreview;
 
 				try {
 					messageToPreview = await channel?.messages.fetch(<Snowflake>msgArray[2]);
 				} catch (e) {
-					// Silence error on wrong channel ID
+					// Silence error on wrong message ID
 				}
 
 				if (messageToPreview && !messageToPreview.author?.bot) {
