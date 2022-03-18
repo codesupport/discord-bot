@@ -22,6 +22,7 @@ describe("MessagePreviewService", () => {
 		let channel: TextChannel;
 		let getChannelMock: SinonStub;
 		let sendMessageMock: SinonStub;
+		let channelFetchMock: SinonStub;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
@@ -46,7 +47,7 @@ describe("MessagePreviewService", () => {
 			getChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 			sendMessageMock = sandbox.stub(callingMessage.channel, "send");
 
-			sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			channelFetchMock = sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
 			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 		});
 
@@ -72,6 +73,26 @@ describe("MessagePreviewService", () => {
 
 		it("doesn't send preview message if it is a bot message", async () => {
 			callingMessage.author.bot = true;
+
+			await messagePreview.generatePreview(link, callingMessage);
+
+			expect(sendMessageMock.called).to.be.false;
+		});
+
+		it("doesn't send preview message if the channel ID is wrong", async () => {
+			getChannelMock.restore();
+			getChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(undefined);
+
+			await messagePreview.generatePreview(link, callingMessage);
+
+			expect(sendMessageMock.called).to.be.false;
+		});
+
+		it.only("doesn't send preview message if the message ID is wrong", async () => {
+			channelFetchMock.restore();
+			channelFetchMock = sandbox.stub(channel.messages, "fetch").throwsException();
+
+			await messagePreview.generatePreview(link, callingMessage);
 
 			expect(sendMessageMock.called).to.be.false;
 		});
