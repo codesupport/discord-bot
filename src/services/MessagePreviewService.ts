@@ -23,9 +23,9 @@ class MessagePreviewService {
 		if (this.verifyGuild(callingMessage, msgArray[0])) {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(<Snowflake>msgArray[1]) as TextChannel;
-				const messageToPreview = await channel.messages.fetch(<Snowflake>msgArray[2]);
+				const messageToPreview = await channel?.messages.fetch(<Snowflake>msgArray[2]).catch(console.warn);
 
-				if (!messageToPreview.author?.bot) {
+				if (messageToPreview && !messageToPreview.author?.bot) {
 					const embed = new MessageEmbed();
 					const parsedContent = this.escapeHyperlinks(messageToPreview.content);
 
