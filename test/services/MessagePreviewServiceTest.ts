@@ -22,7 +22,7 @@ describe("MessagePreviewService", () => {
 		let channel: TextChannel;
 		let getChannelMock: SinonStub;
 		let sendMessageMock: SinonStub;
-		let channelFetchMock: SinonStub;
+		let fetchMessageMock: SinonStub;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
@@ -47,7 +47,7 @@ describe("MessagePreviewService", () => {
 			getChannelMock = sandbox.stub(callingMessage.guild.channels.cache, "get").returns(channel);
 			sendMessageMock = sandbox.stub(callingMessage.channel, "send");
 
-			channelFetchMock = sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
+			fetchMessageMock = sandbox.stub(channel.messages, "fetch").resolves(callingMessage);
 			sandbox.stub(callingMessage.member, "displayColor").get(() => "#FFFFFF");
 		});
 
@@ -88,9 +88,9 @@ describe("MessagePreviewService", () => {
 			expect(sendMessageMock.called).to.be.false;
 		});
 
-		it.only("doesn't send preview message if the message ID is wrong", async () => {
-			channelFetchMock.restore();
-			channelFetchMock = sandbox.stub(channel.messages, "fetch").throwsException();
+		it("doesn't send preview message if the message ID is wrong", async () => {
+			fetchMessageMock.restore();
+			fetchMessageMock = sandbox.stub(channel.messages, "fetch").throwsException();
 
 			await messagePreview.generatePreview(link, callingMessage);
 
