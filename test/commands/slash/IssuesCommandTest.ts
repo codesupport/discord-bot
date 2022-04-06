@@ -1,99 +1,55 @@
 import { createSandbox, SinonSandbox } from "sinon";
+import {CommandInteraction} from "discord.js";
 import { expect } from "chai";
-import { Message } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
-
-import IssuesCommand from "../../../src/commands/legacy/IssuesCommand";
-import Command from "../../../src/abstracts/Command";
+import IssuesCommand from "../../../src/commands/slash/IssuesCommand";
 import GitHubService from "../../../src/services/GitHubService";
 import { EMBED_COLOURS } from "../../../src/config.json";
 
 describe("IssuesCommand", () => {
-	describe("constructor", () => {
-		it("creates a command called issues", () => {
-			const command = new IssuesCommand();
-
-			expect(command.getName()).to.equal("issues");
-		});
-
-		it("creates a command with correct description", () => {
-			const command = new IssuesCommand();
-
-			expect(command.getDescription()).to.equal("Shows all the issues of the given repository.");
-		});
-	});
-
-	describe("run()", () => {
+	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
-		let message: Message;
-		let command: Command;
+		let command: IssuesCommand;
+		let interaction: CommandInteraction;
+		let replyStub: sinon.SinonStub<any[], any>;
 		let gitHub: GitHubService;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new IssuesCommand();
-			message = BaseMocks.getMessage();
-			gitHub = GitHubService.getInstance();
+			replyStub = sandbox.stub().resolves();
+			interaction = {
+				reply: replyStub,
+				user: BaseMocks.getGuildMember()
+			};			gitHub = GitHubService.getInstance();
 		});
 
 		it("sends a message to the channel", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
 			sandbox.stub(gitHub, "getIssues");
 			sandbox.stub(gitHub, "getRepository");
 
-			await command.run(message, ["user/repo"]);
+			await command.onInteract("user", "repo", interaction);
 
-			expect(messageMock.calledOnce).to.be.true;
-		});
-
-		it("states you must define a username and repository if none is given", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, []);
-
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("You must provide a username and repo from GitHub.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
-		});
-
-		it("states you must define a username and repository if the formatting is not correct", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
-			await command.run(message, ["wrongformat"]);
-
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
-
-			expect(messageMock.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("You must provide a username and repo from GitHub.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states it had a problem with the request to GitHub", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
 			sandbox.stub(gitHub, "getIssues").resolves(null);
 			sandbox.stub(gitHub, "getRepository").resolves(null);
 
-			await command.run(message, ["thisuserdoesnotexist/thisrepodoesnotexist"]);
+			await command.onInteract("thisuserdoesnotexist", "thisrepodoesnotexist", interaction);
 
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("There was a problem with the request to GitHub.");
 			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("?issues <username>/<repository>");
+			expect(embed.fields[0].value).to.equal("/issues <username>/<repository>");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
 		});
 
 		it("states no issues have been found", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
 			sandbox.stub(gitHub, "getIssues").resolves(
 				[]
 			);
@@ -110,19 +66,17 @@ describe("IssuesCommand", () => {
 				watchers: 3
 			});
 
-			await command.run(message, ["user/repo"]);
+			await command.onInteract("user", "repo", interaction);
 
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("No Issues found");
 			expect(embed.description).to.equal("This repository has no issues. [Create one](https://github.com/codesupport/discord-bot/issues/new)");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 		});
 
 		it("states the result from the github service", async () => {
-			const messageMock = sandbox.stub(message.channel, "send");
-
 			sandbox.stub(gitHub, "getIssues").resolves(
 				[{
 					title: "This is the title",
@@ -146,11 +100,11 @@ describe("IssuesCommand", () => {
 				watchers: 3
 			});
 
-			await command.run(message, ["user/repo"]);
+			await command.onInteract("user", "repo", interaction);
 
-			const embed = messageMock.getCall(0).firstArg.embeds[0];
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
-			expect(messageMock.calledOnce).to.be.true;
+			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("GitHub Issues: user/repo");
 			expect(embed.description).to.equal("This is the description\n\n[View Issues on GitHub](https://github.com/codesupport/discord-bot/issues) - [Create An Issue](https://github.com/codesupport/discord-bot/issues/new)");
 			expect(embed.fields[0].name).to.equal("#69 - This is the title");
