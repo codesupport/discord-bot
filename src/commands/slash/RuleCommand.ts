@@ -9,13 +9,13 @@ interface Rule {
 	description: string;
 }
 
-const rules = getConfigValue<Rule[]>("rules").reduce((r, it) => ({...r, [it.name]: it.triggers[0]}), {});
+const rules = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: it.triggers[0]}));
 
 @Discord()
 class RuleCommand {
 	@Slash("rule")
 	async onInteract(
-		@SlashChoice(rules) @SlashOption("rule") ruleName: string,
+		@SlashChoice(...rules) @SlashOption("rule") ruleName: string,
 			interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
 
