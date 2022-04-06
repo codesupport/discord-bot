@@ -3,12 +3,13 @@ import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import WebsiteCommand from "../../../src/commands/slash/WebsiteCommand";
+import {Interaction} from "discord.js";
 
 describe("WebsiteCommand", () => {
 	describe("oninteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: WebsiteCommand;
-		let interaction: any;
+		let interaction: Interaction;
 		let replyStub: sinon.SinonStub<any[], any>;
 
 		beforeEach(() => {
