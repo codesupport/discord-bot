@@ -1,16 +1,16 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
+import {Interaction} from "discord.js";
 
 import WebsiteCommand from "../../../src/commands/slash/WebsiteCommand";
-import {Interaction} from "discord.js";
 
 describe("WebsiteCommand", () => {
 	describe("oninteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: WebsiteCommand;
 		let interaction: Interaction;
-		let replyStub: sinon.SinonStub<any[], any>;
+		let replyStub: sinon.SinonStub;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
