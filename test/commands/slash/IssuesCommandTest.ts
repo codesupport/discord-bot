@@ -21,7 +21,8 @@ describe("IssuesCommand", () => {
 			interaction = {
 				reply: replyStub,
 				user: BaseMocks.getGuildMember()
-			};			gitHub = GitHubService.getInstance();
+			};
+			gitHub = GitHubService.getInstance();
 		});
 
 		it("sends a message to the channel", async () => {
