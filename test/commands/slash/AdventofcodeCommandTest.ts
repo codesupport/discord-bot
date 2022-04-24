@@ -1,10 +1,15 @@
-import { createSandbox, SinonSandbox } from "sinon";
-import { expect } from "chai";
-import { BaseMocks } from "@lambocreeper/mock-discord.js";
+import {createSandbox, SinonSandbox} from "sinon";
+import {expect} from "chai";
+import {BaseMocks} from "@lambocreeper/mock-discord.js";
 import AdventofcodeCommand from "../../../src/commands/slash/AdventofcodeCommand";
 import AdventOfCodeService from "../../../src/services/AdventOfCodeService";
-import { EMBED_COLOURS, ADVENT_OF_CODE_INVITE, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_RESULTS_PER_PAGE } from "../../../src/config.json";
-import { AOCLeaderBoard } from "../../../src/interfaces/AdventOfCode";
+import {
+	EMBED_COLOURS,
+	ADVENT_OF_CODE_INVITE,
+	ADVENT_OF_CODE_LEADERBOARD,
+	ADVENT_OF_CODE_RESULTS_PER_PAGE
+} from "../../../src/config.json";
+import {AOCLeaderBoard} from "../../../src/interfaces/AdventOfCode";
 
 const AOCMockData: AOCLeaderBoard = {
 	event: "2021",
@@ -82,7 +87,11 @@ describe("Adventofcode Command", () => {
 		});
 
 		it("should query the year 2018 from the AOC Service", async () => {
-			const serviceMock = sandbox.stub(AOC, "getLeaderBoard").resolves({ members: {}, event: "2018", owner_id: "12345" });
+			const serviceMock = sandbox.stub(AOC, "getLeaderBoard").resolves({
+				members: {},
+				event: "2018",
+				owner_id: "12345"
+			});
 
 			sandbox.stub(command, "getYear").returns(2020);
 
