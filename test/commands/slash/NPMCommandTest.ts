@@ -25,7 +25,7 @@ describe("NPMCommand", () => {
 		it("sends a message to the channel", async () => {
 			sandbox.stub(axios, "get");
 
-			await command.onInteract("discord.js", interaction)
+			await command.onInteract("discord.js", interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
