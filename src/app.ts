@@ -1,10 +1,12 @@
 import "reflect-metadata";
+import axios from "axios";
 import { Client } from "discordx";
 import { TextChannel, Snowflake } from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
 import DiscordUtils from "./utils/DiscordUtils";
 import getConfigValue from "./utils/getConfigValue";
+import Schedule from "./decorators/Schedule";
 
 if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	env({
@@ -12,21 +14,30 @@ if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	});
 }
 
-async function app() {
-	if (!process.env.DISCORD_TOKEN) {
-		throw new Error("You must supply the DISCORD_TOKEN environment variable.");
-	}
+class App {
+	private readonly client: Client;
 
-	try {
-		const client = new Client({
+	constructor() {
+		if (!process.env.DISCORD_TOKEN) {
+			throw new Error("You must supply the DISCORD_TOKEN environment variable.");
+		}
+
+		this.client = new Client({
 			botId: getConfigValue<string>("BOT_ID"),
 			botGuilds: [getConfigValue<string>("GUILD_ID")],
 			intents: DiscordUtils.getAllIntents()
 		});
+	}
 
-		client.once("ready", async () => {
-			await client.initApplicationCommands({ guild: { log: true }});
-			await client.initApplicationPermissions();
+	@Schedule("*/5 * * * *")
+	async reportHealth(): Promise<void> {
+		await axios.get(process.env.HEALTH_CHECK_URL!);
+	}
+
+	async init(): Promise<void> {
+		this.client.once("ready", async () => {
+			await this.client.initApplicationCommands({ guild: { log: true }});
+			await this.client.initApplicationPermissions();
 		});
 
 		await DirectoryUtils.getFilesInDirectory(
@@ -34,11 +45,11 @@ async function app() {
 			DirectoryUtils.appendFileExtension("Command")
 		);
 
-		client.on("interactionCreate", interaction => {
-			client.executeInteraction(interaction);
+		this.client.on("interactionCreate", interaction => {
+			this.client.executeInteraction(interaction);
 		});
 
-		await client.login(process.env.DISCORD_TOKEN!);
+		await this.client.login(process.env.DISCORD_TOKEN!);
 
 		const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/${getConfigValue<string>("handlers_directory")}`,
@@ -49,7 +60,7 @@ async function app() {
 			const { default: Handler } = handler;
 			const handlerInstance = new Handler();
 
-			client.on(handlerInstance.getEvent(), handlerInstance.handle);
+			this.client.on(handlerInstance.getEvent(), handlerInstance.handle);
 		});
 
 		if (process.env.NODE_ENV === getConfigValue<string>("PRODUCTION_ENV")) {
@@ -57,14 +68,12 @@ async function app() {
 			const messageSnowflake = getConfigValue<Snowflake>("AUTHENTICATION_MESSAGE_ID");
 
 			if (channelSnowflake && messageSnowflake) {
-				const authChannel = await client.channels.fetch(channelSnowflake) as TextChannel;
+				const authChannel = await this.client.channels.fetch(channelSnowflake) as TextChannel;
 
 				await authChannel.messages.fetch(messageSnowflake);
 			}
 		}
-	} catch (error) {
-		console.error(error);
 	}
 }
 
-export default app;
+export default App;
