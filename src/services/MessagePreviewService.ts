@@ -23,7 +23,12 @@ class MessagePreviewService {
 		if (this.verifyGuild(callingMessage, msgArray[0])) {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(<Snowflake>msgArray[1]) as TextChannel;
-				const messageToPreview = await channel?.messages.fetch(<Snowflake>msgArray[2]).catch(console.warn);
+				const messageToPreview = await channel?.messages.fetch(<Snowflake>msgArray[2])
+					.catch(error => console.warn("Failed to fetch message to generate preview.", {
+						channelId: msgArray[1],
+						messageId: msgArray[2],
+						error
+					}));
 
 				if (messageToPreview && !messageToPreview.author?.bot) {
 					const embed = new MessageEmbed();
