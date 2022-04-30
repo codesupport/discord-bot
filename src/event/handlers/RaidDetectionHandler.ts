@@ -15,12 +15,13 @@ class RaidDetectionHandler extends EventHandler {
 		const timeToWait = 1000 * getConfigValue<GenericObject<number>>("RAID_SETTINGS").TIME_TILL_REMOVAL;
 
 		this.joinQueue.push(member);
+
 		if (this.joinQueue.length >= getConfigValue<GenericObject<number>>("RAID_SETTINGS").MAX_QUEUE_SIZE && !this.kickFlag) {
 			this.kickFlag = true;
 			await this.kickArray(member);
 			this.kickFlag = false;
 		}
-		console.log(`Length: ${this.joinQueue.length} Cap ${getConfigValue<GenericObject<number>>("RAID_SETTINGS").MAX_QUEUE_SIZE}`);
+
 		setTimeout(() => {
 			if (this.joinQueue.includes(member) && !this.kickFlag) {
 				this.joinQueue.splice(this.joinQueue.indexOf(member), 1);
@@ -49,11 +50,16 @@ class RaidDetectionHandler extends EventHandler {
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").WARNING);
 			embed.setTimestamp();
 			await generalChannel.send({embeds: [embed]});
-		} catch (error: any) {
-			console.error(error);
-
+		} catch (error: unknown) {
 			if (error instanceof Error) {
 				await modChannel.send(`Failed to kick users or empty queue: \n\`${error.message}\``);
+
+				console.error("Failed to kick users or empty queue", {
+					message: error.message,
+					error
+				});
+			} else {
+				console.error(error);
 			}
 		}
 	}
