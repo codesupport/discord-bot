@@ -27,7 +27,6 @@ class MessagePreviewService {
 					.catch(error => console.warn("Failed to fetch message to generate preview.", {
 						channelId: msgArray[1],
 						messageId: msgArray[2],
-						message: error.message,
 						error
 					}));
 
