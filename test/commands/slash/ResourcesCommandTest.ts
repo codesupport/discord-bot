@@ -1,13 +1,11 @@
 import { expect } from "chai";
 import { SinonSandbox, createSandbox } from "sinon";
-
-import Command from "../../../src/abstracts/Command";
 import ResourcesCommand from "../../../src/commands/slash/ResourcesCommand";
 
 describe("ResourcesCommand", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
-		let command: Command;
+		let command: ResourcesCommand;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
