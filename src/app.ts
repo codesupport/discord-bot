@@ -25,7 +25,7 @@ class App {
 		this.client = new Client({
 			botId: getConfigValue<string>("BOT_ID"),
 			botGuilds: [getConfigValue<string>("GUILD_ID")],
-			intents: DiscordUtils.getAllIntents()
+			intents: DiscordUtils.getAllIntentsApartFromPresence()
 		});
 	}
 

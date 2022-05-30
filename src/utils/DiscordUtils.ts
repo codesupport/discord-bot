@@ -32,6 +32,20 @@ class DiscordUtils {
 		// https://github.com/discordjs/discord.js/blob/51551f544b80d7d27ab0b315da01dfc560b2c115/src/util/Intents.js#L75
 		return Object.values(Intents.FLAGS).reduce((acc, p) => acc | p, 0);
 	}
+
+	static getAllIntentsApartFromPresence(): BitFieldResolvable<IntentsString, number> {
+		// Stole... copied from an older version of discord.js...
+		// https://github.com/discordjs/discord.js/blob/51551f544b80d7d27ab0b315da01dfc560b2c115/src/util/Intents.js#L75
+		return Object.values(Intents.FLAGS).reduce((acc, p) => {
+			// Presence updates seem to send GuildMembers without joinedAt, we assume
+			// it's being cached without this field making it null and causing issues down the line.
+			// If we do not listen on this intent, it *may* not get partially cached
+			// https://github.com/discordjs/discord.js/issues/3533
+			if (p === Intents.FLAGS.GUILD_PRESENCES) return acc;
+
+			return acc | p
+		}, 0);
+	}
 }
 
 export default DiscordUtils;
