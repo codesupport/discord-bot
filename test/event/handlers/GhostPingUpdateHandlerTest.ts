@@ -6,7 +6,7 @@ import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 import EventHandler from "../../../src/abstracts/EventHandler";
 import GhostPingUpdateHandler from "../../../src/event/handlers/GhostPingUpdateHandler";
 
-describe.only("GhostPingUpdateHandler", () => {
+describe("GhostPingUpdateHandler", () => {
 	describe("constructor()", () => {
 		it("creates a handler for MESSAGE_UPDATE", () => {
 			const handler = new GhostPingUpdateHandler();

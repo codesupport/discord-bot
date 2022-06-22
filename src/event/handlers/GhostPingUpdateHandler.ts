@@ -1,4 +1,4 @@
-import {Constants, MessageEmbed, Message, ColorResolvable} from "discord.js";
+import {Constants, MessageEmbed, Message, ColorResolvable, MessageActionRow, MessageButton} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import DateUtils from "../../utils/DateUtils";
 import getConfigValue from "../../utils/getConfigValue";
@@ -28,17 +28,23 @@ class GhostPingUpdateHandler extends EventHandler {
 
 		if (removedMentions.size === 0 || removedMentions.every(user => user.id === oldMessage.author.id || user.bot)) return;
 
+		const button = new MessageButton();
+
+		button.setLabel("View Edited Message");
+		button.setStyle("LINK");
+		button.setURL(newMessage.url);
+
+		const row = new MessageActionRow().addComponents(button);
 		const embed = new MessageEmbed();
 
 		embed.setTitle("Ghost Ping Detected!");
 		embed.addField("Author", oldMessage.author.toString());
 		embed.addField("Previous message", oldMessage.content);
 		embed.addField("Edited message", newMessage.content);
-		embed.addField("Link to message", newMessage.url);
-		embed.setFooter({ text: `Message edited on ${DateUtils.formatAsText(newMessage.createdAt)}` });
+		embed.setFooter({ text: `Message edited at ${DateUtils.formatAsText(newMessage.createdAt)}` });
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
-		await oldMessage.channel.send({embeds: [embed]});
+		await oldMessage.channel.send({embeds: [embed], components: [row]});
 	}
 }
 
