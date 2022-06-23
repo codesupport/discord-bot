@@ -12,11 +12,7 @@ class GhostPingUpdateHandler extends EventHandler {
 	async handle(oldMessage: Message, newMessage: Message): Promise<void> {
 		if (oldMessage.author?.bot) return;
 
-		const oldMentionedUsers = oldMessage.mentions.users;
-
-		if (oldMentionedUsers.size === 0 || oldMentionedUsers.every(user => user.id === oldMessage.author.id || user.bot)) return;
-
-		const removedMentions = oldMentionedUsers.filter(user => !newMessage.mentions.users.has(user.id));
+		const removedMentions = oldMessage.mentions.users.filter(user => !newMessage.mentions.users.has(user.id));
 
 		if (removedMentions.size === 0 || removedMentions.every(user => user.id === oldMessage.author.id || user.bot)) return;
 
