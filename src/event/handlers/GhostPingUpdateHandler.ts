@@ -16,22 +16,14 @@ class GhostPingUpdateHandler extends EventHandler {
 
 		if (oldMentionedUsers.size === 0 || oldMentionedUsers.every(user => user.id === oldMessage.author.id || user.bot)) return;
 
-		const removedMentions = oldMentionedUsers.filter(user => {
-			for (const [, newUser] of newMessage.mentions.users) {
-				if (user.id === newUser.id) {
-					return false;
-				}
-			}
-
-			return true;
-		});
+		const removedMentions = oldMentionedUsers.filter(user => !newMessage.mentions.users.has(user.id));
 
 		if (removedMentions.size === 0 || removedMentions.every(user => user.id === oldMessage.author.id || user.bot)) return;
 
 		const button = new MessageButton();
 
 		button.setLabel("View Edited Message");
-		button.setStyle("LINK");
+		button.setStyle(Constants.MessageButtonStyles.LINK);
 		button.setURL(newMessage.url);
 
 		const row = new MessageActionRow().addComponents(button);
