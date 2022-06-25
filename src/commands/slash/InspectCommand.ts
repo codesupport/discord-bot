@@ -1,8 +1,7 @@
 import {Discord, Slash, SlashOption} from "discordx";
-import {MessageEmbed, ColorResolvable, CommandInteraction, GuildMember} from "discord.js";
+import {MessageEmbed, ColorResolvable, CommandInteraction, GuildMember, Formatters} from "discord.js";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
-import DateUtils from "../../utils/DateUtils";
 import DiscordUtils from "../../utils/DiscordUtils";
 
 @Discord()
@@ -42,7 +41,12 @@ class InspectCommand {
 
 		if (memberObj?.nickname !== null) embed.addField("Nickname", memberObj?.nickname);
 
-		if (memberObj?.joinedAt !== null) embed.addField("Joined At", DateUtils.formatAsText(memberObj?.joinedAt!));
+		if (memberObj?.joinedAt !== null) {
+			const shortDateTime = Formatters.time(memberObj?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
+			const relativeTime = Formatters.time(memberObj?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
+
+			embed.addField("Joined At", `${shortDateTime} ${relativeTime}`);
+		}
 
 		if (memberObj?.roles.cache.size > 1) {
 			embed.addField("Roles", `${memberObj.roles.cache.filter(role => role.id !== memberObj?.guild!.id).map(role => ` ${role.toString()}`)}`);

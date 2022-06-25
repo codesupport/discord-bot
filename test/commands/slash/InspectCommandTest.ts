@@ -1,6 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Role } from "discord.js";
+import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Role, Formatters } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../../src/commands/slash/InspectCommand";
@@ -53,6 +53,8 @@ describe("InspectCommand", () => {
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
+			const shortDateTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
+			const relativeTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
@@ -63,7 +65,7 @@ describe("InspectCommand", () => {
 			expect(embed.fields[2].name).to.equal("Nickname");
 			expect(embed.fields[2].value).to.equal("my name");
 			expect(embed.fields[3].name).to.equal("Joined At");
-			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[3].value).to.equal(`${shortDateTime} ${relativeTime}`);
 			expect(embed.fields[4].name).to.equal("Roles");
 			expect(embed.fields[4].value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(member.displayColor);
@@ -81,13 +83,15 @@ describe("InspectCommand", () => {
 			await command.onInteract(undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
+			const shortDateTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
+			const relativeTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
 			expect(embed.fields.find((field: EmbedField) => field.name === "User ID")?.value).to.equal(member.user.id);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Username")?.value).to.equal(member.user.tag);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(member?.nickname);
-			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(DateUtils.formatAsText(member!.joinedAt!));
+			expect(embed.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(`${shortDateTime} ${relativeTime}`);
 			expect(embed.fields.find((field: EmbedField) => field.name === "Roles")?.value).to.equal(" <@&12345>");
 			expect(embed.hexColor).to.equal(member.displayColor);
 		});
@@ -103,6 +107,8 @@ describe("InspectCommand", () => {
 			await command.onInteract(member.user.username, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
+			const shortDateTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
+			const relativeTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
@@ -113,7 +119,7 @@ describe("InspectCommand", () => {
 			expect(embed.fields[2].name).to.equal("Nickname");
 			expect(embed.fields[2].value).to.equal("my name");
 			expect(embed.fields[3].name).to.equal("Joined At");
-			expect(embed.fields[3].value).to.equal(DateUtils.formatAsText(member.joinedAt!));
+			expect(embed.fields[3].value).to.equal(`${shortDateTime} ${relativeTime}`);
 			expect(embed.fields[4].name).to.equal("Roles");
 			expect(embed.fields[4].value).to.equal("No roles");
 			expect(embed.hexColor).to.equal("#1555b7");
