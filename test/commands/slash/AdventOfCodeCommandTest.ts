@@ -29,7 +29,7 @@ const AOCMockData: AOCLeaderBoard = {
 	}
 };
 
-describe.only("Advent Of Code Command", () => {
+describe("Advent Of Code Command", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: AdventOfCodeCommand;
