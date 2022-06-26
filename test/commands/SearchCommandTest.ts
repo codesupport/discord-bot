@@ -2,15 +2,14 @@ import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import {CommandInteraction} from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
-import SearchCommand from "../../../src/commands/slash/SearchCommand";
-import InstantAnswerService from "../../../src/services/InstantAnswerService";
-import { EMBED_COLOURS } from "../../../src/config.json";
-import searchCommand from "../../../src/commands/slash/SearchCommand";
+import SearchCommand from "../../src/commands/SearchCommand";
+import InstantAnswerService from "../../src/services/InstantAnswerService";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("SearchCommand", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
-		let command: searchCommand;
+		let command: SearchCommand;
 		let interaction: CommandInteraction;
 		let replyStub: sinon.SinonStub<any[], any>;
 		let instantAnswer: InstantAnswerService;

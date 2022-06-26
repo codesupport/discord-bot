@@ -1,8 +1,8 @@
 import { ColorResolvable, MessageEmbed, CommandInteraction } from "discord.js";
-import AdventOfCodeService from "../../services/AdventOfCodeService";
-import { AOCMember } from "../../interfaces/AdventOfCode";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
+import AdventOfCodeService from "../services/AdventOfCodeService";
+import { AOCMember } from "../interfaces/AdventOfCode";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 import {Discord, Slash, SlashOption} from "discordx";
 
 @Discord()

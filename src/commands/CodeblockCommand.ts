@@ -1,7 +1,7 @@
 import { Discord, Slash } from "discordx";
 import { MessageEmbed, MessageAttachment, ColorResolvable, CommandInteraction} from "discord.js";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class CodeblockCommand {

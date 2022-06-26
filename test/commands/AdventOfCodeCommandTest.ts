@@ -2,10 +2,10 @@ import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
-import AdventOfCodeCommand from "../../../src/commands/slash/AdventOfcodeCommand";
-import AdventOfCodeService from "../../../src/services/AdventOfCodeService";
-import { EMBED_COLOURS, ADVENT_OF_CODE_INVITE, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_RESULTS_PER_PAGE } from "../../../src/config.json";
-import { AOCLeaderBoard } from "../../../src/interfaces/AdventOfCode";
+import AdventOfCodeCommand from "../../src/commands/AdventOfCodeCommand";
+import AdventOfCodeService from "../../src/services/AdventOfCodeService";
+import { EMBED_COLOURS, ADVENT_OF_CODE_INVITE, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_RESULTS_PER_PAGE } from "../../src/config.json";
+import { AOCLeaderBoard } from "../../src/interfaces/AdventOfCode";
 
 const AOCMockData: AOCLeaderBoard = {
 	event: "2021",

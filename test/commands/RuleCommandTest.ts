@@ -1,8 +1,8 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 
-import RuleCommand from "../../../src/commands/slash/RuleCommand";
-import { EMBED_COLOURS } from "../../../src/config.json";
+import RuleCommand from "../../src/commands/RuleCommand";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("RuleCommand", () => {
 	describe("run()", () => {

@@ -2,8 +2,8 @@ import { expect } from "chai";
 import { SinonSandbox, createSandbox } from "sinon";
 import axios from "axios";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
-import NPMCommand from "../../../src/commands/slash/NPMCommand";
-import { EMBED_COLOURS } from "../../../src/config.json";
+import NPMCommand from "../../src/commands/NPMCommand";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("NPMCommand", () => {
 	describe("run()", () => {
