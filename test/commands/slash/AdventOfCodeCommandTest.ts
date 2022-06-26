@@ -69,6 +69,7 @@ describe("Advent Of Code Command", () => {
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("Year requested not available.\nPlease query a year between 2015 and 2019");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(replyStub.getCall(0).firstArg.ephemeral).to.be.true;
 		});
 
 		it("should query the year 2018 from the AOC Service", async () => {
@@ -110,6 +111,7 @@ describe("Advent Of Code Command", () => {
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("Could not get the leaderboard for Advent Of Code.");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(replyStub.getCall(0).firstArg.ephemeral).to.be.true;
 		});
 
 		it("gives back one user when giving a username argument", async () => {
@@ -145,6 +147,21 @@ describe("Advent Of Code Command", () => {
 			expect(embed.title).to.equal("Error");
 			expect(embed.description).to.equal("Could not get the user requested\nPlease make sure you typed the name correctly");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(replyStub.getCall(0).firstArg.ephemeral).to.be.true;
+		});
+
+		it("gives an error when the name parameter is given but wrong acces token/id is provided", async () => {
+			sandbox.stub(AOC, "getSinglePlayer").throws();
+
+			await command.onInteract(undefined, "Lambo", interaction);
+
+			const embed = replyStub.getCall(0).firstArg.embeds[0];
+
+			expect(replyStub.calledOnce).to.be.true;
+			expect(embed.title).to.equal("Error");
+			expect(embed.description).to.equal("Could not get the statistics for Advent Of Code.");
+			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(replyStub.getCall(0).firstArg.ephemeral).to.be.true;
 		});
 
 		it("requesting a different year than current", async () => {
