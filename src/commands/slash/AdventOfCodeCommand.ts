@@ -25,7 +25,7 @@ class AdventOfCodeCommand {
 		}
 
 		const link = `https://adventofcode.com/${yearToQuery}/leaderboard/private/view/${getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD")}`;
-		const description = `Leaderboard ID (${currentAOCYear}): \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\`\n\n[View Leaderboard](${link})`;
+		const description = `Leaderboard ID (${currentAOCYear}): \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\`\n\n[View Leaderboard (${yearToQuery})](${link})`;
 
 		if (!!name) {
 			try {
