@@ -7,7 +7,7 @@ import {Discord, Slash, SlashOption} from "discordx";
 
 @Discord()
 class AdventOfCodeCommand {
-	@Slash("aoc", {description: "Advent of Code"})
+	@Slash("aoc", {description: "Advent Of Code"})
 	async onInteract(
 		@SlashOption("year", {type: "NUMBER", minValue: 2015, required: false}) year: number,
 		@SlashOption("name", {type: "STRING", required: false}) name: string,
@@ -47,7 +47,7 @@ class AdventOfCodeCommand {
 				await interaction.reply({embeds: [embed]});
 				return;
 			} catch {
-				await interaction.reply({embeds: [this.errorEmbed(`Could not get the Advent Of Code statistics for ${name} for the year ${yearToQuery}.`)], ephemeral: true});
+				await interaction.reply({embeds: [this.errorEmbed("Could not get the statistics for Advent Of Code.")], ephemeral: true});
 				return;
 			}
 		}
