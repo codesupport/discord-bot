@@ -10,11 +10,12 @@ class AdventOfCodeCommand {
 	@Slash("aoc", {description: "Advent of Code"})
 	async onInteract(
 		@SlashOption("year", {type: "NUMBER", minValue: 2015, required: false}) year: number,
-		@SlashOption("username", {type: "STRING", required: false}) username: string,
+		@SlashOption("name", {type: "STRING", required: false}) name: string,
 			interaction: CommandInteraction): Promise<void> {
-		let yearToQuery = this.getYear();
+		const currentAOCYear = this.getYear();
 		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new MessageEmbed();
+		let yearToQuery = currentAOCYear;
 
 		if (!!year && year <= yearToQuery) {
 			yearToQuery = year;
@@ -24,11 +25,11 @@ class AdventOfCodeCommand {
 		}
 
 		const link = `https://adventofcode.com/${yearToQuery}/leaderboard/private/view/${getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD")}`;
-		const description = `Leaderboard ID: \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\`\n\n[View Leaderboard](${link})`;
+		const description = `Leaderboard ID (${currentAOCYear}): \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\`\n\n[View Leaderboard](${link})`;
 
-		if (!!username) {
+		if (!!name) {
 			try {
-				const [position, user] = await adventOfCodeService.getSinglePlayer(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), yearToQuery, username);
+				const [position, user] = await adventOfCodeService.getSinglePlayer(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), yearToQuery, name);
 
 				if (!user) {
 					await interaction.reply({embeds: [this.errorEmbed("Could not get the user requested\nPlease make sure you typed the name correctly")], ephemeral: true});
@@ -37,7 +38,7 @@ class AdventOfCodeCommand {
 
 				embed.setTitle("Advent Of Code");
 				embed.setDescription(description);
-				embed.addField(`Scores of ${user.name}`, "\u200B");
+				embed.addField(`Scores of ${user.name} in ${yearToQuery}`, "\u200B");
 				embed.addField("Position", position.toString(), true);
 				embed.addField("Stars", user.stars.toString(), true);
 				embed.addField("Points", user.local_score.toString(), true);
@@ -46,7 +47,7 @@ class AdventOfCodeCommand {
 				await interaction.reply({embeds: [embed]});
 				return;
 			} catch {
-				await interaction.reply({embeds: [this.errorEmbed(`Could not get the Advent Of Code statistics for ${username} for the year ${yearToQuery}.`)], ephemeral: true});
+				await interaction.reply({embeds: [this.errorEmbed(`Could not get the Advent Of Code statistics for ${name} for the year ${yearToQuery}.`)], ephemeral: true});
 				return;
 			}
 		}
