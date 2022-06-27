@@ -1,4 +1,4 @@
-import { ColorResolvable, MessageEmbed, CommandInteraction } from "discord.js";
+import { ColorResolvable, MessageEmbed, CommandInteraction, Constants, MessageActionRow, MessageButton } from "discord.js";
 import AdventOfCodeService from "../services/AdventOfCodeService";
 import { AOCMember } from "../interfaces/AdventOfCode";
 import getConfigValue from "../utils/getConfigValue";
@@ -15,6 +15,7 @@ class AdventOfCodeCommand {
 		const currentAOCYear = this.getYear();
 		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new MessageEmbed();
+		const button = new MessageButton();
 		let yearToQuery = currentAOCYear;
 
 		if (!!year && year <= yearToQuery) {
@@ -25,7 +26,14 @@ class AdventOfCodeCommand {
 		}
 
 		const link = `https://adventofcode.com/${yearToQuery}/leaderboard/private/view/${getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD")}`;
-		const description = `Leaderboard ID (${currentAOCYear}): \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\`\n\n[View Leaderboard (${yearToQuery})](${link})`;
+		const buttonLabel = `View Leaderboard (${yearToQuery})`;
+		const description = `Leaderboard ID (${currentAOCYear}): \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\``;
+
+		button.setLabel(buttonLabel);
+		button.setStyle(Constants.MessageButtonStyles.LINK);
+		button.setURL(link);
+
+		const row = new MessageActionRow().addComponents(button);
 
 		if (!!name) {
 			try {
@@ -44,7 +52,7 @@ class AdventOfCodeCommand {
 				embed.addField("Points", user.local_score.toString(), true);
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 
-				await interaction.reply({embeds: [embed]});
+				await interaction.reply({embeds: [embed], components: [row]});
 				return;
 			} catch {
 				await interaction.reply({embeds: [this.errorEmbed("Could not get the statistics for Advent Of Code.")], ephemeral: true});
@@ -65,7 +73,7 @@ class AdventOfCodeCommand {
 			return;
 		}
 
-		await interaction.reply({embeds: [embed]});
+		await interaction.reply({embeds: [embed], components: [row]});
 	}
 
 	getYear() {

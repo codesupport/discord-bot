@@ -29,7 +29,7 @@ const AOCMockData: AOCLeaderBoard = {
 	}
 };
 
-describe("Advent Of Code Command", () => {
+describe("AdventOfCodeCommand", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: AdventOfCodeCommand;
@@ -91,13 +91,16 @@ describe("Advent Of Code Command", () => {
 			await command.onInteract(undefined, undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
+			const messageButton = replyStub.getCall(0).firstArg.components[0].components[0];
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Advent Of Code");
-			expect(embed.description).to.equal(`Leaderboard ID (2019): \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard (2019)](https://adventofcode.com/2019/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
+			expect(embed.description).to.equal(`Leaderboard ID (2019): \`${ADVENT_OF_CODE_INVITE}\``);
 			expect(embed.fields[0].name).to.equal(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`);
 			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\n 1) Lambo | 3 | 26\n```");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(messageButton.url).to.equal(`https://adventofcode.com/2019/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`);
+			expect(messageButton.label).to.equal("View Leaderboard (2019)");
 		});
 
 		it("gives an error when the wrong acces token/id is provided", async () => {
@@ -121,10 +124,11 @@ describe("Advent Of Code Command", () => {
 			await command.onInteract(undefined, "Lambo", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
+			const messageButton = replyStub.getCall(0).firstArg.components[0].components[0];
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Advent Of Code");
-			expect(embed.description).to.equal(`Leaderboard ID (2021): \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard (2021)](https://adventofcode.com/2021/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
+			expect(embed.description).to.equal(`Leaderboard ID (2021): \`${ADVENT_OF_CODE_INVITE}\``);
 			expect(embed.fields[0].name).to.equal("Scores of Lambo in 2021");
 			expect(embed.fields[0].value).to.equal("\u200B");
 			expect(embed.fields[1].name).to.equal("Position");
@@ -134,6 +138,8 @@ describe("Advent Of Code Command", () => {
 			expect(embed.fields[3].name).to.equal("Points");
 			expect(embed.fields[3].value).to.equal("26");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(messageButton.url).to.equal(`https://adventofcode.com/2021/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`);
+			expect(messageButton.label).to.equal("View Leaderboard (2021)");
 		});
 
 		it("should give an error when the user doesn't exist", async () => {
@@ -172,14 +178,17 @@ describe("Advent Of Code Command", () => {
 			await command.onInteract(2019, undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
+			const messageButton = replyStub.getCall(0).firstArg.components[0].components[0];
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(APIMock.getCall(0).args[1]).to.equal(2019);
 			expect(embed.title).to.equal("Advent Of Code");
-			expect(embed.description).to.equal(`Leaderboard ID (2020): \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard (2019)](https://adventofcode.com/2019/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
+			expect(embed.description).to.equal(`Leaderboard ID (2020): \`${ADVENT_OF_CODE_INVITE}\``);
 			expect(embed.fields[0].name).to.equal(`Top ${ADVENT_OF_CODE_RESULTS_PER_PAGE}`);
 			expect(embed.fields[0].value).to.equal("```java\n(Name, Stars, Points)\n 1) Lambo | 3 | 26\n```");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(messageButton.url).to.equal(`https://adventofcode.com/2019/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`);
+			expect(messageButton.label).to.equal("View Leaderboard (2019)");
 		});
 
 		it("gives back user from requested year", async () => {
@@ -190,10 +199,11 @@ describe("Advent Of Code Command", () => {
 			await command.onInteract(2018, "Lambo", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
+			const messageButton = replyStub.getCall(0).firstArg.components[0].components[0];
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Advent Of Code");
-			expect(embed.description).to.equal(`Leaderboard ID (2021): \`${ADVENT_OF_CODE_INVITE}\`\n\n[View Leaderboard (2018)](https://adventofcode.com/2018/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD})`);
+			expect(embed.description).to.equal(`Leaderboard ID (2021): \`${ADVENT_OF_CODE_INVITE}\``);
 			expect(embed.fields[0].name).to.equal("Scores of Lambo in 2018");
 			expect(embed.fields[0].value).to.equal("\u200B");
 			expect(embed.fields[1].name).to.equal("Position");
@@ -203,6 +213,8 @@ describe("Advent Of Code Command", () => {
 			expect(embed.fields[3].name).to.equal("Points");
 			expect(embed.fields[3].value).to.equal("26");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(messageButton.url).to.equal(`https://adventofcode.com/2018/leaderboard/private/view/${ADVENT_OF_CODE_LEADERBOARD}`);
+			expect(messageButton.label).to.equal("View Leaderboard (2018)");
 		});
 
 		afterEach(() => {
