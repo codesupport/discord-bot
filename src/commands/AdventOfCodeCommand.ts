@@ -12,11 +12,10 @@ class AdventOfCodeCommand {
 		@SlashOption("year", {type: "NUMBER", minValue: 2015, required: false}) year: number,
 		@SlashOption("name", {type: "STRING", required: false}) name: string,
 			interaction: CommandInteraction): Promise<void> {
-		const currentAOCYear = this.getYear();
 		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new MessageEmbed();
 		const button = new MessageButton();
-		let yearToQuery = currentAOCYear;
+		let yearToQuery = this.getYear();
 
 		if (!!year && year <= yearToQuery) {
 			yearToQuery = year;
@@ -26,8 +25,8 @@ class AdventOfCodeCommand {
 		}
 
 		const link = `https://adventofcode.com/${yearToQuery}/leaderboard/private/view/${getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD")}`;
-		const buttonLabel = `View Leaderboard (${yearToQuery})`;
-		const description = `Leaderboard ID (${currentAOCYear}): \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\``;
+		const buttonLabel = "View Leaderboard";
+		const description = `Invite Code: \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\``;
 
 		button.setLabel(buttonLabel);
 		button.setStyle(Constants.MessageButtonStyles.LINK);
@@ -66,7 +65,7 @@ class AdventOfCodeCommand {
 
 			embed.setTitle("Advent Of Code");
 			embed.setDescription(description);
-			embed.addField(`Top ${getConfigValue<number>("ADVENT_OF_CODE_RESULTS_PER_PAGE")}`, playerList);
+			embed.addField(`Top ${getConfigValue<number>("ADVENT_OF_CODE_RESULTS_PER_PAGE")} in ${yearToQuery}`, playerList);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 		} catch {
 			await interaction.reply({embeds: [this.errorEmbed("Could not get the leaderboard for Advent Of Code.")], ephemeral: true});
