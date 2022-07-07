@@ -1,7 +1,7 @@
 import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
 import {Discord, Slash} from "discordx";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class HiringLookingCommand {

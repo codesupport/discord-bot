@@ -52,23 +52,27 @@ If you would like to overwrite values in `config.json` to better suit your local
 Please name files (which aren't interfaces) with their type in, for example `RuleCommand` and `RuleCommandTest`. This helps make the file names more readable in your editor. Do not add a prefix or suffix of "I" or "Interface" to interfaces.
 
 ### Creating Commands
-To create a command, create a new file in `src/commands` named `<CommandName>Command.ts`. Commands should extend the `Command` abstract and `super` the command name, the description and any command options (if applicable). When a command is run, it triggers the `run` method. This method has two parameters:
-- `message` - The Discord Message object
-- `args` - An optional array of strings that the user sends along with the command
+To create a command, create a new file in `src/commands` named `<CommandName>Command.ts`. DiscordX is used to register the commands as slash commands using decorators. Commands should have the `@Discord()` decorator above the class name. The command should have an `onInteract` async function that is decorated using `@Slash`. In `@Slash` decorator's parameters you have to pass in a name which will be the name of the command when used in Discord, it has an optional options parameter where you can for instance pass in a description.
+
+The `onInteract` function expects a `CommandInteraction` parameter, used for replying to the user the called the function, and none, or one or more parameters decorated by the `@SlashOption` or `@SlashChoice` signature.
+    - `@SlashOption` requires a name which will be shown in the client to the user when filling in the parameters. These parameters are by default required and can be set to optional using the options parameters.
+    - `@SlashChoice` offers a way to have a user select from a predefined set of values.
 
 #### Example Command
 ```ts
-class ExampleCommand extends Command {
-    constructor() {
-        super(
-            "example",
-            "an example command"
-        );
-    }
+@Discord()
+class CodeblockCommand {
+	@Slash("example")
+    async onInteract(
+        @SlashOption("year", {type: "NUMBER"}) year: number,
+            interaction: CommandInteraction): Promise<void> {
+		const embed = new MessageEmbed();
 
-    async run(message: Message): Promise<void> {
-        await message.channel.send("Hello!");
-    }
+        embed.setTitle("Happy new year!");
+        embed.setDescription(`Welcome to the year ${year}, may all your wishes come true!`);
+
+        await interaction.reply({embeds: [embed]});
+	}
 }
 ```
 

@@ -1,8 +1,8 @@
 import {Discord, Slash, SlashOption} from "discordx";
 import {MessageEmbed, ColorResolvable, CommandInteraction, GuildMember, Formatters} from "discord.js";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
-import DiscordUtils from "../../utils/DiscordUtils";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
+import DiscordUtils from "../utils/DiscordUtils";
 
 @Discord()
 class InspectCommand {

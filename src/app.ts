@@ -41,7 +41,7 @@ class App {
 		});
 
 		await DirectoryUtils.getFilesInDirectory(
-			`${__dirname}/${getConfigValue<string>("slash_commands_directory")}`,
+			`${__dirname}/${getConfigValue<string>("commands_directory")}`,
 			DirectoryUtils.appendFileExtension("Command")
 		);
 

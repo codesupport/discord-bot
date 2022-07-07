@@ -1,8 +1,8 @@
 import axios from "axios";
 import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
 import {Discord, Slash, SlashOption} from "discordx";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class NPMCommand {

@@ -1,10 +1,10 @@
 import {Discord, Slash, SlashOption} from "discordx";
 import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
-import Project from "../../interfaces/Project";
-import projects from "../../src-assets/projects.json";
-import StringUtils from "../../utils/StringUtils";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
+import Project from "../interfaces/Project";
+import projects from "../src-assets/projects.json";
+import StringUtils from "../utils/StringUtils";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class ProjectCommand {

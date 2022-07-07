@@ -1,10 +1,10 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 
-import { EMBED_COLOURS } from "../../../src/config.json";
-import HiringLookingCommand from "../../../src/commands/slash/HiringLookingCommand";
-import getConfigValue from "../../../src/utils/getConfigValue";
-import GenericObject from "../../../src/interfaces/GenericObject";
+import { EMBED_COLOURS } from "../../src/config.json";
+import HiringLookingCommand from "../../src/commands/HiringLookingCommand";
+import getConfigValue from "../../src/utils/getConfigValue";
+import GenericObject from "../../src/interfaces/GenericObject";
 
 describe("HiringLookingCommand", () => {
 	describe("onInteract()", () => {

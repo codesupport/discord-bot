@@ -1,8 +1,8 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
 
-import CodeblockCommand from "../../../src/commands/slash/CodeblockCommand";
-import { EMBED_COLOURS } from "../../../src/config.json";
+import CodeblockCommand from "../../src/commands/CodeblockCommand";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("CodeblockCommand", () => {
 	describe("onInteract()", () => {

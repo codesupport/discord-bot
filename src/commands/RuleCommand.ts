@@ -1,7 +1,7 @@
 import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
 import {Discord, Slash, SlashChoice, SlashOption} from "discordx";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 
 interface Rule {
 	name: string;

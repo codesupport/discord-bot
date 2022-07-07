@@ -2,9 +2,9 @@ import { createSandbox, SinonSandbox } from "sinon";
 import {CommandInteraction} from "discord.js";
 import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
-import IssuesCommand from "../../../src/commands/slash/IssuesCommand";
-import GitHubService from "../../../src/services/GitHubService";
-import { EMBED_COLOURS } from "../../../src/config.json";
+import IssuesCommand from "../../src/commands/IssuesCommand";
+import GitHubService from "../../src/services/GitHubService";
+import { EMBED_COLOURS } from "../../src/config.json";
 
 describe("IssuesCommand", () => {
 	describe("onInteract()", () => {

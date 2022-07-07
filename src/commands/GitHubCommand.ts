@@ -1,7 +1,7 @@
 import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
-import GitHubService from "../../services/GitHubService";
-import getConfigValue from "../../utils/getConfigValue";
-import GenericObject from "../../interfaces/GenericObject";
+import GitHubService from "../services/GitHubService";
+import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 import {Discord, Slash, SlashOption} from "discordx";
 
 @Discord()

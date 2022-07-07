@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import {Interaction} from "discord.js";
 
-import WebsiteCommand from "../../../src/commands/slash/WebsiteCommand";
+import WebsiteCommand from "../../src/commands/WebsiteCommand";
 
 describe("WebsiteCommand", () => {
 	describe("oninteract()", () => {
