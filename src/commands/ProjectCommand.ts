@@ -19,11 +19,12 @@ class ProjectCommand {
 		const embed = new MessageEmbed();
 
 		const query = queryString.split(" ").map((arg: string) => arg.toLowerCase()).filter((arg: string) => arg.trim().length > 0);
+		const usageDescription = `Use a difficulty or try out a tag to find a random project! The available difficulties are ${this.defaultSearchTags.map(tag => `\`${tag}\``).join(", ")}. A possible tag to use can be \`frontend\`, \`backend\`, \`spa\`, etc.`;
 
 		if (query.length === 0) {
 			embed.setTitle("Error");
 			embed.setDescription("You must provide a search query/tag.");
-			embed.addField("Correct Usage", "?projects <query>");
+			embed.addField("Usage", usageDescription);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		} else {
 			const displayProject = this.provideProjects()
@@ -43,6 +44,7 @@ class ProjectCommand {
 				embed.setTitle("Error");
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 				embed.setDescription("Could not find a project result for the given query.");
+				embed.addField("Usage", usageDescription);
 			}
 		}
 
