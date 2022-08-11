@@ -17,7 +17,7 @@ class ProjectCommand {
 		@SlashOption("query", {type: "STRING"}) queryString: string,
 			interaction: CommandInteraction): Promise<void> {
 		const embed = new MessageEmbed();
-
+		let ephemeralFlag = false;
 		const query = queryString.split(" ").map((arg: string) => arg.toLowerCase()).filter((arg: string) => arg.trim().length > 0);
 		const usageDescription = `Use a difficulty or try out a tag to find a random project! The available difficulties are ${this.defaultSearchTags.map(tag => `\`${tag}\``).join(", ")}. A possible tag to use can be \`frontend\`, \`backend\`, \`spa\`, etc.`;
 
@@ -26,6 +26,7 @@ class ProjectCommand {
 			embed.setDescription("You must provide a search query/tag.");
 			embed.addField("Usage", usageDescription);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
+			ephemeralFlag = true;
 		} else {
 			const displayProject = this.provideProjects()
 				.filter(this.removeTooLongDescriptions)
@@ -45,10 +46,11 @@ class ProjectCommand {
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 				embed.setDescription("Could not find a project result for the given query.");
 				embed.addField("Usage", usageDescription);
+				ephemeralFlag = true;
 			}
 		}
 
-		await interaction.reply({embeds: [embed]});
+		await interaction.reply({embeds: [embed], ephemeral: ephemeralFlag});
 	}
 
 	private readonly removeTooLongDescriptions: (project: Project) => boolean = ({description}) => description.length <= 2048;
