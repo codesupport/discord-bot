@@ -171,7 +171,7 @@ describe("RuleCommand", () => {
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal("Rule: Use Codeblocks");
-			expect(embed.description).to.equal("When posting code, please use code blocks (see `?codeblock` for help).");
+			expect(embed.description).to.equal("When posting code, please use code blocks (see the command `/codeblock` for help).");
 			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
 			expect(embed.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.fields[0].value).to.equal("<#240884566519185408>");
