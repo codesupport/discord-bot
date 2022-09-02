@@ -89,7 +89,7 @@
         {
             "name": "Use Codeblocks",
             "triggers": ["8", "codeblocks"],
-            "description": "When posting code, please use code blocks (see `?codeblock` for help)."
+            "description": "When posting code, please use code blocks (see the command `/codeblock` for help)."
         },
         {
             "name": "Keep it Clean",
