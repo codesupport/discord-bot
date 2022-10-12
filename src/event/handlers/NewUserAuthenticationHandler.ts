@@ -15,7 +15,7 @@ class NewUserAuthenticationHandler extends EventHandler {
 		if (isAuthMessage && isAuthEmoji) {
 			const guildMember = await reaction.message.guild?.members.fetch(member);
 
-			console.log("User has triggered authentication reaction. Applying member role.", { userId: guildMember.id });
+			console.log("User has triggered authentication reaction. Applying member role.", { userId: guildMember?.id });
 
 			await guildMember?.roles.add(getConfigValue<RoleResolvable>("MEMBER_ROLE"), "User has authenticated their account.");
 		}
