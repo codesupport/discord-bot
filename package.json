@@ -59,7 +59,7 @@
     "eslint": "^6.8.0",
     "eslint-config-codesupport": "^1.0.2",
     "mocha": "^7.2.0",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.20",
     "nyc": "^15.1.0",
     "sinon": "^9.2.1",
     "ts-mocha": "^7.0.0",
