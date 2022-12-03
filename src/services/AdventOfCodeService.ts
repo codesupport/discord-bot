@@ -24,7 +24,7 @@ export default class AdventOfCodeService {
 
 		const response = await this.api.get<AOCLeaderBoard>(link, {
 			headers: {
-				"Cookie": `session=${ADVENT_OF_CODE_TOKEN};`
+				"Cookie": `session=${ADVENT_OF_CODE_TOKEN};`,
 				"User-Agent": `github.com/codesupport/discord-bot by ${process.env.CONTACT_EMAIL}`
 			}
 		});
