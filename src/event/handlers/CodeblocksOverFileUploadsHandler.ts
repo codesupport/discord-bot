@@ -9,6 +9,8 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 	}
 
 	async handle(message: Message): Promise<void> {
+		if (getConfigValue<string[]>("EXEMPT_CHANNELS_FILE_RESTRICTIONS").includes(message.channelId)) return;
+
 		let invalidFileFlag = false;
 		let invalidFileExtension: string = "";
 
