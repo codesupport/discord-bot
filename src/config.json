@@ -36,6 +36,9 @@
         "DEFAULT": "#1555B7",
         "WARNING": "#F7CE61"
     },
+    "EXEMPT_CHANNELS_FILE_RESTRICTIONS": [
+        "495713774205141022"
+    ],
     "ALLOWED_FILE_EXTENSIONS": [
         "jpg",
         "jpeg",

@@ -3,7 +3,7 @@ import { Collection, Constants, Message, MessageAttachment } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
-import { EMBED_COLOURS } from "../../../src/config.json";
+import { EMBED_COLOURS, MOD_CHANNEL_ID } from "../../../src/config.json";
 import EventHandler from "../../../src/abstracts/EventHandler";
 import CodeblocksOverFileUploadsHandler from "../../../src/event/handlers/CodeblocksOverFileUploadsHandler";
 
@@ -42,6 +42,15 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 
 		it("does nothing when there is a valid attachment.", async () => {
 			message.attachments.set("720390958847361064", new MessageAttachment("720390958847361064", "test.png"));
+			const addMockSend = sandbox.stub(message.channel, "send");
+
+			await handler.handle(message);
+			expect(addMockSend.notCalled).to.be.true;
+		});
+
+		it("does nothing when a not allowed extension is uploaded in an exempt channel.", async () => {
+			message.attachments.set("720390958847361065", new MessageAttachment("720390958847361065", "test.exe"));
+			message.channelId = MOD_CHANNEL_ID;
 			const addMockSend = sandbox.stub(message.channel, "send");
 
 			await handler.handle(message);
