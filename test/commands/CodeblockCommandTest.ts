@@ -4,6 +4,7 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import CodeblockCommand from "../../src/commands/CodeblockCommand";
 import { EMBED_COLOURS } from "../../src/config.json";
+import NumberUtils from "../../src/utils/NumberUtils";
 
 describe("CodeblockCommand", () => {
 	describe("onInteract()", () => {
@@ -35,14 +36,14 @@ describe("CodeblockCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Codeblock Tutorial");
-			expect(embed.description).to.equal("Please use codeblocks when sending code.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(embed.data.title).to.equal("Codeblock Tutorial");
+			expect(embed.data.description).to.equal("Please use codeblocks when sending code.");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.DEFAULT.toLowerCase()));
 
-			expect(embed.fields[0].name).to.equal("Sending lots of code?");
-			expect(embed.fields[0].value).to.equal("Consider using a [GitHub Gist](http://gist.github.com).");
+			expect(embed.data.fields[0].name).to.equal("Sending lots of code?");
+			expect(embed.data.fields[0].value).to.equal("Consider using a [GitHub Gist](http://gist.github.com).");
 
-			expect(embed.image.url).to.equal("attachment://codeblock-tutorial.png");
+			expect(embed.data.image.url).to.equal("attachment://codeblock-tutorial.png");
 		});
 
 		afterEach(() => {

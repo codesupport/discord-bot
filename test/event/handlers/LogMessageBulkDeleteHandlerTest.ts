@@ -21,7 +21,7 @@ function messageFactory(amount: number, options: MessageConfigOptions | undefine
 	return collection;
 }
 
-describe("LogMessageDeleteHandler", () => {
+describe("LogMessageBulkDeleteHandler", () => {
 	describe("constructor()", () => {
 		it("creates a handler for messageBulkDelete", () => {
 			const handler = new LogMessageBulkDeleteHandler();

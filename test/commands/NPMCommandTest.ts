@@ -4,6 +4,7 @@ import axios from "axios";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import NPMCommand from "../../src/commands/NPMCommand";
 import { EMBED_COLOURS } from "../../src/config.json";
+import NumberUtils from "../../src/utils/NumberUtils";
 
 describe("NPMCommand", () => {
 	describe("run()", () => {
@@ -38,9 +39,9 @@ describe("NPMCommand", () => {
 			const embed = replyStub.getCall(0).lastArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("That is not a valid NPM package.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(embed.data.title).to.equal("Error");
+			expect(embed.data.description).to.equal("That is not a valid NPM package.");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.ERROR.toLowerCase()));
 		});
 
 		it("sends a message with the package URL if you provide a valid package", async () => {

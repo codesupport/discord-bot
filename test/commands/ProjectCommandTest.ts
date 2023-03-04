@@ -3,6 +3,7 @@ import { createSandbox, SinonSandbox } from "sinon";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import { EMBED_COLOURS } from "../../src/config.json";
 import ProjectCommand from "../../src/commands/ProjectCommand";
+import NumberUtils from "../../src/utils/NumberUtils";
 
 describe("ProjectCommand", () => {
 	describe("onInteract()", () => {
@@ -57,9 +58,9 @@ describe("ProjectCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("Could not find a project result for the given query.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(embed.data.title).to.equal("Error");
+			expect(embed.data.description).to.equal("Could not find a project result for the given query.");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.ERROR.toLowerCase()));
 		});
 
 		it("should assign the correct colors for difficulty grade if difficulty grade is specified", async () => {
@@ -73,10 +74,10 @@ describe("ProjectCommand", () => {
 			const thirdCall = replyStub.getCall(2).firstArg.embeds[0];
 			const lastCall = replyStub.getCall(3).firstArg.embeds[0];
 
-			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
-			expect(secondCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
-			expect(thirdCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
-			expect(lastCall.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(firstCall.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.DEFAULT.toLowerCase()));
+			expect(secondCall.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.DEFAULT.toLowerCase()));
+			expect(thirdCall.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.DEFAULT.toLowerCase()));
+			expect(lastCall.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.DEFAULT.toLowerCase()));
 		});
 
 		it("should filter out too long descriptions out of the resultset", async () => {
@@ -85,9 +86,9 @@ describe("ProjectCommand", () => {
 			const firstCall = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(firstCall.title).to.equal("Error");
-			expect(firstCall.description).to.equal("Could not find a project result for the given query.");
-			expect(firstCall.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(firstCall.data.title).to.equal("Error");
+			expect(firstCall.data.description).to.equal("Could not find a project result for the given query.");
+			expect(firstCall.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.ERROR.toLowerCase()));
 		});
 
 		afterEach(() => {

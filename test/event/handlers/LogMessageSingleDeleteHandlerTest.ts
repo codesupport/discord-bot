@@ -6,7 +6,7 @@ import { CustomMocks } from "@lambocreeper/mock-discord.js";
 import EventHandler from "../../../src/abstracts/EventHandler";
 import LogMessageSingleDeleteHandler from "../../../src/event/handlers/LogMessageSingleDeleteHandler";
 
-describe("LogMessageDeleteHandler", () => {
+describe("LogMessageSingleDeleteHandler", () => {
 	describe("constructor()", () => {
 		it("creates a handler for messageDelete", () => {
 			const handler = new LogMessageSingleDeleteHandler();

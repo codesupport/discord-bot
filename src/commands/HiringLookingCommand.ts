@@ -28,8 +28,8 @@ class HiringLookingCommand {
 			{
 				name: "Example Post",
 				value: `
-				Please use the example below as a template to base your post on.\n
-				\`\`\`
+			Please use the example below as a template to base your post on.\n
+			\`\`\`
 [HIRING]
 Full Stack Website Developer
 We are looking for a developer who is willing to bring our video streaming service to life.
@@ -39,8 +39,8 @@ Requirements:
 - Knowledge of Node.js, Express and EJS.
 - Able to turn Adobe XD design documents into working web pages.
 - Able to stick to deadlines and work as a team.
-				\`\`\`
-				`
+			\`\`\`
+		`
 			}
 		]);
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);

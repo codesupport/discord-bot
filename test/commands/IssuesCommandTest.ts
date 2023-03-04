@@ -5,6 +5,7 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import IssuesCommand from "../../src/commands/IssuesCommand";
 import GitHubService from "../../src/services/GitHubService";
 import { EMBED_COLOURS } from "../../src/config.json";
+import NumberUtils from "../../src/utils/NumberUtils";
 
 describe("IssuesCommand", () => {
 	describe("onInteract()", () => {
@@ -43,11 +44,11 @@ describe("IssuesCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("There was a problem with the request to GitHub.");
-			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("/issues <username>/<repository>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(embed.data.title).to.equal("Error");
+			expect(embed.data.description).to.equal("There was a problem with the request to GitHub.");
+			expect(embed.data.fields[0].name).to.equal("Correct Usage");
+			expect(embed.data.fields[0].value).to.equal("/issues <username>/<repository>");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.ERROR.toLowerCase()));
 		});
 
 		it("states no issues have been found", async () => {
@@ -72,9 +73,9 @@ describe("IssuesCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("No Issues found");
-			expect(embed.description).to.equal("This repository has no issues. [Create one](https://github.com/codesupport/discord-bot/issues/new)");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(embed.data.title).to.equal("No Issues found");
+			expect(embed.data.description).to.equal("This repository has no issues. [Create one](https://github.com/codesupport/discord-bot/issues/new)");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.SUCCESS.toLowerCase()));
 		});
 
 		it("states the result from the github service", async () => {
@@ -106,11 +107,11 @@ describe("IssuesCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("GitHub Issues: user/repo");
-			expect(embed.description).to.equal("This is the description\n\n[View Issues on GitHub](https://github.com/codesupport/discord-bot/issues) - [Create An Issue](https://github.com/codesupport/discord-bot/issues/new)");
-			expect(embed.fields[0].name).to.equal("#69 - This is the title");
-			expect(embed.fields[0].value).to.equal("View on [GitHub](https://github.com/codesupport/discord-bot/issues/69) - Today by [user](https://github.com/user)");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(embed.data.title).to.equal("GitHub Issues: user/repo");
+			expect(embed.data.description).to.equal("This is the description\n\n[View Issues on GitHub](https://github.com/codesupport/discord-bot/issues) - [Create An Issue](https://github.com/codesupport/discord-bot/issues/new)");
+			expect(embed.data.fields[0].name).to.equal("#69 - This is the title");
+			expect(embed.data.fields[0].value).to.equal("View on [GitHub](https://github.com/codesupport/discord-bot/issues/69) - Today by [user](https://github.com/user)");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.SUCCESS.toLowerCase()));
 		});
 
 		afterEach(() => {

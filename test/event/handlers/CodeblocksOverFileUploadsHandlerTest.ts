@@ -6,6 +6,7 @@ import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 import { EMBED_COLOURS, MOD_CHANNEL_ID } from "../../../src/config.json";
 import EventHandler from "../../../src/abstracts/EventHandler";
 import CodeblocksOverFileUploadsHandler from "../../../src/event/handlers/CodeblocksOverFileUploadsHandler";
+import NumberUtils from "../../../src/utils/NumberUtils";
 
 describe("CodeblocksOverFileUploadsHandler", () => {
 	describe("constructor()", () => {
@@ -75,9 +76,9 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(embed.data.title).to.equal("Uploading Files");
+			expect(embed.data.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.DEFAULT.toLowerCase()));
 		});
 
 		it("deletes the message when any attachment on the message is invalid.", async () => {
@@ -92,9 +93,9 @@ describe("CodeblocksOverFileUploadsHandler", () => {
 
 			expect(addMockSend.calledOnce).to.be.true;
 			expect(addMockDelete.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Uploading Files");
-			expect(embed.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.DEFAULT.toLowerCase());
+			expect(embed.data.title).to.equal("Uploading Files");
+			expect(embed.data.description).to.equal("<@010101010101010101>, you tried to upload a \`.cpp\` file, which is not allowed. Please use codeblocks over attachments when sending code.");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.DEFAULT.toLowerCase()));
 		});
 
 		afterEach(() => {
