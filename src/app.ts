@@ -37,7 +37,6 @@ class App {
 	async init(): Promise<void> {
 		this.client.once("ready", async () => {
 			await this.client.initApplicationCommands({ guild: { log: true }});
-			await this.client.initApplicationPermissions();
 		});
 
 		await DirectoryUtils.getFilesInDirectory(
