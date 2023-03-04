@@ -1,4 +1,4 @@
-import {Constants, MessageEmbed, Message, TextChannel, ColorResolvable} from "discord.js";
+import {Constants, EmbedBuilder, Message, TextChannel, ColorResolvable} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
@@ -17,12 +17,14 @@ class LogMessageUpdateHandler extends EventHandler {
 			return;
 		}
 
-		const embed = new MessageEmbed();
+		const embed = new EmbedBuilder();
 
 		embed.setTitle("Message Updated");
 		embed.setDescription(`Author: ${oldMessage.author}\nChannel: ${oldMessage.channel}`);
-		embed.addField("Old Message", oldMessage.content);
-		embed.addField("New Message", newMessage.content);
+		embed.addFields([
+			{ name: "Old Message", value: oldMessage.content },
+			{ name: "New Message", value: newMessage.content }
+		]);
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 		const logsChannel = oldMessage.guild?.channels.cache.find(

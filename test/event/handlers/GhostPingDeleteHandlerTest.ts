@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Guild, Message, MessageEmbed, MessageMentions, MessageReference } from "discord.js";
+import { Collection, Constants, Guild, Message, EmbedBuilder, MessageMentions, MessageReference } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -119,16 +119,16 @@ describe("GhostPingDeleteHandler", () => {
 			expect(fetchMessageStub.called).to.be.true;
 			const sentEmbed = messageMock.getCall(0).args[0].embeds[0];
 
-			expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
-			if (sentEmbed instanceof MessageEmbed) {
-				const replyToField = sentEmbed.fields.find(field => field.name === "Reply to");
+			expect(sentEmbed).to.be.an.instanceOf(EmbedBuilder);
+			if (sentEmbed instanceof EmbedBuilder) {
+				const replyToField = sentEmbed.data.fields?.find(field => field.name === "Reply to");
 
 				expect(replyToField).to.not.be.null;
 
-				const messageLinkField = sentEmbed.fields.find(field => field.name === "Message replied to");
+				const messageLinkField = sentEmbed.data.fields?.find(field => field.name === "Message replied to");
 
 				expect(messageLinkField).to.not.be.null;
-				expect(messageLinkField.value).to.equal("https://discord.com/channels/328194044587147279/328194044587147278/328194044587147280");
+				expect(messageLinkField?.value ?? "").to.equal("https://discord.com/channels/328194044587147279/328194044587147278/328194044587147280");
 			}
 		});
 

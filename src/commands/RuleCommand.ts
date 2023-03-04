@@ -1,4 +1,4 @@
-import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder} from "discord.js";
 import {Discord, Slash, SlashChoice, SlashOption} from "discordx";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
@@ -17,14 +17,14 @@ class RuleCommand {
 	async onInteract(
 		@SlashChoice(...rules) @SlashOption("rule") ruleName: string,
 			interaction: CommandInteraction): Promise<void> {
-		const embed = new MessageEmbed();
+		const embed = new EmbedBuilder();
 
 		const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(ruleName));
 
 		if (rule !== undefined) {
 			embed.setTitle(`Rule: ${rule.name}`);
 			embed.setDescription(rule.description);
-			embed.addField("To familiarise yourself with all of the server's rules please see", "<#240884566519185408>");
+			embed.addFields([{ name: "To familiarise yourself with all of the server's rules please see", value: "<#240884566519185408>" }]);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 		}
 		await interaction.reply({embeds: [embed]});

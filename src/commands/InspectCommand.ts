@@ -1,5 +1,5 @@
 import {Discord, Slash, SlashOption} from "discordx";
-import {MessageEmbed, ColorResolvable, CommandInteraction, GuildMember, Formatters} from "discord.js";
+import {EmbedBuilder, ColorResolvable, CommandInteraction, GuildMember, Formatters} from "discord.js";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
 import DiscordUtils from "../utils/DiscordUtils";
@@ -19,39 +19,41 @@ class InspectCommand {
 		await interaction.reply({embeds: [embed]});
 	}
 
-	private buildNoMatchEmbed(): MessageEmbed {
-		const embed = new MessageEmbed();
+	private buildNoMatchEmbed(): EmbedBuilder {
+		const embed = new EmbedBuilder();
 
 		embed.setTitle("Error");
 		embed.setDescription("No match found.");
-		embed.addField("Correct Usage", "?inspect [username|userID]");
+		embed.addFields([{ name: "Correct Usage", value: "?inspect [username|userID]" }]);
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 
 		return embed;
 	}
 
-	private buildInspectEmbed(memberObj: GuildMember): MessageEmbed {
-		const embed = new MessageEmbed();
+	private buildInspectEmbed(memberObj: GuildMember): EmbedBuilder {
+		const embed = new EmbedBuilder();
 
 		embed.setTitle(`Inspecting ${memberObj?.user.tag}`);
 		embed.setColor(<ColorResolvable>(memberObj?.displayColor || getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT));
 		embed.setThumbnail(memberObj?.user.displayAvatarURL());
-		embed.addField("User ID", memberObj?.user.id);
-		embed.addField("Username", memberObj?.user.tag);
+		embed.addFields([
+			{ name: "User ID", value: memberObj?.user.id },
+			{ name: "Username", value: memberObj?.user.tag }
+		]);
 
-		if (memberObj?.nickname !== null) embed.addField("Nickname", memberObj?.nickname);
+		if (memberObj?.nickname !== null) embed.addFields([{ name: "Nickname", value: memberObj?.nickname }]);
 
 		if (memberObj?.joinedAt !== null) {
 			const shortDateTime = Formatters.time(memberObj?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
 			const relativeTime = Formatters.time(memberObj?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
 
-			embed.addField("Joined At", `${shortDateTime} ${relativeTime}`);
+			embed.addFields([{ name: "Joined At", value: `${shortDateTime} ${relativeTime}` }]);
 		}
 
 		if (memberObj?.roles.cache.size > 1) {
-			embed.addField("Roles", `${memberObj.roles.cache.filter(role => role.id !== memberObj?.guild!.id).map(role => ` ${role.toString()}`)}`);
+			embed.addFields([{ name: "Roles", value: `${memberObj.roles.cache.filter(role => role.id !== memberObj?.guild!.id).map(role => ` ${role.toString()}`)}` }]);
 		} else {
-			embed.addField("Roles", "No roles");
+			embed.addFields([{ name: "Roles", value: "No roles" }]);
 		}
 
 		return embed;

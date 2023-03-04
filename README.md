@@ -66,7 +66,7 @@ class CodeblockCommand {
     async onInteract(
         @SlashOption("year", {type: "NUMBER"}) year: number,
             interaction: CommandInteraction): Promise<void> {
-		const embed = new MessageEmbed();
+		const embed = new EmbedBuilder();
 
         embed.setTitle("Happy new year!");
         embed.setDescription(`Welcome to the year ${year}, may all your wishes come true!`);

@@ -1,4 +1,4 @@
-import {Constants, MessageEmbed, Message, User, TextChannel, ColorResolvable} from "discord.js";
+import {Constants, EmbedBuilder, Message, User, TextChannel, ColorResolvable} from "discord.js";
 import DateUtils from "../../utils/DateUtils";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
@@ -16,7 +16,7 @@ class GhostPingDeleteHandler extends EventHandler {
 
 				if (usersMentioned.every(user => user.id === message.author.id || user.bot)) return;
 
-				const embed = new MessageEmbed();
+				const embed = new EmbedBuilder();
 
 				let repliedToMessage : Message | null | undefined = null;
 				let repliedToUser: User | null | undefined = null;
@@ -33,16 +33,24 @@ class GhostPingDeleteHandler extends EventHandler {
 				embed.setTitle("Ghost Ping Detected!");
 
 				if (repliedToUser !== null && repliedToUser !== undefined) {
-					embed.addField("Author", message.author.toString(), true);
-					embed.addField("Reply to", repliedToUser.toString(), true);
+					embed.addFields([
+						{ name: "Author", value: message.author.toString(), inline: true },
+						{ name: "Reply to", value: repliedToUser.toString(), inline: true }
+					]);
 				} else {
-					embed.addField("Author", message.author.toString());
+					embed.addFields([{ name: "Author", value: message.author.toString() }]);
 				}
 
-				embed.addField("Message", message.content);
+				embed.addFields([{ name: "Message", value: message.content }]);
 
 				if (repliedToMessage !== null && repliedToMessage !== undefined && repliedToMessage !== null) {
-					embed.addField("Message replied to", `https://discord.com/channels/${repliedToMessage.guild?.id}/${repliedToMessage.channel.id}/${repliedToMessage.id}`, true);
+					embed.addFields([
+						{
+							name: "Message replied to",
+							value: `https://discord.com/channels/${repliedToMessage.guild?.id}/${repliedToMessage.channel.id}/${repliedToMessage.id}`,
+							inline: true
+						}
+					]);
 				}
 
 				embed.setFooter({ text: `Message sent at ${DateUtils.formatAsText(message.createdAt)}` });

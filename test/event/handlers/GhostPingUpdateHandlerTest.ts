@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Guild, Message, MessageEmbed, MessageMentions } from "discord.js";
+import { Collection, Constants, Guild, Message, MessageMentions } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 

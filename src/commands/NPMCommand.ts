@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder} from "discord.js";
 import {Discord, Slash, SlashOption} from "discordx";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
@@ -10,7 +10,7 @@ class NPMCommand {
 	async onInteract(
 		@SlashOption("package", {type: "STRING"}) packageName: string,
 			interaction: CommandInteraction): Promise<void> {
-		const embed = new MessageEmbed();
+		const embed = new EmbedBuilder();
 
 		try {
 			const url = `https://www.npmjs.com/package/${packageName}`;
