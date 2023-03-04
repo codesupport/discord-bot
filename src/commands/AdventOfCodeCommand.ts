@@ -1,4 +1,4 @@
-import { ColorResolvable, EmbedBuilder, CommandInteraction, ButtonStyle, MessageActionRow, ButtonBuilder, ApplicationCommandOptionType } from "discord.js";
+import { ColorResolvable, EmbedBuilder, CommandInteraction, ButtonStyle, ActionRowBuilder, ButtonBuilder, ApplicationCommandOptionType } from "discord.js";
 import AdventOfCodeService from "../services/AdventOfCodeService";
 import { AOCMember } from "../interfaces/AdventOfCode";
 import getConfigValue from "../utils/getConfigValue";
@@ -32,7 +32,7 @@ class AdventOfCodeCommand {
 		button.setStyle(ButtonStyle.Link);
 		button.setURL(link);
 
-		const row = new MessageActionRow().addComponents(button);
+		const row = new ActionRowBuilder().addComponents(button);
 
 		if (!!name) {
 			try {

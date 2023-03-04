@@ -1,4 +1,4 @@
-import {Events, ButtonStyle, EmbedBuilder, Message, ColorResolvable, MessageActionRow, ButtonBuilder} from "discord.js";
+import {Events, ButtonStyle, EmbedBuilder, Message, ColorResolvable, ActionRowBuilder, ButtonBuilder} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import DateUtils from "../../utils/DateUtils";
 import getConfigValue from "../../utils/getConfigValue";
@@ -22,7 +22,7 @@ class GhostPingUpdateHandler extends EventHandler {
 		button.setStyle(ButtonStyle.Link);
 		button.setURL(newMessage.url);
 
-		const row = new MessageActionRow().addComponents(button);
+		const row = new ActionRowBuilder().addComponents(button);
 		const embed = new EmbedBuilder();
 
 		embed.setTitle("Ghost Ping Detected!");
