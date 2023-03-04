@@ -25,7 +25,8 @@ class App {
 		this.client = new Client({
 			botId: getConfigValue<string>("BOT_ID"),
 			botGuilds: [getConfigValue<string>("GUILD_ID")],
-			intents: DiscordUtils.getAllIntentsApartFromPresence()
+			intents: DiscordUtils.getAllIntentsApartFromPresence(),
+			silent: false
 		});
 	}
 
@@ -36,7 +37,7 @@ class App {
 
 	async init(): Promise<void> {
 		this.client.once("ready", async () => {
-			await this.client.initApplicationCommands({ guild: { log: true }});
+			await this.client.initApplicationCommands();
 		});
 
 		await DirectoryUtils.getFilesInDirectory(
