@@ -5,7 +5,7 @@ import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class CodeblockCommand {
-	@Slash("codeblock")
+	@Slash({ name: "codeblock", description: "Codeblock" })
 	async onInteract(interaction: CommandInteraction): Promise<void> {
 		const embed = new EmbedBuilder();
 		const image = new AttachmentBuilder("./assets/codeblock.png", { name: "codeblock-tutorial.png" });

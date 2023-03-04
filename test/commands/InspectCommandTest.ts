@@ -103,7 +103,7 @@ describe("InspectCommand", () => {
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([]));
 
-			await command.onInteract(member.user.username, interaction);
+			await command.onInteract(member, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 			const shortDateTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);

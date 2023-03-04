@@ -12,10 +12,11 @@ class ProjectCommand {
 
 	readonly provideProjects: () => Array<Project> = () => projects;
 
-	@Slash("project")
+	@Slash({ name: "project", description: "Get a random project idea" })
 	async onInteract(
-		@SlashOption("query", {type: ApplicationCommandOptionType.String}) queryString: string,
-			interaction: CommandInteraction): Promise<void> {
+		@SlashOption({ name: "query", description: "Query search", type: ApplicationCommandOptionType.String, required: true }) queryString: string,
+		interaction: CommandInteraction
+	): Promise<void> {
 		const embed = new EmbedBuilder();
 		let ephemeralFlag = false;
 		const query = queryString.split(" ").map((arg: string) => arg.toLowerCase()).filter((arg: string) => arg.trim().length > 0);

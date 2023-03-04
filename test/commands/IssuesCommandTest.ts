@@ -35,8 +35,8 @@ describe("IssuesCommand", () => {
 		});
 
 		it("states it had a problem with the request to GitHub", async () => {
-			sandbox.stub(gitHub, "getIssues").resolves(null);
-			sandbox.stub(gitHub, "getRepository").resolves(null);
+			sandbox.stub(gitHub, "getIssues").resolves(undefined);
+			sandbox.stub(gitHub, "getRepository").resolves(undefined);
 
 			await command.onInteract("thisuserdoesnotexist", "thisrepodoesnotexist", interaction);
 

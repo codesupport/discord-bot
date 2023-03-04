@@ -7,11 +7,12 @@ import {Discord, Slash, SlashOption} from "discordx";
 
 @Discord()
 class AdventOfCodeCommand {
-	@Slash("aoc", {description: "Advent Of Code"})
+	@Slash({ name: "aoc", description: "Advent Of Code" })
 	async onInteract(
-		@SlashOption("year", {type: ApplicationCommandOptionType.Number, minValue: 2015, required: false}) year: number,
-		@SlashOption("name", {type: ApplicationCommandOptionType.String, required: false}) name: string,
-			interaction: CommandInteraction): Promise<void> {
+		interaction: CommandInteraction,
+		@SlashOption({ name: "year", description: "AOC year", type: ApplicationCommandOptionType.Number, minValue: 2015, required: false }) year?: number,
+		@SlashOption({ name: "name", description: "User's name", type: ApplicationCommandOptionType.String, required: false }) name?: string,
+	): Promise<void> {
 		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new EmbedBuilder();
 		const button = new ButtonBuilder();

@@ -1,5 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import { EMBED_COLOURS } from "../../src/config.json";
 import HiringLookingCommand from "../../src/commands/HiringLookingCommand";
@@ -10,28 +11,27 @@ describe("HiringLookingCommand", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: HiringLookingCommand;
+		let replyStub: sinon.SinonStub<any[], any>;
+		let interaction: any;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new HiringLookingCommand();
+			replyStub = sandbox.stub().resolves();
+			interaction = {
+				reply: replyStub,
+				user: BaseMocks.getGuildMember()
+			};
 		});
 
 		it("sends a message to the channel", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract({
-				reply: replyStub
-			});
+			await command.onInteract(interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states how to format a post", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract({
-				reply: replyStub
-			});
+			await command.onInteract(interaction);
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = replyStub.getCall(0).firstArg.embeds[0];

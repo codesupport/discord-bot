@@ -35,8 +35,8 @@ describe("GitHubCommand", () => {
 		});
 
 		it("states it had a problem with the request to GitHub", async () => {
-			sandbox.stub(gitHub, "getRepository").resolves(null);
-			sandbox.stub(gitHub, "getPullRequest").resolves(null);
+			sandbox.stub(gitHub, "getRepository").resolves(undefined);
+			sandbox.stub(gitHub, "getPullRequest").resolves(undefined);
 
 			await command.onInteract("thisuserdoesnotexist", "thisrepodoesnotexist", interaction);
 
@@ -99,7 +99,7 @@ describe("GitHubCommand", () => {
 			sandbox.stub(gitHub, "getRepository").resolves({
 				user: "user",
 				repo: "repo",
-				description: null,
+				description: undefined,
 				language: "TypeScript",
 				url: "https://github.com/codesupport/discord-bot",
 				issues_and_pullrequests_count: 3,

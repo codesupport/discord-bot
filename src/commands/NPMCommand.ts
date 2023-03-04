@@ -6,10 +6,11 @@ import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class NPMCommand {
-	@Slash("npm")
+	@Slash({ name: "npm", description: "Get an npm package url" })
 	async onInteract(
-		@SlashOption("package", {type: ApplicationCommandOptionType.String}) packageName: string,
-			interaction: CommandInteraction): Promise<void> {
+		@SlashOption({ name: "package", description: "Package name", type: ApplicationCommandOptionType.String, required: true }) packageName: string,
+		interaction: CommandInteraction
+	): Promise<void> {
 		const embed = new EmbedBuilder();
 
 		try {

@@ -6,10 +6,11 @@ import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class SearchCommand {
-	@Slash("search")
+	@Slash({ name: "search", description: "Search using the DuckDuckGo API" })
 	async onInteract(
-		@SlashOption("query", {type: ApplicationCommandOptionType.String, required: false}) query: string,
-			interaction: CommandInteraction): Promise<void> {
+		@SlashOption({ name: "query", description: "Search query", type: ApplicationCommandOptionType.String, required: true }) query: string,
+		interaction: CommandInteraction
+	): Promise<void> {
 		const embed = new EmbedBuilder();
 
 		try {

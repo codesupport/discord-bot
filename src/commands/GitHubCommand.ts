@@ -6,11 +6,12 @@ import {Discord, Slash, SlashOption} from "discordx";
 
 @Discord()
 class GitHubCommand {
-	@Slash("github")
+	@Slash({ name: "github", description: "Github info about a repository" })
 	async onInteract(
-		@SlashOption("user", {type: ApplicationCommandOptionType.String}) user: string,
-		@SlashOption("repository", {type: ApplicationCommandOptionType.String}) repo: string,
-			interaction: CommandInteraction): Promise<void> {
+		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
+		@SlashOption({ name: "repository", description: "Github repository", type: ApplicationCommandOptionType.String, required: true }) repo: string,
+		interaction: CommandInteraction
+	): Promise<void> {
 		const embed = new EmbedBuilder();
 
 		try {

@@ -5,7 +5,7 @@ import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class HiringLookingCommand {
-	@Slash("hl")
+	@Slash({ name: "hl", description: "Hiring or Looking" })
 	async onInteract(interaction: CommandInteraction): Promise<void> {
 		const embed = new EmbedBuilder();
 

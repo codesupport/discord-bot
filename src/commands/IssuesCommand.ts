@@ -9,11 +9,12 @@ import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class IssuesCommand {
-	@Slash("issues")
+	@Slash({ name: "issues", description: "Issues of a Github repository" })
 	async onInteract(
-		@SlashOption("user", {type: ApplicationCommandOptionType.String}) user: string,
-		@SlashOption("repository", {type: ApplicationCommandOptionType.String}) repoName: string,
-			interaction: CommandInteraction): Promise<void> {
+		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
+		@SlashOption({ name: "repository", description: "Github repository", type: ApplicationCommandOptionType.String, required: true }) repoName: string,
+		interaction: CommandInteraction
+	): Promise<void> {
 		const embed = new EmbedBuilder();
 
 		try {

@@ -1,5 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import RuleCommand from "../../src/commands/RuleCommand";
 import { EMBED_COLOURS } from "../../src/config.json";
@@ -8,28 +9,27 @@ describe("RuleCommand", () => {
 	describe("run()", () => {
 		let sandbox: SinonSandbox;
 		let command: RuleCommand;
+		let replyStub: sinon.SinonStub<any[], any>;
+		let interaction: any;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new RuleCommand();
+			replyStub = sandbox.stub().resolves();
+			interaction = {
+				reply: replyStub,
+				user: BaseMocks.getGuildMember()
+			};
 		});
 
 		it("sends a message to the channel", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("0", {
-				reply: replyStub
-			});
+			await command.onInteract("0", interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states rule 0 if you ask for rule 0", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("0", {
-				reply: replyStub
-			});
+			await command.onInteract("0", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -42,11 +42,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 1 if you ask for rule 1", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("1", {
-				reply: replyStub
-			});
+			await command.onInteract("1", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -59,11 +55,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 2 if you ask for rule 2", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("2", {
-				reply: replyStub
-			});
+			await command.onInteract("2", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -76,11 +68,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 3 if you ask for rule 3", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("3", {
-				reply: replyStub
-			});
+			await command.onInteract("3", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -93,11 +81,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 4 if you ask for rule 4", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("4", {
-				reply: replyStub
-			});
+			await command.onInteract("4", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -110,11 +94,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 5 if you ask for rule 5", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("5", {
-				reply: replyStub
-			});
+			await command.onInteract("5", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -127,11 +107,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 6 if you ask for rule 6", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("6", {
-				reply: replyStub
-			});
+			await command.onInteract("6", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -144,11 +120,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 7 if you ask for rule 7", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("7", {
-				reply: replyStub
-			});
+			await command.onInteract("7", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -161,11 +133,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 8 if you ask for rule 8", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("8", {
-				reply: replyStub
-			});
+			await command.onInteract("8", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -178,11 +146,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 9 if you ask for rule 9", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract("9", {
-				reply: replyStub
-			});
+			await command.onInteract("9", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 

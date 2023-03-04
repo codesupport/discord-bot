@@ -1,4 +1,4 @@
-import {ColorResolvable, CommandInteraction, EmbedBuilder} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import {Discord, Slash, SlashChoice, SlashOption} from "discordx";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
@@ -13,10 +13,11 @@ const rules = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: 
 
 @Discord()
 class RuleCommand {
-	@Slash("rule")
+	@Slash({ name: "rule", description: "Get info about a rule" })
 	async onInteract(
-		@SlashChoice(...rules) @SlashOption("rule") ruleName: string,
-			interaction: CommandInteraction): Promise<void> {
+		@SlashChoice(...rules) @SlashOption({ name: "rule", description: "Name of a rule", type: ApplicationCommandOptionType.String, required: true }) ruleName: string,
+		interaction: CommandInteraction
+	): Promise<void> {
 		const embed = new EmbedBuilder();
 
 		const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(ruleName));

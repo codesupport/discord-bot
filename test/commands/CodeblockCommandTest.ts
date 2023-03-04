@@ -1,5 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
+import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import CodeblockCommand from "../../src/commands/CodeblockCommand";
 import { EMBED_COLOURS } from "../../src/config.json";
@@ -8,28 +9,27 @@ describe("CodeblockCommand", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: CodeblockCommand;
+		let interaction: any;
+		let replyStub: sinon.SinonStub<any[], any>;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new CodeblockCommand();
+			replyStub = sandbox.stub().resolves();
+			interaction = {
+				reply: replyStub,
+				user: BaseMocks.getGuildMember()
+			};
 		});
 
 		it("sends a message to the channel", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract({
-				reply: replyStub
-			});
+			await command.onInteract(interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states how to create a codeblock", async () => {
-			const replyStub = sandbox.stub().resolves();
-
-			await command.onInteract({
-				reply: replyStub
-			});
+			await command.onInteract(interaction);
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
