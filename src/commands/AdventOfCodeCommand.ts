@@ -33,7 +33,7 @@ class AdventOfCodeCommand {
 		button.setStyle(ButtonStyle.Link);
 		button.setURL(link);
 
-		const row = new ActionRowBuilder().addComponents(button);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
 
 		if (!!name) {
 			try {
@@ -54,7 +54,7 @@ class AdventOfCodeCommand {
 				]);
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 
-				await interaction.reply({embeds: [embed], components: [row]});
+				await interaction.reply({embeds: [embed], components: [row] });
 				return;
 			} catch {
 				await interaction.reply({embeds: [this.errorEmbed("Could not get the statistics for Advent Of Code.")], ephemeral: true});

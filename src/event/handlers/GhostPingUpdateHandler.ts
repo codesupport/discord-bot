@@ -22,7 +22,7 @@ class GhostPingUpdateHandler extends EventHandler {
 		button.setStyle(ButtonStyle.Link);
 		button.setURL(newMessage.url);
 
-		const row = new ActionRowBuilder().addComponents(button);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
 		const embed = new EmbedBuilder();
 
 		embed.setTitle("Ghost Ping Detected!");
