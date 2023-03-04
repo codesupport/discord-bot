@@ -1,5 +1,5 @@
 import { Discord, Slash } from "discordx";
-import { EmbedBuilder, MessageAttachment, ColorResolvable, CommandInteraction} from "discord.js";
+import { EmbedBuilder, AttachmentBuilder, ColorResolvable, CommandInteraction} from "discord.js";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
 
@@ -8,7 +8,7 @@ class CodeblockCommand {
 	@Slash("codeblock")
 	async onInteract(interaction: CommandInteraction): Promise<void> {
 		const embed = new EmbedBuilder();
-		const image = new MessageAttachment("./assets/codeblock.png", "codeblock-tutorial.png");
+		const image = new AttachmentBuilder("./assets/codeblock.png", { name: "codeblock-tutorial.png" });
 
 		embed.setTitle("Codeblock Tutorial");
 		embed.setDescription("Please use codeblocks when sending code.");
