@@ -1,11 +1,11 @@
-import {Constants, EmbedBuilder, Message, ColorResolvable} from "discord.js";
+import {Events, EmbedBuilder, Message, ColorResolvable} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
 
 class CodeblocksOverFileUploadsHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_CREATE);
+		super(Events.MessageCreate);
 	}
 
 	async handle(message: Message): Promise<void> {

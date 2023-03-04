@@ -1,4 +1,4 @@
-import { ColorResolvable, Constants, GuildMember, EmbedBuilder, TextChannel, Snowflake } from "discord.js";
+import { ColorResolvable, Events, GuildMember, EmbedBuilder, TextChannel, Snowflake } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import DateUtils from "../../utils/DateUtils";
 import getConfigValue from "../../utils/getConfigValue";
@@ -6,7 +6,7 @@ import GenericObject from "../../interfaces/GenericObject";
 
 class LogMemberLeaveHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.GUILD_MEMBER_REMOVE);
+		super(Events.GuildMemberRemove);
 	}
 
 	async handle(guildMember: GuildMember): Promise<void> {

@@ -1,4 +1,4 @@
-import {ColorResolvable, Constants, GuildMember, EmbedBuilder, TextChannel} from "discord.js";
+import {ColorResolvable, Events, GuildMember, EmbedBuilder, TextChannel} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
@@ -8,7 +8,7 @@ class RaidDetectionHandler extends EventHandler {
 	private kickFlag = false;
 
 	constructor() {
-		super(Constants.Events.GUILD_MEMBER_ADD);
+		super(Events.GuildMemberAdd);
 	}
 
 	handle = async (member: GuildMember): Promise<void> => {

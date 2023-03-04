@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Constants, GuildMember } from "discord.js";
+import { Events, GuildMember } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
@@ -8,10 +8,10 @@ import EventHandler from "../../../src/abstracts/EventHandler";
 
 describe("AutomaticMemberRoleHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for GUILD_MEMBER_ADD", () => {
+		it("creates a handler for guildMemberAdd", () => {
 			const handler = new AutomaticMemberRoleHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.GUILD_MEMBER_ADD);
+			expect(handler.getEvent()).to.equal(Events.GuildMemberAdd);
 		});
 	});
 

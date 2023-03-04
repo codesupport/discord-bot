@@ -1,4 +1,4 @@
-import { ColorResolvable, EmbedBuilder, CommandInteraction, Constants, MessageActionRow, MessageButton } from "discord.js";
+import { ColorResolvable, EmbedBuilder, CommandInteraction, ButtonStyle, MessageActionRow, ButtonBuilder } from "discord.js";
 import AdventOfCodeService from "../services/AdventOfCodeService";
 import { AOCMember } from "../interfaces/AdventOfCode";
 import getConfigValue from "../utils/getConfigValue";
@@ -14,7 +14,7 @@ class AdventOfCodeCommand {
 			interaction: CommandInteraction): Promise<void> {
 		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new EmbedBuilder();
-		const button = new MessageButton();
+		const button = new ButtonBuilder();
 		let yearToQuery = this.getYear();
 
 		if (!!year && year <= yearToQuery) {
@@ -29,7 +29,7 @@ class AdventOfCodeCommand {
 		const description = `Invite Code: \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\``;
 
 		button.setLabel(buttonLabel);
-		button.setStyle(Constants.MessageButtonStyles.LINK);
+		button.setStyle(ButtonStyle.Link);
 		button.setURL(link);
 
 		const row = new MessageActionRow().addComponents(button);

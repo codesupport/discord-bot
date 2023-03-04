@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { createSandbox, SinonSandbox } from "sinon";
-import { Constants, User } from "discord.js";
+import { Events, User } from "discord.js";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
 import NewUserAuthenticationHandler from "../../../src/event/handlers/NewUserAuthenticationHandler";
@@ -8,10 +8,10 @@ import EventHandler from "../../../src/abstracts/EventHandler";
 
 describe("NewUserAuthenticationHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_REACTION_ADD", () => {
+		it("creates a handler for messageReactionAdd", () => {
 			const handler = new NewUserAuthenticationHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_REACTION_ADD);
+			expect(handler.getEvent()).to.equal(Events.MessageReactionAdd);
 		});
 	});
 

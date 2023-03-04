@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Message, Snowflake } from "discord.js";
+import { Collection, Events, Message, Snowflake } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -23,10 +23,10 @@ function messageFactory(amount: number, options: MessageConfigOptions | undefine
 
 describe("LogMessageDeleteHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_Delete", () => {
+		it("creates a handler for messageBulkDelete", () => {
 			const handler = new LogMessageBulkDeleteHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_BULK_DELETE);
+			expect(handler.getEvent()).to.equal(Events.MessageBulkDelete);
 		});
 	});
 

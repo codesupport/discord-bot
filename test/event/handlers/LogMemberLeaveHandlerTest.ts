@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, GuildMemberRoleManager, Role } from "discord.js";
+import { Collection, Events, GuildMemberRoleManager, Role } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 import { MEMBER_ROLE } from "../../../src/config.json";
@@ -10,10 +10,10 @@ import DateUtils from "../../../src/utils/DateUtils";
 
 describe("LogMemberLeaveHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for GUILD_MEMBER_REMOVE)", () => {
+		it("creates a handler for guildMemberRemove", () => {
 			const handler = new LogMemberLeaveHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.GUILD_MEMBER_REMOVE);
+			expect(handler.getEvent()).to.equal(Events.GuildMemberRemove);
 		});
 	});
 

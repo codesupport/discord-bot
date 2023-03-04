@@ -1,11 +1,11 @@
-import {Constants, EmbedBuilder, Message, TextChannel, ColorResolvable} from "discord.js";
+import {Events, EmbedBuilder, Message, TextChannel, ColorResolvable} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
 
 class LogMessageUpdateHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_UPDATE);
+		super(Events.MessageUpdate);
 	}
 
 	async handle(oldMessage: Message, newMessage: Message): Promise<void> {

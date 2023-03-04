@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Guild, Message, MessageMentions } from "discord.js";
+import { Collection, Events, Guild, Message, MessageMentions } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -8,10 +8,10 @@ import GhostPingUpdateHandler from "../../../src/event/handlers/GhostPingUpdateH
 
 describe("GhostPingUpdateHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_UPDATE", () => {
+		it("creates a handler for messageUpdate", () => {
 			const handler = new GhostPingUpdateHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_UPDATE);
+			expect(handler.getEvent()).to.equal(Events.MessageUpdate);
 		});
 	});
 

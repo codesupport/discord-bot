@@ -1,10 +1,10 @@
-import {Constants, GuildMember, RoleResolvable} from "discord.js";
+import {Events, GuildMember, RoleResolvable} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 
 class AutomaticMemberRoleHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.GUILD_MEMBER_ADD);
+		super(Events.GuildMemberAdd);
 	}
 
 	async handle(member: GuildMember): Promise<void> {

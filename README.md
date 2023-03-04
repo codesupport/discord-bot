@@ -83,7 +83,7 @@ To create an event handler, create a new file in `src/event/handlers` named `<Ha
 ```ts
 class ExampleHandler extends EventHandler {
     constructor() {
-        super(Constants.Events.MESSAGE_CREATE);
+        super(Events.MessageCreate);
     }
 
     async handle(message: Message): Promise<void> {

@@ -1,4 +1,4 @@
-import {Constants, EmbedBuilder, Message, User, TextChannel, ColorResolvable} from "discord.js";
+import {Events, EmbedBuilder, Message, User, TextChannel, ColorResolvable} from "discord.js";
 import DateUtils from "../../utils/DateUtils";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
@@ -6,7 +6,7 @@ import GenericObject from "../../interfaces/GenericObject";
 
 class GhostPingDeleteHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_DELETE);
+		super(Events.MessageDelete);
 	}
 
 	async handle(message: Message): Promise<void> {

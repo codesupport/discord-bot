@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Message, MessageAttachment } from "discord.js";
+import { Collection, Events, Message, MessageAttachment } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -9,10 +9,10 @@ import CodeblocksOverFileUploadsHandler from "../../../src/event/handlers/Codebl
 
 describe("CodeblocksOverFileUploadsHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_CREATE", () => {
+		it("creates a handler for messageCreate", () => {
 			const handler = new CodeblocksOverFileUploadsHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_CREATE);
+			expect(handler.getEvent()).to.equal(Events.MessageCreate);
 		});
 	});
 

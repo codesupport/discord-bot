@@ -1,4 +1,4 @@
-import {Constants, EmbedBuilder, Message, ColorResolvable, MessageActionRow, MessageButton} from "discord.js";
+import {Events, ButtonStyle, EmbedBuilder, Message, ColorResolvable, MessageActionRow, ButtonBuilder} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import DateUtils from "../../utils/DateUtils";
 import getConfigValue from "../../utils/getConfigValue";
@@ -6,7 +6,7 @@ import GenericObject from "../../interfaces/GenericObject";
 
 class GhostPingUpdateHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_UPDATE);
+		super(Events.MessageUpdate);
 	}
 
 	async handle(oldMessage: Message, newMessage: Message): Promise<void> {
@@ -16,10 +16,10 @@ class GhostPingUpdateHandler extends EventHandler {
 
 		if (removedMentions.size === 0 || removedMentions.every(user => user.id === oldMessage.author.id || user.bot)) return;
 
-		const button = new MessageButton();
+		const button = new ButtonBuilder();
 
 		button.setLabel("View Edited Message");
-		button.setStyle(Constants.MessageButtonStyles.LINK);
+		button.setStyle(ButtonStyle.Link);
 		button.setURL(newMessage.url);
 
 		const row = new MessageActionRow().addComponents(button);

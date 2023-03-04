@@ -1,9 +1,9 @@
-import { Constants, Message } from "discord.js";
+import { Events, Message } from "discord.js";
 import LogMessageDeleteHandler from "../../abstracts/LogMessageDeleteHandler";
 
 class LogMessageSingleDeleteHandler extends LogMessageDeleteHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_DELETE);
+		super(Events.MessageDelete);
 	}
 
 	async handle(message: Message): Promise<void> {

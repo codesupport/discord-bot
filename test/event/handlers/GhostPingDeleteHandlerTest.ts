@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Guild, Message, EmbedBuilder, MessageMentions, MessageReference } from "discord.js";
+import { Collection, Events, Guild, Message, EmbedBuilder, MessageMentions, MessageReference } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -8,10 +8,10 @@ import GhostPingDeleteHandler from "../../../src/event/handlers/GhostPingDeleteH
 
 describe("GhostPingDeleteHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_DELETE", () => {
+		it("creates a handler for messageDelete", () => {
 			const handler = new GhostPingDeleteHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_DELETE);
+			expect(handler.getEvent()).to.equal(Events.MessageDelete);
 		});
 	});
 

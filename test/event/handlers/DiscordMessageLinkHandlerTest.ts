@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Constants, Message, TextChannel } from "discord.js";
+import { Events, Message, TextChannel } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -9,10 +9,10 @@ import DiscordMessageLinkHandler from "../../../src/event/handlers/DiscordMessag
 
 describe("DiscordMessageLinkHandler", () => {
 	describe("Constructor()", () => {
-		it("creates a handler for MESSAGE_CREATE", () => {
+		it("creates a handler for messageCreate", () => {
 			const handler = new DiscordMessageLinkHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_CREATE);
+			expect(handler.getEvent()).to.equal(Events.MessageCreate);
 		});
 	});
 
