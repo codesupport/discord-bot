@@ -1,6 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Role, Formatters } from "discord.js";
+import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Role, time, TimestampStyles } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";
@@ -52,8 +52,8 @@ describe("InspectCommand", () => {
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
-			const shortDateTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
-			const relativeTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
+			const shortDateTime = time(member?.joinedAt!, TimestampStyles.ShortDateTime);
+			const relativeTime = time(member?.joinedAt!, TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
@@ -82,8 +82,8 @@ describe("InspectCommand", () => {
 			await command.onInteract(undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
-			const shortDateTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
-			const relativeTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
+			const shortDateTime = time(member?.joinedAt!, TimestampStyles.ShortDateTime);
+			const relativeTime = time(member?.joinedAt!, TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
@@ -106,8 +106,8 @@ describe("InspectCommand", () => {
 			await command.onInteract(member, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
-			const shortDateTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.ShortDateTime);
-			const relativeTime = Formatters.time(member?.joinedAt!, Formatters.TimestampStyles.RelativeTime);
+			const shortDateTime = time(member?.joinedAt!, TimestampStyles.ShortDateTime);
+			const relativeTime = time(member?.joinedAt!, TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
 			expect(embed.title).to.equal(`Inspecting ${member.user.tag}`);
