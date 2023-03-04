@@ -1,5 +1,5 @@
 import {Discord, Slash, SlashOption} from "discordx";
-import {ColorResolvable, CommandInteraction, EmbedBuilder} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import Project from "../interfaces/Project";
 import projects from "../src-assets/projects.json";
 import StringUtils from "../utils/StringUtils";
@@ -14,7 +14,7 @@ class ProjectCommand {
 
 	@Slash("project")
 	async onInteract(
-		@SlashOption("query", {type: "STRING"}) queryString: string,
+		@SlashOption("query", {type: ApplicationCommandOptionType.String}) queryString: string,
 			interaction: CommandInteraction): Promise<void> {
 		const embed = new EmbedBuilder();
 		let ephemeralFlag = false;

@@ -1,5 +1,5 @@
 import {Discord, Slash, SlashOption} from "discordx";
-import {EmbedBuilder, ColorResolvable, CommandInteraction, GuildMember, Formatters} from "discord.js";
+import {EmbedBuilder, ColorResolvable, CommandInteraction, GuildMember, Formatters, ApplicationCommandOptionType} from "discord.js";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
 import DiscordUtils from "../utils/DiscordUtils";
@@ -8,7 +8,7 @@ import DiscordUtils from "../utils/DiscordUtils";
 class InspectCommand {
 	@Slash("inspect")
 	async onInteract(
-		@SlashOption("user", {type: "MENTIONABLE", required: false}) userID: GuildMember,
+		@SlashOption("user", {type: ApplicationCommandOptionType.Mentionable, required: false}) userID: GuildMember,
 			interaction: CommandInteraction): Promise<void> {
 		const userObj = await DiscordUtils.getGuildMember(userID === undefined ? interaction.user.id : userID.id, interaction.guild!);
 

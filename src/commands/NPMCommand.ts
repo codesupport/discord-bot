@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ColorResolvable, CommandInteraction, EmbedBuilder} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import {Discord, Slash, SlashOption} from "discordx";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
@@ -8,7 +8,7 @@ import GenericObject from "../interfaces/GenericObject";
 class NPMCommand {
 	@Slash("npm")
 	async onInteract(
-		@SlashOption("package", {type: "STRING"}) packageName: string,
+		@SlashOption("package", {type: ApplicationCommandOptionType.String}) packageName: string,
 			interaction: CommandInteraction): Promise<void> {
 		const embed = new EmbedBuilder();
 

@@ -1,4 +1,4 @@
-import { ColorResolvable, EmbedBuilder, CommandInteraction, ButtonStyle, MessageActionRow, ButtonBuilder } from "discord.js";
+import { ColorResolvable, EmbedBuilder, CommandInteraction, ButtonStyle, MessageActionRow, ButtonBuilder, ApplicationCommandOptionType } from "discord.js";
 import AdventOfCodeService from "../services/AdventOfCodeService";
 import { AOCMember } from "../interfaces/AdventOfCode";
 import getConfigValue from "../utils/getConfigValue";
@@ -9,8 +9,8 @@ import {Discord, Slash, SlashOption} from "discordx";
 class AdventOfCodeCommand {
 	@Slash("aoc", {description: "Advent Of Code"})
 	async onInteract(
-		@SlashOption("year", {type: "NUMBER", minValue: 2015, required: false}) year: number,
-		@SlashOption("name", {type: "STRING", required: false}) name: string,
+		@SlashOption("year", {type: ApplicationCommandOptionType.Number, minValue: 2015, required: false}) year: number,
+		@SlashOption("name", {type: ApplicationCommandOptionType.String, required: false}) name: string,
 			interaction: CommandInteraction): Promise<void> {
 		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new EmbedBuilder();

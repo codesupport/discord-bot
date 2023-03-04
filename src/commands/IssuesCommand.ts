@@ -1,4 +1,4 @@
-import {ColorResolvable, CommandInteraction, EmbedBuilder} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import {Discord, Slash, SlashOption} from "discordx";
 import GitHubService from "../services/GitHubService";
 import GitHubIssue from "../interfaces/GitHubIssue";
@@ -11,8 +11,8 @@ import GenericObject from "../interfaces/GenericObject";
 class IssuesCommand {
 	@Slash("issues")
 	async onInteract(
-		@SlashOption("user", {type: "STRING"}) user: string,
-		@SlashOption("repository", {type: "STRING"}) repoName: string,
+		@SlashOption("user", {type: ApplicationCommandOptionType.String}) user: string,
+		@SlashOption("repository", {type: ApplicationCommandOptionType.String}) repoName: string,
 			interaction: CommandInteraction): Promise<void> {
 		const embed = new EmbedBuilder();
 

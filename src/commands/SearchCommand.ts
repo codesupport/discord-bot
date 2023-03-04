@@ -1,4 +1,4 @@
-import {ColorResolvable, CommandInteraction, EmbedBuilder} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import {Discord, Slash, SlashOption} from "discordx";
 import InstantAnswerService from "../services/InstantAnswerService";
 import getConfigValue from "../utils/getConfigValue";
@@ -8,7 +8,7 @@ import GenericObject from "../interfaces/GenericObject";
 class SearchCommand {
 	@Slash("search")
 	async onInteract(
-		@SlashOption("query", {type: "STRING", required: false}) query: string,
+		@SlashOption("query", {type: ApplicationCommandOptionType.String, required: false}) query: string,
 			interaction: CommandInteraction): Promise<void> {
 		const embed = new EmbedBuilder();
 
