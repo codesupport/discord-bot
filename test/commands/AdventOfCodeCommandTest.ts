@@ -54,7 +54,7 @@ describe("AdventOfCodeCommand", () => {
 			sandbox.stub(AOC, "getSortedPlayerList");
 			sandbox.stub(AOC, "getSinglePlayer");
 
-			await command.onInteract(interaction, 2021, "Lambo");
+			await command.onInteract(2021, "Lambo", interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
@@ -63,7 +63,7 @@ describe("AdventOfCodeCommand", () => {
 			sandbox.stub(AOC, "getLeaderBoard").throws();
 			sandbox.stub(command, "getYear").returns(2019);
 
-			await command.onInteract(interaction, 2021, undefined);
+			await command.onInteract(2021, undefined, interaction);
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
@@ -78,7 +78,7 @@ describe("AdventOfCodeCommand", () => {
 
 			sandbox.stub(command, "getYear").returns(2020);
 
-			await command.onInteract(interaction, 2018, undefined);
+			await command.onInteract(2018, undefined, interaction);
 
 			expect(serviceMock.calledOnce).to.be.true;
 			expect(serviceMock.getCall(0).args[1]).to.equal(2018);
@@ -89,7 +89,7 @@ describe("AdventOfCodeCommand", () => {
 			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
 			sandbox.stub(command, "getYear").returns(2019);
 
-			await command.onInteract(interaction, undefined, undefined);
+			await command.onInteract(undefined, undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 			const button = replyStub.getCall(0).firstArg.components[0].components[0];
@@ -107,7 +107,7 @@ describe("AdventOfCodeCommand", () => {
 		it("gives an error when the wrong acces token/id is provided", async () => {
 			sandbox.stub(AOC, "getLeaderBoard").throws();
 
-			await command.onInteract(interaction, undefined, undefined);
+			await command.onInteract(undefined, undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -122,7 +122,7 @@ describe("AdventOfCodeCommand", () => {
 			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
 			sandbox.stub(command, "getYear").returns(2021);
 
-			await command.onInteract(interaction, undefined, "Lambo");
+			await command.onInteract(undefined, "Lambo", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 			const button = replyStub.getCall(0).firstArg.components[0].components[0];
@@ -146,7 +146,7 @@ describe("AdventOfCodeCommand", () => {
 		it("should give an error when the user doesn't exist", async () => {
 			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
 
-			await command.onInteract(interaction, undefined, "Bob");
+			await command.onInteract(undefined, "Bob", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -160,7 +160,7 @@ describe("AdventOfCodeCommand", () => {
 		it("gives an error when the name parameter is given but wrong acces token/id is provided", async () => {
 			sandbox.stub(AOC, "getSinglePlayer").throws();
 
-			await command.onInteract(interaction, undefined, "Lambo");
+			await command.onInteract(undefined, "Lambo", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -176,7 +176,7 @@ describe("AdventOfCodeCommand", () => {
 
 			sandbox.stub(command, "getYear").returns(2020);
 
-			await command.onInteract(interaction, 2019, undefined);
+			await command.onInteract(2019, undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 			const button = replyStub.getCall(0).firstArg.components[0].components[0];
@@ -197,12 +197,13 @@ describe("AdventOfCodeCommand", () => {
 
 			sandbox.stub(command, "getYear").returns(2021);
 
-			await command.onInteract(interaction, 2018, "Lambo");
+			await command.onInteract(2018, "Lambo", interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 			const button = replyStub.getCall(0).firstArg.components[0].components[0];
 
 			expect(replyStub.calledOnce).to.be.true;
+			expect(APIMock.getCall(0).args[1]).to.equal(2018);
 			expect(embed.data.title).to.equal("Advent Of Code");
 			expect(embed.data.description).to.equal(`Invite Code: \`${ADVENT_OF_CODE_INVITE}\``);
 			expect(embed.data.fields[0].name).to.equal("Scores of Lambo in 2018");

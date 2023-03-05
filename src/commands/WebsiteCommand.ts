@@ -5,8 +5,8 @@ import {Discord, Slash, SlashOption} from "discordx";
 class WebsiteCommand {
 	@Slash({ name: "website", description: "URL of the Codesupport website" })
 	async onInteract(
-		interaction: CommandInteraction,
-		@SlashOption({ name: "path", description: "Path to add to the URL", type: ApplicationCommandOptionType.String, required: false }) path?: string
+		@SlashOption({ name: "path", description: "Path to add to the URL", type: ApplicationCommandOptionType.String, required: false }) path: string | undefined,
+		interaction: CommandInteraction
 	): Promise<void> {
 		await interaction.reply(`https://codesupport.dev/${path || ""}`);
 	}

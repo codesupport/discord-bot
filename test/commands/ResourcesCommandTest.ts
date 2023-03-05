@@ -23,13 +23,13 @@ describe("ResourcesCommand", () => {
 		});
 
 		it("sends a message to the channel", async () => {
-			await command.onInteract(interaction, undefined);
+			await command.onInteract(undefined, interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("sends the link to resources page if no argument is given", async () => {
-			await command.onInteract(interaction, undefined);
+			await command.onInteract(undefined, interaction);
 
 			const { content: url } = replyStub.firstCall.lastArg;
 
@@ -38,7 +38,7 @@ describe("ResourcesCommand", () => {
 		});
 
 		it("sends link to the category page if an argument is given", async () => {
-			await command.onInteract(interaction, "javascript");
+			await command.onInteract("javascript", interaction);
 
 			const { content: url } = replyStub.firstCall.lastArg;
 

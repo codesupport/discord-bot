@@ -6,10 +6,10 @@ import DiscordUtils from "../utils/DiscordUtils";
 
 @Discord()
 class InspectCommand {
-	@Slash({ name: "inspect", description: "Inspect a User" })
+	@Slash({ name: "inspect", description: "Inspect a user" })
 	async onInteract(
-		interaction: CommandInteraction,
-		@SlashOption({ name: "user", description: "User", type: ApplicationCommandOptionType.Mentionable, required: false }) userID?: GuildMember
+		@SlashOption({ name: "user", description: "User to inspect", type: ApplicationCommandOptionType.Mentionable, required: false }) userID: GuildMember | undefined,
+		interaction: CommandInteraction
 	): Promise<void> {
 		const userObj = await DiscordUtils.getGuildMember(userID === undefined ? interaction.user.id : userID.id, interaction.guild!);
 

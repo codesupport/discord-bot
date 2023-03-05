@@ -23,20 +23,20 @@ describe("WebsiteCommand", () => {
 		});
 
 		it("sends a message to the channel", async () => {
-			await command.onInteract(interaction, undefined);
+			await command.onInteract(undefined, interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("sends default link to website if no argument is given", async () => {
-			await command.onInteract(interaction, undefined);
+			await command.onInteract(undefined, interaction);
 
 			expect(replyStub.firstCall.firstArg).to.equal("https://codesupport.dev/");
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("sends the link to website + addon if argument is given", async () => {
-			await command.onInteract(interaction, "test");
+			await command.onInteract("test", interaction);
 
 			expect(replyStub.firstCall.firstArg).to.equal("https://codesupport.dev/test");
 			expect(replyStub.calledOnce).to.be.true;

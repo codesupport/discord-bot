@@ -5,8 +5,8 @@ import { CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 class ResourcesCommand {
 	@Slash({ name: "resources", description: "Resources on the Codesupport site" })
 	async onInteract(
-		interaction: CommandInteraction,
-		@SlashOption({ name: "category", description: "Resource category", type: ApplicationCommandOptionType.String, required: false }) category?: string
+		@SlashOption({ name: "category", description: "Resource category", type: ApplicationCommandOptionType.String, required: false }) category: string | undefined,
+		interaction: CommandInteraction
 	): Promise<void> {
 		let url = "https://codesupport.dev/resources";
 

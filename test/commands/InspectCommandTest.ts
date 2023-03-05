@@ -35,7 +35,7 @@ describe("InspectCommand", () => {
 		});
 
 		it("sends a message to the channel", async () => {
-			await command.onInteract(interaction, BaseMocks.getGuildMember());
+			await command.onInteract(BaseMocks.getGuildMember(), interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
@@ -49,7 +49,7 @@ describe("InspectCommand", () => {
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			// @ts-ignore
-			await command.onInteract(interaction, member);
+			await command.onInteract(member, interaction);
 
 			// @ts-ignore - firstArg does not live on getCall()
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
@@ -80,7 +80,7 @@ describe("InspectCommand", () => {
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
 
 			// @ts-ignore
-			await command.onInteract(interaction, member);
+			await command.onInteract(member, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 			const shortDateTime = time(member?.joinedAt!, TimestampStyles.ShortDateTime);
@@ -104,7 +104,7 @@ describe("InspectCommand", () => {
 
 			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([]));
 
-			await command.onInteract(interaction, member);
+			await command.onInteract(member, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 			const shortDateTime = time(member?.joinedAt!, TimestampStyles.ShortDateTime);
