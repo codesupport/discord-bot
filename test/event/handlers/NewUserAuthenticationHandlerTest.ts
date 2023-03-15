@@ -33,6 +33,7 @@ describe("NewUserAuthenticationHandler", () => {
 
 			const reaction = CustomMocks.getMessageReaction({
 				emoji: {
+					id: "3513548348434",
 					name: "🤖"
 				}
 			}, { message });
@@ -56,6 +57,7 @@ describe("NewUserAuthenticationHandler", () => {
 
 			const reaction = CustomMocks.getMessageReaction({
 				emoji: {
+					id: "1351534543545",
 					name: "😀"
 				}
 			}, { message });
@@ -79,6 +81,7 @@ describe("NewUserAuthenticationHandler", () => {
 
 			const reaction = CustomMocks.getMessageReaction({
 				emoji: {
+					id: "3513548348434",
 					name: "🤖"
 				}
 			}, { message });
@@ -102,6 +105,7 @@ describe("NewUserAuthenticationHandler", () => {
 
 			const reaction = CustomMocks.getMessageReaction({
 				emoji: {
+					id: "1351534543545",
 					name: "😀"
 				}
 			}, { message });

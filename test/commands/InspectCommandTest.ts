@@ -7,15 +7,34 @@ import InspectCommand from "../../src/commands/InspectCommand";
 import DiscordUtils from "../../src/utils/DiscordUtils";
 import NumberUtils from "../../src/utils/NumberUtils";
 
-const roleCollection = new Collection([["12345", new Role(BaseMocks.getClient(), {
-	"id": "12345",
-	"name": "TestRole",
-	"permissions": 1
-}, BaseMocks.getGuild())], [BaseMocks.getGuild().id, new Role(BaseMocks.getClient(), {
-	"id": BaseMocks.getGuild().id,
-	"name": "@everyone",
-	"permissions": 1
-}, BaseMocks.getGuild())]]);
+const roleCollection = new Collection([
+	[
+		"12345",
+		Reflect.construct(Role,
+			[
+				BaseMocks.getClient(),
+				{
+					"id": "12345",
+					"name": "TestRole",
+					"permissions": 1
+				},
+				BaseMocks.getGuild()
+			])
+	],
+	[
+		BaseMocks.getGuild().id,
+		Reflect.construct(Role,
+			[
+				BaseMocks.getClient(),
+				{
+					"id": BaseMocks.getGuild().id,
+					"name": "@everyone",
+					"permissions": 1
+				},
+				BaseMocks.getGuild()
+			])
+	]
+]);
 
 describe("InspectCommand", () => {
 	describe("onInteract()", () => {
@@ -43,10 +62,9 @@ describe("InspectCommand", () => {
 		it("sends a message with information if an argument was provided", async () => {
 			const member = BaseMocks.getGuildMember();
 
-			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
+			sandbox.stub(member, "displayColor").get(() => NumberUtils.hexadecimalToInteger("#ffffff"));
 			sandbox.stub(DiscordUtils, "getGuildMember").resolves(member);
-
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
+			sandbox.stub(member, "roles").get(() => ({ cache: roleCollection }));
 
 			// @ts-ignore
 			await command.onInteract(member, interaction);
@@ -74,10 +92,9 @@ describe("InspectCommand", () => {
 		it("sends a message with information if no argument was provided", async () => {
 			const member = BaseMocks.getGuildMember();
 
-			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#ffffff");
+			sandbox.stub(member, "displayColor").get(() => NumberUtils.hexadecimalToInteger("#ffffff"));
 			sandbox.stub(DiscordUtils, "getGuildMember").resolves(member);
-
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => roleCollection);
+			sandbox.stub(member, "roles").get(() => ({ cache: roleCollection }));
 
 			// @ts-ignore
 			await command.onInteract(member, interaction);
@@ -99,10 +116,9 @@ describe("InspectCommand", () => {
 		it("handles role field correctly if member has no role", async () => {
 			const member = BaseMocks.getGuildMember();
 
-			sandbox.stub(GuildMember.prototype, "displayColor").get(() => "#1555b7");
+			sandbox.stub(member, "displayColor").get(() => NumberUtils.hexadecimalToInteger("#1555b7"));
 			sandbox.stub(DiscordUtils, "getGuildMember").resolves(member);
-
-			sandbox.stub(GuildMemberRoleManager.prototype, "cache").get(() => new Collection([]));
+			sandbox.stub(member, "roles").get(() => ({ cache: new Collection([]) }));
 
 			await command.onInteract(member, interaction);
 
@@ -122,7 +138,7 @@ describe("InspectCommand", () => {
 			expect(embed.data.fields[3].value).to.equal(`${shortDateTime} ${relativeTime}`);
 			expect(embed.data.fields[4].name).to.equal("Roles");
 			expect(embed.data.fields[4].value).to.equal("No roles");
-			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger("#1555b7"));
+			expect(embed.data.color).to.equal(member.displayColor);
 		});
 
 		afterEach(() => {

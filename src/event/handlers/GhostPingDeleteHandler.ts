@@ -1,4 +1,4 @@
-import {Events, EmbedBuilder, Message, User, TextChannel, ColorResolvable} from "discord.js";
+import {Events, EmbedBuilder, Message, User, ColorResolvable, ChannelType} from "discord.js";
 import DateUtils from "../../utils/DateUtils";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
@@ -24,7 +24,7 @@ class GhostPingDeleteHandler extends EventHandler {
 				if (message.reference?.messageId && message.reference.guildId === message.guild?.id) {
 					const repliedToChannel = message.guild?.channels.resolve(message.reference.channelId);
 
-					if (repliedToChannel instanceof TextChannel) {
+					if (repliedToChannel?.type === ChannelType.GuildText) {
 						repliedToMessage = await repliedToChannel.messages.fetch(message.reference.messageId);
 						repliedToUser = repliedToMessage?.author;
 					}
