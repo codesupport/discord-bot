@@ -16,30 +16,37 @@ describe("DiscordUtils", () => {
 		});
 
 		it("returns GuildMember if value is a username + discriminator", async () => {
-			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
+			const guild = BaseMocks.getGuild();
 
-			expect(await DiscordUtils.getGuildMember("fakeUser#1234", BaseMocks.getGuild())).to.equal(member);
+			sandbox.stub(guild.members, "fetch").resolves(new Collection([["12345", member]]));
+
+			expect(await DiscordUtils.getGuildMember("fakeUser#1234", guild)).to.equal(member);
 		});
 
 		it("returns GuildMember if value is a username", async () => {
-			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", member]]));
+			const guild = BaseMocks.getGuild();
 
-			expect(await DiscordUtils.getGuildMember("fakeUser", BaseMocks.getGuild())).to.equal(member);
+			sandbox.stub(guild.members, "fetch").resolves(new Collection([["12345", member]]));
+
+			expect(await DiscordUtils.getGuildMember("fakeUser", guild)).to.equal(member);
 		});
 
 		it("returns GuildMember if value is a userID", async () => {
-			// @ts-ignore (the types aren't recognising the overloaded fetch function)
-			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(member);
+			const guild = BaseMocks.getGuild();
 
-			expect(await DiscordUtils.getGuildMember("123456789", BaseMocks.getGuild())).to.equal(member);
+			// @ts-ignore (the types aren't recognising the overloaded fetch function)
+			sandbox.stub(guild.members, "fetch").resolves(member);
+
+			expect(await DiscordUtils.getGuildMember("123456789", guild)).to.equal(member);
 		});
 
 		it("returns GuildMember if value is a nickname", async () => {
+			const guild = BaseMocks.getGuild();
 			const nicknameMember = CustomMocks.getGuildMember({nick: "Lambo", user: user});
 
-			sandbox.stub(GuildMemberManager.prototype, "fetch").resolves(new Collection([["12345", nicknameMember]]));
+			sandbox.stub(guild.members, "fetch").resolves(new Collection([["12345", nicknameMember]]));
 
-			expect(await DiscordUtils.getGuildMember("Lambo", BaseMocks.getGuild())).to.equal(nicknameMember);
+			expect(await DiscordUtils.getGuildMember("Lambo", guild)).to.equal(nicknameMember);
 		});
 
 		afterEach(() => {

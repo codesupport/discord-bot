@@ -1,10 +1,10 @@
-import {Constants, MessageReaction, RoleResolvable, User} from "discord.js";
+import {Events, MessageReaction, RoleResolvable, User} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 
 class NewUserAuthenticationHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_REACTION_ADD);
+		super(Events.MessageReactionAdd);
 	}
 
 	async handle(reaction: MessageReaction, member: User): Promise<void> {

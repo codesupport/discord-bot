@@ -1,17 +1,17 @@
 import { expect } from "chai";
-import { Constants } from "discord.js";
+import { Events } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { CustomMocks } from "@lambocreeper/mock-discord.js";
 
 import EventHandler from "../../../src/abstracts/EventHandler";
 import LogMessageSingleDeleteHandler from "../../../src/event/handlers/LogMessageSingleDeleteHandler";
 
-describe("LogMessageDeleteHandler", () => {
+describe("LogMessageSingleDeleteHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_Delete", () => {
+		it("creates a handler for messageDelete", () => {
 			const handler = new LogMessageSingleDeleteHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_DELETE);
+			expect(handler.getEvent()).to.equal(Events.MessageDelete);
 		});
 	});
 

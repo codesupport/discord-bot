@@ -66,7 +66,7 @@ class CodeblockCommand {
     async onInteract(
         @SlashOption("year", {type: "NUMBER"}) year: number,
             interaction: CommandInteraction): Promise<void> {
-		const embed = new MessageEmbed();
+		const embed = new EmbedBuilder();
 
         embed.setTitle("Happy new year!");
         embed.setDescription(`Welcome to the year ${year}, may all your wishes come true!`);
@@ -83,7 +83,7 @@ To create an event handler, create a new file in `src/event/handlers` named `<Ha
 ```ts
 class ExampleHandler extends EventHandler {
     constructor() {
-        super(Constants.Events.MESSAGE_CREATE);
+        super(Events.MessageCreate);
     }
 
     async handle(message: Message): Promise<void> {

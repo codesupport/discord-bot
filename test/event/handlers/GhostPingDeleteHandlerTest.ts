@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Guild, Message, MessageEmbed, MessageMentions, MessageReference } from "discord.js";
+import { Collection, Events, Guild, Message, EmbedBuilder, MessageMentions, TextChannel } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -8,10 +8,10 @@ import GhostPingDeleteHandler from "../../../src/event/handlers/GhostPingDeleteH
 
 describe("GhostPingDeleteHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_DELETE", () => {
+		it("creates a handler for messageDelete", () => {
 			const handler = new GhostPingDeleteHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_DELETE);
+			expect(handler.getEvent()).to.equal(Events.MessageDelete);
 		});
 	});
 
@@ -28,7 +28,7 @@ describe("GhostPingDeleteHandler", () => {
 			const message = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			message.mentions = new MessageMentions(message, [CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			message.content = "Hey <@328194044587147278>!";
 
 			await handler.handle(message);
@@ -40,7 +40,7 @@ describe("GhostPingDeleteHandler", () => {
 			const message = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(message.channel, "send");
 
-			message.mentions = new MessageMentions(message, [], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [], [], false]);
 			message.content = "Hey everybody!";
 
 			await handler.handle(message);
@@ -57,7 +57,7 @@ describe("GhostPingDeleteHandler", () => {
 			author.bot = true;
 
 			message.author = author;
-			message.mentions = new MessageMentions(message, [BaseMocks.getUser()], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [BaseMocks.getUser()], [], false]);
 			message.content = "Hey <@328194044587147278>, stop spamming or we'll arrest you!";
 
 			await handler.handle(message);
@@ -70,7 +70,7 @@ describe("GhostPingDeleteHandler", () => {
 			const messageMock = sandbox.stub(message.channel, "send");
 
 			message.author = BaseMocks.getUser();
-			message.mentions = new MessageMentions(message, [CustomMocks.getUser()], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [CustomMocks.getUser()], [], false]);
 			message.content = `<@${message.author.id}>`;
 
 			await handler.handle(message);
@@ -85,7 +85,7 @@ describe("GhostPingDeleteHandler", () => {
 			const author = CustomMocks.getUser();
 
 			message.author = author;
-			message.mentions = new MessageMentions(message, [author, CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [author, CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			message.content = `<@${message.author.id}> <@328194044587147278>`;
 
 			await handler.handle(message);
@@ -95,7 +95,7 @@ describe("GhostPingDeleteHandler", () => {
 		it("provides additional info if message is a reply to another message", async () => {
 			const message = CustomMocks.getMessage({guild: CustomMocks.getGuild()});
 			const messageMock = sandbox.stub(message.channel, "send");
-			const channelMock = CustomMocks.getTextChannel();
+			const channelMock = CustomMocks.getTextChannel() as TextChannel;
 			const repliedToMessage = CustomMocks.getMessage({ id: "328194044587147280", guild: CustomMocks.getGuild()}, {
 				channel: CustomMocks.getTextChannel({ id: "328194044587147278"})
 			});
@@ -104,7 +104,7 @@ describe("GhostPingDeleteHandler", () => {
 			const author = CustomMocks.getUser();
 
 			message.author = author;
-			message.mentions = new MessageMentions(message, [CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			message.guild.id = "328194044587147279";
 			message.content = "this is a reply";
 			message.reference = {
@@ -114,21 +114,22 @@ describe("GhostPingDeleteHandler", () => {
 			};
 
 			await handler.handle(message);
+
 			expect(messageMock.called).to.be.true;
 			expect(resolveChannelStub.called).to.be.true;
 			expect(fetchMessageStub.called).to.be.true;
 			const sentEmbed = messageMock.getCall(0).args[0].embeds[0];
 
-			expect(sentEmbed).to.be.an.instanceOf(MessageEmbed);
-			if (sentEmbed instanceof MessageEmbed) {
-				const replyToField = sentEmbed.fields.find(field => field.name === "Reply to");
+			expect(sentEmbed).to.be.an.instanceOf(EmbedBuilder);
+			if (sentEmbed instanceof EmbedBuilder) {
+				const replyToField = sentEmbed.data.fields?.find(field => field.name === "Reply to");
 
 				expect(replyToField).to.not.be.null;
 
-				const messageLinkField = sentEmbed.fields.find(field => field.name === "Message replied to");
+				const messageLinkField = sentEmbed.data.fields?.find(field => field.name === "Message replied to");
 
 				expect(messageLinkField).to.not.be.null;
-				expect(messageLinkField.value).to.equal("https://discord.com/channels/328194044587147279/328194044587147278/328194044587147280");
+				expect(messageLinkField?.value ?? "").to.equal("https://discord.com/channels/328194044587147279/328194044587147278/328194044587147280");
 			}
 		});
 
@@ -141,7 +142,7 @@ describe("GhostPingDeleteHandler", () => {
 			botUser.bot = true;
 
 			message.author = BaseMocks.getUser();
-			message.mentions = new MessageMentions(message, [message.author, botUser], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [message.author, botUser], [], false]);
 			message.content = `<@${message.author.id}> <@${botUser.id}>`;
 
 			await handler.handle(message);
@@ -160,7 +161,7 @@ describe("GhostPingDeleteHandler", () => {
 			botUser2.bot = true;
 
 			message.author = BaseMocks.getUser();
-			message.mentions = new MessageMentions(message, [botUser, botUser2], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [botUser, botUser2], [], false]);
 			message.content = `<@${botUser.id}> <@${botUser2.id}>`;
 
 			await handler.handle(message);
@@ -183,7 +184,7 @@ describe("GhostPingDeleteHandler", () => {
 			botUser.bot = true;
 
 			message.author = author;
-			message.mentions = new MessageMentions(message, [botUser], [], false);
+			message.mentions = Reflect.construct(MessageMentions, [message, [botUser], [], false]);
 			message.guild.id = "328194044587147279";
 			message.content = "this is a reply";
 			message.reference = {

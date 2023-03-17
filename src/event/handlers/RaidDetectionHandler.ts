@@ -1,4 +1,4 @@
-import {ColorResolvable, Constants, GuildMember, MessageEmbed, TextChannel} from "discord.js";
+import {ColorResolvable, Events, GuildMember, EmbedBuilder, TextChannel} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
@@ -8,7 +8,7 @@ class RaidDetectionHandler extends EventHandler {
 	private kickFlag = false;
 
 	constructor() {
-		super(Constants.Events.GUILD_MEMBER_ADD);
+		super(Events.GuildMemberAdd);
 	}
 
 	handle = async (member: GuildMember): Promise<void> => {
@@ -41,7 +41,7 @@ class RaidDetectionHandler extends EventHandler {
 				await modChannel.send(`**RAID DETECTION** Kicked user ${member.displayName} (${member.id}).`);
 			}
 
-			const embed = new MessageEmbed();
+			const embed = new EmbedBuilder();
 
 			embed.setTitle(":warning: Raid Detected");
 			embed.setDescription(`**We have detected a raid is currently going on and are solving the issue.**

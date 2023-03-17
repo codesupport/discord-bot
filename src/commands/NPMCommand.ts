@@ -1,16 +1,17 @@
 import axios from "axios";
-import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import {Discord, Slash, SlashOption} from "discordx";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class NPMCommand {
-	@Slash("npm")
+	@Slash({ name: "npm", description: "Get an npm package url" })
 	async onInteract(
-		@SlashOption("package", {type: "STRING"}) packageName: string,
-			interaction: CommandInteraction): Promise<void> {
-		const embed = new MessageEmbed();
+		@SlashOption({ name: "package", description: "Package name", type: ApplicationCommandOptionType.String, required: true }) packageName: string,
+		interaction: CommandInteraction
+	): Promise<void> {
+		const embed = new EmbedBuilder();
 
 		try {
 			const url = `https://www.npmjs.com/package/${packageName}`;

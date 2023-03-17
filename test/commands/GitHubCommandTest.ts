@@ -5,6 +5,7 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import GitHubCommand from "../../src/commands/GitHubCommand";
 import GitHubService from "../../src/services/GitHubService";
 import { EMBED_COLOURS } from "../../src/config.json";
+import NumberUtils from "../../src/utils/NumberUtils";
 
 describe("GitHubCommand", () => {
 	describe("onInteract()", () => {
@@ -35,8 +36,8 @@ describe("GitHubCommand", () => {
 		});
 
 		it("states it had a problem with the request to GitHub", async () => {
-			sandbox.stub(gitHub, "getRepository").resolves(null);
-			sandbox.stub(gitHub, "getPullRequest").resolves(null);
+			sandbox.stub(gitHub, "getRepository").resolves(undefined);
+			sandbox.stub(gitHub, "getPullRequest").resolves(undefined);
 
 			await command.onInteract("thisuserdoesnotexist", "thisrepodoesnotexist", interaction);
 
@@ -44,11 +45,11 @@ describe("GitHubCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("Error");
-			expect(embed.description).to.equal("There was a problem with the request to GitHub.");
-			expect(embed.fields[0].name).to.equal("Correct Usage");
-			expect(embed.fields[0].value).to.equal("?github <username>/<repository>");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.ERROR.toLowerCase());
+			expect(embed.data.title).to.equal("Error");
+			expect(embed.data.description).to.equal("There was a problem with the request to GitHub.");
+			expect(embed.data.fields[0].name).to.equal("Correct Usage");
+			expect(embed.data.fields[0].value).to.equal("?github <username>/<repository>");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.ERROR.toLowerCase()));
 		});
 
 		it("states the result from the github service", async () => {
@@ -78,28 +79,28 @@ describe("GitHubCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.title).to.equal("GitHub Repository: user/repo");
-			expect(embed.description).to.equal("This is the description\n\n[View on GitHub](https://github.com/codesupport/discord-bot)");
-			expect(embed.fields[0].name).to.equal("Language");
-			expect(embed.fields[0].value).to.equal("TypeScript");
-			expect(embed.fields[1].name).to.equal("Open issues");
-			expect(embed.fields[1].value).to.equal("2");
-			expect(embed.fields[2].name).to.equal("Open Pull Requests");
-			expect(embed.fields[2].value).to.equal("1");
-			expect(embed.fields[3].name).to.equal("Forks");
-			expect(embed.fields[3].value).to.equal("5");
-			expect(embed.fields[4].name).to.equal("Stars");
-			expect(embed.fields[4].value).to.equal("10");
-			expect(embed.fields[5].name).to.equal("Watchers");
-			expect(embed.fields[5].value).to.equal("3");
-			expect(embed.hexColor).to.equal(EMBED_COLOURS.SUCCESS.toLowerCase());
+			expect(embed.data.title).to.equal("GitHub Repository: user/repo");
+			expect(embed.data.description).to.equal("This is the description\n\n[View on GitHub](https://github.com/codesupport/discord-bot)");
+			expect(embed.data.fields[0].name).to.equal("Language");
+			expect(embed.data.fields[0].value).to.equal("TypeScript");
+			expect(embed.data.fields[1].name).to.equal("Open Issues");
+			expect(embed.data.fields[1].value).to.equal("2");
+			expect(embed.data.fields[2].name).to.equal("Open Pull Requests");
+			expect(embed.data.fields[2].value).to.equal("1");
+			expect(embed.data.fields[3].name).to.equal("Forks");
+			expect(embed.data.fields[3].value).to.equal("5");
+			expect(embed.data.fields[4].name).to.equal("Stars");
+			expect(embed.data.fields[4].value).to.equal("10");
+			expect(embed.data.fields[5].name).to.equal("Watchers");
+			expect(embed.data.fields[5].value).to.equal("3");
+			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.SUCCESS.toLowerCase()));
 		});
 
 		it("states the result from the github service with an empty repo description", async () => {
 			sandbox.stub(gitHub, "getRepository").resolves({
 				user: "user",
 				repo: "repo",
-				description: null,
+				description: undefined,
 				language: "TypeScript",
 				url: "https://github.com/codesupport/discord-bot",
 				issues_and_pullrequests_count: 3,
@@ -122,7 +123,7 @@ describe("GitHubCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.description).to.equal("[View on GitHub](https://github.com/codesupport/discord-bot)");
+			expect(embed.data.description).to.equal("[View on GitHub](https://github.com/codesupport/discord-bot)");
 		});
 
 		afterEach(() => {

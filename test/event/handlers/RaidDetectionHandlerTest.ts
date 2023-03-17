@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Constants } from "discord.js";
+import { Events } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -9,10 +9,10 @@ import RaidDetectionHandler from "../../../src/event/handlers/RaidDetectionHandl
 
 describe("RaidDetectionHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for GUILD_MEMBER_ADD", () => {
+		it("creates a handler for guildMemberAdd", () => {
 			const handler = new RaidDetectionHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.GUILD_MEMBER_ADD);
+			expect(handler.getEvent()).to.equal(Events.GuildMemberAdd);
 		});
 	});
 

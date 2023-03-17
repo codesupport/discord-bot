@@ -1,4 +1,4 @@
-import { ColorResolvable, MessageEmbed, CommandInteraction, Constants, MessageActionRow, MessageButton } from "discord.js";
+import { ColorResolvable, EmbedBuilder, CommandInteraction, ButtonStyle, ActionRowBuilder, ButtonBuilder, ApplicationCommandOptionType } from "discord.js";
 import AdventOfCodeService from "../services/AdventOfCodeService";
 import { AOCMember } from "../interfaces/AdventOfCode";
 import getConfigValue from "../utils/getConfigValue";
@@ -7,14 +7,15 @@ import {Discord, Slash, SlashOption} from "discordx";
 
 @Discord()
 class AdventOfCodeCommand {
-	@Slash("aoc", {description: "Advent Of Code"})
+	@Slash({ name: "aoc", description: "Advent Of Code" })
 	async onInteract(
-		@SlashOption("year", {type: "NUMBER", minValue: 2015, required: false}) year: number,
-		@SlashOption("name", {type: "STRING", required: false}) name: string,
-			interaction: CommandInteraction): Promise<void> {
+		@SlashOption({ name: "year", description: "AOC year", type: ApplicationCommandOptionType.Number, minValue: 2015, required: false }) year: number | undefined,
+		@SlashOption({ name: "name", description: "User's name", type: ApplicationCommandOptionType.String, required: false }) name: string | undefined,
+		interaction: CommandInteraction
+	): Promise<void> {
 		const adventOfCodeService = AdventOfCodeService.getInstance();
-		const embed = new MessageEmbed();
-		const button = new MessageButton();
+		const embed = new EmbedBuilder();
+		const button = new ButtonBuilder();
 		let yearToQuery = this.getYear();
 
 		if (!!year && year <= yearToQuery) {
@@ -29,10 +30,10 @@ class AdventOfCodeCommand {
 		const description = `Invite Code: \`${getConfigValue<string>("ADVENT_OF_CODE_INVITE")}\``;
 
 		button.setLabel(buttonLabel);
-		button.setStyle(Constants.MessageButtonStyles.LINK);
+		button.setStyle(ButtonStyle.Link);
 		button.setURL(link);
 
-		const row = new MessageActionRow().addComponents(button);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
 
 		if (!!name) {
 			try {
@@ -45,13 +46,15 @@ class AdventOfCodeCommand {
 
 				embed.setTitle("Advent Of Code");
 				embed.setDescription(description);
-				embed.addField(`Scores of ${user.name} in ${yearToQuery}`, "\u200B");
-				embed.addField("Position", position.toString(), true);
-				embed.addField("Stars", user.stars.toString(), true);
-				embed.addField("Points", user.local_score.toString(), true);
+				embed.addFields([
+					{ name: `Scores of ${user.name} in ${yearToQuery}`, value: "\u200B"},
+					{ name: "Position", value: position.toString(), inline: true },
+					{ name: "Stars", value: user.stars.toString(), inline: true },
+					{ name: "Points", value: user.local_score.toString(), inline: true }
+				]);
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 
-				await interaction.reply({embeds: [embed], components: [row]});
+				await interaction.reply({embeds: [embed], components: [row] });
 				return;
 			} catch {
 				await interaction.reply({embeds: [this.errorEmbed("Could not get the statistics for Advent Of Code.")], ephemeral: true});
@@ -65,7 +68,7 @@ class AdventOfCodeCommand {
 
 			embed.setTitle("Advent Of Code");
 			embed.setDescription(description);
-			embed.addField(`Top ${getConfigValue<number>("ADVENT_OF_CODE_RESULTS_PER_PAGE")} in ${yearToQuery}`, playerList);
+			embed.addFields([{ name: `Top ${getConfigValue<number>("ADVENT_OF_CODE_RESULTS_PER_PAGE")} in ${yearToQuery}`, value: playerList }]);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
 		} catch {
 			await interaction.reply({embeds: [this.errorEmbed("Could not get the leaderboard for Advent Of Code.")], ephemeral: true});
@@ -127,8 +130,8 @@ class AdventOfCodeCommand {
 		return list.concat("```");
 	}
 
-	private errorEmbed(description: string): MessageEmbed {
-		const embed = new MessageEmbed();
+	private errorEmbed(description: string): EmbedBuilder {
+		const embed = new EmbedBuilder();
 
 		embed.setTitle("Error");
 		embed.setDescription(description);

@@ -1,4 +1,4 @@
-import {ColorResolvable, CommandInteraction, MessageEmbed} from "discord.js";
+import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import {Discord, Slash, SlashOption} from "discordx";
 import GitHubService from "../services/GitHubService";
 import GitHubIssue from "../interfaces/GitHubIssue";
@@ -9,12 +9,13 @@ import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class IssuesCommand {
-	@Slash("issues")
+	@Slash({ name: "issues", description: "Shows the open issues on a GitHub repository" })
 	async onInteract(
-		@SlashOption("user", {type: "STRING"}) user: string,
-		@SlashOption("repository", {type: "STRING"}) repoName: string,
-			interaction: CommandInteraction): Promise<void> {
-		const embed = new MessageEmbed();
+		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
+		@SlashOption({ name: "repository", description: "Github repository", type: ApplicationCommandOptionType.String, required: true }) repoName: string,
+		interaction: CommandInteraction
+	): Promise<void> {
+		const embed = new EmbedBuilder();
 
 		try {
 			const GitHub = GitHubService.getInstance();
@@ -31,7 +32,12 @@ class IssuesCommand {
 					const days = DateUtils.getDaysBetweenDates(new Date(Date.now()), issue.created_at);
 					const daysText = StringUtils.capitalise(DateUtils.formatDaysAgo(days));
 
-					embed.addField(`#${issue.number} - ${issue.title}`, `View on [GitHub](${issue.issue_url}) - ${daysText} by [${issue.author}](${issue.author_url})`);
+					embed.addFields([
+						{
+							name: `#${issue.number} - ${issue.title}`,
+							value: `View on [GitHub](${issue.issue_url}) - ${daysText} by [${issue.author}](${issue.author_url})`
+						}
+					]);
 				});
 
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);
@@ -43,7 +49,7 @@ class IssuesCommand {
 		} catch (error) {
 			embed.setTitle("Error");
 			embed.setDescription("There was a problem with the request to GitHub.");
-			embed.addField("Correct Usage", "/issues <username>/<repository>");
+			embed.addFields([{ name: "Correct Usage", value: "/issues <username>/<repository>" }]);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").ERROR);
 		}
 		await interaction.reply({ embeds: [embed] });

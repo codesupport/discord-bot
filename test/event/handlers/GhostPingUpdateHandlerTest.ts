@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Collection, Constants, Guild, Message, MessageEmbed, MessageMentions } from "discord.js";
+import { Collection, Events, Guild, Message, MessageMentions } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -8,10 +8,10 @@ import GhostPingUpdateHandler from "../../../src/event/handlers/GhostPingUpdateH
 
 describe("GhostPingUpdateHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_UPDATE", () => {
+		it("creates a handler for messageUpdate", () => {
 			const handler = new GhostPingUpdateHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_UPDATE);
+			expect(handler.getEvent()).to.equal(Events.MessageUpdate);
 		});
 	});
 
@@ -29,10 +29,10 @@ describe("GhostPingUpdateHandler", () => {
 			const newMessage = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(oldMessage.channel, "send");
 
-			oldMessage.mentions = new MessageMentions(oldMessage, [CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			oldMessage.content = "Hey <@328194044587147278>!";
 
-			newMessage.mentions = new MessageMentions(newMessage, [], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [], [], false]);
 			newMessage.content = "Hey!";
 
 			await handler.handle(oldMessage, newMessage);
@@ -48,11 +48,11 @@ describe("GhostPingUpdateHandler", () => {
 			const author = CustomMocks.getUser({ id: "328194044587147279" });
 
 			oldMessage.author = author;
-			oldMessage.mentions = new MessageMentions(oldMessage, [author, CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [author, CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			oldMessage.content = `<@${oldMessage.author.id}> <@328194044587147278>`;
 
 			newMessage.author = author;
-			newMessage.mentions = new MessageMentions(newMessage, [author], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [author], [], false]);
 			newMessage.content = `<@${newMessage.author.id}>`;
 
 			await handler.handle(oldMessage, newMessage);
@@ -70,10 +70,10 @@ describe("GhostPingUpdateHandler", () => {
 			const mentionedUser3 = CustomMocks.getUser({ id: "328194044587147276" });
 			const mentionedUser4 = CustomMocks.getUser({ id: "328194044587147275" });
 
-			oldMessage.mentions = new MessageMentions(oldMessage, [mentionedUser1, mentionedUser2], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [mentionedUser1, mentionedUser2], [], false]);
 			oldMessage.content = "Waddup, <@328194044587147278> <@328194044587147277>!";
 
-			newMessage.mentions = new MessageMentions(newMessage, [mentionedUser3, mentionedUser4], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [mentionedUser3, mentionedUser4], [], false]);
 			newMessage.content = "Waddup, <@328194044587147276> <@328194044587147275>";
 
 			await handler.handle(oldMessage, newMessage);
@@ -86,10 +86,10 @@ describe("GhostPingUpdateHandler", () => {
 			const newMessage = CustomMocks.getMessage();
 			const messageMock = sandbox.stub(oldMessage.channel, "send");
 
-			oldMessage.mentions = new MessageMentions(oldMessage, [], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [], [], false]);
 			oldMessage.content = "Hey everybody!";
 
-			newMessage.mentions = new MessageMentions(newMessage, [], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [], [], false]);
 			newMessage.content = "Sup!";
 
 			await handler.handle(oldMessage, newMessage);
@@ -107,11 +107,11 @@ describe("GhostPingUpdateHandler", () => {
 			author.bot = true;
 
 			oldMessage.author = author;
-			oldMessage.mentions = new MessageMentions(oldMessage, [CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			oldMessage.content = "Welcome <@328194044587147278>!";
 
 			newMessage.author = author;
-			newMessage.mentions = new MessageMentions(newMessage, [], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [], [], false]);
 			newMessage.content = "Goodbye!";
 
 			await handler.handle(oldMessage, newMessage);
@@ -127,11 +127,11 @@ describe("GhostPingUpdateHandler", () => {
 			const author = CustomMocks.getUser({ id: "328194044587147279" });
 
 			oldMessage.author = author;
-			oldMessage.mentions = new MessageMentions(oldMessage, [CustomMocks.getUser({ id: oldMessage.author.id })], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [CustomMocks.getUser({ id: oldMessage.author.id })], [], false]);
 			oldMessage.content = `Sup <@${oldMessage.author.id}>`;
 
 			newMessage.author = author;
-			newMessage.mentions = new MessageMentions(newMessage, [], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [], [], false]);
 			newMessage.content = "Sup";
 
 			await handler.handle(oldMessage, newMessage);
@@ -147,11 +147,11 @@ describe("GhostPingUpdateHandler", () => {
 			const author = CustomMocks.getUser({ id: "328194044587147279" });
 
 			oldMessage.author = author;
-			oldMessage.mentions = new MessageMentions(oldMessage, [author, CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [author, CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			oldMessage.content = `<@${oldMessage.author.id}> <@328194044587147278>`;
 
 			newMessage.author = author;
-			newMessage.mentions = new MessageMentions(newMessage, [CustomMocks.getUser({ id: "328194044587147278" })], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [CustomMocks.getUser({ id: "328194044587147278" })], [], false]);
 			newMessage.content = "<@328194044587147278>";
 
 			await handler.handle(oldMessage, newMessage);
@@ -170,11 +170,11 @@ describe("GhostPingUpdateHandler", () => {
 			botUser.bot = true;
 
 			oldMessage.author = author;
-			oldMessage.mentions = new MessageMentions(oldMessage, [oldMessage.author, botUser], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [oldMessage.author, botUser], [], false]);
 			oldMessage.content = `Hey, <@${oldMessage.author.id}> <@${botUser.id}>`;
 
 			newMessage.author = author;
-			newMessage.mentions = new MessageMentions(newMessage, [], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [], [], false]);
 			newMessage.content = "Hey";
 
 			await handler.handle(oldMessage, newMessage);
@@ -195,11 +195,11 @@ describe("GhostPingUpdateHandler", () => {
 			botUser2.bot = true;
 
 			oldMessage.author = author;
-			oldMessage.mentions = new MessageMentions(oldMessage, [botUser1, botUser2], [], false);
+			oldMessage.mentions = Reflect.construct(MessageMentions, [oldMessage, [botUser1, botUser2], [], false]);
 			oldMessage.content = `Hey, <@${botUser1.id}> <@${botUser2.id}>`;
 
 			newMessage.author = author;
-			newMessage.mentions = new MessageMentions(newMessage, [], [], false);
+			newMessage.mentions = Reflect.construct(MessageMentions, [newMessage, [], [], false]);
 			newMessage.content = "Hey";
 
 			await handler.handle(oldMessage, newMessage);

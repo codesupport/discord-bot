@@ -23,13 +23,13 @@ describe("WebsiteCommand", () => {
 		});
 
 		it("sends a message to the channel", async () => {
-			await command.onInteract(null, interaction);
+			await command.onInteract(undefined, interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("sends default link to website if no argument is given", async () => {
-			await command.onInteract(null, interaction);
+			await command.onInteract(undefined, interaction);
 
 			expect(replyStub.firstCall.firstArg).to.equal("https://codesupport.dev/");
 			expect(replyStub.calledOnce).to.be.true;

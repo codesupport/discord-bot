@@ -1,10 +1,10 @@
 import EventHandler from "../../abstracts/EventHandler";
-import { Message, Constants } from "discord.js";
+import { Message, Events } from "discord.js";
 import MessagePreviewService from "../../services/MessagePreviewService";
 
 class DiscordMessageLinkHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_CREATE);
+		super(Events.MessageCreate);
 	}
 
 	async handle(message: Message): Promise<void> {

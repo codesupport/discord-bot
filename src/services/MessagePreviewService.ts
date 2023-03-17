@@ -1,4 +1,4 @@
-import {Message, TextChannel, MessageEmbed, ColorResolvable, Snowflake} from "discord.js";
+import {Message, TextChannel, EmbedBuilder, ColorResolvable, Snowflake} from "discord.js";
 import DateUtils from "../utils/DateUtils";
 import getConfigValue from "../utils/getConfigValue";
 
@@ -31,13 +31,13 @@ class MessagePreviewService {
 					}));
 
 				if (messageToPreview && !messageToPreview.author?.bot) {
-					const embed = new MessageEmbed();
+					const embed = new EmbedBuilder();
 					const parsedContent = this.escapeHyperlinks(messageToPreview.content);
 
-					embed.setAuthor(this.getAuthorName(messageToPreview), messageToPreview.author.avatarURL() || undefined, link);
+					embed.setAuthor({ name: this.getAuthorName(messageToPreview), iconURL: messageToPreview.author.avatarURL() || undefined, url: link });
 					embed.setDescription(`<#${channel.id}>\n\n${parsedContent}\n`);
-					embed.addField(getConfigValue<string>("FIELD_SPACER_CHAR"), `[View Original Message](${link})`);
-					embed.setFooter(`Message sent at ${DateUtils.formatAsText(messageToPreview.createdAt)}`);
+					embed.addFields([{ name: getConfigValue<string>("FIELD_SPACER_CHAR"), value: `[View Original Message](${link})` }]);
+					embed.setFooter({ text: `Message sent at ${DateUtils.formatAsText(messageToPreview.createdAt)}` });
 					embed.setColor(<ColorResolvable>(messageToPreview.member?.displayColor || getConfigValue<string>("MEMBER_ROLE_COLOR")));
 
 					await callingMessage.channel.send({embeds: [embed]});

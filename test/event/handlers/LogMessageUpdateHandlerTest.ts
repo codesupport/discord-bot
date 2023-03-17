@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Constants, Message } from "discord.js";
+import { Events, Message } from "discord.js";
 import { SinonSandbox, createSandbox } from "sinon";
 import { CustomMocks } from "@lambocreeper/mock-discord.js";
 
@@ -8,10 +8,10 @@ import LogMessageUpdateHandler from "../../../src/event/handlers/LogMessageUpdat
 
 describe("LogMessageUpdateHandler", () => {
 	describe("constructor()", () => {
-		it("creates a handler for MESSAGE_UPDATE", () => {
+		it("creates a handler for messageUpdate", () => {
 			const handler = new LogMessageUpdateHandler();
 
-			expect(handler.getEvent()).to.equal(Constants.Events.MESSAGE_UPDATE);
+			expect(handler.getEvent()).to.equal(Events.MessageUpdate);
 		});
 	});
 

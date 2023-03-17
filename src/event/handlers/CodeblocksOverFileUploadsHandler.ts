@@ -1,11 +1,11 @@
-import {Constants, MessageEmbed, Message, ColorResolvable} from "discord.js";
+import {Events, EmbedBuilder, Message, ColorResolvable} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
 
 class CodeblocksOverFileUploadsHandler extends EventHandler {
 	constructor() {
-		super(Constants.Events.MESSAGE_CREATE);
+		super(Events.MessageCreate);
 	}
 
 	async handle(message: Message): Promise<void> {
@@ -25,11 +25,11 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 			});
 
 			if (invalidFileFlag) {
-				const embed = new MessageEmbed();
+				const embed = new EmbedBuilder();
 
 				embed.setTitle("Uploading Files");
 				embed.setDescription(`${message.author}, you tried to upload a \`.${invalidFileExtension}\` file, which is not allowed. Please use codeblocks over attachments when sending code.`);
-				embed.setFooter("Type /codeblock for more information.");
+				embed.setFooter({ text: "Type /codeblock for more information." });
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 				await message.channel.send({ embeds: [embed] });
