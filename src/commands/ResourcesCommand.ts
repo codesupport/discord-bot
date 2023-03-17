@@ -3,7 +3,7 @@ import { CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 
 @Discord()
 class ResourcesCommand {
-	@Slash({ name: "resources", description: "Resources on the Codesupport site" })
+	@Slash({ name: "resources", description: "Resources on the CodeSupport site" })
 	async onInteract(
 		@SlashOption({ name: "category", description: "Resource category", type: ApplicationCommandOptionType.String, required: false }) category: string | undefined,
 		interaction: CommandInteraction

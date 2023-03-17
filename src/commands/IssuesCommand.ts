@@ -9,7 +9,7 @@ import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
 class IssuesCommand {
-	@Slash({ name: "issues", description: "Issues of a Github repository" })
+	@Slash({ name: "issues", description: "Shows the open issues on a GitHub repository" })
 	async onInteract(
 		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
 		@SlashOption({ name: "repository", description: "Github repository", type: ApplicationCommandOptionType.String, required: true }) repoName: string,

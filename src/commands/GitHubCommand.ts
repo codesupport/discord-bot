@@ -6,7 +6,7 @@ import {Discord, Slash, SlashOption} from "discordx";
 
 @Discord()
 class GitHubCommand {
-	@Slash({ name: "github", description: "Github info about a repository" })
+	@Slash({ name: "github", description: "Shows information about a GitHub repository" })
 	async onInteract(
 		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
 		@SlashOption({ name: "repository", description: "Github repository", type: ApplicationCommandOptionType.String, required: true }) repo: string,
