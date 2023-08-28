@@ -29,8 +29,7 @@
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "type": "commonjs",
   "engines": {
-    "node": ">=16.9.0",
-    "npm": ">=7.0.0"
+    "node": "18"
   },
   "dependencies": {
     "@codesupport/inherited-config": "^1.0.2",
