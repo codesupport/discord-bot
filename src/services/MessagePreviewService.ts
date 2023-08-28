@@ -3,6 +3,7 @@ import DateUtils from "../utils/DateUtils";
 import getConfigValue from "../utils/getConfigValue";
 
 class MessagePreviewService {
+	// eslint-disable-next-line no-use-before-define
 	private static instance: MessagePreviewService;
 
 	/* eslint-disable */

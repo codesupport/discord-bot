@@ -1,4 +1,5 @@
 class WebsiteUserService {
+	// eslint-disable-next-line no-use-before-define
 	private static instance: WebsiteUserService;
 
 	/* eslint-disable */

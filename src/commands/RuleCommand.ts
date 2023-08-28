@@ -16,7 +16,7 @@ class RuleCommand {
 	@Slash({ name: "rule", description: "Get info about a rule" })
 	async onInteract(
 		@SlashChoice(...rules) @SlashOption({ name: "rule", description: "Name of a rule", type: ApplicationCommandOptionType.String, required: true }) ruleName: string,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		const embed = new EmbedBuilder();
 

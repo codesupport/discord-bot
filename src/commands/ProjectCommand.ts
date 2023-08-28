@@ -15,7 +15,7 @@ class ProjectCommand {
 	@Slash({ name: "project", description: "Get a random project idea" })
 	async onInteract(
 		@SlashOption({ name: "query", description: "Query search", type: ApplicationCommandOptionType.String, required: true }) queryString: string,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		const embed = new EmbedBuilder();
 		let ephemeralFlag = false;

@@ -10,7 +10,7 @@ class GitHubCommand {
 	async onInteract(
 		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
 		@SlashOption({ name: "repository", description: "Github repository", type: ApplicationCommandOptionType.String, required: true }) repo: string,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		const embed = new EmbedBuilder();
 

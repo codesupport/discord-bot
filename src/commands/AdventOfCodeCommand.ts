@@ -11,7 +11,7 @@ class AdventOfCodeCommand {
 	async onInteract(
 		@SlashOption({ name: "year", description: "AOC year", type: ApplicationCommandOptionType.Number, minValue: 2015, required: false }) year: number | undefined,
 		@SlashOption({ name: "name", description: "User's name", type: ApplicationCommandOptionType.String, required: false }) name: string | undefined,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new EmbedBuilder();

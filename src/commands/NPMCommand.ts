@@ -9,7 +9,7 @@ class NPMCommand {
 	@Slash({ name: "npm", description: "Get an npm package url" })
 	async onInteract(
 		@SlashOption({ name: "package", description: "Package name", type: ApplicationCommandOptionType.String, required: true }) packageName: string,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		const embed = new EmbedBuilder();
 
