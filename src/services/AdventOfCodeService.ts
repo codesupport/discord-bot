@@ -3,6 +3,7 @@ import cache from "axios-cache-adapter";
 import { AOCLeaderBoard, AOCMember } from "../interfaces/AdventOfCode";
 
 export default class AdventOfCodeService {
+	// eslint-disable-next-line no-use-before-define
 	private static instance: AdventOfCodeService;
 	private api = axios.create({
 		adapter: cache.setupCache({

@@ -6,8 +6,8 @@ class MockHandler extends EventHandler {
 		super(Events.MessageCreate);
 	}
 
-    // eslint-disable-next-line no-empty-function
-    handle = async function() {};
+	// eslint-disable-next-line no-empty-function
+	handle = async function() {};
 }
 
 export default MockHandler;

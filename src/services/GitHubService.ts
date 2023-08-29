@@ -4,6 +4,7 @@ import GitHubPullRequest from "../interfaces/GitHubPullRequest";
 import GitHubIssue from "../interfaces/GitHubIssue";
 
 class GitHubService {
+	// eslint-disable-next-line no-use-before-define
 	private static instance: GitHubService;
 
 	/* eslint-disable */

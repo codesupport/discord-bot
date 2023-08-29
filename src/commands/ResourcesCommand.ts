@@ -6,7 +6,7 @@ class ResourcesCommand {
 	@Slash({ name: "resources", description: "Resources on the CodeSupport site" })
 	async onInteract(
 		@SlashOption({ name: "category", description: "Resource category", type: ApplicationCommandOptionType.String, required: false }) category: string | undefined,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		let url = "https://codesupport.dev/resources";
 

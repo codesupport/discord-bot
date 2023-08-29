@@ -6,7 +6,7 @@ class WebsiteCommand {
 	@Slash({ name: "website", description: "URL of the CodeSupport website" })
 	async onInteract(
 		@SlashOption({ name: "path", description: "Path to add to the URL", type: ApplicationCommandOptionType.String, required: false }) path: string | undefined,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		await interaction.reply(`https://codesupport.dev/${path || ""}`);
 	}

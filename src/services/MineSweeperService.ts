@@ -1,6 +1,7 @@
 import NumberUtils from "../utils/NumberUtils";
 
 class MineSweeperService {
+	// eslint-disable-next-line no-use-before-define
 	private static instance: MineSweeperService;
 	private static readonly GRID_ROWS = 11;
 	private static readonly GRID_COLUMNS = 11;

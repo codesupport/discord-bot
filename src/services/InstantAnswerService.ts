@@ -3,6 +3,7 @@ import InstantAnswer from "../interfaces/InstantAnswer";
 import getConfigValue from "../utils/getConfigValue";
 
 class InstantAnswerService {
+	// eslint-disable-next-line no-use-before-define
 	private static instance: InstantAnswerService;
 
 	/* eslint-disable */

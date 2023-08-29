@@ -27,7 +27,7 @@ class RaidDetectionHandler extends EventHandler {
 				this.joinQueue.splice(this.joinQueue.indexOf(member), 1);
 			}
 		}, timeToWait);
-	}
+	};
 
 	private async kickArray(member: GuildMember) {
 		const modChannel = member.guild?.channels.cache.find(channel => channel.id === getConfigValue<string>("LOG_CHANNEL_ID")) as TextChannel;

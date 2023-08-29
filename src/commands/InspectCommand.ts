@@ -9,7 +9,7 @@ class InspectCommand {
 	@Slash({ name: "inspect", description: "Inspect a user" })
 	async onInteract(
 		@SlashOption({ name: "user", description: "User to inspect", type: ApplicationCommandOptionType.Mentionable, required: false }) userID: GuildMember | undefined,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		const userObj = await DiscordUtils.getGuildMember(userID === undefined ? interaction.user.id : userID.id, interaction.guild!);
 

@@ -9,7 +9,7 @@ class SearchCommand {
 	@Slash({ name: "search", description: "Search using the DuckDuckGo API" })
 	async onInteract(
 		@SlashOption({ name: "query", description: "Search query", type: ApplicationCommandOptionType.String, required: true }) query: string,
-		interaction: CommandInteraction
+			interaction: CommandInteraction
 	): Promise<void> {
 		const embed = new EmbedBuilder();
 
