@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@codesupport/inherited-config": "^1.0.2",
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "axios-cache-adapter": "^2.5.0",
     "discord.js": "^14.8.0",
     "discordx": "^11.7.6",
