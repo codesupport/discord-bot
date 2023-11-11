@@ -1,15 +1,11 @@
 import axios from "axios";
-import cache from "axios-cache-adapter";
+import { setupCache } from "axios-cache-interceptor";
 import { AOCLeaderBoard, AOCMember } from "../interfaces/AdventOfCode";
 
 export default class AdventOfCodeService {
 	// eslint-disable-next-line no-use-before-define
 	private static instance: AdventOfCodeService;
-	private api = axios.create({
-		adapter: cache.setupCache({
-			maxAge: 15 * 60 * 1000
-		}).adapter
-	});
+	private api = setupCache(axios);
 
 	static getInstance(): AdventOfCodeService {
 		if (!this.instance) {
@@ -27,6 +23,9 @@ export default class AdventOfCodeService {
 			headers: {
 				"Cookie": `session=${ADVENT_OF_CODE_TOKEN};`,
 				"User-Agent": `github.com/codesupport/discord-bot by ${process.env.CONTACT_EMAIL}`
+			},
+			cache: {
+				ttl: 15 * 60 * 1000
 			}
 		});
 

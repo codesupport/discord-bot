@@ -79,6 +79,7 @@ describe("AdventOfCodeService", () => {
 			await aoc.getLeaderBoard("leaderboard", 2021);
 
 			expect(axiosGet.called).to.be.true;
+			expect(axiosGet.args[0][1]?.cache).to.deep.equal({ ttl: 900000 });
 		});
 
 		it("throws an error if the API responds when not authorized", async () => {
@@ -102,7 +103,7 @@ describe("AdventOfCodeService", () => {
 		});
 	});
 
-	describe("getSingelPlayer()", () => {
+	describe("getSinglePlayer()", () => {
 		let sandbox: SinonSandbox;
 		let aoc: AdventOfCodeService;
 
