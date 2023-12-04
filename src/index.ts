@@ -1,14 +1,14 @@
 import App from "./app";
+import { logger } from "./logger";
 
 async function app() {
 	try {
 		await new App().init();
-	} catch (error: unknown) {
-		if (error instanceof Error) {
-			console.error(error.message, { error });
-		} else {
-			console.error(error);
-		}
+	} catch (error) {
+		logger.error(
+			error instanceof Error ? error.message : "An error occurred.",
+			{ error }
+		);
 	}
 }
 
