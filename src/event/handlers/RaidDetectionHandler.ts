@@ -2,6 +2,7 @@ import {ColorResolvable, Events, GuildMember, EmbedBuilder, TextChannel} from "d
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
 import GenericObject from "../../interfaces/GenericObject";
+import {logger} from "../../logger";
 
 class RaidDetectionHandler extends EventHandler {
 	private joinQueue: GuildMember[] = [];
@@ -49,18 +50,16 @@ class RaidDetectionHandler extends EventHandler {
 							Thank you for your cooperation and we apologise for any inconvenience.`);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").WARNING);
 			embed.setTimestamp();
-			await generalChannel.send({embeds: [embed]});
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				await modChannel.send(`Failed to kick users or empty queue: \n\`${error.message}\``);
 
-				console.error("Failed to kick users or empty queue", {
-					message: error.message,
-					error
-				});
-			} else {
-				console.error(error);
-			}
+			await generalChannel.send({embeds: [embed]});
+		} catch (error) {
+			await modChannel.send(
+				`Failed to kick users or empty queue: \n\`${error instanceof Error && error.message}\``
+			);
+
+			logger.error("Failed to kick users or empty queue", {
+				error
+			});
 		}
 	}
 }

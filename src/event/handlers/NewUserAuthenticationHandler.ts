@@ -1,6 +1,7 @@
-import {Events, MessageReaction, RoleResolvable, User} from "discord.js";
+import { Events, MessageReaction, RoleResolvable, User } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
+import { logger } from "../../logger";
 
 class NewUserAuthenticationHandler extends EventHandler {
 	constructor() {
@@ -15,7 +16,9 @@ class NewUserAuthenticationHandler extends EventHandler {
 		if (isAuthMessage && isAuthEmoji) {
 			const guildMember = await reaction.message.guild?.members.fetch(member);
 
-			console.log("User has triggered authentication reaction. Applying member role.", { userId: guildMember?.id });
+			logger.info("User has triggered authentication reaction. Applying member role.", {
+				userId: guildMember?.id
+			});
 
 			await guildMember?.roles.add(getConfigValue<RoleResolvable>("MEMBER_ROLE"), "User has authenticated their account.");
 		}

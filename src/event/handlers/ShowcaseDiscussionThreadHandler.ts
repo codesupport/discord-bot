@@ -1,6 +1,7 @@
 import { Events, Message } from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import getConfigValue from "../../utils/getConfigValue";
+import { logger } from "../../logger";
 
 class ShowcaseDiscussionThreadHandler extends EventHandler {
 	constructor() {
@@ -17,7 +18,7 @@ class ShowcaseDiscussionThreadHandler extends EventHandler {
 				name: `Discuss ${username}'s Showcase Post`
 			});
 		} catch (error) {
-			console.error("Failed to create thread for showcase post", {
+			logger.error("Failed to create thread for showcase post", {
 				error
 			});
 		}

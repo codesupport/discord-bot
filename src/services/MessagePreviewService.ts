@@ -1,6 +1,7 @@
-import {Message, TextChannel, EmbedBuilder, ColorResolvable, Snowflake} from "discord.js";
+import { Message, TextChannel, EmbedBuilder, ColorResolvable, Snowflake } from "discord.js";
 import DateUtils from "../utils/DateUtils";
 import getConfigValue from "../utils/getConfigValue";
+import { logger } from "../logger";
 
 class MessagePreviewService {
 	// eslint-disable-next-line no-use-before-define
@@ -25,7 +26,7 @@ class MessagePreviewService {
 			if (callingMessage.guild?.available) {
 				const channel = callingMessage.guild.channels.cache.get(<Snowflake>msgArray[1]) as TextChannel;
 				const messageToPreview = await channel?.messages.fetch(<Snowflake>msgArray[2])
-					.catch(error => console.warn("Failed to fetch message to generate preview.", {
+					.catch(error => logger.warn("Failed to fetch message to generate preview.", {
 						channelId: msgArray[1],
 						messageId: msgArray[2],
 						error
