@@ -6,33 +6,6 @@
 ## About
 This repository contains the code for the CodeSupport Discord Bot. The project is written in TypeScript using the Discord.js module for interaction with the Discord API.
 
-## Dependencies
-
-### Production
-- [Discord.js](https://www.npmjs.com/package/discord.js)
-- [DiscordX (formally Discord.ts)](https://www.npmjs.com/package/discordx)
-- [Axios](https://www.npmjs.com/package/axios)
-- [Twitter](https://www.npmjs.com/package/twitter)
-- [dotenv](https://www.npmjs.com/package/dotenv)
-- [Inherited Config](https://www.npmjs.com/package/@codesupport/inherited-config)
-
-### Development
-- [TypeScript](https://www.npmjs.com/package/typescript)
-- [Mocha](https://www.npmjs.com/package/mocha)
-- [TS-Mocha](https://www.npmjs.com/package/ts-mocha)
-- [Sinon](https://www.npmjs.com/package/sinon)
-- [Chai](https://www.npmjs.com/package/chai)
-- [ESLint](https://www.npmjs.com/package/eslint)
-- [TypeScript ESLint Plugin](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin)
-- [TypeScript ESLint Parser](https://www.npmjs.com/package/@typescript-eslint/parser)
-- [CodeSupport's ESLint Config](https://www.npmjs.com/package/eslint-config-codesupport)
-- [NYC](https://www.npmjs.com/package/nyc)
-- [TS-Node](https://www.npmjs.com/package/ts-node)
-
-**Notes:**
-- We have excluded [@types](http://definitelytyped.org) packages from this list.
-- Although TypeScript is listed as a development dependency, it is needed to build the source code.
-
 ## Setup
 1. Navigate into the repository on your computer and run `npm i`
 2. Build the source code with `npm run build`
@@ -52,27 +25,33 @@ If you would like to overwrite values in `config.json` to better suit your local
 Please name files (which aren't interfaces) with their type in, for example `RuleCommand` and `RuleCommandTest`. This helps make the file names more readable in your editor. Do not add a prefix or suffix of "I" or "Interface" to interfaces.
 
 ### Creating Commands
-To create a command, create a new file in `src/commands` named `<CommandName>Command.ts`. DiscordX is used to register the commands as slash commands using decorators. Commands should have the `@Discord()` decorator above the class name. The command should have an `onInteract` async function that is decorated using `@Slash`. In `@Slash` decorator's parameters you have to pass in a name which will be the name of the command when used in Discord, it has an optional options parameter where you can for instance pass in a description.
-
-The `onInteract` function expects a `CommandInteraction` parameter, used for replying to the user the called the function, and none, or one or more parameters decorated by the `@SlashOption` or `@SlashChoice` signature.
-    - `@SlashOption` requires a name which will be shown in the client to the user when filling in the parameters. These parameters are by default required and can be set to optional using the options parameters.
-    - `@SlashChoice` offers a way to have a user select from a predefined set of values.
+1. To create a command, add a new file in `src/commands` named `<CommandName>Command.ts`
+   - DiscordX is used to register the commands as slash commands using decorators
+   - Commands should have the `@Discord()` decorator above the class name
+2. The command should have an `onInteract` `async function` that is decorated using `@Slash()`
+   - In `@Slash()`'s parameters you have to pass in the name of the command
+   - You also need to pass in a desciption
+   - The `onInteract` function expects a `CommandInteraction` parameter, used for replying to the user the called the function
+   - If the command accepts arguments, add one or more parameters decorated by the `@SlashOption()` or `@SlashChoice()`
+    - `@SlashOption()` requires a name which will be shown in the client to the user when filling in the parameters
+    - `@SlashChoice()` offers a way to have a user select from a predefined set of values
 
 #### Example Command
 ```ts
 @Discord()
 class CodeblockCommand {
-	@Slash("example")
+    @Slash({ name: "example", description: "An example command!" })
     async onInteract(
-        @SlashOption("year", {type: "NUMBER"}) year: number,
-            interaction: CommandInteraction): Promise<void> {
-		const embed = new EmbedBuilder();
+        @SlashOption("year", { type: "NUMBER" }) year: number,
+        interaction: CommandInteraction
+    ): Promise<void> {
+        const embed = new EmbedBuilder();
 
         embed.setTitle("Happy new year!");
         embed.setDescription(`Welcome to the year ${year}, may all your wishes come true!`);
 
-        await interaction.reply({embeds: [embed]});
-	}
+        await interaction.reply({ embeds: [embed] });
+    }
 }
 ```
 
@@ -103,4 +82,4 @@ We are using [Mocha](https://mochajs.org) with [Sinon](https://sinonjs.org) and 
 - To lint the code use `npm run lint`
 - To get coverage stats use `npm run coverage`
 
-**Any Questions?** Feel free to mention @LamboCreeper#6510 in the [CodeSupport Discord](https://discord.gg/Hn9SETt).
+**Any Questions?** Feel free to mention @LamboCreeper in the [CodeSupport Discord](https://discord.gg/Hn9SETt).
