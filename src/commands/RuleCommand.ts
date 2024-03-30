@@ -22,7 +22,7 @@ class RuleCommand {
 
 		const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(ruleName));
 
-		const ruleHeader = (getConfigValue<Rule[]>("rules")[0] === rule) ? "Info" : "Rule";
+		const ruleHeader = getConfigValue<Rule[]>("rules")[0] === rule ? "Info" : "Rule";
 
 		if (rule !== undefined) {
 			embed.setTitle(`${ruleHeader}: ${rule.name}`);
