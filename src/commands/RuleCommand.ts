@@ -22,8 +22,10 @@ class RuleCommand {
 
 		const rule = getConfigValue<Rule[]>("rules").find(rule => rule.triggers.includes(ruleName));
 
+		const ruleHeader = (getConfigValue<Rule[]>("rules")[0] === rule) ? "Info" : "Rule";
+
 		if (rule !== undefined) {
-			embed.setTitle(`Rule: ${rule.name}`);
+			embed.setTitle(`${ruleHeader}: ${rule.name}`);
 			embed.setDescription(rule.description);
 			embed.addFields([{ name: "To familiarise yourself with all of the server's rules please see", value: "<#240884566519185408>" }]);
 			embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").SUCCESS);

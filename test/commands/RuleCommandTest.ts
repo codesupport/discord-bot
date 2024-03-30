@@ -35,8 +35,8 @@ describe("RuleCommand", () => {
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.data.title).to.equal("Rule: Asking For Help");
-			expect(embed.data.description).to.equal("Help us to help you, instead of just saying \"my code doesn't work\" or \"can someone help me.\"");
+			expect(embed.data.title).to.equal("Info: Asking For Help");
+			expect(embed.data.description).to.equal("Help us to help you, instead of just saying \"my code doesn't work\" or \"can someone help me.\" Be specific with your questions, and [don't ask to ask](https://dontasktoask.com).");
 			expect(embed.data.fields[0].name).to.equal("To familiarise yourself with all of the server's rules please see");
 			expect(embed.data.fields[0].value).to.equal("<#240884566519185408>");
 			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.SUCCESS.toLowerCase()));
