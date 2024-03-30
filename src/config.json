@@ -54,7 +54,7 @@
     "rules": [{
             "name": "Asking For Help",
             "triggers": ["0", "ask", "help", "details"],
-            "description": "Help us to help you, instead of just saying \"my code doesn't work\" or \"can someone help me.\""
+            "description": "Help us to help you, instead of just saying \"my code doesn't work\" or \"can someone help me.\" Be specific with your questions, and [don't ask to ask](https://dontasktoask.com)."
         },
         {
             "name": "Be Patient",
