@@ -34,12 +34,12 @@ class InspectCommand {
 	private buildInspectEmbed(memberObj: GuildMember): EmbedBuilder {
 		const embed = new EmbedBuilder();
 
-		embed.setTitle(`Inspecting ${memberObj?.user.tag}`);
+		embed.setTitle(`Inspecting ${memberObj?.user.username}`);
 		embed.setColor(<ColorResolvable>(memberObj?.displayColor || getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT));
 		embed.setThumbnail(memberObj?.user.displayAvatarURL());
 		embed.addFields([
 			{ name: "User ID", value: memberObj?.user.id },
-			{ name: "Username", value: memberObj?.user.tag }
+			{ name: "Username", value: memberObj?.user.username }
 		]);
 
 		if (memberObj?.nickname !== null) embed.addFields([{ name: "Nickname", value: memberObj?.nickname }]);

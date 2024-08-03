@@ -75,11 +75,11 @@ describe("InspectCommand", () => {
 			const relativeTime = time(member?.joinedAt!, TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.data.title).to.equal(`Inspecting ${member.user.tag}`);
+			expect(embed.data.title).to.equal(`Inspecting ${member.user.username}`);
 			expect(embed.data.fields[0].name).to.equal("User ID");
 			expect(embed.data.fields[0].value).to.equal(member.user.id);
 			expect(embed.data.fields[1].name).to.equal("Username");
-			expect(embed.data.fields[1].value).to.equal(member.user.tag);
+			expect(embed.data.fields[1].value).to.equal(member.user.username);
 			expect(embed.data.fields[2].name).to.equal("Nickname");
 			expect(embed.data.fields[2].value).to.equal("my name");
 			expect(embed.data.fields[3].name).to.equal("Joined At");
@@ -104,9 +104,9 @@ describe("InspectCommand", () => {
 			const relativeTime = time(member?.joinedAt!, TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.data.title).to.equal(`Inspecting ${member.user.tag}`);
+			expect(embed.data.title).to.equal(`Inspecting ${member.user.username}`);
 			expect(embed.data.fields.find((field: EmbedField) => field.name === "User ID")?.value).to.equal(member.user.id);
-			expect(embed.data.fields.find((field: EmbedField) => field.name === "Username")?.value).to.equal(member.user.tag);
+			expect(embed.data.fields.find((field: EmbedField) => field.name === "Username")?.value).to.equal(member.user.username);
 			expect(embed.data.fields.find((field: EmbedField) => field.name === "Nickname")?.value ?? null).to.equal(member?.nickname);
 			expect(embed.data.fields.find((field: EmbedField) => field.name === "Joined At")?.value ?? null).to.equal(`${shortDateTime} ${relativeTime}`);
 			expect(embed.data.fields.find((field: EmbedField) => field.name === "Roles")?.value).to.equal(" <@&12345>");
@@ -127,11 +127,11 @@ describe("InspectCommand", () => {
 			const relativeTime = time(member?.joinedAt!, TimestampStyles.RelativeTime);
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.data.title).to.equal(`Inspecting ${member.user.tag}`);
+			expect(embed.data.title).to.equal(`Inspecting ${member.user.username}`);
 			expect(embed.data.fields[0].name).to.equal("User ID");
 			expect(embed.data.fields[0].value).to.equal(member.user.id);
 			expect(embed.data.fields[1].name).to.equal("Username");
-			expect(embed.data.fields[1].value).to.equal(member.user.tag);
+			expect(embed.data.fields[1].value).to.equal(member.user.username);
 			expect(embed.data.fields[2].name).to.equal("Nickname");
 			expect(embed.data.fields[2].value).to.equal("my name");
 			expect(embed.data.fields[3].name).to.equal("Joined At");
