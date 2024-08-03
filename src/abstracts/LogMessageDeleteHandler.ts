@@ -11,7 +11,7 @@ abstract class LogMessageDeleteHandler extends EventHandler {
 				const embed = new EmbedBuilder();
 
 				embed.setTitle("Message Deleted");
-				embed.setDescription(`Author: ${message.author}\nChannel: ${message.channel}`);
+				embed.setDescription(`Author: ${message.author} (${message.author.username})\nChannel: ${message.channel}`);
 				embed.addFields([{ name: "Message", value: message.content }]);
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
