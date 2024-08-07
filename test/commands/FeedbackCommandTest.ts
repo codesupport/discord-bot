@@ -64,7 +64,7 @@ describe("FeedbackCommand", () => {
 
 			interaction = {
 				fields: {
-					getTextInputValue: (_id: string) => 'Feedback submitted goes here'
+					getTextInputValue: (_id: string) => "Feedback submitted goes here"
 				},
 				guild: {
 					channels: {
@@ -72,8 +72,8 @@ describe("FeedbackCommand", () => {
 					}
 				},
 				reply: replyMock
-			} as unknown as ModalSubmitInteraction
-		})
+			} as unknown as ModalSubmitInteraction;
+		});
 
 		it("sends a copy of the feedback to the feedback channel and creates a thread", async () => {
 			await command.onModalSubmit(interaction);

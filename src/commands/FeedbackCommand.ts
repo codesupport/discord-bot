@@ -1,12 +1,5 @@
 import { Discord, ModalComponent, Slash } from "discordx";
-import {
-	ActionRowBuilder,
-	CommandInteraction,
-	EmbedBuilder,
-	ModalBuilder,
-	ModalSubmitInteraction, TextChannel,
-	TextInputBuilder
-} from "discord.js";
+import { ActionRowBuilder, CommandInteraction, EmbedBuilder, ModalBuilder, ModalSubmitInteraction, TextChannel, TextInputBuilder } from "discord.js";
 import getConfigValue from "../utils/getConfigValue";
 
 @Discord()
@@ -45,7 +38,7 @@ class FeedbackCommand {
 		const feedbackChannelId = getConfigValue<string>("FEEDBACK_CHANNEL");
 		const feedbackChannel = await interaction.guild?.channels.fetch(feedbackChannelId) as TextChannel;
 
-		const embed = new EmbedBuilder()
+		const embed = new EmbedBuilder();
 
 		embed.setTitle("New Anonymous Feedback");
 		embed.setDescription(feedbackInput);
@@ -55,16 +48,15 @@ class FeedbackCommand {
 		});
 
 		await message.startThread({
-			name: "Discuss Anonymous Feedback",
+			name: "Discuss Anonymous Feedback"
 		});
 
 		await interaction.reply({
-			content: `Thank you, the following feedback has been submitted:`,
+			content: "Thank you, the following feedback has been submitted:",
 			ephemeral: true,
 			embeds: [embed]
 		});
 	}
 }
-
 
 export default FeedbackCommand;
