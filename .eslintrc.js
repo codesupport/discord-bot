@@ -12,6 +12,8 @@ module.exports = {
         }
     },
     rules: {
+        "no-useless-constructor": "off",
+        "no-empty-function": "off",
         "new-cap": "off",
         "no-unused-vars": "off",
         "no-invalid-this": "off",

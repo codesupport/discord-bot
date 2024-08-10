@@ -1,6 +1,6 @@
 import { createSandbox, SinonSandbox } from "sinon";
 import { expect } from "chai";
-import { Collection, EmbedField, GuildMember, GuildMemberRoleManager, Role, time, TimestampStyles } from "discord.js";
+import { Collection, EmbedField, Role, time, TimestampStyles } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import InspectCommand from "../../src/commands/InspectCommand";

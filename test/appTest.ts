@@ -5,8 +5,11 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import axios from "axios";
 import App from "../src/app";
 import DirectoryUtils from "../src/utils/DirectoryUtils";
-import MockHandler from "./MockHandler";
 import { AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../src/config.json";
+import type { AxiosCacheInstance } from "axios-cache-interceptor";
+
+// @ts-ignore
+import MockHandler from "./MockHandler";
 
 describe("App", () => {
 	let sandbox: SinonSandbox;
@@ -15,6 +18,9 @@ describe("App", () => {
 
 	beforeEach(() => {
 		sandbox = createSandbox();
+
+		// @ts-ignore
+		(axios as unknown as AxiosCacheInstance).defaults.cache = undefined;
 
 		loginStub = sandbox.stub(Client.prototype, "login");
 		getStub = sandbox.stub(axios, "get").resolves();

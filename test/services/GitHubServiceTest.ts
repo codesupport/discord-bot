@@ -7,7 +7,7 @@ import GitHubService from "../../src/services/GitHubService";
 describe("GitHubService", () => {
 	describe("::getInstance()", () => {
 		it("returns an instance of GitHubService", () => {
-			const service = GitHubService.getInstance();
+			const service = new GitHubService();
 
 			expect(service).to.be.instanceOf(GitHubService);
 		});
@@ -19,7 +19,7 @@ describe("GitHubService", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			gitHub = GitHubService.getInstance();
+			gitHub = new GitHubService();
 		});
 
 		it("performs a GET request to the GitHub API", async () => {
@@ -72,7 +72,7 @@ describe("GitHubService", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			gitHub = GitHubService.getInstance();
+			gitHub = new GitHubService();
 		});
 
 		it("performs a GET request to the GitHub pulls API", async () => {
@@ -116,7 +116,7 @@ describe("GitHubService", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			gitHub = GitHubService.getInstance();
+			gitHub = new GitHubService();
 		});
 
 		it("performs a GET request to the GitHub issues API", async () => {

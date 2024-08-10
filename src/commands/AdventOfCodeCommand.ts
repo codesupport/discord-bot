@@ -3,17 +3,22 @@ import AdventOfCodeService from "../services/AdventOfCodeService";
 import { AOCMember } from "../interfaces/AdventOfCode";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
-import {Discord, Slash, SlashOption} from "discordx";
+import { Discord, Slash, SlashOption } from "discordx";
+import { injectable as Injectable } from "tsyringe";
 
 @Discord()
+@Injectable()
 class AdventOfCodeCommand {
+	constructor(
+		private readonly adventOfCodeService: AdventOfCodeService,
+	) {}
+
 	@Slash({ name: "aoc", description: "Advent Of Code" })
 	async onInteract(
 		@SlashOption({ name: "year", description: "AOC year", type: ApplicationCommandOptionType.Number, minValue: 2015, required: false }) year: number | undefined,
 		@SlashOption({ name: "name", description: "User's name", type: ApplicationCommandOptionType.String, required: false }) name: string | undefined,
 			interaction: CommandInteraction
 	): Promise<void> {
-		const adventOfCodeService = AdventOfCodeService.getInstance();
 		const embed = new EmbedBuilder();
 		const button = new ButtonBuilder();
 		let yearToQuery = this.getYear();
@@ -37,12 +42,7 @@ class AdventOfCodeCommand {
 
 		if (!!name) {
 			try {
-				const [position, user] = await adventOfCodeService.getSinglePlayer(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), yearToQuery, name);
-
-				if (!user) {
-					await interaction.reply({embeds: [this.errorEmbed("Could not get the user requested\nPlease make sure you typed the name correctly")], ephemeral: true});
-					return;
-				}
+				const [position, user] = await this.adventOfCodeService.getSinglePlayer(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), yearToQuery, name);
 
 				embed.setTitle("Advent Of Code");
 				embed.setDescription(description);
@@ -57,13 +57,13 @@ class AdventOfCodeCommand {
 				await interaction.reply({embeds: [embed], components: [row] });
 				return;
 			} catch {
-				await interaction.reply({embeds: [this.errorEmbed("Could not get the statistics for Advent Of Code.")], ephemeral: true});
+				await interaction.reply({embeds: [this.errorEmbed("Could not get the user requested\nPlease make sure you typed the name correctly")], ephemeral: true});
 				return;
 			}
 		}
 
 		try {
-			const members = await adventOfCodeService.getSortedPlayerList(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), yearToQuery);
+			const members = await this.adventOfCodeService.getSortedPlayerList(getConfigValue<string>("ADVENT_OF_CODE_LEADERBOARD"), yearToQuery);
 			const playerList = this.generatePlayerList(members, getConfigValue<number>("ADVENT_OF_CODE_RESULTS_PER_PAGE"));
 
 			embed.setTitle("Advent Of Code");

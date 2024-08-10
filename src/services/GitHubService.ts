@@ -1,24 +1,11 @@
 import axios from "axios";
+import { injectable as Injectable } from "tsyringe";
 import GitHubRepository from "../interfaces/GitHubRepository";
 import GitHubPullRequest from "../interfaces/GitHubPullRequest";
 import GitHubIssue from "../interfaces/GitHubIssue";
 
+@Injectable()
 class GitHubService {
-	// eslint-disable-next-line no-use-before-define
-	private static instance: GitHubService;
-
-	/* eslint-disable */
-	private constructor() { }
-	/* eslint-enable */
-
-	static getInstance(): GitHubService {
-		if (!this.instance) {
-			this.instance = new GitHubService();
-		}
-
-		return this.instance;
-	}
-
 	async getRepository(user: string, repo: string): Promise<GitHubRepository> {
 		const url = `https://api.github.com/repos/${user}/${repo}`;
 		const { status, data } = await axios.get(url);

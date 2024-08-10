@@ -1,4 +1,4 @@
-import { createSandbox, SinonSandbox } from "sinon";
+import { createSandbox, SinonSandbox, SinonStubbedInstance } from "sinon";
 import {CommandInteraction} from "discord.js";
 import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
@@ -13,22 +13,22 @@ describe("IssuesCommand", () => {
 		let command: IssuesCommand;
 		let interaction: CommandInteraction;
 		let replyStub: sinon.SinonStub<any[], any>;
-		let gitHub: GitHubService;
+		let gitHub: SinonStubbedInstance<GitHubService>;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			command = new IssuesCommand();
+			gitHub = sandbox.createStubInstance(GitHubService);
+			command = new IssuesCommand(gitHub);
 			replyStub = sandbox.stub().resolves();
 			interaction = {
 				reply: replyStub,
 				user: BaseMocks.getGuildMember()
 			};
-			gitHub = GitHubService.getInstance();
 		});
 
 		it("sends a message to the channel", async () => {
-			sandbox.stub(gitHub, "getIssues");
-			sandbox.stub(gitHub, "getRepository");
+			gitHub.getIssues;
+			gitHub.getRepository;
 
 			await command.onInteract("user", "repo", interaction);
 
@@ -36,8 +36,8 @@ describe("IssuesCommand", () => {
 		});
 
 		it("states it had a problem with the request to GitHub", async () => {
-			sandbox.stub(gitHub, "getIssues").resolves(undefined);
-			sandbox.stub(gitHub, "getRepository").resolves(undefined);
+			gitHub.getIssues.resolves(undefined);
+			gitHub.getRepository.resolves(undefined);
 
 			await command.onInteract("thisuserdoesnotexist", "thisrepodoesnotexist", interaction);
 
@@ -52,11 +52,11 @@ describe("IssuesCommand", () => {
 		});
 
 		it("states no issues have been found", async () => {
-			sandbox.stub(gitHub, "getIssues").resolves(
+			gitHub.getIssues.resolves(
 				[]
 			);
 
-			sandbox.stub(gitHub, "getRepository").resolves({
+			gitHub.getRepository.resolves({
 				user: "user",
 				repo: "repo",
 				description: "This is the description",
@@ -79,7 +79,7 @@ describe("IssuesCommand", () => {
 		});
 
 		it("states the result from the github service", async () => {
-			sandbox.stub(gitHub, "getIssues").resolves(
+			gitHub.getIssues.resolves(
 				[{
 					title: "This is the title",
 					number: 69,
@@ -90,7 +90,7 @@ describe("IssuesCommand", () => {
 				}]
 			);
 
-			sandbox.stub(gitHub, "getRepository").resolves({
+			gitHub.getRepository.resolves({
 				user: "user",
 				repo: "repo",
 				description: "This is the description",

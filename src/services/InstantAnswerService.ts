@@ -1,23 +1,10 @@
 import axios from "axios";
+import { injectable as Injectable } from "tsyringe";
 import InstantAnswer from "../interfaces/InstantAnswer";
 import getConfigValue from "../utils/getConfigValue";
 
+@Injectable()
 class InstantAnswerService {
-	// eslint-disable-next-line no-use-before-define
-	private static instance: InstantAnswerService;
-
-	/* eslint-disable */
-	private constructor() {}
-	/* eslint-enable */
-
-	static getInstance(): InstantAnswerService {
-		if (!this.instance) {
-			this.instance = new InstantAnswerService();
-		}
-
-		return this.instance;
-	}
-
 	async query(query: string): Promise<InstantAnswer | null> {
 		const url = `https://api.duckduckgo.com/?q=${query}&format=json&t=codesupport-discord-bot`;
 		const { status, data } = await axios.get(url);

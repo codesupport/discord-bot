@@ -1,5 +1,6 @@
-import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
-import {Discord, Slash, SlashOption} from "discordx";
+import { ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
+import { Discord, Slash, SlashOption } from "discordx";
+import { injectable as Injectable } from "tsyringe";
 import GitHubService from "../services/GitHubService";
 import GitHubIssue from "../interfaces/GitHubIssue";
 import DateUtils from "../utils/DateUtils";
@@ -8,7 +9,12 @@ import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
+@Injectable()
 class IssuesCommand {
+	constructor(
+		private readonly gitHubService: GitHubService
+	) {}
+
 	@Slash({ name: "issues", description: "Shows the open issues on a GitHub repository" })
 	async onInteract(
 		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
@@ -18,9 +24,8 @@ class IssuesCommand {
 		const embed = new EmbedBuilder();
 
 		try {
-			const GitHub = GitHubService.getInstance();
-			const resIssues = await GitHub.getIssues(user, repoName);
-			const resRep = await GitHub.getRepository(user, repoName);
+			const resIssues = await this.gitHubService.getIssues(user, repoName);
+			const resRep = await this.gitHubService.getRepository(user, repoName);
 
 			if (resIssues.length) {
 				const issues = resIssues.slice(0, 3);

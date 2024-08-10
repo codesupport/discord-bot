@@ -1,12 +1,14 @@
 import "reflect-metadata";
 import axios from "axios";
-import { Client } from "discordx";
+import {Client, DIService, tsyringeDependencyRegistryEngine} from "discordx";
 import { TextChannel, Snowflake } from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
 import DiscordUtils from "./utils/DiscordUtils";
 import getConfigValue from "./utils/getConfigValue";
 import Schedule from "./decorators/Schedule";
+import {container} from "tsyringe";
+import {setupCache} from "axios-cache-interceptor";
 
 if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	env({
@@ -28,6 +30,10 @@ class App {
 			intents: DiscordUtils.getAllIntentsApartFromPresence(),
 			silent: false
 		});
+
+		container.register("AXIOS_CACHED_INSTANCE", setupCache(axios));
+
+		DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container);
 	}
 
 	@Schedule("*/5 * * * *")

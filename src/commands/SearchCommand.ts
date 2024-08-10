@@ -1,11 +1,17 @@
-import {ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
-import {Discord, Slash, SlashOption} from "discordx";
+import { ColorResolvable, CommandInteraction, EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
+import { Discord, Slash, SlashOption } from "discordx";
+import { injectable as Injectable } from "tsyringe";
 import InstantAnswerService from "../services/InstantAnswerService";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
 
 @Discord()
+@Injectable()
 class SearchCommand {
+	constructor(
+		private readonly instantAnswerService: InstantAnswerService
+	) {}
+
 	@Slash({ name: "search", description: "Search using the DuckDuckGo API" })
 	async onInteract(
 		@SlashOption({ name: "query", description: "Search query", type: ApplicationCommandOptionType.String, required: true }) query: string,
@@ -14,8 +20,7 @@ class SearchCommand {
 		const embed = new EmbedBuilder();
 
 		try {
-			const InstantAnswer = InstantAnswerService.getInstance();
-			const res = await InstantAnswer.query(query.replace(" ", "+"));
+			const res = await this.instantAnswerService.query(query.replace(" ", "+"));
 
 			if (res !== null) {
 				const [baseURL] = res.url.match(/[a-z]*\.[a-z]*(\.[a-z]*)*/) || [];

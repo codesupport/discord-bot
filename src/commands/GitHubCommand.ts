@@ -3,9 +3,15 @@ import GitHubService from "../services/GitHubService";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
 import {Discord, Slash, SlashOption} from "discordx";
+import { injectable as Injectable } from "tsyringe";
 
 @Discord()
+@Injectable()
 class GitHubCommand {
+	constructor(
+		private readonly githubService: GitHubService
+	) {}
+
 	@Slash({ name: "github", description: "Shows information about a GitHub repository" })
 	async onInteract(
 		@SlashOption({ name: "user", description: "Github user/account", type: ApplicationCommandOptionType.String, required: true }) user: string,
@@ -15,9 +21,8 @@ class GitHubCommand {
 		const embed = new EmbedBuilder();
 
 		try {
-			const GitHub = GitHubService.getInstance();
-			const res = await GitHub.getRepository(user, repo);
-			const resPR = await GitHub.getPullRequest(user, repo);
+			const res = await this.githubService.getRepository(user, repo);
+			const resPR = await this.githubService.getPullRequest(user, repo);
 
 			let desc = `[View on GitHub](${res.url})`;
 
