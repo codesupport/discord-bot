@@ -7,7 +7,7 @@ import InstantAnswerService from "../../src/services/InstantAnswerService";
 describe("InstantAnswerService", () => {
 	describe("::getInstance()", () => {
 		it("returns an instance of InstantAnswerService", () => {
-			const service = InstantAnswerService.getInstance();
+			const service = new InstantAnswerService();
 
 			expect(service).to.be.instanceOf(InstantAnswerService);
 		});
@@ -19,7 +19,7 @@ describe("InstantAnswerService", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			instantAnswer = InstantAnswerService.getInstance();
+			instantAnswer = new InstantAnswerService();
 		});
 
 		it("makes a GET request to the DuckDuckGo API", async () => {

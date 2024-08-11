@@ -8,8 +8,8 @@
     "build": "tsc",
     "dev": "cross-env NODE_ENV=dev nodemon --watch src --ext ts --exec 'ts-node -r dotenv/config ./src/index.ts'",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
-    "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --exit",
-    "test:debug": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --timeout 999999999 --exit",
+    "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --require=test/test-setup.ts --exit",
+    "test:debug": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --timeout 999999999 --require=test/test-setup.ts --exit",
     "lint": "eslint src test --ext .js,.ts"
   },
   "repository": {
@@ -40,7 +40,8 @@
     "discordx": "^11.7.6",
     "dotenv": "^16.3.1",
     "node-schedule": "^2.1.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.8.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",

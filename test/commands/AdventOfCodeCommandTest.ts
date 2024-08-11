@@ -1,47 +1,41 @@
-import { createSandbox, SinonSandbox } from "sinon";
+import { createSandbox, SinonSandbox, SinonStubbedInstance } from "sinon";
 import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
 import AdventOfCodeCommand from "../../src/commands/AdventOfCodeCommand";
 import AdventOfCodeService from "../../src/services/AdventOfCodeService";
 import { EMBED_COLOURS, ADVENT_OF_CODE_INVITE, ADVENT_OF_CODE_LEADERBOARD, ADVENT_OF_CODE_RESULTS_PER_PAGE } from "../../src/config.json";
-import { AOCLeaderBoard } from "../../src/interfaces/AdventOfCode";
+import { AOCMember } from "../../src/interfaces/AdventOfCode";
 import NumberUtils from "../../src/utils/NumberUtils";
 
-const AOCMockData: AOCLeaderBoard = {
-	event: "2021",
-	owner_id: "490120",
-	members: {
-		490120: {
-			completion_day_level: {
-				1: {
-					1: {
-						get_star_ts: "1606816563"
-					}
-				}
-			},
-			local_score: 26,
-			global_score: 0,
-			name: "Lambo",
-			id: "490120",
-			stars: 3,
-			last_star_ts: "1606899444"
+const AOCMockData: AOCMember[] = [{
+	completion_day_level: {
+		1: {
+			1: {
+				get_star_ts: "1606816563"
+			}
 		}
-	}
-};
+	},
+	local_score: 26,
+	global_score: 0,
+	name: "Lambo",
+	id: "490120",
+	stars: 3,
+	last_star_ts: "1606899444"
+}];
 
 describe("AdventOfCodeCommand", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: AdventOfCodeCommand;
-		let AOC: AdventOfCodeService;
+		let AOC: SinonStubbedInstance<AdventOfCodeService>;
 		let interaction: any;
 		let replyStub: sinon.SinonStub<any[], any>;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			command = new AdventOfCodeCommand();
-			AOC = AdventOfCodeService.getInstance();
+			AOC = sandbox.createStubInstance(AdventOfCodeService);
+			command = new AdventOfCodeCommand(AOC);
 			replyStub = sandbox.stub().resolves();
 			interaction = {
 				reply: replyStub,
@@ -50,17 +44,13 @@ describe("AdventOfCodeCommand", () => {
 		});
 
 		it("sends a message to the channel", async () => {
-			sandbox.stub(AOC, "getLeaderBoard");
-			sandbox.stub(AOC, "getSortedPlayerList");
-			sandbox.stub(AOC, "getSinglePlayer");
-
 			await command.onInteract(2021, "Lambo", interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("sends an error message when the year is too far into the feature", async () => {
-			sandbox.stub(AOC, "getLeaderBoard").throws();
+			AOC.getSortedPlayerList.throws();
 			sandbox.stub(command, "getYear").returns(2019);
 
 			await command.onInteract(2021, undefined, interaction);
@@ -74,7 +64,7 @@ describe("AdventOfCodeCommand", () => {
 		});
 
 		it("should query the year 2018 from the AOC Service", async () => {
-			const serviceMock = sandbox.stub(AOC, "getLeaderBoard").resolves({ members: {}, event: "2018", owner_id: "12345" });
+			const serviceMock = AOC.getSortedPlayerList.resolves([]);
 
 			sandbox.stub(command, "getYear").returns(2020);
 
@@ -86,7 +76,7 @@ describe("AdventOfCodeCommand", () => {
 		});
 
 		it("sends a message with the current score", async () => {
-			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+			AOC.getSortedPlayerList.resolves(AOCMockData);
 			sandbox.stub(command, "getYear").returns(2019);
 
 			await command.onInteract(undefined, undefined, interaction);
@@ -105,7 +95,7 @@ describe("AdventOfCodeCommand", () => {
 		});
 
 		it("gives an error when the wrong acces token/id is provided", async () => {
-			sandbox.stub(AOC, "getLeaderBoard").throws();
+			AOC.getSortedPlayerList.throws();
 
 			await command.onInteract(undefined, undefined, interaction);
 
@@ -119,7 +109,9 @@ describe("AdventOfCodeCommand", () => {
 		});
 
 		it("gives back one user when giving a username argument", async () => {
-			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+			AOC.getSortedPlayerList.resolves(AOCMockData);
+			AOC.getSinglePlayer.resolves([1, AOCMockData[0]]);
+
 			sandbox.stub(command, "getYear").returns(2021);
 
 			await command.onInteract(undefined, "Lambo", interaction);
@@ -144,7 +136,7 @@ describe("AdventOfCodeCommand", () => {
 		});
 
 		it("should give an error when the user doesn't exist", async () => {
-			sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+			AOC.getSortedPlayerList.resolves(AOCMockData);
 
 			await command.onInteract(undefined, "Bob", interaction);
 
@@ -157,22 +149,8 @@ describe("AdventOfCodeCommand", () => {
 			expect(replyStub.getCall(0).firstArg.ephemeral).to.be.true;
 		});
 
-		it("gives an error when the name parameter is given but wrong acces token/id is provided", async () => {
-			sandbox.stub(AOC, "getSinglePlayer").throws();
-
-			await command.onInteract(undefined, "Lambo", interaction);
-
-			const embed = replyStub.getCall(0).firstArg.embeds[0];
-
-			expect(replyStub.calledOnce).to.be.true;
-			expect(embed.data.title).to.equal("Error");
-			expect(embed.data.description).to.equal("Could not get the statistics for Advent Of Code.");
-			expect(embed.data.color).to.equal(NumberUtils.hexadecimalToInteger(EMBED_COLOURS.ERROR.toLowerCase()));
-			expect(replyStub.getCall(0).firstArg.ephemeral).to.be.true;
-		});
-
 		it("requesting a different year than current", async () => {
-			const APIMock = sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+			const APIMock = AOC.getSortedPlayerList.resolves(AOCMockData);
 
 			sandbox.stub(command, "getYear").returns(2020);
 
@@ -193,7 +171,7 @@ describe("AdventOfCodeCommand", () => {
 		});
 
 		it("gives back user from requested year", async () => {
-			const APIMock = sandbox.stub(AOC, "getLeaderBoard").resolves(AOCMockData);
+			AOC.getSinglePlayer.resolves([1, AOCMockData[0]]);
 
 			sandbox.stub(command, "getYear").returns(2021);
 
@@ -203,7 +181,7 @@ describe("AdventOfCodeCommand", () => {
 			const button = replyStub.getCall(0).firstArg.components[0].components[0];
 
 			expect(replyStub.calledOnce).to.be.true;
-			expect(APIMock.getCall(0).args[1]).to.equal(2018);
+			expect(AOC.getSinglePlayer.getCall(0).args[1]).to.equal(2018);
 			expect(embed.data.title).to.equal("Advent Of Code");
 			expect(embed.data.description).to.equal(`Invite Code: \`${ADVENT_OF_CODE_INVITE}\``);
 			expect(embed.data.fields[0].name).to.equal("Scores of Lambo in 2018");

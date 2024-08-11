@@ -1,19 +1,13 @@
-import axios from "axios";
-import { setupCache } from "axios-cache-interceptor";
+import {AxiosCacheInstance } from "axios-cache-interceptor";
+import { injectable as Injectable, inject as Inject } from "tsyringe";
 import { AOCLeaderBoard, AOCMember } from "../interfaces/AdventOfCode";
 
+@Injectable()
 export default class AdventOfCodeService {
-	// eslint-disable-next-line no-use-before-define
-	private static instance: AdventOfCodeService;
-	private api = setupCache(axios);
-
-	static getInstance(): AdventOfCodeService {
-		if (!this.instance) {
-			this.instance = new AdventOfCodeService();
-		}
-
-		return this.instance;
-	}
+	constructor(
+		@Inject("AXIOS_CACHED_INSTANCE")
+		private readonly api: AxiosCacheInstance
+	) {}
 
 	async getLeaderBoard(leaderBoard: string, year: number): Promise<AOCLeaderBoard> {
 		const { ADVENT_OF_CODE_TOKEN } = process.env;

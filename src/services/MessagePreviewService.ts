@@ -1,24 +1,11 @@
 import { Message, TextChannel, EmbedBuilder, ColorResolvable, Snowflake } from "discord.js";
+import { injectable as Injectable } from "tsyringe";
 import DateUtils from "../utils/DateUtils";
 import getConfigValue from "../utils/getConfigValue";
 import { logger } from "../logger";
 
+@Injectable()
 class MessagePreviewService {
-	// eslint-disable-next-line no-use-before-define
-	private static instance: MessagePreviewService;
-
-	/* eslint-disable */
-	private constructor() { }
-	/* eslint-enable */
-
-	static getInstance(): MessagePreviewService {
-		if (!this.instance) {
-			this.instance = new MessagePreviewService();
-		}
-
-		return this.instance;
-	}
-
 	async generatePreview(link: string, callingMessage: Message): Promise<void> {
 		const msgArray = this.stripLink(link);
 

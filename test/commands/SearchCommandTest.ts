@@ -1,6 +1,6 @@
-import { createSandbox, SinonSandbox } from "sinon";
+import { createSandbox, SinonSandbox, SinonStubbedInstance } from "sinon";
 import { expect } from "chai";
-import {CommandInteraction} from "discord.js";
+import { CommandInteraction } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import SearchCommand from "../../src/commands/SearchCommand";
 import InstantAnswerService from "../../src/services/InstantAnswerService";
@@ -13,21 +13,21 @@ describe("SearchCommand", () => {
 		let command: SearchCommand;
 		let interaction: CommandInteraction;
 		let replyStub: sinon.SinonStub<any[], any>;
-		let instantAnswer: InstantAnswerService;
+		let instantAnswer: SinonStubbedInstance<InstantAnswerService>;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			command = new SearchCommand();
+			instantAnswer = sandbox.createStubInstance(InstantAnswerService);
+			command = new SearchCommand(instantAnswer);
 			replyStub = sandbox.stub().resolves();
 			interaction = {
 				reply: replyStub,
 				user: BaseMocks.getGuildMember()
 			};
-			instantAnswer = InstantAnswerService.getInstance();
 		});
 
 		it("sends a message to the channel", async () => {
-			sandbox.stub(instantAnswer, "query");
+			instantAnswer.query;
 
 			await command.onInteract("1", interaction);
 
@@ -35,7 +35,7 @@ describe("SearchCommand", () => {
 		});
 
 		it("states it can not query duckduckgo if the result isn't found", async () => {
-			sandbox.stub(instantAnswer, "query").resolves(null);
+			instantAnswer.query.resolves(null);
 
 			await command.onInteract("thisruledoesnotexist", interaction);
 
@@ -48,7 +48,7 @@ describe("SearchCommand", () => {
 		});
 
 		it("states the result from the instant answer service", async () => {
-			sandbox.stub(instantAnswer, "query").resolves({
+			instantAnswer.query.resolves({
 				heading: "Example Heading",
 				description: "Example Description",
 				url: "https://example.com"
@@ -66,7 +66,7 @@ describe("SearchCommand", () => {
 		});
 
 		it("correctly renders URLs from websites with subdomains", async () => {
-			sandbox.stub(instantAnswer, "query").resolves({
+			instantAnswer.query.resolves({
 				heading: "Capybara",
 				description: "The capybara is an adorable rodent.",
 				url: "https://en.wikipedia.org/wiki/Capybara"

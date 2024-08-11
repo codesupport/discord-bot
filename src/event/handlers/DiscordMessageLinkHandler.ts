@@ -1,9 +1,13 @@
 import EventHandler from "../../abstracts/EventHandler";
 import { Message, Events } from "discord.js";
+import { injectable as Injectable } from "tsyringe";
 import MessagePreviewService from "../../services/MessagePreviewService";
 
+@Injectable()
 class DiscordMessageLinkHandler extends EventHandler {
-	constructor() {
+	constructor(
+		private readonly messagePreviewService: MessagePreviewService
+	) {
 		super(Events.MessageCreate);
 	}
 
@@ -19,9 +23,8 @@ class DiscordMessageLinkHandler extends EventHandler {
 
 				if (message.content.charAt(index - 1) !== "<" || message.content.charAt(index + link.length) !== ">") {
 					link = link.replace(/app/, "").replace(/ptb\./, "");
-					const messagePreviewService = MessagePreviewService.getInstance();
 
-					await messagePreviewService.generatePreview(link, message);
+					await this.messagePreviewService.generatePreview(link, message);
 				}
 			}
 		}

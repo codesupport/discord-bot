@@ -8,7 +8,7 @@ import { BaseMocks, CustomMocks } from "@lambocreeper/mock-discord.js";
 describe("MessagePreviewService", () => {
 	describe("::getInstance()", () => {
 		it("returns an instance of MessagePreviewService", () => {
-			const service = MessagePreviewService.getInstance();
+			const service = new MessagePreviewService();
 
 			expect(service).to.be.instanceOf(MessagePreviewService);
 		});
@@ -27,7 +27,7 @@ describe("MessagePreviewService", () => {
 		beforeEach(() => {
 			sandbox = createSandbox();
 
-			messagePreview = MessagePreviewService.getInstance();
+			messagePreview = new MessagePreviewService();
 
 			const guild = CustomMocks.getGuild({
 				id: "guild-id",
@@ -109,7 +109,7 @@ describe("MessagePreviewService", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			messagePreview = MessagePreviewService.getInstance();
+			messagePreview = new MessagePreviewService();
 			message = CustomMocks.getMessage();
 		});
 
@@ -133,7 +133,7 @@ describe("MessagePreviewService", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			messagePreview = MessagePreviewService.getInstance();
+			messagePreview = new MessagePreviewService();
 			link = "https://ptb.discordapp.com/channels/240880736851329024/518817917438001152/732711501345062982";
 		});
 
@@ -156,7 +156,7 @@ describe("MessagePreviewService", () => {
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			messagePreview = MessagePreviewService.getInstance();
+			messagePreview = new MessagePreviewService();
 		});
 
 		it("should return the string as it is if there are no hyperlinks", () => {

@@ -1,4 +1,4 @@
-import { createSandbox, SinonSandbox } from "sinon";
+import {createSandbox, SinonSandbox, SinonStubbedInstance} from "sinon";
 import { expect } from "chai";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 
@@ -11,14 +11,14 @@ describe("GitHubCommand", () => {
 	describe("onInteract()", () => {
 		let sandbox: SinonSandbox;
 		let command: GitHubCommand;
-		let gitHub: GitHubService;
+		let gitHub: SinonStubbedInstance<GitHubService>;
 		let replyStub: sinon.SinonStub<any[], any>;
 		let interaction: any;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			command = new GitHubCommand();
-			gitHub = GitHubService.getInstance();
+			gitHub = sandbox.createStubInstance(GitHubService);
+			command = new GitHubCommand(gitHub);
 			replyStub = sandbox.stub().resolves();
 			interaction = {
 				reply: replyStub,
@@ -27,17 +27,14 @@ describe("GitHubCommand", () => {
 		});
 
 		it("sends a message to the channel", async () => {
-			sandbox.stub(gitHub, "getRepository");
-			sandbox.stub(gitHub, "getPullRequest");
-
 			await command.onInteract("user", "repo", interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states it had a problem with the request to GitHub", async () => {
-			sandbox.stub(gitHub, "getRepository").resolves(undefined);
-			sandbox.stub(gitHub, "getPullRequest").resolves(undefined);
+			gitHub.getRepository.resolves(undefined);
+			gitHub.getPullRequest.resolves(undefined);
 
 			await command.onInteract("thisuserdoesnotexist", "thisrepodoesnotexist", interaction);
 
@@ -53,7 +50,7 @@ describe("GitHubCommand", () => {
 		});
 
 		it("states the result from the github service", async () => {
-			sandbox.stub(gitHub, "getRepository").resolves({
+			gitHub.getRepository.resolves({
 				user: "user",
 				repo: "repo",
 				description: "This is the description",
@@ -65,7 +62,7 @@ describe("GitHubCommand", () => {
 				watchers: 3
 			});
 
-			sandbox.stub(gitHub, "getPullRequest").resolves(
+			gitHub.getPullRequest.resolves(
 				[{
 					title: "This is the title",
 					description: "This is the description",
@@ -97,7 +94,7 @@ describe("GitHubCommand", () => {
 		});
 
 		it("states the result from the github service with an empty repo description", async () => {
-			sandbox.stub(gitHub, "getRepository").resolves({
+			gitHub.getRepository.resolves({
 				user: "user",
 				repo: "repo",
 				description: undefined,
@@ -109,7 +106,7 @@ describe("GitHubCommand", () => {
 				watchers: 3
 			});
 
-			sandbox.stub(gitHub, "getPullRequest").resolves(
+			gitHub.getPullRequest.resolves(
 				[{
 					title: "This is the title",
 					description: "This is the description",

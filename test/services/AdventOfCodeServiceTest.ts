@@ -1,7 +1,9 @@
-import { createSandbox, SinonSandbox } from "sinon";
+import {createSandbox, SinonSandbox, SinonStubbedInstance} from "sinon";
 import { expect } from "chai";
 
 import AdventOfCodeService from "../../src/services/AdventOfCodeService";
+import {AxiosCacheInstance} from "axios-cache-interceptor";
+import {Axios} from "axios";
 
 const mockAPIData = {
 	event: "2021",
@@ -55,23 +57,28 @@ const mockAPIData = {
 describe("AdventOfCodeService", () => {
 	describe("::getInstance()", () => {
 		it("creates an instance of AdventOfCodeService", () => {
-			const service = AdventOfCodeService.getInstance();
+			const sandbox = createSandbox();
+			const api = sandbox.createStubInstance(Axios as AxiosCacheInstance);
+			const service = new AdventOfCodeService(api);
 
 			expect(service).to.be.instanceOf(AdventOfCodeService);
+			sandbox.restore();
 		});
 	});
 
 	describe("getLeaderBoard()", () => {
 		let sandbox: SinonSandbox;
+		let api: SinonStubbedInstance<AxiosCacheInstance>;
 		let aoc: AdventOfCodeService;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			aoc = AdventOfCodeService.getInstance();
+			api = sandbox.createStubInstance(Axios as AxiosCacheInstance);
+			aoc = new AdventOfCodeService(api);
 		});
 
 		it("performs a GET request to the Advent Of Code Api", async () => {
-			const axiosGet = sandbox.stub(aoc.api, "get").resolves({
+			const axiosGet = api.get.resolves({
 				status: 200,
 				data: mockAPIData
 			});
@@ -83,7 +90,7 @@ describe("AdventOfCodeService", () => {
 		});
 
 		it("throws an error if the API responds when not authorized", async () => {
-			const axiosGet = sandbox.stub(aoc.api, "get").resolves({
+			const axiosGet = api.get.resolves({
 				status: 500,
 				data: {}
 			});
@@ -105,15 +112,17 @@ describe("AdventOfCodeService", () => {
 
 	describe("getSinglePlayer()", () => {
 		let sandbox: SinonSandbox;
+		let apiMock: SinonStubbedInstance<AxiosCacheInstance>;
 		let aoc: AdventOfCodeService;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
-			aoc = AdventOfCodeService.getInstance();
+			apiMock = sandbox.createStubInstance<AxiosCacheInstance>(Axios as AxiosCacheInstance);
+			aoc = new AdventOfCodeService(apiMock);
 		});
 
 		it("performs a GET request to the Advent Of Code Api", async () => {
-			const axiosGet = sandbox.stub(aoc.api, "get").resolves({
+			const axiosGet = apiMock.get.resolves({
 				status: 200,
 				data: mockAPIData
 			});
@@ -124,7 +133,7 @@ describe("AdventOfCodeService", () => {
 		});
 
 		it("returns the position and the member when the user exist on the leaderboard", async () => {
-			sandbox.stub(aoc.api, "get").resolves({
+			apiMock.get.resolves({
 				status: 200,
 				data: mockAPIData
 			});
@@ -136,7 +145,7 @@ describe("AdventOfCodeService", () => {
 		});
 
 		it("finds the player if the name is weirdly capitalized", async () => {
-			sandbox.stub(aoc.api, "get").resolves({
+			apiMock.get.resolves({
 				status: 200,
 				data: mockAPIData
 			});
@@ -148,7 +157,7 @@ describe("AdventOfCodeService", () => {
 		});
 
 		it("finds the player when there are spaces in the name", async () => {
-			sandbox.stub(aoc.api, "get").resolves({
+			apiMock.get.resolves({
 				status: 200,
 				data: mockAPIData
 			});
@@ -160,7 +169,7 @@ describe("AdventOfCodeService", () => {
 		});
 
 		it("returns 0 and undefined when the user does not exist on the leaderboard", async () => {
-			sandbox.stub(aoc.api, "get").resolves({
+			apiMock.get.resolves({
 				status: 200,
 				data: mockAPIData
 			});
