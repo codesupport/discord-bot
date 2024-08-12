@@ -3,6 +3,7 @@ import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 import { Client, ChannelManager } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import axios from "axios";
+import { container } from "tsyringe";
 import App from "../src/app";
 import DirectoryUtils from "../src/utils/DirectoryUtils";
 import { AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../src/config.json";
@@ -80,11 +81,14 @@ describe("App", () => {
 			sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("./MockHandler")]);
 			const onStub = sandbox.stub(Client.prototype, "on");
 
-			await new App().init();
-
 			const mockHandler = new MockHandler();
 
+			const resolveStub = sandbox.stub(container, "resolve").returns(mockHandler);
+
+			await new App().init();
+
 			expect(onStub.calledWith(mockHandler.getEvent())).to.be.true;
+			expect(resolveStub.calledWith(MockHandler)).to.be.true;
 		});
 
 		it("should fetch auth channel and messages in production environment", async () => {

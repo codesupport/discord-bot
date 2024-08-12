@@ -11,7 +11,7 @@ class DiscordMessageLinkHandler extends EventHandler {
 		super(Events.MessageCreate);
 	}
 
-	async handle(message: Message): Promise<void> {
+	handle = async (message: Message) => {
 		const messageRegex = /https:\/\/(?:ptb\.)?discord(?:app)?\.com\/channels\/\d+\/\d+\/\d+/gm;
 		const matches = message.content.matchAll(messageRegex);
 
@@ -28,7 +28,7 @@ class DiscordMessageLinkHandler extends EventHandler {
 				}
 			}
 		}
-	}
+	};
 }
 
 export default DiscordMessageLinkHandler;
