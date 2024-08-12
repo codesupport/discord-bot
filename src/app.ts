@@ -9,6 +9,7 @@ import getConfigValue from "./utils/getConfigValue";
 import Schedule from "./decorators/Schedule";
 import {container} from "tsyringe";
 import {setupCache} from "axios-cache-interceptor";
+import EventHandler from "./abstracts/EventHandler";
 
 if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
 	env({
@@ -64,7 +65,8 @@ class App {
 
 		handlerFiles.forEach(handler => {
 			const { default: Handler } = handler;
-			const handlerInstance = new Handler();
+
+			const handlerInstance = container.resolve<EventHandler>(Handler);
 
 			this.client.on(handlerInstance.getEvent(), handlerInstance.handle);
 		});

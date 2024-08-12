@@ -10,6 +10,7 @@ import type { AxiosCacheInstance } from "axios-cache-interceptor";
 
 // @ts-ignore
 import MockHandler from "./MockHandler";
+import {container} from "tsyringe";
 
 describe("App", () => {
 	let sandbox: SinonSandbox;
@@ -80,11 +81,14 @@ describe("App", () => {
 			sandbox.stub(DirectoryUtils, "getFilesInDirectory").callsFake(async () => [require("./MockHandler")]);
 			const onStub = sandbox.stub(Client.prototype, "on");
 
-			await new App().init();
-
 			const mockHandler = new MockHandler();
 
+			const resolveStub = sandbox.stub(container, "resolve").returns(mockHandler);
+
+			await new App().init();
+
 			expect(onStub.calledWith(mockHandler.getEvent())).to.be.true;
+			expect(resolveStub.calledWith(MockHandler)).to.be.true;
 		});
 
 		it("should fetch auth channel and messages in production environment", async () => {
