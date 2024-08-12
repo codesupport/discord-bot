@@ -3,6 +3,7 @@ import { SinonSandbox, createSandbox, SinonStub } from "sinon";
 import { Client, ChannelManager } from "discord.js";
 import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import axios from "axios";
+import { container } from "tsyringe";
 import App from "../src/app";
 import DirectoryUtils from "../src/utils/DirectoryUtils";
 import { AUTHENTICATION_MESSAGE_CHANNEL, AUTHENTICATION_MESSAGE_ID, PRODUCTION_ENV } from "../src/config.json";
@@ -10,7 +11,6 @@ import type { AxiosCacheInstance } from "axios-cache-interceptor";
 
 // @ts-ignore
 import MockHandler from "./MockHandler";
-import {container} from "tsyringe";
 
 describe("App", () => {
 	let sandbox: SinonSandbox;

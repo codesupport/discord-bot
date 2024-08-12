@@ -7,8 +7,8 @@ import DirectoryUtils from "./utils/DirectoryUtils";
 import DiscordUtils from "./utils/DiscordUtils";
 import getConfigValue from "./utils/getConfigValue";
 import Schedule from "./decorators/Schedule";
-import {container} from "tsyringe";
-import {setupCache} from "axios-cache-interceptor";
+import { container } from "tsyringe";
+import { setupCache } from "axios-cache-interceptor";
 import EventHandler from "./abstracts/EventHandler";
 
 if (process.env.NODE_ENV !== getConfigValue<string>("PRODUCTION_ENV")) {
