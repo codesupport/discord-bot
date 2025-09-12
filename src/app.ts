@@ -32,7 +32,7 @@ class App {
 			silent: false
 		});
 
-		container.register("AXIOS_CACHED_INSTANCE", setupCache(axios));
+		container.register("AXIOS_CACHED_INSTANCE", { useValue: setupCache(axios) });
 
 		DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container);
 	}
