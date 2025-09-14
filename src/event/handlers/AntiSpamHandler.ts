@@ -26,7 +26,7 @@ class AntiSpamHandler extends EventHandler {
 
 			const logsChannel = await message.guild.channels.fetch(logsChannelId) as TextChannel;
 
-			await logsChannel.send(`User ${member.user.username} (\`${member.id}\`) was banned for posting in <#${antiSpamChannelId}>. Their recent messages have been deleted.\nPosted message content:\n\`\`\`\n${message.content}\n\`\`\``);
+			await logsChannel.send(`User ${member.user.username} (\`${member.id}\`) was banned for posting in <#${antiSpamChannelId}>. Their recent messages have been deleted.`);
 		} catch (error) {
 			logger.error("AntiSpamHandler error", {error});
 		}
