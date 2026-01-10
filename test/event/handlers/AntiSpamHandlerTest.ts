@@ -33,20 +33,56 @@ describe("AntiSpamHandler", () => {
 			getConfigValueStub.withArgs("LOG_CHANNEL_ID").returns(LOG_CHANNEL_ID);
 
 			memberMock = BaseMocks.getGuildMember();
+
 			sandbox.stub(memberMock, "ban").resolves();
 
 			logsChannelMock = BaseMocks.getTextChannel();
 			sandbox.stub(logsChannelMock, "send").resolves();
 
+			const mockBotMessage = {
+				id: "12345",
+				content: "**0** spam accounts banned.",
+				author: { id: "bot-id" },
+				edit: sandbox.stub().resolves()
+			};
+
+			// Update your messageMock
+			const fakeAntiSpamChannel = {
+				id: ANTISPAM_CHANNEL_ID,
+				messages: {
+					fetch: sandbox.stub().resolves({
+						// Mocking the collection returned by fetch
+						some: () => true,
+						find: () => mockBotMessage
+					})
+				},
+				send: sandbox.stub().resolves(mockBotMessage)
+			};
+
+			logsChannelMock = {
+				send: sandbox.stub().resolves()
+			};
+
+			// 4. The Main Message Mock
 			messageMock = {
-				channel: CustomMocks.getGuildChannel({id: ANTISPAM_CHANNEL_ID}),
+				client: { user: { id: "bot-id" } },
+				author: { bot: false, username: "testuser" },
+				member: {
+					id: "user-id",
+					user: { username: "testuser" },
+					ban: sandbox.stub().resolves()
+				},
+				channel: { id: ANTISPAM_CHANNEL_ID },
 				guild: {
 					channels: {
-						fetch: sandbox.stub().resolves(logsChannelMock)
+						// This handles your retry loop and the logs fetch
+						fetch: sandbox.stub().callsFake(async id => {
+							if (id === ANTISPAM_CHANNEL_ID) return fakeAntiSpamChannel;
+							if (id === LOG_CHANNEL_ID) return logsChannelMock;
+							return null;
+						})
 					}
-				},
-				member: memberMock,
-				author: CustomMocks.getUser({bot: false})
+				}
 			};
 		});
 
