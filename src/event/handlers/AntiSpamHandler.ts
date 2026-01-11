@@ -2,6 +2,7 @@ import {Events, Message, TextChannel} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import {logger} from "../../logger";
 import getConfigValue from "../../utils/getConfigValue";
+import LogMessageSingleDeleteHandler from "./LogMessageSingleDeleteHandler";
 
 class AntiSpamHandler extends EventHandler {
 	constructor() {
@@ -51,10 +52,10 @@ class AntiSpamHandler extends EventHandler {
 		}
 		const antiSpamMessages = await antiSpamChannel.messages.fetch({ limit: 100 });
 		// Check if any of those messages were sent by THIS bot
-		const hasSentMessageInAntiSpamChannel = antiSpamMessages.some(msg => msg.author.id === message.client.user?.id);
+		const hasSentMessageInAntiSpamChannel = antiSpamMessages.some((msg: Message) => (msg.author.id === message.client.user?.id) && (msg.embeds.length > 0));
 
-		if (hasSentMessageInAntiSpamChannel && antiSpamMessages.find(msg => msg.author.id === message.client.user?.id)) {
-			const botMessage = antiSpamMessages.find(msg => msg.author.id === message.client.user?.id);
+		if (hasSentMessageInAntiSpamChannel && antiSpamMessages.find((msg: Message) => (msg.author.id === message.client.user?.id) && (msg.embeds.length > 0))) {
+			const botMessage = antiSpamMessages.find((msg: Message) => (msg.author.id === message.client.user?.id) && (msg.embeds.length > 0));
 			const botMessageContent = botMessage!.content;
 			const counterValueStr = botMessageContent.split(" ")[0].replace(/\D/g, "");
 			const counterValueInt = parseInt(counterValueStr, 10);
