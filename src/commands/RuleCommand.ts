@@ -66,7 +66,7 @@ class RuleCommand {
 
 			const cooldownValuePinger = getConfigValue<number>("RULE_PING_COOLDOWN_PINGER");
 
-			const lastTimePinger = this.lastPingPerPinger.get(userId);
+			const lastTimePinger = this.lastPingPerPinger.get(interaction.user.id);
 
 			if (lastTimePinger) {
 				const secondsPassed = (now - lastTimePinger) / 1000;

@@ -51,10 +51,10 @@ class AntiSpamHandler extends EventHandler {
 		}
 		const antiSpamMessages = await antiSpamChannel.messages.fetch({ limit: 100 });
 		// Check if any of those messages were sent by THIS bot
-		const hasSentMessageInAntiSpamChannel = antiSpamMessages.some((msg: Message) => (msg.author.id === message.client.user?.id) && (msg.embeds.length > 0));
+		const hasSentMessageInAntiSpamChannel = antiSpamMessages.some((msg: Message) => msg.author.id === message.client.user?.id && msg.embeds.length === 0);
 
-		if (hasSentMessageInAntiSpamChannel && antiSpamMessages.find((msg: Message) => (msg.author.id === message.client.user?.id) && (msg.embeds.length > 0))) {
-			const botMessage = antiSpamMessages.find((msg: Message) => (msg.author.id === message.client.user?.id) && (msg.embeds.length > 0));
+		if (hasSentMessageInAntiSpamChannel && antiSpamMessages.find((msg: Message) => msg.author.id === message.client.user?.id && msg.embeds.length === 0)) {
+			const botMessage = antiSpamMessages.find((msg: Message) => msg.author.id === message.client.user?.id && msg.embeds.length === 0);
 			const botMessageContent = botMessage!.content;
 			const counterValueStr = botMessageContent.split(" ")[0].replace(/\D/g, "");
 			const counterValueInt = parseInt(counterValueStr, 10);
