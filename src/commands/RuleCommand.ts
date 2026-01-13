@@ -14,6 +14,7 @@ const rules = getConfigValue<Rule[]>("rules").map(it => ({name: it.name, value: 
 @Discord()
 class RuleCommand {
 	private lastPinged = new Map<string, number>();
+	private lastPingPerPinger = new Map<string, number>();
 
 	@Slash({ name: "rule", description: "Get info about a rule" })
 	async onInteract(
@@ -42,7 +43,7 @@ class RuleCommand {
 		if (mentionedUser) {
 			const userId = mentionedUser.id;
 			const now = Date.now();
-			const cooldownValue = getConfigValue<number>("RULE_PING_COOLDOWN");
+			const cooldownValue = getConfigValue<number>("RULE_PING_COOLDOWN_PINGED");
 
 			const lastTime = this.lastPinged.get(userId);
 
@@ -53,7 +54,7 @@ class RuleCommand {
 					const remaining = (cooldownValue - secondsPassed).toFixed(0);
 
 					await interaction.followUp({
-						content: `Slow down! You can ping that user again in ${remaining}s.`,
+						content: `Slow down! That user can be pinged again in ${remaining}s.`,
 						ephemeral: true
 					});
 					return;
@@ -62,6 +63,27 @@ class RuleCommand {
 
 			// If they passed the check, update the map with the new time
 			this.lastPinged.set(userId, now);
+
+			const cooldownValuePinger = getConfigValue<number>("RULE_PING_COOLDOWN_PINGER");
+
+			const lastTimePinger = this.lastPingPerPinger.get(userId);
+
+			if (lastTimePinger) {
+				const secondsPassed = (now - lastTimePinger) / 1000;
+
+				if (secondsPassed < cooldownValuePinger) {
+					const remaining = (cooldownValuePinger - secondsPassed).toFixed(0);
+
+					await interaction.followUp({
+						content: `Slow down! You can ping someone again in ${remaining}s.`,
+						ephemeral: true
+					});
+					return;
+				}
+			}
+
+			// If they passed the check, update the map with the new time
+			this.lastPingPerPinger.set(interaction.user.id, now);
 
 			await interaction.followUp({ content: `<@${mentionedUser?.id}> Please read the rule mentioned above, and take a moment to familiarise yourself with the rules.` });
 		}

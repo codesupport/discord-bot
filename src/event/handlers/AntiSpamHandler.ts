@@ -2,7 +2,6 @@ import {Events, Message, TextChannel} from "discord.js";
 import EventHandler from "../../abstracts/EventHandler";
 import {logger} from "../../logger";
 import getConfigValue from "../../utils/getConfigValue";
-import LogMessageSingleDeleteHandler from "./LogMessageSingleDeleteHandler";
 
 class AntiSpamHandler extends EventHandler {
 	constructor() {
