@@ -40,23 +40,14 @@ class App {
 	@Schedule("*/5 * * * *")
 	async reportHealth(): Promise<void> {
 		await axios.get(process.env.HEALTH_CHECK_URL!);
+		return;
 	}
 
 	async init(): Promise<void> {
-		this.client.once("ready", async () => {
-			await this.client.initApplicationCommands();
-		});
-
 		await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/${getConfigValue<string>("commands_directory")}`,
 			DirectoryUtils.appendFileExtension("Command")
 		);
-
-		this.client.on("interactionCreate", interaction => {
-			this.client.executeInteraction(interaction);
-		});
-
-		await this.client.login(process.env.DISCORD_TOKEN!);
 
 		const handlerFiles = await DirectoryUtils.getFilesInDirectory(
 			`${__dirname}/${getConfigValue<string>("handlers_directory")}`,
@@ -70,6 +61,16 @@ class App {
 
 			this.client.on(handlerInstance.getEvent(), handlerInstance.handle);
 		});
+
+		this.client.once("ready", async () => {
+			await this.client.initApplicationCommands();
+		});
+
+		this.client.on("interactionCreate", interaction => {
+			this.client.executeInteraction(interaction);
+		});
+
+		await this.client.login(process.env.DISCORD_TOKEN!);
 
 		if (process.env.NODE_ENV === getConfigValue<string>("PRODUCTION_ENV")) {
 			const channelSnowflake = getConfigValue<Snowflake>("AUTHENTICATION_MESSAGE_CHANNEL");
