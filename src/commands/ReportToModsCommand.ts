@@ -2,6 +2,7 @@ import {ApplicationCommandType, EmbedBuilder, MessageContextMenuCommandInteracti
 import { ContextMenu, Discord, ButtonComponent } from "discordx";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
+import { log } from "console";
 //import GenericObject from "../interfaces/GenericObject";
 //import App from "../app";
 //import { log } from "console";
@@ -34,6 +35,8 @@ class ReportToMods {
 			{ name: "Message Link", value: messageLink, inline: true }
 		]
 		);
+
+		await logChannel.send("<@" + getConfigValue<string>("MOD_ROLE") + ">");
 
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT)
 

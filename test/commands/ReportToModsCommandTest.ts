@@ -24,63 +24,71 @@ describe("ReportToMods", () => {
 	});
 
 	describe("onContext()", () => {
-		it("sends an embed to the log channel and replies ephemerally", async () => {
-			const sendStub = sandbox.stub().resolves();
-			const replyStub = sandbox.stub().resolves();
+		it("sends a role ping, an embed to the log channel, and replies ephemerally", async () => {
+        	const sendStub = sandbox.stub().resolves();
+        	const replyStub = sandbox.stub().resolves();
 
-			getConfigStub.withArgs("LOG_CHANNEL_ID").returns("LOG_CHANNEL_ID");
-			getConfigStub.withArgs("EMBED_COLOURS").returns({ DEFAULT: "#ffffff" });
+        	getConfigStub.withArgs("LOG_CHANNEL_ID").returns("LOG_CHANNEL_ID");
+        	getConfigStub.withArgs("MOD_ROLE").returns("MOD_ROLE_ID");
+        	getConfigStub.withArgs("EMBED_COLOURS").returns({ DEFAULT: "#ffffff" });
 
-			const interaction: any = {
-				targetMessage: {
-					id: "456",
-					channelId: "123",
-					guildId: "789",
-					content: "Test *message*",
-					author: { id: "111" }
-				},
-				client: {
-					channels: {
-						fetch: sandbox.stub().resolves({
-							type: ChannelType.GuildText,
-							send: sendStub
-						})
-					}
-				},
-				reply: replyStub
-			};
-
-			await command.onContext(interaction);
-
-			expect(sendStub.calledOnce).to.be.true;
-			expect(replyStub.calledOnce).to.be.true;
-
-			const embed = sendStub.getCall(0).args[0].embeds[0];
-			expect(embed.data.title).to.equal("Message flagged to moderators");
-			expect(embed.data.description).to.equal("Test \\*message\\*");
-		});
+        	const interaction: any = {
+        		targetMessage: {
+        			id: "456",
+        			channelId: "123",
+        			guildId: "789",
+        			content: "Test *message*",
+        			author: { id: "111" }
+        		},
+        		client: {
+        			channels: {
+        				fetch: sandbox.stub().resolves({
+        					type: ChannelType.GuildText,
+        					send: sendStub
+        				})
+        			}
+        		},
+        		reply: replyStub
+        	};
+        
+        	await command.onContext(interaction);
+        
+        	// 🔹 send called twice now
+        	expect(sendStub.callCount).to.equal(2);
+        
+        	// 🔹 first call = role ping
+        	expect(sendStub.getCall(0).args[0]).to.equal("<@MOD_ROLE_ID>");
+        
+        	// 🔹 second call = embed payload
+        	const embed = sendStub.getCall(1).args[0].embeds[0];
+        	expect(embed.data.title).to.equal("Message flagged to moderators");
+        	expect(embed.data.description).to.equal("Test \\*message\\*");
+        
+        	expect(replyStub.calledOnce).to.be.true;
+        });
 
 		it("returns early if log channel is invalid", async () => {
-			getConfigStub.withArgs("LOG_CHANNEL_ID").returns("LOG_CHANNEL_ID");
-			getConfigStub.withArgs("EMBED_COLOURS").returns({ DEFAULT: "#ffffff" });
-
-			const fetchStub = sandbox.stub().resolves(null);
-
-			const interaction: any = {
-				targetMessage: {},
-				client: {
-					channels: {
-						fetch: fetchStub
-					}
-				},
-				reply: sandbox.stub()
-			};
-
-			await command.onContext(interaction);
-
-			expect(fetchStub.calledOnce).to.be.true;
-			expect(interaction.reply.called).to.be.false;
-		});
+        	getConfigStub.withArgs("LOG_CHANNEL_ID").returns("LOG_CHANNEL_ID");
+        	getConfigStub.withArgs("MOD_ROLE").returns("MOD_ROLE_ID");
+        	getConfigStub.withArgs("EMBED_COLOURS").returns({ DEFAULT: "#ffffff" });
+                
+        	const fetchStub = sandbox.stub().resolves(null);
+                
+        	const interaction: any = {
+        		targetMessage: {},
+        		client: {
+        			channels: {
+        				fetch: fetchStub
+        			}
+        		},
+        		reply: sandbox.stub()
+        	};
+        
+        	await command.onContext(interaction);
+        
+        	expect(fetchStub.calledOnce).to.be.true;
+        	expect(interaction.reply.called).to.be.false;
+        });
 	});
 
 	describe("onButton()", () => {
