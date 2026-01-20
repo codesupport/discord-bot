@@ -46,6 +46,9 @@ describe("ReportToMods", () => {
 						})
 					}
 				},
+				user: {
+					id: "190"
+				},
 				reply: replyStub
 			};
 
@@ -55,7 +58,7 @@ describe("ReportToMods", () => {
 			expect(sendStub.callCount).to.equal(2);
 
 			// 🔹 first call = role ping
-			expect(sendStub.getCall(0).args[0]).to.equal("<@MOD_ROLE_ID>");
+			expect(sendStub.getCall(0).args[0]).to.equal("<@&MOD_ROLE_ID>");
 
 			// 🔹 second call = embed payload
 			const embed = sendStub.getCall(1).args[0].embeds[0];
@@ -79,6 +82,9 @@ describe("ReportToMods", () => {
 					channels: {
 						fetch: fetchStub
 					}
+				},
+				user: {
+					id: "190"
 				},
 				reply: sandbox.stub()
 			};

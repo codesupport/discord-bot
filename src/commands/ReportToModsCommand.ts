@@ -25,9 +25,16 @@ class ReportToMods {
 		const reportedMessage = interaction.targetMessage;
 		const messageLink = `https://discord.com/channels/${reportedMessage.guildId}/${reportedMessage.channelId}/${reportedMessage.id}`;
 
+		const rawContent = reportedMessage.content.replace(/[*_~`]/g, "\\$&") || "[*No message content*]";
+
+		const truncatedContent =
+			rawContent.length > 100
+				? rawContent.slice(0, 100) + "…"
+				: rawContent;
+
 		const embed = new EmbedBuilder()
 			.setTitle("Message flagged to moderators")
-			.setDescription(reportedMessage.content.replace(/[*_~`]/g, "\\$&") || "[*No message content*]")
+			.setDescription(truncatedContent)
 			.addFields([
 				{ name: "Author", value: `<@${reportedMessage.author.id}>`, inline: true },
 				{ name: "Channel", value: `<#${reportedMessage.channelId}>`, inline: true },
