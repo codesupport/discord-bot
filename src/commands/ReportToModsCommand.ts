@@ -1,6 +1,7 @@
-import {ApplicationCommandType, EmbedBuilder, MessageContextMenuCommandInteraction, ChannelType, TextChannel, ActionRowBuilder, ButtonBuilder, ButtonStyle, ButtonInteraction } from "discord.js";
+import {ApplicationCommandType, EmbedBuilder, MessageContextMenuCommandInteraction, ChannelType, TextChannel, ActionRowBuilder, ButtonBuilder, ButtonStyle, ButtonInteraction, ColorResolvable } from "discord.js";
 import { ContextMenu, Discord, ButtonComponent } from "discordx";
 import getConfigValue from "../utils/getConfigValue";
+import GenericObject from "../interfaces/GenericObject";
 //import GenericObject from "../interfaces/GenericObject";
 //import App from "../app";
 //import { log } from "console";
@@ -16,6 +17,7 @@ class ReportToMods {
 
 		if (!logChannelRaw || logChannelRaw.type !== ChannelType.GuildText) {
 			console.error("Invalid logChannel instance");
+			return;
 		}
 
 		const logChannel = logChannelRaw as TextChannel;
@@ -25,12 +27,15 @@ class ReportToMods {
 
 		const embed = new EmbedBuilder()
 		.setTitle("Message flagged to moderators")
-		.setDescription(reportedMessage.content.replace('*', '\\*') || "[*No message content*]")
+		.setDescription(reportedMessage.content.replace(/[*_~`]/g, "\\$&") || "[*No message content*]")
 		.addFields([
 			{ name: "Author", value: `<@${reportedMessage.author.id}>`, inline: true },
 			{ name: "Channel", value: `<#${reportedMessage.channelId}>`, inline: true },
 			{ name: "Message Link", value: messageLink, inline: true }
-		]);
+		]
+		);
+
+		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT)
 
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
 			new ButtonBuilder()
@@ -47,12 +52,12 @@ class ReportToMods {
 		await logChannel.send({ embeds: [embed], components: [row] });
 
 		await interaction.reply({
-			content: "Message flagged to moderators.",
+			content: "Message flagged to moderators. They will review the reported content as soon as possible.",
 			ephemeral: true
 		});
 	}
 
-	@ButtonComponent({ id: /^report:(approve|reject):\d+$/ })
+	@ButtonComponent({ id: /^report:(approve|reject):\d+:\d+$/ })
 	async onButton(interaction: ButtonInteraction): Promise<void> {
 		const modRoleId = getConfigValue<string>("MOD_ROLE");
 		
@@ -92,7 +97,7 @@ class ReportToMods {
 			action === "approve"
 			? `✅ Report approved by <@${interaction.user.id}>`
 			: `❌ Report rejected by <@${interaction.user.id}>`,
-		components: [] // disable buttons
+		components: []
 		});
 	}
 }
