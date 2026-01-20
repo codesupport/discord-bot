@@ -36,7 +36,7 @@ class ReportToMods {
 			]
 			);
 
-		await logChannel.send(`<@${getConfigValue<string>("MOD_ROLE")}>`);
+		await logChannel.send(`<@&${getConfigValue<string>("MOD_ROLE")}>`);
 
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
