@@ -2,11 +2,10 @@ import {ApplicationCommandType, EmbedBuilder, MessageContextMenuCommandInteracti
 import { ContextMenu, Discord, ButtonComponent } from "discordx";
 import getConfigValue from "../utils/getConfigValue";
 import GenericObject from "../interfaces/GenericObject";
-import { log } from "console";
-//import GenericObject from "../interfaces/GenericObject";
-//import App from "../app";
-//import { log } from "console";
-//import { channel } from "diagnostics_channel";
+// Import GenericObject from "../interfaces/GenericObject";
+// Import App from "../app";
+// Import { log } from "console";
+// Import { channel } from "diagnostics_channel";
 
 @Discord()
 class ReportToMods {
@@ -27,18 +26,18 @@ class ReportToMods {
 		const messageLink = `https://discord.com/channels/${reportedMessage.guildId}/${reportedMessage.channelId}/${reportedMessage.id}`;
 
 		const embed = new EmbedBuilder()
-		.setTitle("Message flagged to moderators")
-		.setDescription(reportedMessage.content.replace(/[*_~`]/g, "\\$&") || "[*No message content*]")
-		.addFields([
-			{ name: "Author", value: `<@${reportedMessage.author.id}>`, inline: true },
-			{ name: "Channel", value: `<#${reportedMessage.channelId}>`, inline: true },
-			{ name: "Message Link", value: messageLink, inline: true }
-		]
-		);
+			.setTitle("Message flagged to moderators")
+			.setDescription(reportedMessage.content.replace(/[*_~`]/g, "\\$&") || "[*No message content*]")
+			.addFields([
+				{ name: "Author", value: `<@${reportedMessage.author.id}>`, inline: true },
+				{ name: "Channel", value: `<#${reportedMessage.channelId}>`, inline: true },
+				{ name: "Message Link", value: messageLink, inline: true }
+			]
+			);
 
-		await logChannel.send("<@" + getConfigValue<string>("MOD_ROLE") + ">");
+		await logChannel.send(`<@${getConfigValue<string>("MOD_ROLE")}>`);
 
-		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT)
+		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
 			new ButtonBuilder()
@@ -63,21 +62,21 @@ class ReportToMods {
 	@ButtonComponent({ id: /^report:(approve|reject):\d+:\d+$/ })
 	async onButton(interaction: ButtonInteraction): Promise<void> {
 		const modRoleId = getConfigValue<string>("MOD_ROLE");
-		
+
 		const roles = interaction.member?.roles;
-		
+
 		const hasRole = Array.isArray(roles)
 			? roles?.includes(modRoleId)
 			: roles?.cache.has(modRoleId);
 
 		if (!hasRole) {
-		await interaction.reply({
-			content: "You do not have permission to perform this action.",
-			ephemeral: true
-		});
-		return;
+			await interaction.reply({
+				content: "You do not have permission to perform this action.",
+				ephemeral: true
+			});
+			return;
 		}
-	
+
 		const [, action, channelId, messageId] = interaction.customId.split(":");
 
 		if (action === "approve") {
@@ -92,15 +91,16 @@ class ReportToMods {
 			}
 
 			const message = await channel.messages.fetch(messageId);
+
 			await message.delete();
 		}
-	
+
 		await interaction.update({
-		content:
+			content:
 			action === "approve"
-			? `✅ Report approved by <@${interaction.user.id}>`
-			: `❌ Report rejected by <@${interaction.user.id}>`,
-		components: []
+				? `✅ Report approved by <@${interaction.user.id}>`
+				: `❌ Report rejected by <@${interaction.user.id}>`,
+			components: []
 		});
 	}
 }
