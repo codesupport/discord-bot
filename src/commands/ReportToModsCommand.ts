@@ -31,7 +31,8 @@ class ReportToMods {
 			.addFields([
 				{ name: "Author", value: `<@${reportedMessage.author.id}>`, inline: true },
 				{ name: "Channel", value: `<#${reportedMessage.channelId}>`, inline: true },
-				{ name: "Message Link", value: messageLink, inline: true }
+				{ name: "Message Link", value: messageLink, inline: true },
+				{ name: "The person reporting", value: `<@${interaction.user.id}>`}
 			]
 			);
 
