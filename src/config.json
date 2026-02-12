@@ -105,5 +105,7 @@
             "triggers": ["9", "sfw", "clean", "appropriate"],
             "description": "Keep it appropriate, some people use this at school or at work."
         }
-    ]
+    ],
+    "RULE_PING_COOLDOWN_PINGED": 30,
+    "RULE_PING_COOLDOWN_PINGER": 180
 }

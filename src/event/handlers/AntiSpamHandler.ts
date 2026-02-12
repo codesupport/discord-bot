@@ -21,6 +21,49 @@ class AntiSpamHandler extends EventHandler {
 
 		const member = message.member;
 
+		let antiSpamChannel = await message.guild.channels.fetch(antiSpamChannelId) as TextChannel;
+
+		if (!antiSpamChannel) { // Retry loop
+			let tries = 0;
+			let success = 0;
+
+			while (tries <= 3) {
+				antiSpamChannel = await message.guild.channels.fetch(antiSpamChannelId) as TextChannel;
+				if (antiSpamChannel) {
+					success = 1;
+					break;
+				}
+				tries += 1;
+			}
+			if (!success) {
+				logger.error("Failed to increment counter");
+				try {
+					await member.ban({deleteMessageSeconds: 60 * 60, reason: "Member posted in anti-spam channel"});
+
+					const logsChannel = await message.guild.channels.fetch(logsChannelId) as TextChannel;
+
+					await logsChannel.send(`User ${member.user.username} (\`${member.id}\`) was banned for posting in <#${antiSpamChannelId}>. Their recent messages have been deleted.`);
+				} catch (error) {
+					logger.error("AntiSpamHandler error", {error});
+				}
+				return;
+			}
+		}
+		const antiSpamMessages = await antiSpamChannel.messages.fetch({ limit: 100 });
+		// Check if any of those messages were sent by THIS bot
+		const hasSentMessageInAntiSpamChannel = antiSpamMessages.some((msg: Message) => msg.author.id === message.client.user?.id && msg.embeds.length === 0);
+
+		if (hasSentMessageInAntiSpamChannel && antiSpamMessages.find((msg: Message) => msg.author.id === message.client.user?.id && msg.embeds.length === 0)) {
+			const botMessage = antiSpamMessages.find((msg: Message) => msg.author.id === message.client.user?.id && msg.embeds.length === 0);
+			const botMessageContent = botMessage!.content;
+			const counterValueStr = botMessageContent.split(" ")[0].replace(/\D/g, "");
+			const counterValueInt = parseInt(counterValueStr, 10);
+
+			botMessage!.edit(`**${counterValueInt + 1}** spam accounts banned.`);
+		} else {
+			antiSpamChannel.send("**1** spam account has been banned.");
+		}
+
 		try {
 			await member.ban({deleteMessageSeconds: 60 * 60, reason: "Member posted in anti-spam channel"});
 

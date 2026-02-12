@@ -21,7 +21,9 @@ describe("App", () => {
 		sandbox = createSandbox();
 
 		// @ts-ignore
-		(axios as unknown as AxiosCacheInstance).defaults.cache = undefined;
+		const axiosCache = axios as unknown as AxiosCacheInstance;
+
+		axiosCache.defaults.cache = undefined;
 
 		loginStub = sandbox.stub(Client.prototype, "login");
 		getStub = sandbox.stub(axios, "get").resolves();
