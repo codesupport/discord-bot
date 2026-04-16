@@ -5,6 +5,7 @@ import { BaseMocks } from "@lambocreeper/mock-discord.js";
 import RuleCommand from "../../src/commands/RuleCommand";
 import { EMBED_COLOURS } from "../../src/config.json";
 import NumberUtils from "../../src/utils/NumberUtils";
+import { User } from "discord.js";
 
 describe("RuleCommand", () => {
 	describe("run()", () => {
@@ -12,25 +13,64 @@ describe("RuleCommand", () => {
 		let command: RuleCommand;
 		let replyStub: sinon.SinonStub<any[], any>;
 		let interaction: any;
+		let interaction2: any;
+		let userMock: User;
+		let userMock2: User;
+		let followUpStub: sinon.SinonStub;
+		let clock: sinon.SinonFakeTimers;
 
 		beforeEach(() => {
 			sandbox = createSandbox();
 			command = new RuleCommand();
 			replyStub = sandbox.stub().resolves();
+			followUpStub = sandbox.stub().resolves();
 			interaction = {
 				reply: replyStub,
+				followUp: followUpStub,
 				user: BaseMocks.getGuildMember()
 			};
+			interaction2 = {
+				reply: replyStub,
+				followUp: followUpStub,
+				user: {
+					...BaseMocks.getGuildMember(),
+					id: `${BaseMocks.getGuildMember().id}-2`
+				}
+			};
+			userMock = {
+				id: "123456789012345678",
+				username: "TestUser",
+				discriminator: "0000",
+				tag: "TestUser#0",
+				bot: false,
+				toString: () => "<@123456789012345678>"
+			} as unknown as User;
+			userMock2 = {
+				id: "123456789012345679",
+				username: "TestUser",
+				discriminator: "0000",
+				tag: "TestUser#0",
+				bot: false,
+				toString: () => "<@123456789012345679>"
+			} as unknown as User;
+
+			const baseTime = 10 * 864_000_000;
+			const jitter = Math.floor(Math.random() * (2 * 864_000_000)) - 864_000_000; // Up to +-10d
+
+			clock = sandbox.useFakeTimers({
+				now: baseTime + jitter,
+				shouldAdvanceTime: false
+			});
 		});
 
 		it("sends a message to the channel", async () => {
-			await command.onInteract("0", interaction);
+			await command.onInteract("0", undefined, interaction);
 
 			expect(replyStub.calledOnce).to.be.true;
 		});
 
 		it("states rule 0 if you ask for rule 0", async () => {
-			await command.onInteract("0", interaction);
+			await command.onInteract("0", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -43,7 +83,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 1 if you ask for rule 1", async () => {
-			await command.onInteract("1", interaction);
+			await command.onInteract("1", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -56,7 +96,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 2 if you ask for rule 2", async () => {
-			await command.onInteract("2", interaction);
+			await command.onInteract("2", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -69,7 +109,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 3 if you ask for rule 3", async () => {
-			await command.onInteract("3", interaction);
+			await command.onInteract("3", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -82,7 +122,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 4 if you ask for rule 4", async () => {
-			await command.onInteract("4", interaction);
+			await command.onInteract("4", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -95,7 +135,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 5 if you ask for rule 5", async () => {
-			await command.onInteract("5", interaction);
+			await command.onInteract("5", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -108,7 +148,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 6 if you ask for rule 6", async () => {
-			await command.onInteract("6", interaction);
+			await command.onInteract("6", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -121,7 +161,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 7 if you ask for rule 7", async () => {
-			await command.onInteract("7", interaction);
+			await command.onInteract("7", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -134,7 +174,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 8 if you ask for rule 8", async () => {
-			await command.onInteract("8", interaction);
+			await command.onInteract("8", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -147,7 +187,7 @@ describe("RuleCommand", () => {
 		});
 
 		it("states rule 9 if you ask for rule 9", async () => {
-			await command.onInteract("9", interaction);
+			await command.onInteract("9", undefined, interaction);
 
 			const embed = replyStub.getCall(0).firstArg.embeds[0];
 
@@ -159,7 +199,92 @@ describe("RuleCommand", () => {
 			expect(embed.data.fields[0].value).to.equal("<#240884566519185408>");
 		});
 
+		it("success ping", async () => {
+			await command.onInteract("0", userMock, interaction);
+
+			expect(followUpStub.calledOnce).to.be.true;
+
+			const arg = followUpStub.firstCall.firstArg;
+
+			expect(arg.content).to.equal(
+				`<@${userMock.id}> Please read the rule mentioned above, and take a moment to familiarise yourself with the rules.`
+			);
+			expect(arg.ephemeral).to.be.undefined;
+		});
+
+		[1, 2, 3].forEach(() => {
+			it("correct ping cooldown for pinged user", async () => {
+				await command.onInteract("0", userMock, interaction);
+
+				clock.tick(1_000);
+
+				await command.onInteract("0", userMock, interaction2);
+				expect(followUpStub.calledTwice).to.be.true;
+				const arg = followUpStub.secondCall.firstArg;
+
+				expect(arg.ephemeral).to.be.true;
+				expect(arg.content).to.include("That user can be pinged again");
+			});
+		});
+
+		[1, 2, 3].forEach(() => {
+			it("correct ping cooldown for pinger", async () => {
+				await command.onInteract("0", userMock, interaction);
+
+				clock.tick(1_000);
+
+				await command.onInteract("0", userMock2, interaction);
+
+				expect(followUpStub.calledTwice).to.be.true;
+
+				const arg = followUpStub.secondCall.firstArg;
+
+				expect(arg.ephemeral).to.be.true;
+				expect(arg.content).to.include("You can ping someone again");
+			});
+		});
+
+		[-5, -4, -3, -2, -1].forEach(rule => {
+			it(`correct failure for invalid rule number ${rule}`, async () => {
+				await command.onInteract(rule.toString(), undefined, interaction);
+
+				expect(replyStub.calledOnce).to.be.true;
+
+				const embed = replyStub.firstCall.firstArg.embeds[0];
+
+				expect(embed.data.title).to.be.undefined;
+				expect(embed.data.description).to.be.undefined;
+				expect(embed.data.fields).to.be.undefined;
+			});
+		});
+
+		[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 101029310239].forEach(rule => {
+			it(`correct failure for invalid rule number ${rule}`, async () => {
+				await command.onInteract(rule.toString(), undefined, interaction);
+
+				expect(replyStub.calledOnce).to.be.true;
+
+				const embed = replyStub.firstCall.firstArg.embeds[0];
+
+				expect(embed.data.title).to.be.undefined;
+				expect(embed.data.description).to.be.undefined;
+				expect(embed.data.fields).to.be.undefined;
+			});
+		});
+
+		it("correct failure for interaction === undefined", async () => {
+			const errorStub = sandbox.stub(console, "error");
+
+			await command.onInteract("0", undefined, undefined as any);
+
+			expect(errorStub.calledOnce).to.be.true;
+			expect(errorStub.firstCall.args[0]).to.include("Interaction is undefined");
+
+			errorStub.restore();
+		});
+
 		afterEach(() => {
+			clock.restore();
 			sandbox.restore();
 		});
 	});
