@@ -32,7 +32,10 @@ class CodeblocksOverFileUploadsHandler extends EventHandler {
 				embed.setFooter({ text: "Type /codeblock for more information." });
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
-				await message.channel.send({ embeds: [embed] });
+				if (message.channel.isSendable()) {
+					await message.channel.send({ embeds: [embed] });
+				}
+
 				await message.delete();
 			}
 		}

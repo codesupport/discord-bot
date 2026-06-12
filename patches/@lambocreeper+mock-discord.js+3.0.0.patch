@@ -1,0 +1,44 @@
+diff --git a/node_modules/@lambocreeper/mock-discord.js/build/BaseMocks.js b/node_modules/@lambocreeper/mock-discord.js/build/BaseMocks.js
+index e15f630..55c59fe 100644
+--- a/node_modules/@lambocreeper/mock-discord.js/build/BaseMocks.js
++++ b/node_modules/@lambocreeper/mock-discord.js/build/BaseMocks.js
+@@ -51,7 +51,7 @@ class BaseMocks {
+      */
+     static getGuildChannel() {
+         if (!this.guildChannel) {
+-            this.guildChannel = Reflect.construct(discord_js_1.default.GuildChannel, [this.getGuild(), guildchannel_1.default]);
++            this.guildChannel = Reflect.construct(discord_js_1.default.GuildChannel, [this.getGuild(), guildchannel_1.default, this.getClient()]);
+         }
+         return this.guildChannel;
+     }
+@@ -62,7 +62,7 @@ class BaseMocks {
+      */
+     static getTextChannel() {
+         if (!this.textChannel) {
+-            this.textChannel = Reflect.construct(discord_js_1.default.TextChannel, [this.getGuild(), textchannel_1.default]);
++            this.textChannel = Reflect.construct(discord_js_1.default.TextChannel, [this.getGuild(), textchannel_1.default, this.getClient()]);
+         }
+         return this.textChannel;
+     }
+diff --git a/node_modules/@lambocreeper/mock-discord.js/build/CustomMocks.js b/node_modules/@lambocreeper/mock-discord.js/build/CustomMocks.js
+index 07d6ca1..1995ca9 100644
+--- a/node_modules/@lambocreeper/mock-discord.js/build/CustomMocks.js
++++ b/node_modules/@lambocreeper/mock-discord.js/build/CustomMocks.js
+@@ -31,7 +31,7 @@ class CustomMocks {
+     static getGuildChannel(options, guild) {
+         const discordGuild = guild ?? BaseMocks_1.default.getGuild();
+         const data = { ...guildchannel_1.default, ...options };
+-        return Reflect.construct(discord_js_1.default.GuildChannel, [discordGuild, data]);
++        return Reflect.construct(discord_js_1.default.GuildChannel, [discordGuild, data, discordGuild.client]);
+     }
+     /**
+      * Returns a text channel based off of given options.
+@@ -41,7 +41,7 @@ class CustomMocks {
+     static getTextChannel(options, guild) {
+         const discordGuild = guild ?? BaseMocks_1.default.getGuild();
+         const data = { ...textchannel_1.default, ...options };
+-        return Reflect.construct(discord_js_1.default.TextChannel, [discordGuild, data]);
++        return Reflect.construct(discord_js_1.default.TextChannel, [discordGuild, data, discordGuild.client]);
+     }
+     /**
+      * Returns a user based off of given options.

@@ -34,7 +34,9 @@ class GhostPingUpdateHandler extends EventHandler {
 		embed.setFooter({ text: `Message edited at ${DateUtils.formatAsText(newMessage.createdAt)}` });
 		embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
-		await oldMessage.channel.send({embeds: [embed], components: [row]});
+		if (oldMessage.channel.isSendable()) {
+			await oldMessage.channel.send({embeds: [embed], components: [row]});
+		}
 	}
 }
 

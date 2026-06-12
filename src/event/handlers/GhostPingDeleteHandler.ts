@@ -56,7 +56,9 @@ class GhostPingDeleteHandler extends EventHandler {
 				embed.setFooter({ text: `Message sent at ${DateUtils.formatAsText(message.createdAt)}` });
 				embed.setColor(getConfigValue<GenericObject<ColorResolvable>>("EMBED_COLOURS").DEFAULT);
 
-				await message.channel.send({embeds: [embed]});
+				if (message.channel.isSendable()) {
+					await message.channel.send({embeds: [embed]});
+				}
 			}
 		}
 	}

@@ -29,7 +29,9 @@ class MessagePreviewService {
 					embed.setFooter({ text: `Message sent at ${DateUtils.formatAsText(messageToPreview.createdAt)}` });
 					embed.setColor(<ColorResolvable>(messageToPreview.member?.displayColor || getConfigValue<string>("MEMBER_ROLE_COLOR")));
 
-					await callingMessage.channel.send({embeds: [embed]});
+					if (callingMessage.channel.isSendable()) {
+						await callingMessage.channel.send({embeds: [embed]});
+					}
 				}
 			}
 		}

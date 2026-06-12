@@ -4,13 +4,14 @@
   "description": "The CodeSupport Discord bot",
   "main": "./build/app.js",
   "scripts": {
+    "postinstall": "patch-package",
     "start": "node -r dotenv/config ./build/index.js",
     "build": "tsc",
     "dev": "cross-env NODE_ENV=dev nodemon --watch src --ext ts --exec 'ts-node -r dotenv/config ./src/index.ts'",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --require=test/test-setup.ts --exit",
     "test:debug": "ts-mocha test/**/*Test.ts test/**/**/*Test.ts test/appTest.ts --timeout 999999999 --require=test/test-setup.ts --exit",
-    "lint": "eslint src test --ext .js,.ts"
+    "lint": "eslint src test"
   },
   "repository": {
     "type": "git",
@@ -29,42 +30,50 @@
   "homepage": "https://github.com/codesupport/discord-bot#readme",
   "type": "commonjs",
   "engines": {
-    "node": "18"
+    "node": "26"
+  },
+  "overrides": {
+    "mocha": {
+      "diff": "^8.0.3",
+      "serialize-javascript": "^7.0.5"
+    }
   },
   "dependencies": {
     "@codesupport/inherited-config": "^1.0.2",
-    "@logtail/node": "^0.4.17",
-    "axios": "1.16.0",
-    "axios-cache-interceptor": "^1.11.1",
-    "discord.js": "^14.8.0",
-    "discordx": "^11.7.6",
-    "dotenv": "^16.3.1",
-    "node-schedule": "^2.1.0",
-    "reflect-metadata": "^0.1.13",
-    "tsyringe": "^4.8.0"
+    "@logtail/node": "^0.5.8",
+    "axios": "1.17.0",
+    "axios-cache-interceptor": "^1.12.0",
+    "discord.js": "^14.26.4",
+    "discordx": "^11.13.3",
+    "dotenv": "^17.4.2",
+    "node-schedule": "^2.1.1",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.10.0"
   },
   "devDependencies": {
-    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^10.0.1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@lambocreeper/mock-discord.js": "^3.0.0",
-    "@types/assert": "^1.5.2",
-    "@types/chai": "^4.3.5",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^18.14.6",
-    "@types/node-schedule": "^2.1.0",
-    "@types/sinon": "^10.0.16",
-    "@types/ws": "^8.5.5",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.1",
-    "chai": "^4.3.8",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.48.0",
+    "@types/assert": "^1.5.11",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.9.3",
+    "@types/node-schedule": "^2.1.8",
+    "@types/sinon": "^21.0.1",
+    "@types/ws": "^8.18.1",
+    "chai": "^4.5.0",
+    "cross-env": "^10.1.0",
+    "eslint": "^10.5.0",
     "eslint-config-codesupport": "^1.0.2",
-    "mocha": "^10.8.2",
-    "nodemon": "^3.0.1",
-    "nyc": "^15.1.0",
-    "sinon": "^15.2.0",
-    "ts-mocha": "^10.0.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "mocha": "^11.7.6",
+    "nodemon": "^3.1.14",
+    "nyc": "^18.0.0",
+    "patch-package": "^8.0.1",
+    "sinon": "^22.0.0",
+    "ts-mocha": "^11.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.0"
   }
 }
