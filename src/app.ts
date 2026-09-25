@@ -1,10 +1,9 @@
 import "reflect-metadata";
 import axios from "axios";
 import {Client, DIService, tsyringeDependencyRegistryEngine} from "discordx";
-import { TextChannel, Snowflake } from "discord.js";
+import {TextChannel, Snowflake, GatewayIntentBits} from "discord.js";
 import { config as env } from "dotenv";
 import DirectoryUtils from "./utils/DirectoryUtils";
-import DiscordUtils from "./utils/DiscordUtils";
 import getConfigValue from "./utils/getConfigValue";
 import Schedule from "./decorators/Schedule";
 import { container } from "tsyringe";
@@ -28,7 +27,13 @@ class App {
 		this.client = new Client({
 			botId: getConfigValue<string>("BOT_ID"),
 			botGuilds: [getConfigValue<string>("GUILD_ID")],
-			intents: DiscordUtils.getAllIntentsApartFromPresence(),
+			intents: [
+				GatewayIntentBits.Guilds,
+				GatewayIntentBits.GuildMembers,
+				GatewayIntentBits.GuildMessages,
+				GatewayIntentBits.GuildMessageReactions,
+				GatewayIntentBits.MessageContent
+			],
 			silent: false
 		});
 
